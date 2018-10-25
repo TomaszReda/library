@@ -43,36 +43,43 @@ def webappDir = "$projectDir/src/main/webapp"
 sourceSets {
     main {
         resources {
-            srcDirs = ["$webappDir/dist", "$projectDir/src/main/resources"]
+            srcDirs = ["$webappDir/dist", "$projectDir/src/main/resources/static"]
         }
     }
 }
 
-processResources {
+bootJar {
     dependsOn "buildAngular"
 }
 
-task buildAngular(type:Exec) {
+task buildAngular(type: Exec) {
     dependsOn "installAngular"
     workingDir "$webappDir"
     inputs.dir "$webappDir"
     group = BasePlugin.BUILD_GROUP
 //	outputs.dir "$webappDir/dist"
-    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
-        commandLine "ng.cmd", "build"
+    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+        commandLine "ng.cmd", "build", "--prod"
     } else {
-        commandLine "ng", "build"
+        commandLine "ng", "build", "--prod"
     }
+    dependsOn "copyAngular"
 }
 
-task installAngular(type:Exec) {
+task installAngular(type: Exec) {
     workingDir "$webappDir"
     inputs.dir "$webappDir"
     group = BasePlugin.BUILD_GROUP
 //	outputs.dir "$webappDir/dist"
-    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")){
+    if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
         commandLine "npm.cmd", "install"
     } else {
         commandLine "npm", "install"
     }
+}
+
+
+task copyAngular(type: Copy) {
+    from "${webappDir}/dist/webapp"
+    into "src/main/resources/static"
 }
