@@ -38,16 +38,15 @@ dependencies {
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
 }
 
-
 def webappDir = "$projectDir/src/main/webapp"
-sourceSets {
-    main {
-        resources {
-            srcDirs = ["$webappDir/dist", "$projectDir/src/main/resources/static"]
-        }
-    }
-}
-
+//sourceSets {
+//    main {
+//        resources {
+//            srcDirs = ["$webappDir/dist", "$projectDir/src/main/resources/static"]
+//        }
+//    }
+//}
+//
 bootJar {
     dependsOn "buildAngular"
 }
