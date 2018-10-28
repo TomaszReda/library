@@ -39,7 +39,7 @@ dependencies {
 }
 
 def webappDir = "$projectDir/src/main/webapp"
-def execTempDir = "./src/main/resources/static"
+def execTempDir = "./src/main/resources/static/"
 
 bootJar {
     dependsOn "buildAngular"
@@ -78,6 +78,7 @@ task copyAngular(type: Copy) {
 }
 
 task cleanTempDir(type: Delete) {
-    delete execTempDir
+    project.delete(execTempDir)
+    project.file(execTempDir).mkdirs()
 }
 
