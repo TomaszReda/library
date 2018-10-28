@@ -21,4 +21,9 @@ public class AngularConctroller {
     public String login(Model model) {
         return "forward:/index.html";
     }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        return "forward:/index.html";
+    }
 }
