@@ -11,7 +11,12 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: './home/home.module#HomeModule'
+  },
+  {
+    path: 'terms',
+    loadChildren: './terms/terms.module#TermsModule'
   }
+
 ];
 
 @NgModule({
