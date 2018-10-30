@@ -24,13 +24,127 @@
 
     </ul>
     <a class="nav-link disabled" href="#">Moje konto</a>
-    <a class="nav-link disabled" routerLink="/login" href="#">Zaloguj</a>
-    <a class="nav-link disabled" routerLink="/register" href="#">Zarejestruj</a>
+    <a class="nav-link disabled" (click)="login.open()" routerLink="/home">Zaloguj</a>
+    <a class="nav-link disabled" (click)="register.open()" routerLink="/home">Zarejestruj</a>
     <a class="nav-link disabled" href="#">Wyloguj</a>
 
 
   </div>
 </nav>
-  <router-outlet></router-outlet>
+<router-outlet></router-outlet>
 
 
+<modal #register>
+  <div>
+    <ng-template #modalHeader><h2>Załóż konto jako:</h2></ng-template>
+    <ng-template #modalBody>
+      <button type="button" class="btn btn-primary button2" (click)="libraryOwner.open();register.close()">Własciciel
+        biblioteki
+      </button>
+      <br/> <br/>
+      <button type="button" class="btn btn-primary button2" (click)="casualUser.open();register.close()">Zwykły
+        użytkownik
+      </button>
+    </ng-template>
+  </div>
+
+</modal>
+
+
+
+
+
+
+
+<modal #login>
+  <div>
+    <ng-template #modalHeader><h2 align="center" class="text-center">Zaloguj się</h2></ng-template>
+    <ng-template #modalBody>
+      <form action="/action_page.php">
+        <div class="form-group text-center ">
+          <input type="email" class="form-control" id="email" placeholder="e-mail">
+        </div>
+        <div class="form-group  text-center ">
+          <input type="password" class="form-control" id="pwd" placeholder="hasło">
+        </div>
+        <button class="btn btn-primary text-center button1">Zaloguj</button>
+      </form>
+    </ng-template>
+  </div>
+</modal>
+
+
+
+
+<modal #casualUser>
+  <ng-template #modalHeader>
+      <h3>Rejestracja</h3>
+  </ng-template>
+  <ng-template #modalBody class="modal-dialog-centered">
+      <form action="/action_page.php">
+        <div class="form-group text-center ">
+          <input type="text" class="form-control" placeholder="Imię">
+        </div>
+        <div class="form-group text-center ">
+          <input type="text" class="form-control" placeholder="Nazwisko">
+        </div>
+        <div class="form-group text-center ">
+          <input type="text" class="form-control" placeholder="E-mail">
+        </div>
+        <div class="form-group text-center ">
+          <input type="text" class="form-control" placeholder="Numer Telefonu">
+        </div>
+        <div class="form-group text-center ">
+          <input type="password" class="form-control" placeholder="Hasło">
+        </div>
+        <p>Rejestrując sie akceptujesz <a href="#" style="color:dodgerblue">Warunki prywatnosci & regulamin</a>.</p>
+        <div class="clearfix">
+        </div>
+      </form>
+  </ng-template>
+  <ng-template #modalFooter >
+    <button type="button" (click)="casualUser.close()" class="btn btn-primary button2" class="signupbtn">
+      Zarejestruj się
+    </button>
+    <button type="button" (click)="casualUser.close()" class="btn btn-primary button2"
+            onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Anuluj
+    </button>
+  </ng-template>
+</modal>
+
+
+<modal #libraryOwner>
+  <ng-template #modalHeader>
+    <h3>Rejestracja</h3>
+  </ng-template>
+  <ng-template #modalBody >
+    <form  action="/action_page.php">
+      <div class="form-group text-center ">
+        <input type="text" class="form-control" placeholder="Imię">
+      </div>
+      <div class="form-group text-center ">
+        <input type="text" class="form-control" placeholder="Nazwisko">
+      </div>
+      <div class="form-group text-center ">
+        <input type="text" class="form-control" placeholder="E-mail">
+      </div>
+      <div class="form-group text-center ">
+        <input type="text" class="form-control" placeholder="Numer Telefonu">
+      </div>
+      <div class="form-group text-center ">
+        <input type="password" class="form-control" placeholder="Hasło">
+      </div>
+      <div>Rejestrując sie akceptujesz <a href="#" style="color:dodgerblue">Warunki prywatnosci & regulamin</a>.</div>
+
+    </form>
+
+  </ng-template>
+  <ng-template #modalFooter >
+    <button type="button" (click)="casualUser.close()" class="btn btn-primary button2" class="signupbtn">
+      Zarejestruj się
+    </button>
+    <button type="button" (click)="casualUser.close()" class="btn btn-primary button2"
+            onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Anuluj
+    </button>
+  </ng-template>
+</modal>

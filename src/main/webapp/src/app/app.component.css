@@ -4,3 +4,54 @@ nav.navbar {
 .dropdown-menu {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
+/*.button1{*/
+
+  /*margin: -20px -50px;*/
+  /*position:relative;*/
+  /*left:53%;*/
+/*}*/
+
+/*.button2{*/
+  /*margin: -20px -50px;*/
+  /*position:relative;*/
+  /*left:23%;*/
+  /*width: 90%;*/
+  /*height: 90%;*/
+/*}*/
+
+
+
+
+
+
+
+button {
+  background-color: #4CAF50;
+  color: white;
+
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+
+form{
+  font-size: 15px;
+}
+
