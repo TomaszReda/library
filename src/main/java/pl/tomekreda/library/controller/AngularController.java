@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AngularConctroller {
+public class AngularController {
 
     @GetMapping("/")
     public String page(Model model) {
