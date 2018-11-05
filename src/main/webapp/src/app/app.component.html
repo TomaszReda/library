@@ -24,7 +24,7 @@
 
     </ul>
     <a class="nav-link disabled" href="#">Moje konto</a>
-    <a class="nav-link disabled" (click)="login.open()" routerLink="/home">Zaloguj</a>
+    <a class="nav-link disabled" routerLink="/home">Zaloguj</a>
     <a class="nav-link disabled" (click)="register.open()" routerLink="/home">Zarejestruj</a>
     <a class="nav-link disabled" href="#">Wyloguj</a>
 
@@ -56,22 +56,7 @@
 
 
 
-<modal #login>
-  <div>
-    <ng-template #modalHeader><h2 align="center" class="text-center">Zaloguj się</h2></ng-template>
-    <ng-template #modalBody>
-      <form action="/action_page.php">
-        <div class="form-group text-center ">
-          <input type="email" class="form-control" id="email" placeholder="e-mail">
-        </div>
-        <div class="form-group  text-center ">
-          <input type="password" class="form-control" id="pwd" placeholder="hasło">
-        </div>
-        <button class="btn btn-primary text-center button1">Zaloguj</button>
-      </form>
-    </ng-template>
-  </div>
-</modal>
+
 
 
 
