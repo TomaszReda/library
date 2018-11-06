@@ -8,9 +8,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Slf4j
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 @Entity
 @Table(name = "`user`")
 public class User {
@@ -36,6 +34,7 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private UserCasual userCasual;
 
+
     public User(String firstname, String lastname, String email, String phoneNumber, String password, UserMenager userMenager, UserCasual userCasual) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -44,23 +43,5 @@ public class User {
         this.password = password;
         this.userMenager = userMenager;
         this.userCasual = userCasual;
-    }
-
-    public User() {
-
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", password='" + password + '\'' +
-                ", userMenager=" + userMenager +
-                ", userCasual=" + userCasual +
-                '}';
     }
 }

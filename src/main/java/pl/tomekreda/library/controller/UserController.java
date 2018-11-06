@@ -1,6 +1,7 @@
 package pl.tomekreda.library.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,18 +17,19 @@ import pl.tomekreda.library.repository.UserRepository;
 
 import java.util.*;
 
+
+@CrossOrigin(origins = "http://localhost:4201", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
 
+    private final UserRepository userRepository;
 
-    @GetMapping(value = "/users",produces = MediaType.APPLICATION_JSON_VALUE)
-    public   List<User> getUsers() {
+    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity getUsers() {
         List<User> userList = userRepository.findAll();
-        System.err.print(userList);
-        return userList;
+        return ResponseEntity.ok(userList);
     }
 }
