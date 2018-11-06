@@ -15,10 +15,10 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  private userUrl = 'http://localhost:8080/';
+  private userUrl = 'http://localhost:8080/api';
 
   public getUsers(): Observable<Array<User>> {
-    return this.http.get<Array<User>>(this.userUrl + '/users');
+    return this.http.get<Array<User>>(this.userUrl + '/users', {headers: httpOptions.headers});
   }
 
 }

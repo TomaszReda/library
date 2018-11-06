@@ -26,4 +26,9 @@ public class AngularController {
     public String register(Model model) {
         return "forward:/index.html";
     }
+
+    @GetMapping("/users")
+    public String users(Model model) {
+        return "forward:/index.html";
+    }
 }

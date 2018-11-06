@@ -11,11 +11,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @EqualsAndHashCode
-@NoArgsConstructor
 @Entity
 @Table(name = "`user`")
-public class User implements Serializable {
-    private static final long serialVersionUID = -7844106718594766083L;
+public class User {
+
 
     @Id
     @GeneratedValue
@@ -45,5 +44,23 @@ public class User implements Serializable {
         this.password = password;
         this.userMenager = userMenager;
         this.userCasual = userCasual;
+    }
+
+    public User() {
+
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", userMenager=" + userMenager +
+                ", userCasual=" + userCasual +
+                '}';
     }
 }

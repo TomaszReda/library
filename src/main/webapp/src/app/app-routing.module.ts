@@ -15,6 +15,10 @@ const routes: Routes = [
   {
     path: 'terms',
     loadChildren: './terms/terms.module#TermsModule'
+  },
+  {
+    path: 'users',
+    loadChildren: './user/user.module#UserModule'
   }
 
 ];
