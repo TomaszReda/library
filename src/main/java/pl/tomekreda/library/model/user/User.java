@@ -1,18 +1,25 @@
 package pl.tomekreda.library.model.user;
 
-import lombok.Data;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
 
+@Slf4j
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
 @Entity
-@Data
+@Table(name = "`user`")
 public class User implements Serializable {
+    private static final long serialVersionUID = -7844106718594766083L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID ID;
+    @GeneratedValue
+    private UUID id;
 
     private String firstname;
 
@@ -29,4 +36,14 @@ public class User implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private UserCasual userCasual;
+
+    public User(String firstname, String lastname, String email, String phoneNumber, String password, UserMenager userMenager, UserCasual userCasual) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.userMenager = userMenager;
+        this.userCasual = userCasual;
+    }
 }
