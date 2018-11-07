@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/cos").fullyAuthenticated()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/**").permitAll()
@@ -58,8 +58,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .requestCache()
                 .requestCache(new NullRequestCache())
-                .and()
-                .httpBasic()
                 .and();
 
 

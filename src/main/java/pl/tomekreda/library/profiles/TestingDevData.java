@@ -22,10 +22,10 @@ public class TestingDevData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        User owner = new User( "tomek", "reda", "tomekreda@op.pl", "123456789", "test", null, null);
-        userRepository.save(owner);
-
-        User casual = new User( "kasia", "reda", "kasiareda@op.pl", "987654321", "test", null, null);
-        userRepository.save(casual);
+//        User owner = new User( "tomek", "reda", "tomekreda@op.pl", "123456789", "test", null, null);
+//        userRepository.save(owner);
+//
+//        User casual = new User( "kasia", "reda", "kasiareda@op.pl", "987654321", "test", null, null);
+//        userRepository.save(casual);
     }
 }
