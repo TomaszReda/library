@@ -11,13 +11,17 @@ export class AppComponent {
   title = 'webapp';
 
 
-  constructor(private authService: AuthService) {
+  constructor(public authService: AuthService) {
 
   }
 
 
   onLogin(loginForm: NgForm) {
     this.authService.login(loginForm.value.email, loginForm.value.password);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

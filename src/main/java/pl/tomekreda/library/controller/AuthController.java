@@ -32,7 +32,6 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity logout(HttpSession session) {
         session.invalidate();
         return ResponseEntity.ok().build();

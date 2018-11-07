@@ -9,10 +9,10 @@
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
       <li class="nav-item">
-        <a class="nav-link" href="#">Wyszukaj</a>
+        <a class="nav-link" *ngIf="authService.islogin" href="#">Wyszukaj</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " href="#">Moje zarezerwowane</a>
+        <a class="nav-link " *ngIf="authService.islogin" href="#">Moje zarezerwowane</a>
       </li>
 
       <!--<li class="nav-item">-->
@@ -23,10 +23,10 @@
       <!--</li>-->
 
     </ul>
-    <a class="nav-link disabled" href="#">Moje konto</a>
-    <a class="nav-link disabled" (click)="login.open()" routerLink="/home" >Zaloguj się</a>
-    <a class="nav-link disabled" (click)="register.open()" routerLink="/home">Zarejestruj się</a>
-    <a class="nav-link disabled" href="#">Wyloguj</a>
+    <a class="nav-link disabled"  *ngIf="authService.islogin" href="#">Moje konto</a>
+    <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="login.open()" routerLink="/home" >Zaloguj się</a>
+    <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="register.open()" routerLink="/home">Zarejestruj się</a>
+    <a class="nav-link disabled" *ngIf="authService.islogin" (click)="logout()" routerLink="/home">Wyloguj</a>
 
 
   </div>

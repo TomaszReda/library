@@ -7,7 +7,7 @@ import {Credentials} from "../model/user/Credentials";
 })
 export class AuthService {
 
-  credentials: Credentials;
+  public islogin: boolean = false;
 
   constructor(private http: HttpClient) {
   }
@@ -19,8 +19,17 @@ export class AuthService {
       email,
       password
     };
-    this.http.post(this.url+"login", creditians).subscribe(x => {
-      console.log(x);
+    this.http.post(this.url + "login", creditians).subscribe(x => {
+      this.islogin = true;
+    }, error1 => {
+      this.islogin = false;
+    })
+  }
+
+
+  logout() {
+    this.http.get(this.url + "logout").subscribe(x => {
+      this.islogin = false;
     })
   }
 }
