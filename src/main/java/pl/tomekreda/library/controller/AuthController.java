@@ -2,7 +2,6 @@ package pl.tomekreda.library.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class AuthController {
 
     @Autowired
@@ -33,6 +33,7 @@ public class AuthController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ResponseEntity logout(HttpSession session) {
+
         session.invalidate();
         return ResponseEntity.ok().build();
     }
@@ -40,7 +41,6 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     public AuthenticationResponse login(@RequestBody Credentials credentials, HttpServletRequest request) {
-
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getEmail(),credentials.getPassword());
 
         final Authentication authentication = this.authenticationManager.authenticate(token);

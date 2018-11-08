@@ -15,7 +15,7 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {
   }
 
-  url: string = "http://localhost:8080/";
+  url: string = "http://localhost:8080/api/";
 
   login(email: string, password: string, modalLogin: ModalComponent) {
     const creditians = {
