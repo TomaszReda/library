@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AuthService} from "./service/auth.service";
 import {ModalComponent} from "angular-custom-modal";
@@ -8,7 +8,7 @@ import {ModalComponent} from "angular-custom-modal";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'webapp';
 
 
@@ -28,6 +28,11 @@ export class AppComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  ngOnInit(): void {
+    if(localStorage.getItem("tokenID"))
+    this.authService.islogin=true;
   }
 
 }

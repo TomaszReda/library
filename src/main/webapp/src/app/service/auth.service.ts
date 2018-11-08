@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ModalComponent} from "angular-custom-modal";
+import {Credentials} from "../model/user/Credentials";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class AuthService {
       email,
       password
     };
-    this.http.post(this.url + "login", creditians).subscribe(x => {
+    this.http.post(this.url + "login", creditians).subscribe((x:Credentials) => {
+      localStorage.setItem("tokenID",x.token)
       modalLogin.close();
       this.badLogin = null;
       this.islogin = true;
