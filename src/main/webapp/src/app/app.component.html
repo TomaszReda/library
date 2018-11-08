@@ -32,8 +32,6 @@
 
   </div>
 </nav>
-{{authService.islogin}}----Czy zalogowany
-
 <router-outlet></router-outlet>
 
 <modal #login>
@@ -54,7 +52,7 @@
         </div>
         <div *ngIf="authService.badLogin" class="alert alert-danger">{{authService.badLogin}}</div>
 
-        <button class="btn btn-primary text-center button1">Zaloguj</button>
+        <button class="btn btn-primary text-center button1" [disabled]="loginForm.errors ">Zaloguj</button>
       </form>
     </ng-template>
   </div>
@@ -83,36 +81,35 @@
     <h3>Rejestracja</h3>
   </ng-template>
   <ng-template #modalBody class="modal-dialog-centered">
-    <form action="/action_page.php">
+    <form [formGroup]="registerUserForm" (ngSubmit)="registerUser()">
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="Imię">
+        <input type="text" class="form-control" placeholder="Imię" formControlName="firstname">
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="Nazwisko">
+        <input type="text" class="form-control" placeholder="Nazwisko" formControlName="lastname">
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="E-mail">
+        <input type="text" class="form-control" placeholder="E-mail" formControlName="email">
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="Numer Telefonu">
+        <input type="text" class="form-control" placeholder="Numer Telefonu" formControlName="phoneNumber">
       </div>
       <div class="form-group text-center ">
-        <input type="password" class="form-control" placeholder="Hasło">
+        <input type="password" class="form-control" placeholder="Hasło" formControlName="password">
       </div>
       <p>Rejestrując sie akceptujesz <a routerLink="/terms" (click)="casualUser.close()" style="color:dodgerblue">Warunki
         prywatnosci & regulamin</a>.</p>
       <div class="clearfix">
       </div>
+      <button type="submit" (click)="casualUser.close()" class="btn btn-primary button2" class="signupbtn">
+        Zarejestruj się
+      </button>
+      <button type="button" (click)="casualUser.close()" class="btn btn-primary button2"
+              onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Anuluj
+      </button>
     </form>
   </ng-template>
-  <ng-template #modalFooter>
-    <button type="button" (click)="casualUser.close()" class="btn btn-primary button2" class="signupbtn">
-      Zarejestruj się
-    </button>
-    <button type="button" (click)="casualUser.close()" class="btn btn-primary button2"
-            onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Anuluj
-    </button>
-  </ng-template>
+
 </modal>
 
 
@@ -121,26 +118,31 @@
     <h3>Rejestracja</h3>
   </ng-template>
   <ng-template #modalBody>
-    <form action="/action_page.php">
+    <form [formGroup]="registerLibraryOwnerForm" (ngSubmit)="registerLibraryOwner()">
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="Imię">
+        <input type="text" class="form-control" placeholder="Imię" formControlName="firstname">
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="Nazwisko">
+        <input type="text" class="form-control" placeholder="Nazwisko" formControlName="lastname">
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="E-mail">
+        <input type="text" class="form-control" placeholder="E-mail" formControlName="email" >
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="Numer Telefonu">
+        <input type="text" class="form-control" placeholder="Numer Telefonu" formControlName="phoneNumber">
       </div>
       <div class="form-group text-center ">
-        <input type="password" class="form-control" placeholder="Hasło">
+        <input type="password" class="form-control" placeholder="Hasło" formControlName="password">
       </div>
       <div>Rejestrując sie akceptujesz <a routerLink="/terms" (click)="libraryOwner.close()" style="color:dodgerblue">Warunki
         prywatnosci & regulamin</a>.
       </div>
-
+      <button type="submit" (click)="casualUser.close()" class="btn btn-primary button2" class="signupbtn">
+        Zarejestruj się
+      </button>
+      <button type="button" (click)="casualUser.close()" class="btn btn-primary button2"
+              onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Anuluj
+      </button>
     </form>
 
   </ng-template>
