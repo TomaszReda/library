@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {HomeModule} from './home/home.module';
+import {AuthGuardsService} from "./guard/auth-guards.service";
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
   },
   {
     path: 'search',
-    loadChildren: './search/search.module#SearchModule'
+    loadChildren: './search/search.module#SearchModule',
+    canLoad: [AuthGuardsService]
   }
 
 ];

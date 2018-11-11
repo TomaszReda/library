@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/api/cos").fullyAuthenticated()
                 .antMatchers("/api/logout/**").permitAll()
                 .antMatchers("/api/login/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/**").permitAll()

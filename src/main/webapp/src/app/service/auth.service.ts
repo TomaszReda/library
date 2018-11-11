@@ -15,8 +15,6 @@ export class AuthService {
   public badLogin: string = null;
 
   constructor(private http: HttpClient, private router: Router) {
-    localStorage.removeItem("tokenID");
-    console.log('aaa');
   }
 
   url: string = "http://localhost:8080/api/";
@@ -32,14 +30,14 @@ export class AuthService {
       this.badLogin = null;
       this.islogin = true;
     }, error1 => {
-      this.badLogin = 'Podaj poprawny login i hasło';
+      this.badLogin = 'Podaj poprawny login i hasło!';
       this.islogin = false;
     })
   }
 
 
   logout() {
-    this.router.navigate(["/hom"]);
+    this.router.navigate(["/home"]);
 
     this.http.get(this.url + "logout").subscribe(x => {
       this.islogin = false;

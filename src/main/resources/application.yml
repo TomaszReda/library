@@ -22,7 +22,7 @@ spring:
     store-type: jdbc
     jdbc:
       initialize-schema: always
-    timeout: 60s
+    timeout: 10s
 
 
 ---
