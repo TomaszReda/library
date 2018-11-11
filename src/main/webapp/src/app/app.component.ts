@@ -1,15 +1,17 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, NgForm} from "@angular/forms";
 import {AuthService} from "./service/auth.service";
 import {ModalComponent} from "angular-custom-modal";
 import {User} from "./model/user/user.model";
+import {HttpClient} from "@angular/common/http";
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'webapp';
 
 
@@ -23,8 +25,39 @@ export class AppComponent implements OnInit {
 
   public registerLibraryOwnerForm: FormGroup;
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService, private http: HttpClient) {
   }
+
+  ngOnInit(): void {
+
+    if (localStorage.getItem("tokenID")) {
+      this.http.get("http://localhost:8080/api/tokenValid").subscribe(
+        x => {
+          this.authService.islogin = true;
+
+        }, error1 => {
+          this.authService.logout();
+        }
+      )
+    }
+
+    this.registerUserForm = new FormGroup({
+      firstname: new FormControl(null),
+      lastname: new FormControl(null),
+      email: new FormControl(null),
+      phoneNumber: new FormControl(null),
+      password: new FormControl(null)
+    });
+
+    this.registerLibraryOwnerForm = new FormGroup({
+      firstname: new FormControl(null),
+      lastname: new FormControl(null),
+      email: new FormControl(null),
+      phoneNumber: new FormControl(null),
+      password: new FormControl(null)
+    });
+  }
+
 
   onLogin(loginForm: NgForm) {
     this.authService.login(loginForm.value.email, loginForm.value.password, this.modalLogin);
@@ -46,26 +79,11 @@ export class AppComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
-    if (localStorage.getItem("tokenID"))
-      this.authService.islogin = true;
 
-    this.registerUserForm = new FormGroup({
-      firstname: new FormControl(null),
-      lastname: new FormControl(null),
-      email: new FormControl(null),
-      phoneNumber: new FormControl(null),
-      password: new FormControl(null)
-    });
-
-    this.registerLibraryOwnerForm = new FormGroup({
-      firstname: new FormControl(null),
-      lastname: new FormControl(null),
-      email: new FormControl(null),
-      phoneNumber: new FormControl(null),
-      password: new FormControl(null)
-    });
+  ngOnDestroy(): void {
+    this.authService.logout();
   }
+
 
 }
 
