@@ -1,5 +1,7 @@
 package pl.tomekreda.library.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +38,9 @@ public class AngularController {
 
     @ResponseBody
     @GetMapping("/api/tokenValid")
-    public String cos() {
-        return "tokenValid";
+    public ResponseEntity cos() {
+
+        return ResponseEntity.ok().build();
     }
 
 }
