@@ -10,6 +10,7 @@ import java.util.UUID;
 @Slf4j
 @Data
 @Entity
+@AllArgsConstructor
 @Table(name = "`user`")
 public class User {
 
@@ -34,6 +35,8 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     private UserCasual userCasual;
 
+    public User() {
+    }
 
     public User(String firstname, String lastname, String email, String phoneNumber, String password, UserMenager userMenager, UserCasual userCasual) {
         this.firstname = firstname;

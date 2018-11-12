@@ -14,6 +14,7 @@ import {HttpClient} from "@angular/common/http";
 export class AppComponent implements OnInit, OnDestroy {
   title = 'webapp';
 
+  private url: string = "http://localhost:8080/api/";
 
   @ViewChild("loginForm")
   private loginForm: NgForm;
@@ -31,14 +32,14 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     if (localStorage.getItem("tokenID")) {
-      this.http.get("http://localhost:8080/api/tokenValid").subscribe(
-        x => {
-          this.authService.islogin = true;
+      this.http.get(this.url + "tokenValid").subscribe(
+      x => {
+        this.authService.islogin = true;
 
-        }, error1 => {
-          this.authService.logout();
-        }
-      )
+      }, error1 => {
+        this.authService.logout();
+      }
+    )
     }
 
     this.registerUserForm = new FormGroup({
@@ -77,7 +78,6 @@ export class AppComponent implements OnInit, OnDestroy {
     const user: User = this.registerLibraryOwnerForm.getRawValue();
     this.authService.registerLibraryOwner(user);
   }
-
 
 
   ngOnDestroy(): void {

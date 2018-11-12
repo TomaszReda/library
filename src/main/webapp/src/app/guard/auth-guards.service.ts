@@ -8,6 +8,8 @@ import {HttpClient} from "@angular/common/http";
 })
 export class AuthGuardsService implements CanActivate {
 
+  private url: string = "http://localhost:8080/api/";
+
   constructor(private router: Router, private authService: AuthService, private http: HttpClient) {
   }
 
@@ -15,7 +17,7 @@ export class AuthGuardsService implements CanActivate {
 
 
     if (localStorage.getItem("tokenID")) {
-      this.http.get("http://localhost:8080/api/tokenValid").subscribe(
+      this.http.get(this.url+"tokenValid").subscribe(
         x => {
           return true;
         }, error1 => {

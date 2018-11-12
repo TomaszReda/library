@@ -11,6 +11,9 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.web.bind.annotation.*;
 import pl.tomekreda.library.model.user.AuthenticationResponse;
 import pl.tomekreda.library.model.user.Credentials;
+import pl.tomekreda.library.request.AddUserCasualRequest;
+import pl.tomekreda.library.request.AddUserLibraryOwnerRequest;
+import pl.tomekreda.library.service.AuthService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +25,7 @@ import java.util.Map;
 public class AuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthService authService;
 
     @RequestMapping(value = "/resource", method = RequestMethod.GET)
     public Map<String, String> getResource() {
@@ -38,25 +41,20 @@ public class AuthController {
         return ResponseEntity.ok().build();
     }
 
-
     @PostMapping(value = "/login")
     public AuthenticationResponse login(@RequestBody Credentials credentials, HttpServletRequest request) {
-        final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getEmail(),credentials.getPassword());
-
-        final Authentication authentication = this.authenticationManager.authenticate(token);
-
-        SecurityContextHolder.getContext()
-                .setAuthentication(authentication);
-
-       final HttpSession httpSession = request.getSession(true);
-
-        httpSession.setAttribute(
-                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                SecurityContextHolder.getContext()
-        );
-
-        return new AuthenticationResponse(authentication.getName(),httpSession.getId());
-
+        return authService.login(credentials, request);
     }
 
+
+    @PostMapping(value = "/registerOwner")
+    public ResponseEntity registerOwner(@RequestBody AddUserLibraryOwnerRequest user) {
+        return authService.registerOwnerUser(user);
+    }
+
+
+    @PostMapping(value = "/registerCasual")
+    public ResponseEntity registerCasual(@RequestBody AddUserCasualRequest user) {
+        return authService.registerCasualUser(user);
+    }
 }

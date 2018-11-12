@@ -18,10 +18,6 @@ const routes: Routes = [
     loadChildren: './terms/terms.module#TermsModule'
   },
   {
-    path: 'users',
-    loadChildren: './user/user.module#UserModule'
-  },
-  {
     path: 'search',
     loadChildren: './search/search.module#SearchModule',
     canActivate: [AuthGuardsService],

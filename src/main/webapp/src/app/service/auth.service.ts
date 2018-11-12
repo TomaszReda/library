@@ -47,11 +47,17 @@ export class AuthService {
   }
 
   registerCasualUser(user: User) {
-    console.log(user);
+    this.http.post(this.url + "registerCasual", user).subscribe(x => {
+    }, error1 => {
+
+    });
   }
 
   registerLibraryOwner(user: User) {
-    console.log(user);
+    this.http.post(this.url + "registerOwner", user).subscribe(x => {
+    }, error1 => {
+
+    })
   }
 
 }
