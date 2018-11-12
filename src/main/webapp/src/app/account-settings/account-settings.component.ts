@@ -24,11 +24,12 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createForms();
+    this.createFormsPassword();
+    this.createFormsSettings();
   }
 
 
-  createForms() {
+  createFormsSettings() {
     this.settingsForm = new FormGroup({
       firstname: new FormControl(null),
       lastname: new FormControl(null),
@@ -47,7 +48,9 @@ export class AccountSettingsComponent implements OnInit {
         password: new FormControl("")
       })
     });
+  }
 
+  createFormsPassword() {
     this.passwordChangeForm = new FormGroup({
       oldpassword: new FormControl(null),
       newpassword: new FormControl(null),
@@ -55,4 +58,21 @@ export class AccountSettingsComponent implements OnInit {
     })
   }
 
+
+  changeSettings() {
+    this.userService.changeSettings(this.settingsForm.getRawValue());
+
+  }
+
+  changePassword() {
+    this.userService.changePassword(this.passwordChangeForm.getRawValue());
+  }
+
+  resetSettings() {
+    this.createFormsSettings();
+  }
+
+  resetPassword() {
+    this.createFormsPassword();
+  }
 }
