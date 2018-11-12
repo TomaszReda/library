@@ -19,7 +19,8 @@ const routes: Routes = [
   },
   {
     path: 'accountSettings',
-    loadChildren: './account-settings/account-settings.module#AccountSettingsModule'
+    loadChildren: './account-settings/account-settings.module#AccountSettingsModule',
+    canActivate: [AuthGuardsService],
   },
   {
     path: 'search',
