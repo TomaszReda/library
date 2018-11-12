@@ -1,26 +1,26 @@
 <div   class="tło">
 <h1 class="text-center">Zmien dane</h1>
 <div style="display: flex; justify-content: center;">
-<form class="text-center">
+<form class="text-center" [formGroup]="settingsForm"  >
   <div class="form-group">
     <label for="firstname">Imie:</label>
-    <input type="email" class="form-control" id="firstname"  width="200px">
+    <input type="text" class="form-control" id="firstname"  width="200px" formControlName="firstname">
   </div>
   <div class="form-group">
     <label for="lastname">Nazwisko:</label>
-    <input type="email" class="form-control align-content-md-center" id="lastname" >
+    <input type="text" class="form-control align-content-md-center" id="lastname"  formControlName="lastname">
   </div>
   <div class="form-group">
     <label for="phoneNumber">Numer telefonu:</label>
-    <input type="email" class="form-control" id="phoneNumber" >
+    <input type="number" class="form-control" id="phoneNumber" formControlName="phoneNumber" >
   </div>
   <div class="form-group">
     <label for="email">Email:</label>
-    <input type="email" class="form-control" id="email" >
+    <input type="text" class="form-control" id="email" formControlName="email" >
   </div>
   <div class="form-group">
     <label for="password">Aktualne hasło:</label>
-    <input type="email" class="form-control" id="password" >
+    <input type="password" class="form-control" id="password"  >
   </div>
   <button type="submit" class="btn btn-primary button2" class="signupbtn" >Zmien</button>
   <button type="button" class="btn btn-primary button2" class="cancelbtn" >Zresetuj</button>
@@ -29,18 +29,18 @@
 <br/><br/>
 <h1 class="text-center">Zmien hasło</h1>
 <div style="display: flex; justify-content: center;">
-<form>
+<form [formGroup]="passwordChangeForm" >
   <div class="form-group">
     <label for="oldpassword">Stare hasło</label>
-    <input type="email" class="form-control" id="oldpassword" >
+    <input type="text" class="form-control" id="oldpassword" formControlName="oldpassword" >
   </div>
   <div class="form-group">
     <label for="newpassword">Nowe hasło</label>
-    <input type="email" class="form-control" id="newpassword" >
+    <input type="text" class="form-control" id="newpassword" formControlName="newpassword" >
   </div>
   <div class="form-group">
     <label for="newpasswordrepeat">Nowe hasło</label>
-    <input type="email" class="form-control" id="newpasswordrepeat" >
+    <input type="text" class="form-control" id="newpasswordrepeat" formControlName="newpasswordrepeat" >
   </div>
   <button type="submit" class="btn btn-primary button2" class="signupbtn" >Zmien</button>
   <button type="button" class="btn btn-primary button2" class="cancelbtn" >Zresetuj</button>

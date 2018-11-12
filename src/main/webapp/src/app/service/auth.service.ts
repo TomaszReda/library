@@ -26,7 +26,6 @@ export class AuthService {
   url: string = "http://localhost:8080/api/";
 
   login(email: string, password: string, modalLogin: ModalComponent) {
-    console.log(modalLogin);
     const creditians = {
       email,
       password
