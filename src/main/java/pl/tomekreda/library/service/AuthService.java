@@ -1,6 +1,7 @@
 package pl.tomekreda.library.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +17,7 @@ import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddUserCasualRequest;
 import pl.tomekreda.library.request.AddUserLibraryOwnerRequest;
+import pl.tomekreda.library.validators.PasswordValidators;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -54,6 +56,28 @@ public class AuthService {
 
     public ResponseEntity registerCasualUser(AddUserCasualRequest user) {
         try {
+
+            if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail() == ""
+                    || user.getFirstname() == null || user.getFirstname() == ""
+                    || user.getPassword() == null || user.getPassword() == ""
+                    || user.getLastname() == null || user.getLastname() == "") {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Uzupełnij wszystkie pola!");
+            }
+            if (!user.getEmail().contains("@")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Podaj poprawny email!");
+            }
+            if (user.getPassword().length() <= 8 && user.getPassword().length() >= 17) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hasło musi mieć minimum 8 a maksimum 16 znaków!");
+            }
+            if (!PasswordValidators.valid(user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hasło musi mieć 1 dużą i mała literę oraz cyfrę!");
+            }
+            for (User users : userRepository.findAll()) {
+                if (users.getEmail().equals(user.getEmail())) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Użytkownik z tym emailem juz istnieje!");
+                }
+            }
+
             User tmp = new User();
             tmp.setEmail(user.getEmail());
             tmp.setFirstname(user.getFirstname());
@@ -72,6 +96,28 @@ public class AuthService {
 
     public ResponseEntity registerOwnerUser(AddUserLibraryOwnerRequest user) {
         try {
+            if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail() == ""
+                    || user.getFirstname() == null || user.getFirstname() == ""
+                    || user.getPassword() == null || user.getPassword() == ""
+                    || user.getLastname() == null || user.getLastname() == "") {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Uzupełnij wszystkie pola!");
+            }
+
+            if (!user.getEmail().contains("@")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Podaj poprawny email!");
+            }
+            if (user.getPassword().length() < 8 || user.getPassword().length() > 16) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hasło musi mieć minimum 8 a maksimum 16 znaków!");
+            }
+            if (!PasswordValidators.valid(user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hasło musi mieć 1 dużą i mała literę oraz cyfrę!");
+            }
+            for (User users : userRepository.findAll()) {
+                if (users.getEmail().equals(user.getEmail())) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Użytkownik z tym emailem juz istnieje!");
+                }
+            }
+
             User tmp = new User();
             tmp.setPhoneNumber(user.getPhoneNumber());
             tmp.setEmail(user.getEmail());

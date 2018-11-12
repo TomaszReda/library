@@ -81,7 +81,7 @@
     <h3>Rejestracja</h3>
   </ng-template>
   <ng-template #modalBody class="modal-dialog-centered">
-    <form [formGroup]="registerUserForm" (ngSubmit)="registerUser()">
+    <form [formGroup]="registerUserForm" (ngSubmit)="registerUser()" #registerCasual="ngForm">
       <div class="form-group text-center ">
         <input type="text" class="form-control" placeholder="Imię" formControlName="firstname">
       </div>
@@ -89,10 +89,10 @@
         <input type="text" class="form-control" placeholder="Nazwisko" formControlName="lastname">
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="E-mail" formControlName="email">
+        <input type="email" class="form-control" placeholder="E-mail" formControlName="email">
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="Numer Telefonu" formControlName="phoneNumber">
+        <input type="number" class="form-control" placeholder="Numer Telefonu" formControlName="phoneNumber">
       </div>
       <div class="form-group text-center ">
         <input type="password" class="form-control" placeholder="Hasło" formControlName="password">
@@ -101,7 +101,8 @@
         prywatnosci & regulamin</a>.</p>
       <div class="clearfix">
       </div>
-      <button type="submit" (click)="casualUser.close()" class="btn btn-primary button2" class="signupbtn">
+      <p class="alert-danger" *ngIf="authService.badRegisterCasual">{{authService.badRegisterCasual}}</p>
+      <button type="submit"  class="btn btn-primary button2" class="signupbtn" >
         Zarejestruj się
       </button>
       <button type="button" (click)="casualUser.close()" class="btn btn-primary button2"
@@ -126,10 +127,10 @@
         <input type="text" class="form-control" placeholder="Nazwisko" formControlName="lastname">
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="E-mail" formControlName="email" >
+        <input type="email" class="form-control" placeholder="E-mail" formControlName="email" >
       </div>
       <div class="form-group text-center ">
-        <input type="text" class="form-control" placeholder="Numer Telefonu" formControlName="phoneNumber">
+        <input type="number" class="form-control" placeholder="Numer Telefonu" formControlName="phoneNumber">
       </div>
       <div class="form-group text-center ">
         <input type="password" class="form-control" placeholder="Hasło" formControlName="password">
@@ -137,7 +138,8 @@
       <div>Rejestrując sie akceptujesz <a routerLink="/terms" (click)="libraryOwner.close()" style="color:dodgerblue">Warunki
         prywatnosci & regulamin</a>.
       </div>
-      <button type="submit" (click)="libraryOwner.close()" class="btn btn-primary button2" class="signupbtn">
+      <p class="alert-danger" *ngIf="authService.badRegisterLibrary">{{authService.badRegisterLibrary}}</p>
+      <button type="submit"  class="btn btn-primary button2" class="signupbtn">
         Zarejestruj się
       </button>
       <button type="button" (click)="libraryOwner.close()" class="btn btn-primary button2"

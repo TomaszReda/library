@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, NgForm} from "@angular/forms";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {AuthService} from "./service/auth.service";
 import {ModalComponent} from "angular-custom-modal";
 import {User} from "./model/user/user.model";
@@ -22,6 +22,13 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild("login")
   public modalLogin: ModalComponent;
 
+  @ViewChild("casualUser")
+  public casualUser: ModalComponent;
+
+  @ViewChild("libraryOwner")
+  public libraryOwner: ModalComponent;
+
+
   public registerUserForm: FormGroup;
 
   public registerLibraryOwnerForm: FormGroup;
@@ -29,39 +36,42 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public authService: AuthService, private http: HttpClient) {
   }
 
+
+
   ngOnInit(): void {
 
     if (localStorage.getItem("tokenID")) {
       this.http.get(this.url + "tokenValid").subscribe(
-      x => {
-        this.authService.islogin = true;
+        x => {
+          this.authService.islogin = true;
 
-      }, error1 => {
-        this.authService.logout();
-      }
-    )
+        }, error1 => {
+          this.authService.logout();
+        }
+      )
     }
 
     this.registerUserForm = new FormGroup({
-      firstname: new FormControl(null),
-      lastname: new FormControl(null),
-      email: new FormControl(null),
-      phoneNumber: new FormControl(null),
-      password: new FormControl(null)
+      firstname: new FormControl(null, [Validators.required]),
+      lastname: new FormControl(null, [Validators.required]),
+      email: new FormControl(null, [Validators.required]),
+      phoneNumber: new FormControl(null, [Validators.required]),
+      password: new FormControl(null, [Validators.required])
     });
 
     this.registerLibraryOwnerForm = new FormGroup({
-      firstname: new FormControl(null),
-      lastname: new FormControl(null),
-      email: new FormControl(null),
-      phoneNumber: new FormControl(null),
-      password: new FormControl(null)
+      firstname: new FormControl(null, [Validators.required]),
+      lastname: new FormControl(null, [Validators.required]),
+      email: new FormControl(null, [Validators.required]),
+      phoneNumber: new FormControl(null, [Validators.required]),
+      password: new FormControl(null, [Validators.required])
     });
   }
 
 
   onLogin(loginForm: NgForm) {
     this.authService.login(loginForm.value.email, loginForm.value.password, this.modalLogin);
+
     this.loginForm.resetForm();
   }
 
@@ -71,12 +81,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   registerUser() {
     const user: User = this.registerUserForm.getRawValue();
-    this.authService.registerCasualUser(user);
+    this.authService.registerCasualUser(user, this.registerUserForm,this.casualUser);
   }
 
   registerLibraryOwner() {
     const user: User = this.registerLibraryOwnerForm.getRawValue();
-    this.authService.registerLibraryOwner(user);
+    this.authService.registerLibraryOwner(user, this.registerLibraryOwnerForm,this.libraryOwner);
   }
 
 

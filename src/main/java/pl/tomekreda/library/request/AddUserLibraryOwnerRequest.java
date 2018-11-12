@@ -11,7 +11,7 @@ public class AddUserLibraryOwnerRequest {
 
     private String email;
 
-    private String phoneNumber;
+    private int phoneNumber;
 
     private String password;
 

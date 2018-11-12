@@ -11,7 +11,7 @@ public class AddUserCasualRequest {
 
     private String email;
 
-    private String phoneNumber;
+    private int phoneNumber;
 
     private String password;
 }

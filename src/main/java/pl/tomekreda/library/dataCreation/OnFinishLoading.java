@@ -18,7 +18,7 @@ public class OnFinishLoading implements ApplicationListener<ContextRefreshedEven
     private PasswordEncoder passwordEncoder;
 
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        userRepository.save(new User("Tomek", "Reda", "tomekreda12@op.pl", "123456789", passwordEncoder.encode("password"),null,null));
+        userRepository.save(new User("Tomek", "Reda", "tomekreda12@op.pl", 123456789, passwordEncoder.encode("password"),null,null));
     }
 }
 

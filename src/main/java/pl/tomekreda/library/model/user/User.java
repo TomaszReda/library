@@ -25,7 +25,7 @@ public class User {
 
     private String email;
 
-    private String phoneNumber;
+    private int phoneNumber;
 
     private String password;
 
@@ -38,7 +38,7 @@ public class User {
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String phoneNumber, String password, UserMenager userMenager, UserCasual userCasual) {
+    public User(String firstname, String lastname, String email, int phoneNumber, String password, UserMenager userMenager, UserCasual userCasual) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
