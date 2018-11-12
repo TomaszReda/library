@@ -24,7 +24,7 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: './search/search.module#SearchModule',
-    canLoad: [AuthGuardsService]
+    canActivate: [AuthGuardsService],
   }
 
 ];
