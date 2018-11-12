@@ -18,6 +18,10 @@ const routes: Routes = [
     loadChildren: './terms/terms.module#TermsModule'
   },
   {
+    path: 'accountSettings',
+    loadChildren: './account-settings/account-settings.module#AccountSettingsModule'
+  },
+  {
     path: 'search',
     loadChildren: './search/search.module#SearchModule',
     canActivate: [AuthGuardsService],

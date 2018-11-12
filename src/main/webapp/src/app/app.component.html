@@ -23,7 +23,7 @@
       <!--</li>-->
 
     </ul>
-    <a class="nav-link disabled" *ngIf="authService.islogin" href="#">Moje konto</a>
+    <a class="nav-link disabled" *ngIf="authService.islogin" routerLink="/accountSettings">Moje konto</a>
     <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="login.open()" routerLink="/home">Zaloguj się</a>
     <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="register.open()" routerLink="/home">Zarejestruj
       się</a>
