@@ -44,7 +44,6 @@ public class UserService {
     public User findLoggedUser() {
         String loggedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findUserByEmail(loggedUserEmail);
-        System.out.println("++++++++++++++++++++++++++++++++++" + user);
         return user;
     }
 

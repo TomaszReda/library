@@ -18,6 +18,14 @@ export class AccountSettingsComponent implements OnInit {
 
   public passwordChangeForm: FormGroup;
 
+  public badSettings: string;
+
+  public badPassword: string;
+
+  public succesSettings: string;
+
+  public succesPassword: string;
+
   constructor(private http: HttpClient, private  userService: UserService) {
 
 
@@ -64,7 +72,12 @@ export class AccountSettingsComponent implements OnInit {
   changeSettings() {
     this.userService.changeSettings(this.settingsForm.getRawValue()).subscribe(
       x => {
-        console.log(x);
+        this.badSettings = null;
+        this.succesSettings="Zmiany zostały dokonane!"
+
+      }, error1 => {
+        this.badSettings = error1.error;
+        this.succesSettings=null;
       }
     );
 
@@ -73,7 +86,11 @@ export class AccountSettingsComponent implements OnInit {
   changePassword() {
     this.userService.changePassword(this.passwordChangeForm.getRawValue()).subscribe(
       x => {
-        console.log(x);
+        this.succesPassword="Zmiany zostały dokonane!"
+        this.badPassword = null;
+      }, error1 => {
+        this.badPassword = error1.error;
+        this.succesPassword=null;
       }
     );
 

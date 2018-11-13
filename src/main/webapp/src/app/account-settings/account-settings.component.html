@@ -23,6 +23,8 @@
     <label for="password">Aktualne hasło:</label>
     <input type="password" class="form-control" id="password"  formControlName="password" >
   </div>
+  <p class="alert alert-danger" *ngIf="badSettings">{{badSettings}}</p>
+  <p class="alert alert-success" *ngIf="succesSettings">{{succesSettings}}</p>
   <button type="submit" class="btn btn-primary button2" class="signupbtn" >Zmien</button>
   <button type="button" class="btn btn-primary button2" class="cancelbtn" (click)="resetSettings()" >Zresetuj</button>
 </form>
@@ -43,6 +45,8 @@
     <label for="newpasswordrepeat">Nowe hasło</label>
     <input type="password" class="form-control" id="newpasswordrepeat" formControlName="newpasswordrepeat" >
   </div>
+  <p class="alert alert-danger" *ngIf="badPassword">{{badPassword}}</p>
+  <p class="alert alert-success" *ngIf="succesPassword">{{succesPassword}}</p>
   <button type="submit" class="btn btn-primary button2" class="signupbtn" >Zmien</button>
   <button type="button"  (click)="resetPassword()" class="btn btn-primary button2" class="cancelbtn" >Zresetuj</button>
 

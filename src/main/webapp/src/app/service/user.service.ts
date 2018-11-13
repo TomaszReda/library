@@ -13,6 +13,8 @@ export class UserService {
 
   private url: string = 'http://localhost:8080/api';
 
+
+
   getLoggerInfo() {
     return this.http.get(this.url + '/online/user/info');
   }
