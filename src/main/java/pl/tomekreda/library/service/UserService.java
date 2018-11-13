@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.UserRepository;
+import pl.tomekreda.library.request.ChangePasswordRequest;
 
 @Service
 public class UserService {
@@ -21,5 +22,16 @@ public class UserService {
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+
+    public ResponseEntity changeSettings(User user) {
+        System.err.print(user);
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity changePassword(ChangePasswordRequest changePasswordRequest) {
+        System.err.print(changePasswordRequest);
+        return ResponseEntity.ok().build();
     }
 }

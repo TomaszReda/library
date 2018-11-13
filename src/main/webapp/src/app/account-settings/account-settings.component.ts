@@ -60,12 +60,21 @@ export class AccountSettingsComponent implements OnInit {
 
 
   changeSettings() {
-    this.userService.changeSettings(this.settingsForm.getRawValue());
+    this.userService.changeSettings(this.settingsForm.getRawValue()).subscribe(
+      x => {
+        console.log(x);
+      }
+    );
 
   }
 
   changePassword() {
-    this.userService.changePassword(this.passwordChangeForm.getRawValue());
+    this.userService.changePassword(this.passwordChangeForm.getRawValue()).subscribe(
+      x => {
+        console.log(x);
+      }
+    );
+
   }
 
   resetSettings() {
