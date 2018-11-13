@@ -31,6 +31,7 @@ export class AccountSettingsComponent implements OnInit {
 
   createFormsSettings() {
     this.settingsForm = new FormGroup({
+      id: new FormControl(null),
       firstname: new FormControl(null),
       lastname: new FormControl(null),
       phoneNumber: new FormControl(null),
@@ -41,6 +42,7 @@ export class AccountSettingsComponent implements OnInit {
 
     this.userService.getLoggerInfo().subscribe((x: User) => {
       this.settingsForm = new FormGroup({
+        id: new FormControl(x.id),
         firstname: new FormControl(x.firstname),
         lastname: new FormControl(x.lastname),
         phoneNumber: new FormControl(x.phoneNumber),

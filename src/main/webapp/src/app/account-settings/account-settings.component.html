@@ -4,6 +4,7 @@
 <form class="text-center" [formGroup]="settingsForm"  (ngSubmit)="changeSettings()" >
   <div class="form-group">
     <label for="firstname">Imie:</label>
+    <input type="text" hidden formControlName="id" />
     <input type="text" class="form-control" id="firstname"  width="200px" formControlName="firstname">
   </div>
   <div class="form-group">
