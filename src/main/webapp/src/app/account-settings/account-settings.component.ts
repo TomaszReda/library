@@ -3,6 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {UserService} from "../service/user.service";
 import {User} from "../model/user/user.model";
 import {FormControl, FormGroup, NgForm} from "@angular/forms";
+import {AuthService} from "../service/auth.service";
+import {Credentials} from "../model/user/Credentials";
 
 @Component({
   selector: 'app-account-settings',
@@ -26,7 +28,7 @@ export class AccountSettingsComponent implements OnInit {
 
   public succesPassword: string;
 
-  constructor(private http: HttpClient, private  userService: UserService) {
+  constructor(private http: HttpClient, private  userService: UserService, private authService: AuthService) {
 
 
   }
@@ -71,13 +73,28 @@ export class AccountSettingsComponent implements OnInit {
 
   changeSettings() {
     this.userService.changeSettings(this.settingsForm.getRawValue()).subscribe(
-      x => {
-        this.badSettings = null;
-        this.succesSettings="Zmiany zostały dokonane!"
+      (x: User) => {
+        console.log(x.email)
 
+        let email:string =x.email;
+        let password:string = x.password;
+
+        let creditians = {
+          email,
+          password
+        };
+        this.http.post(this.url + "login", creditians).subscribe((x: Credentials) => {
+          localStorage.setItem("tokenID", x.token)
+        }, error1 => {
+          localStorage.removeItem("tokenID");
+        })
+
+
+        this.badSettings = null;
+        this.succesSettings = "Zmiany zostały dokonane! Zaloguj sie teraz z nowymi danymi!"
       }, error1 => {
         this.badSettings = error1.error;
-        this.succesSettings=null;
+        this.succesSettings = null;
       }
     );
 
@@ -86,11 +103,11 @@ export class AccountSettingsComponent implements OnInit {
   changePassword() {
     this.userService.changePassword(this.passwordChangeForm.getRawValue()).subscribe(
       x => {
-        this.succesPassword="Zmiany zostały dokonane!"
+        this.succesPassword = "Zmiany zostały dokonane!"
         this.badPassword = null;
       }, error1 => {
         this.badPassword = error1.error;
-        this.succesPassword=null;
+        this.succesPassword = null;
       }
     );
 
