@@ -22,12 +22,12 @@ public class UserController {
     }
 
 
-    @PostMapping("/user/change/settings")
+    @PutMapping("/user/change/settings")
     public ResponseEntity changeSettings(@RequestBody User user) {
         return userService.changeSettings(user);
     }
 
-    @PostMapping("/user/change/password")
+    @PutMapping("/user/change/password")
     public ResponseEntity changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
         return userService.changePassword(changePasswordRequest);
     }

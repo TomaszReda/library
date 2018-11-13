@@ -29,13 +29,13 @@ export class AccountSettingsComponent implements OnInit {
   public succesPassword: string;
 
   constructor(private http: HttpClient, private  userService: UserService, private authService: AuthService) {
-
+    this.createFormsPassword();
+    this.createFormsSettings();
 
   }
 
   ngOnInit() {
-    this.createFormsPassword();
-    this.createFormsSettings();
+
   }
 
 
@@ -91,7 +91,7 @@ export class AccountSettingsComponent implements OnInit {
 
 
         this.badSettings = null;
-        this.succesSettings = "Zmiany zostały dokonane! Zaloguj sie teraz z nowymi danymi!"
+        this.succesSettings = "Zaloguj sie ponownie żeby wszelkie zmiany chodziły!";
       }, error1 => {
         this.badSettings = error1.error;
         this.succesSettings = null;

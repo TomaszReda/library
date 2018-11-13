@@ -21,10 +21,10 @@ export class UserService {
 
 
   changeSettings(user: User) {
-    return this.http.post(this.url+"/user/change/settings",user);
+    return this.http.put(this.url+"/user/change/settings",user);
   }
 
   changePassword(changepas:PasswordRequest) {
-    return this.http.post(this.url+"/user/change/password",changepas);
+    return this.http.put(this.url+"/user/change/password",changepas);
   }
 }
