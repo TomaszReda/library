@@ -105,6 +105,7 @@ export class AccountSettingsComponent implements OnInit {
       x => {
         this.succesPassword = "Zmiany zostały dokonane!"
         this.badPassword = null;
+        this.createFormsPassword();
       }, error1 => {
         this.badPassword = error1.error;
         this.succesPassword = null;

@@ -50,10 +50,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/api/tokenValid").fullyAuthenticated()
+                .antMatchers("/api/user/change/password").fullyAuthenticated()
                 .antMatchers("/api/logout/**").permitAll()
                 .antMatchers("/api/login/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/**").permitAll()
+                .antMatchers(HttpMethod.PUT,"/**").permitAll()
                 .antMatchers(HttpMethod.DELETE,"/**").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
