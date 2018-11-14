@@ -29,8 +29,8 @@ public class OnFinishLoading implements ApplicationListener<ContextRefreshedEven
 
         User casual=new User("Kasia", "Reda", "worker@local", 123456789, passwordEncoder.encode("password"),null,null);
         UserRoles userCasualRole=new UserRoles();
-        userCasualRole.setUserRole(UserRoleEnum.LIBRARY_OWNER);
-        owner.getUserRoles().add(userCasualRole);
+        userCasualRole.setUserRole(UserRoleEnum.CASUAL_USER);
+        casual.getUserRoles().add(userCasualRole);
         userRepository.save(casual);
     }
 }

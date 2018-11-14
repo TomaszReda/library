@@ -59,18 +59,8 @@ public class AuthController {
         return authService.registerCasualUser(user);
     }
 
+    // Adnotacje do zabezpieczenia endpointów na podstawie ról
+//    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+//    @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
 
-    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
-    @ResponseBody
-    @GetMapping("/owner")
-    public String cos() {
-        return "owner";
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
-    @ResponseBody
-    @GetMapping("/employee")
-    public String employee() {
-        return "employee";
-    }
 }
