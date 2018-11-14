@@ -89,8 +89,7 @@ public class UserService {
         if (changePasswordRequest.getNewpassword().length() <= 8 && changePasswordRequest.getNewpassword().length() >= 17) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hasło musi mieć minimum 8 a maksimum 16 znaków!");
         }
-        if(!passwordEncoder.matches(changePasswordRequest.getOldpassword(), loged.getPassword()))
-        {
+        if (!passwordEncoder.matches(changePasswordRequest.getOldpassword(), loged.getPassword())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stare hasło jest błędne!");
 
         }
@@ -101,5 +100,9 @@ public class UserService {
         loged = userRepository.save(loged);
 
         return ResponseEntity.ok(loged);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 }

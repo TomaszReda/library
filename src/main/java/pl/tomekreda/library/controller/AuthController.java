@@ -3,6 +3,7 @@ package pl.tomekreda.library.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -56,5 +57,20 @@ public class AuthController {
     @PostMapping(value = "/registerCasual")
     public ResponseEntity registerCasual(@RequestBody AddUserCasualRequest user) {
         return authService.registerCasualUser(user);
+    }
+
+
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @ResponseBody
+    @GetMapping("/owner")
+    public String cos() {
+        return "owner";
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
+    @ResponseBody
+    @GetMapping("/employee")
+    public String employee() {
+        return "employee";
     }
 }

@@ -11,9 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import pl.tomekreda.library.model.user.AuthenticationResponse;
-import pl.tomekreda.library.model.user.Credentials;
-import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.model.user.*;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddUserCasualRequest;
 import pl.tomekreda.library.request.AddUserLibraryOwnerRequest;
@@ -86,6 +84,9 @@ public class AuthService {
             tmp.setPassword(passwordEncoder.encode(user.getPassword()));
             tmp.setUserCasual(null);
             tmp.setUserMenager(null);
+            UserRoles useroles=new UserRoles();
+            useroles.setUserRole(UserRoleEnum.CASUAL_USER);
+            tmp.getUserRoles().add(useroles);
             userRepository.save(tmp);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
@@ -126,6 +127,9 @@ public class AuthService {
             tmp.setPassword(passwordEncoder.encode(user.getPassword()));
             tmp.setUserCasual(null);
             tmp.setUserMenager(null);
+            UserRoles useroles=new UserRoles();
+            useroles.setUserRole(UserRoleEnum.LIBRARY_OWNER);
+            tmp.getUserRoles().add(useroles);
             userRepository.save(tmp);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
