@@ -20,21 +20,15 @@ public class AngularController {
         return "forward:/index.html";
     }
 
-    @GetMapping("/login")
-    public String login(Model model) {
-        return "forward:/index.html";
-    }
-
-    @GetMapping("/register")
-    public String register(Model model) {
-        return "forward:/index.html";
-    }
-
     @GetMapping("/search")
     public String users(Model model) {
         return "forward:/index.html";
     }
 
+    @GetMapping("/accountSettings")
+    public String accountSettings(Model model) {
+        return "forward:/index.html";
+    }
 
     @ResponseBody
     @GetMapping("/api/tokenValid")

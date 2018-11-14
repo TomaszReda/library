@@ -1,3 +1,5 @@
+import {UserRoles} from "./user.roles.model";
+
 export class User {
   email?: string;
   firstname?: string;
@@ -5,4 +7,5 @@ export class User {
   lastname?: string;
   phoneNumber?: number;
   password?: string;
+  userRoles?: Array<UserRoles>;
 }
