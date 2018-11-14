@@ -2,6 +2,7 @@ package pl.tomekreda.library.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.tomekreda.library.model.user.User;
@@ -22,6 +23,7 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasAnyAuthority('ROLE_PHARMACY_OWNER','ROLE_ADMIN','ROLE_EMPLOYEE')")
     @PutMapping("/user/change/settings")
     public ResponseEntity changeSettings(@RequestBody User user) {
         return userService.changeSettings(user);

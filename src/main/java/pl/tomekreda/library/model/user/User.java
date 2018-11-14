@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -34,6 +36,10 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     private UserCasual userCasual;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private List<UserRoles> userRoles = new ArrayList<>();
 
     public User() {
     }
