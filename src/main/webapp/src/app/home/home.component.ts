@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {AuthService} from "../service/auth.service";
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,public auth:AuthService) {
   }
 
   ngOnInit() {

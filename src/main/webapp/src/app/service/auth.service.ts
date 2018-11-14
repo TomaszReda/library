@@ -5,6 +5,7 @@ import {ModalComponent} from "angular-custom-modal";
 import {Credentials} from "../model/user/Credentials";
 import {User} from "../model/user/user.model";
 import {FormGroup, NgForm} from "@angular/forms";
+import {UserService} from "./user.service";
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,10 @@ export class AuthService {
 
   public badRegisterLibrary: string = null;
 
+  public user: User;
 
-  constructor(private http: HttpClient, private router: Router) {
+
+  constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
 
   url: string = "http://localhost:8080/api/";
@@ -35,6 +38,9 @@ export class AuthService {
       modalLogin.close();
       this.badLogin = null;
       this.islogin = true;
+      this.userService.getLoggerInfo().subscribe((x: User) => {
+        this.user = x;
+      })
     }, error1 => {
       localStorage.removeItem("tokenID");
       this.badLogin = 'Podaj poprawny login i hasło!';
@@ -45,8 +51,10 @@ export class AuthService {
 
   logout() {
     this.router.navigate(["/home"]);
+    this.user = null;
 
     this.http.get(this.url + "logout").subscribe(x => {
+      this.user = null;
       this.islogin = false;
       localStorage.removeItem("tokenID");
     })
