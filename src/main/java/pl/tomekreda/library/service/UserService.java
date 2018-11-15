@@ -77,7 +77,6 @@ public class UserService {
 
     public ResponseEntity changePassword(ChangePasswordRequest changePasswordRequest) {
         User loged = this.findLoggedUser();
-        System.err.println(loged);
         if (changePasswordRequest.getNewpassword() == null || changePasswordRequest.getNewpassword() == "" ||
                 changePasswordRequest.getNewpasswordrepeat() == null || changePasswordRequest.getNewpasswordrepeat() == "" ||
                 changePasswordRequest.getOldpassword() == null || changePasswordRequest.getOldpassword() == "") {

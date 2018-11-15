@@ -23,7 +23,6 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasAnyAuthority('ROLE_PHARMACY_OWNER','ROLE_ADMIN','ROLE_EMPLOYEE')")
     @PutMapping("/user/change/settings")
     public ResponseEntity changeSettings(@RequestBody User user) {
         return userService.changeSettings(user);
