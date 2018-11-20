@@ -1,20 +1,16 @@
-.tło{
 
-  color: aliceblue;
-  background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.5),
-      rgba(0, 0, 0, 0.5)
-    ),
-    url("/assets/170798_biblioteka_ksiazki_stol_krzeslo.jpg") no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  background-size: cover;
-  -o-background-size: cover;
-  height: 100%;
-  width: 100%;
+#page-wrap {
+  width: 350px;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  color:black;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  -moz-box-shadow: 0 0 20px black;
+  -webkit-box-shadow: 0 0 20px black;
+  box-shadow: 0 0 20px black;
 }
-
 
 button {
   background-color: #4CAF50;

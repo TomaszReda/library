@@ -1,5 +1,5 @@
-<div   class="tło">
-<h1 class="text-center">Zmien dane</h1>
+<div id="page-wrap">
+<h1 class="text-center">Zmień dane</h1>
 <div style="display: flex; justify-content: center;">
 <form class="text-center" [formGroup]="settingsForm"  (ngSubmit)="changeSettings()" >
   <div class="form-group">
@@ -25,12 +25,12 @@
   </div>
   <p class="alert alert-danger" *ngIf="badSettings">{{badSettings}}</p>
   <p class="alert alert-success" *ngIf="succesSettings">{{succesSettings}}</p>
-  <button type="submit" class="btn btn-primary button2" class="signupbtn" >Zmien</button>
+  <button type="submit" class="btn btn-primary button2" class="signupbtn" >Zmień</button>
   <button type="button" class="btn btn-primary button2" class="cancelbtn" (click)="resetSettings()" >Zresetuj</button>
 </form>
 </div>
 <br/><br/>
-<h1 class="text-center">Zmien hasło</h1>
+<h1 class="text-center">Zmień hasło</h1>
 <div style="display: flex; justify-content: center;">
 <form [formGroup]="passwordChangeForm" (ngSubmit)="changePassword()">
   <div class="form-group">
@@ -47,9 +47,12 @@
   </div>
   <p class="alert alert-danger" *ngIf="badPassword">{{badPassword}}</p>
   <p class="alert alert-success" *ngIf="succesPassword">{{succesPassword}}</p>
-  <button type="submit" class="btn btn-primary button2" class="signupbtn" >Zmien</button>
+  <button type="submit" class="btn btn-primary button2" class="signupbtn" >Zmień</button>
   <button type="button"  (click)="resetPassword()" class="btn btn-primary button2" class="cancelbtn" >Zresetuj</button>
 
 </form>
 </div>
 </div>
+
+
+

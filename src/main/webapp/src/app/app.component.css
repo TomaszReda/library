@@ -1,29 +1,29 @@
+.tło2 {
+  height: auto;
+  min-height: 100vh;
+  color: aliceblue;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.5),
+    rgba(0, 0, 0, 0.5)
+  ),
+  url("/assets/170798_biblioteka_ksiazki_stol_krzeslo.jpg") no-repeat center center fixed;
+  background-size: cover;
+  background-position: center;
+  --webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  width: 100%;
+  display: inline-block;
+}
+
 nav.navbar {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
+
 .dropdown-menu {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
-/*.button1{*/
-
-  /*margin: -20px -50px;*/
-  /*position:relative;*/
-  /*left:53%;*/
-/*}*/
-
-/*.button2{*/
-  /*margin: -20px -50px;*/
-  /*position:relative;*/
-  /*left:23%;*/
-  /*width: 90%;*/
-  /*height: 90%;*/
-/*}*/
-
-
-
-
-
-
 
 button {
   background-color: #4CAF50;
@@ -36,7 +36,7 @@ button {
 }
 
 button:hover {
-  opacity:1;
+  opacity: 1;
 }
 
 /* Extra styles for the cancel button */
@@ -50,8 +50,7 @@ button:hover {
   width: 50%;
 }
 
-
-form{
+form {
   font-size: 15px;
 }
 
