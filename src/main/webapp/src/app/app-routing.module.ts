@@ -26,6 +26,10 @@ const routes: Routes = [
     path: 'search',
     loadChildren: './search/search.module#SearchModule',
     canActivate: [AuthGuardsService],
+  },
+  {
+    path: 'addLibrary',
+    loadChildren: './add-library/add-library.module#AddLibraryModule'
   }
 
 ];
