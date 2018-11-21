@@ -1,6 +1,6 @@
 
 #page-wrap {
-  width: 350px;
+  width: 650px;
   margin: 50px auto;
   padding: 20px;
   background: white;
@@ -40,4 +40,10 @@ button:hover {
 
 form{
   font-size: 15px;
+}
+
+
+.map {
+  height: 40%;
+  width: 100%;
 }
