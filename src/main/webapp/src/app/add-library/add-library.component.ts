@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 declare var ol: any;
+
 @Component({
   selector: 'app-add-library',
   templateUrl: './add-library.component.html',
@@ -8,55 +9,63 @@ declare var ol: any;
 })
 export class AddLibraryComponent implements OnInit {
 
-  public latitude: number = 21.0158;
-  public longitude: number = 52.2051;
+  public map: any;
+  public mapLat = 52.2051;
+  public mapLng = 21.0158;
+  public mapDefaultZoom = 10;
 
-  map: any;
+  constructor() {
 
-  ngOnInit() {
-    var mousePositionControl = new ol.control.MousePosition({
-      coordinateFormat: ol.coordinate.createStringXY(4),
-      projection: 'EPSG:4326',
-      // comment the following two lines to have the mouse position
-      // be placed within the map.
-      className: 'custom-mouse-position',
-      target: document.getElementById('mouse-position'),
-      undefinedHTML: '&nbsp;'
-    });
+  }
 
 
+  ngOnInit(): void {
+    this.initialize_map();
+    this.add_map_point(this.mapLat,this.mapLng);
+  }
+
+
+
+cos(){
+    console.log("cos");
+}
+
+  initialize_map() {
     this.map = new ol.Map({
-      target: 'map',
-      controls: ol.control.defaults({
-        attributionOptions: {
-          collapsible: false
-        }
-      }).extend([mousePositionControl]),
+      target: "map",
       layers: [
         new ol.layer.Tile({
-          source: new ol.source.OSM()
+          source: new ol.source.OSM({
+            url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          })
         })
       ],
       view: new ol.View({
-        center: ol.proj.fromLonLat([this.latitude, this.longitude]),
-        zoom: 8
+        center: ol.proj.fromLonLat([this.mapLng, this.mapLat]),
+        zoom: this.mapDefaultZoom
       })
     });
-
-    this.map.on('click', function (args) {
-      var lonlat = ol.proj.transform(args.coordinate, 'EPSG:3857', 'EPSG:4326');
-
-      var lon = lonlat[0];
-      var lat = lonlat[1];
-
-
-      // alert(`lat: ${lat} long: ${lon}`);
-    });
   }
 
-  setCenter() {
-    var view = this.map.getView();
-    view.setCenter(ol.proj.fromLonLat([this.longitude, this.latitude]));
-    view.setZoom(8);
-  }
+    add_map_point(lat, lng) {
+    console.log("cos");
+     var vectorLayer = new ol.layer.Vector({
+       source: new ol.source.Vector({
+         features: [new ol.Feature({
+           geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lng), parseFloat(lat)], 'EPSG:4326', 'EPSG:3857')),
+         })]
+       }),
+       style: new ol.style.Style({
+         image: new ol.style.Icon({
+           anchor: [0.5, 0.5],
+           anchorXUnits: "fraction",
+           anchorYUnits: "fraction",
+           src: "https://upload.wikimedia.org/wikipedia/commons/e/ec/RedDot.svg"
+         })
+       })
+     });
+     this.map.addLayer(vectorLayer);
+   }
+
+
 }
