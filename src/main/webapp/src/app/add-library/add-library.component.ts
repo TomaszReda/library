@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {HttpClient, HttpParams} from "@angular/common/http";
 
+
 declare var ol: any;
 
 @Component({
@@ -45,7 +46,24 @@ export class AddLibraryComponent implements OnInit {
     this.http.get(this.url, {params: params}).subscribe(
       x => {
 
-        this.add_map_point(x[0].lat, x[0].lon)
+        let longitude: number = x[0].lon;
+        let latitude: number = x[0].lat;
+        this.mapLat = latitude;
+        this.mapLng = longitude;
+
+        console.log(this.mapLat + " " + "51.61308");
+        const wynik2 = ol.proj.fromLonLat([21.97838, latitude]);
+        const wynik = ol.proj.fromLonLat([21.97838, 51.61308]);
+        console.log(wynik);
+        console.log(wynik2);
+
+        console.log("Y" + x[0].getY());
+
+
+        let array = [this.mapLng, 51.61308];
+        let view = this.map.getView();
+        view.setCenter(ol.proj.fromLonLat(array));
+
       }
     );
   }
@@ -62,24 +80,6 @@ export class AddLibraryComponent implements OnInit {
 
 
     })
-  }
-
-
-  initialize_map2(mapLng, mapLat) {
-    this.map = new ol.Map({
-      target: "map",
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM({
-            url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          })
-        })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([mapLng, mapLat]),
-        zoom: this.mapDefaultZoom
-      })
-    });
   }
 
 
