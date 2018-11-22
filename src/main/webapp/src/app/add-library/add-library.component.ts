@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {LibraryService} from "../service/library.service";
 
 
 declare var ol: any;
@@ -22,7 +23,7 @@ export class AddLibraryComponent implements OnInit {
 
   public formAddLibrary: FormGroup;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private libraryService: LibraryService) {
 
   }
 
@@ -32,6 +33,22 @@ export class AddLibraryComponent implements OnInit {
     this.initialize_form();
   }
 
+
+  addLibrary() {
+    const object = this.formAddLibrary.getRawValue();+
+    this.searchOnMap();
+
+    console.log(this.mapLat);
+    if (this.mapLat != '52.2051')
+      object.latitude = this.mapLat;
+    if (this.mapLng != '21.0158')
+      object.longitude = this.mapLng;
+
+    console.log(object);
+    this.libraryService.addLibrary(object).subscribe(x => {
+    })
+    this.reset();
+  }
 
   reset() {
 
@@ -56,14 +73,21 @@ export class AddLibraryComponent implements OnInit {
     let params = new HttpParams().set('q', adress).append('format', 'json');
     this.http.get(this.url, {params: params}).subscribe(
       x => {
-        let latitude = x[0].lat;
-        let longitude = x[0].lon;
+        let latitude = this.mapLat;
+        let longitude = this.mapLng;
+        if (x[0])
+          latitude = x[0].lat;
+        if (x[0])
+          longitude = x[0].lon;
 
+        console.log(latitude)
         this.mapLat = latitude;
         this.mapLng = longitude;
 
 
         this.setCenter();
+
+        if (this.mapLat != '52.2051' && this.mapLng != '21.0158')
         this.add_map_point(latitude, longitude);
 
       }
@@ -78,16 +102,16 @@ export class AddLibraryComponent implements OnInit {
 
   initialize_form() {
     this.formAddLibrary = new FormGroup({
-      name: new FormControl(null),
+      name: new FormControl(null, [Validators.required]),
       street: new FormControl(null),
-      number: new FormControl(null),
+      number: new FormControl(null, [Validators.required]),
       local: new FormControl(null),
-      postalCode: new FormControl(null),
-      city: new FormControl(null),
-      email: new FormControl(null),
-
-
-    })
+      postalCode: new FormControl(null, [Validators.required]),
+      city: new FormControl(null, [Validators.required]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      latitude: new FormControl(null),
+      longitude: new FormControl(null),
+    });
   }
 
 
