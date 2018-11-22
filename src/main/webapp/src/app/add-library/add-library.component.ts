@@ -19,9 +19,9 @@ export class AddLibraryComponent implements OnInit {
   public mapDefaultZoom = 10;
   public vectorLayer;
 
-  errors: null;
+  errors = null;
 
-  errors2: null;
+  errors2 = null;
 
   url = 'https://nominatim.openstreetmap.org/search';
 
