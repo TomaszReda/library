@@ -35,17 +35,12 @@ export class AddLibraryComponent implements OnInit {
 
 
   addLibrary() {
-    const object = this.formAddLibrary.getRawValue();+
-    this.searchOnMap();
+    const object = this.formAddLibrary.getRawValue();
 
-    console.log(this.mapLat);
-    if (this.mapLat != '52.2051')
       object.latitude = this.mapLat;
-    if (this.mapLng != '21.0158')
       object.longitude = this.mapLng;
 
-    console.log(object);
-    this.libraryService.addLibrary(object).subscribe(x => {
+  this.libraryService.addLibrary(object).subscribe(x => {
     })
     this.reset();
   }
@@ -73,22 +68,18 @@ export class AddLibraryComponent implements OnInit {
     let params = new HttpParams().set('q', adress).append('format', 'json');
     this.http.get(this.url, {params: params}).subscribe(
       x => {
-        let latitude = this.mapLat;
-        let longitude = this.mapLng;
-        if (x[0])
-          latitude = x[0].lat;
-        if (x[0])
-          longitude = x[0].lon;
 
-        console.log(latitude)
+        if(x[0]){
+         let latitude = x[0].lat;
+         let longitude = x[0].lon;
+
         this.mapLat = latitude;
         this.mapLng = longitude;
 
 
         this.setCenter();
-
-        if (this.mapLat != '52.2051' && this.mapLng != '21.0158')
         this.add_map_point(latitude, longitude);
+        }
 
       }
     );
