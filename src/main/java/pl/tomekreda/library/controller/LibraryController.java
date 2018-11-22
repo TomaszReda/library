@@ -22,7 +22,6 @@ public class LibraryController {
 
     @PostMapping("/add/library")
     public ResponseEntity addLibrary(@RequestBody AddLibraryRequest addLibraryRequest) {
-        System.out.println(addLibraryRequest);
         return libraryService.addLibrary(addLibraryRequest);
     }
 

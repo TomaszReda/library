@@ -19,6 +19,10 @@ export class AddLibraryComponent implements OnInit {
   public mapDefaultZoom = 10;
   public vectorLayer;
 
+  errors: null;
+
+  errors2: null;
+
   url = 'https://nominatim.openstreetmap.org/search';
 
   public formAddLibrary: FormGroup;
@@ -37,12 +41,17 @@ export class AddLibraryComponent implements OnInit {
   addLibrary() {
     const object = this.formAddLibrary.getRawValue();
 
-      object.latitude = this.mapLat;
-      object.longitude = this.mapLng;
+    object.latitude = this.mapLat;
+    object.longitude = this.mapLng;
 
-  this.libraryService.addLibrary(object).subscribe(x => {
+    this.libraryService.addLibrary(object).subscribe(x => {
+      this.errors = null;
+      this.reset();
+
+    }, error1 => {
+      this.errors = error1.error;
     })
-    this.reset();
+
   }
 
   reset() {
@@ -69,16 +78,19 @@ export class AddLibraryComponent implements OnInit {
     this.http.get(this.url, {params: params}).subscribe(
       x => {
 
-        if(x[0]){
-         let latitude = x[0].lat;
-         let longitude = x[0].lon;
+        if (x[0]) {
+          let latitude = x[0].lat;
+          let longitude = x[0].lon;
 
-        this.mapLat = latitude;
-        this.mapLng = longitude;
+          this.mapLat = latitude;
+          this.mapLng = longitude;
 
 
-        this.setCenter();
-        this.add_map_point(latitude, longitude);
+          this.setCenter();
+          this.add_map_point(latitude, longitude);
+          this.errors2 = null;
+        } else {
+          this.errors2 = "Nie ma takiej lokalizacji";
         }
 
       }
