@@ -13,9 +13,10 @@ declare var ol: any;
 export class AddLibraryComponent implements OnInit {
 
   public map: any;
-  public mapLat = 52.2051;
-  public mapLng = 21.0158;
+  public mapLat: string = '52.2051';
+  public mapLng: string = '21.0158';
   public mapDefaultZoom = 10;
+  public vectorLayer;
 
   url = 'https://nominatim.openstreetmap.org/search';
 
@@ -32,6 +33,17 @@ export class AddLibraryComponent implements OnInit {
   }
 
 
+  reset() {
+
+    this.formAddLibrary.reset();
+    this.mapLat = '52.2051';
+    this.mapLng = '21.0158';
+    this.setCenter();
+    if (this.vectorLayer) {
+      this.map.removeLayer(this.vectorLayer);
+    }
+  }
+
   searchOnMap() {
     let adress = this.formAddLibrary.value.city;
     if (this.formAddLibrary.value.street) {
@@ -42,30 +54,26 @@ export class AddLibraryComponent implements OnInit {
     }
 
     let params = new HttpParams().set('q', adress).append('format', 'json');
-
     this.http.get(this.url, {params: params}).subscribe(
       x => {
+        let latitude = x[0].lat;
+        let longitude = x[0].lon;
 
-        let longitude: number = x[0].lon;
-        let latitude: number = x[0].lat;
         this.mapLat = latitude;
         this.mapLng = longitude;
 
-        console.log(this.mapLat + " " + "51.61308");
-        const wynik2 = ol.proj.fromLonLat([21.97838, latitude]);
-        const wynik = ol.proj.fromLonLat([21.97838, 51.61308]);
-        console.log(wynik);
-        console.log(wynik2);
 
-        console.log("Y" + x[0].getY());
-
-
-        let array = [this.mapLng, 51.61308];
-        let view = this.map.getView();
-        view.setCenter(ol.proj.fromLonLat(array));
+        this.setCenter();
+        this.add_map_point(latitude, longitude);
 
       }
     );
+
+  }
+
+  setCenter() {
+    var view = this.map.getView();
+    view.setCenter(ol.proj.fromLonLat([parseFloat(this.mapLng), parseFloat(this.mapLat)]));
   }
 
   initialize_form() {
@@ -94,15 +102,17 @@ export class AddLibraryComponent implements OnInit {
         })
       ],
       view: new ol.View({
-        center: ol.proj.fromLonLat([this.mapLng, this.mapLat]),
+        center: ol.proj.fromLonLat([parseFloat(this.mapLng), parseFloat(this.mapLat)]),
         zoom: this.mapDefaultZoom
       })
     });
   }
 
   add_map_point(lat, lng) {
-    console.log("cos");
-    var vectorLayer = new ol.layer.Vector({
+    if (this.vectorLayer) {
+      this.map.removeLayer(this.vectorLayer);
+    }
+    this.vectorLayer = new ol.layer.Vector({
       source: new ol.source.Vector({
         features: [new ol.Feature({
           geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lng), parseFloat(lat)], 'EPSG:4326', 'EPSG:3857')),
@@ -117,7 +127,8 @@ export class AddLibraryComponent implements OnInit {
         })
       })
     });
-    this.map.addLayer(vectorLayer);
+    this.map.addLayer(this.vectorLayer);
+
   }
 
 
