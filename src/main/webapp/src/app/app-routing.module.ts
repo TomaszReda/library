@@ -31,7 +31,12 @@ const routes: Routes = [
   {
     path: 'addLibrary',
     loadChildren: './add-library/add-library.module#AddLibraryModule',
-    canActivate: [PharmacyOwnerGuardService]
+    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+  },
+  {
+    path: 'myLibrary',
+    loadChildren: './my-library/my-library.module#MyLibraryModule',
+    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
   }
 
 ];

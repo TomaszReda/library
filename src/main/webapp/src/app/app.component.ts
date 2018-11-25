@@ -44,9 +44,12 @@ export class AppComponent implements OnInit, OnDestroy {
     if (localStorage.getItem("tokenID")) {
       this.http.get(this.url + "tokenValid").subscribe(
         x => {
+
           this.authService.islogin = true;
 
         }, error1 => {
+
+
           this.authService.logout();
         }
       )

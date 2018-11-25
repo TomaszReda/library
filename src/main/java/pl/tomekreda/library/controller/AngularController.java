@@ -33,11 +33,15 @@ public class AngularController {
         return "forward:/index.html";
     }
 
-    @GetMapping( "/addLibrary")
+    @GetMapping("/addLibrary")
     public String addLibrary(Model model) {
         return "forward:/index.html";
     }
 
+    @GetMapping("/myLibrary")
+    public String myLibrary(Model model) {
+        return "forward:/index.html";
+    }
 
     @ResponseBody
     @GetMapping("/api/tokenValid")
