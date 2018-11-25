@@ -2,6 +2,8 @@ package pl.tomekreda.library.request;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class AddLibraryRequest {
 
@@ -14,4 +16,5 @@ public class AddLibraryRequest {
     private String number;
     private String postalCode;
     private String street;
+    private UUID userID;
 }

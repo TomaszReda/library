@@ -15,7 +15,6 @@ export class PharmacyOwnerGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     for (let i = 0; i < this.authService.user.userRoles.length; i++) {
-      console.log(this.authService.user.userRoles[i].userRole);
       if (this.authService.user.userRoles[i].userRole === "LIBRARY_OWNER") {
         return true;
       }

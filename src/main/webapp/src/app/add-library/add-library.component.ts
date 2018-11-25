@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {LibraryService} from "../service/library.service";
+import {AuthService} from "../service/auth.service";
 
 
 declare var ol: any;
@@ -31,23 +32,23 @@ export class AddLibraryComponent implements OnInit {
 
   public formAddLibrary: FormGroup;
 
-  constructor(private http: HttpClient, private libraryService: LibraryService) {
+  constructor(private http: HttpClient, private libraryService: LibraryService, private auth: AuthService) {
 
   }
 
 
   ngOnInit(): void {
-    this.submitted=false;
+    this.submitted = false;
     this.initialize_map();
     this.initialize_form();
   }
 
 
   addLibrary() {
-    this.submitted=true;
-    this.errors2=null;
+    this.submitted = true;
+    this.errors2 = null;
 
-    if(!this.formAddLibrary.valid) {
+    if (!this.formAddLibrary.valid) {
       return "blad";
     }
 
@@ -55,17 +56,18 @@ export class AddLibraryComponent implements OnInit {
 
     object.latitude = this.mapLat;
     object.longitude = this.mapLng;
+    object.userID = this.auth.user.id;
 
     this.libraryService.addLibrary(object).subscribe(x => {
-      this.submitted=false;
+      this.submitted = false;
       this.errors = null;
       this.reset();
       this.success = "Pomyslnie dodano bibliotekę !";
 
 
     }, error1 => {
-      this.success=null;
-      this.submitted=true;
+      this.success = null;
+      this.submitted = true;
       this.errors = error1.error;
     })
 
@@ -85,9 +87,9 @@ export class AddLibraryComponent implements OnInit {
   }
 
   searchOnMap() {
-    this.success=null;
+    this.success = null;
 
-    this.errors=null;
+    this.errors = null;
     let adress = this.formAddLibrary.value.city;
     if (this.formAddLibrary.value.street) {
       adress += '+' + this.formAddLibrary.value.street;

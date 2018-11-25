@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.LibraryRepository;
+import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddLibraryRequest;
 
 import java.io.IOException;
@@ -17,6 +19,8 @@ public class LibraryService {
 
     private final LibraryRepository libraryRepository;
 
+    private final UserRepository userRepository;
+
     public ResponseEntity addLibrary(AddLibraryRequest addLibraryRequest) {
         try {
 
@@ -24,8 +28,9 @@ public class LibraryService {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Najpierw zaznacz na mapie lokalizacje ");
             }
 
-
+            User user = userRepository.findById(addLibraryRequest.getUserID()).orElse(null);
             Library tmp = new Library();
+            tmp.setOwner(user);
             tmp.setCity(addLibraryRequest.getCity());
             tmp.setEmail(addLibraryRequest.getEmail());
             tmp.setLatitude(addLibraryRequest.getLatitude());

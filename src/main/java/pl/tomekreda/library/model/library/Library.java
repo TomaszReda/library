@@ -1,6 +1,9 @@
 package pl.tomekreda.library.model.library;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import pl.tomekreda.library.model.user.User;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -8,6 +11,8 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "library")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Library {
 
     @Id
@@ -23,4 +28,9 @@ public class Library {
     private String number;
     private String postalCode;
     private String street;
+
+    @ManyToOne
+    private User owner;
+
+
 }

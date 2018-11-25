@@ -2,6 +2,7 @@ package pl.tomekreda.library.model.user;
 
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import pl.tomekreda.library.model.library.Library;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -40,6 +41,9 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<UserRoles> userRoles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
+    private List<Library> libraries;
 
     public User() {
     }
