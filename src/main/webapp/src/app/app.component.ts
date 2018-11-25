@@ -40,7 +40,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-
+    this.userService.getLoggerInfo().subscribe(x => {
+      this.authService.user = x;
+      this.authService.pharmacyOwner = false;
+      for (let i = 0; i < this.authService.user.userRoles.length; i++) {
+        if (this.authService.user.userRoles[i].userRole === "LIBRARY_OWNER") {
+          this.authService.pharmacyOwner = true;
+        }
+      }
+    })
     if (localStorage.getItem("tokenID")) {
       this.http.get(this.url + "tokenValid").subscribe(
         x => {
