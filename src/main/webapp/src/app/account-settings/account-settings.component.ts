@@ -51,7 +51,6 @@ export class AccountSettingsComponent implements OnInit {
 
 
     this.userService.getLoggerInfo().subscribe((x: User) => {
-      console.log(x);
 
       this.settingsForm = new FormGroup({
         id: new FormControl(x.id),

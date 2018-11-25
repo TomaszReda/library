@@ -50,7 +50,6 @@ export class AuthService {
 
 
         for (let i = 0; i < this.user.userRoles.length; i++) {
-          console.log(this.user.userRoles[i].userRole);
           if (this.user.userRoles[i].userRole === "LIBRARY_OWNER") {
             this.pharmacyOwner=true;
           }
