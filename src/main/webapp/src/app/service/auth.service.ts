@@ -6,6 +6,7 @@ import {Credentials} from "../model/user/Credentials";
 import {User} from "../model/user/user.model";
 import {FormGroup, NgForm} from "@angular/forms";
 import {UserService} from "./user.service";
+import {UserRoles} from "../model/user/user.roles.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class AuthService {
 
   public islogin: boolean = false;
 
+  public isLibraryOwner: boolean = false;
+
   public badLogin: string = null;
 
   public badRegisterCasual: string = null;
@@ -21,6 +24,8 @@ export class AuthService {
   public badRegisterLibrary: string = null;
 
   public user: User;
+
+  public pharmacyOwner:boolean = false;
 
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
@@ -40,6 +45,17 @@ export class AuthService {
       this.islogin = true;
       this.userService.getLoggerInfo().subscribe((x: User) => {
         this.user = x;
+        let owner: UserRoles = new UserRoles("LIBRARY_OWNER");
+        owner.userRole = "LIBRARY_OWNER";
+
+
+        for (let i = 0; i < this.user.userRoles.length; i++) {
+          console.log(this.user.userRoles[i].userRole);
+          if (this.user.userRoles[i].userRole === "LIBRARY_OWNER") {
+            this.pharmacyOwner=true;
+          }
+        }
+
       })
     }, error1 => {
       localStorage.removeItem("tokenID");
@@ -52,7 +68,7 @@ export class AuthService {
   logout() {
     this.router.navigate(["/home"]);
     this.user = null;
-
+    this.pharmacyOwner=null;
     this.http.get(this.url + "logout").subscribe(x => {
       this.user = null;
       this.islogin = false;

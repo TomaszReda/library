@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {HomeModule} from './home/home.module';
 import {AuthGuardsService} from "./guard/auth-guards.service";
+import {PharmacyOwnerGuardService} from "./guard/pharmacy-owner-guard.service";
 
 const routes: Routes = [
   {
@@ -29,7 +30,8 @@ const routes: Routes = [
   },
   {
     path: 'addLibrary',
-    loadChildren: './add-library/add-library.module#AddLibraryModule'
+    loadChildren: './add-library/add-library.module#AddLibraryModule',
+    canActivate: [PharmacyOwnerGuardService]
   }
 
 ];

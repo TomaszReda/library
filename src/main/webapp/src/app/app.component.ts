@@ -4,6 +4,7 @@ import {AuthService} from "./service/auth.service";
 import {ModalComponent} from "angular-custom-modal";
 import {User} from "./model/user/user.model";
 import {HttpClient} from "@angular/common/http";
+import {UserService} from "./service/user.service";
 
 
 @Component({
@@ -33,12 +34,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public registerLibraryOwnerForm: FormGroup;
 
-  constructor(public authService: AuthService, private http: HttpClient) {
+  constructor(public authService: AuthService, private http: HttpClient, private userService: UserService) {
   }
 
 
-
   ngOnInit(): void {
+
 
     if (localStorage.getItem("tokenID")) {
       this.http.get(this.url + "tokenValid").subscribe(
@@ -81,12 +82,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   registerUser() {
     const user: User = this.registerUserForm.getRawValue();
-    this.authService.registerCasualUser(user, this.registerUserForm,this.casualUser);
+    this.authService.registerCasualUser(user, this.registerUserForm, this.casualUser);
   }
 
   registerLibraryOwner() {
     const user: User = this.registerLibraryOwnerForm.getRawValue();
-    this.authService.registerLibraryOwner(user, this.registerLibraryOwnerForm,this.libraryOwner);
+    this.authService.registerLibraryOwner(user, this.registerLibraryOwnerForm, this.libraryOwner);
   }
 
 
