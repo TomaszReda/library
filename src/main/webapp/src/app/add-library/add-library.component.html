@@ -8,7 +8,9 @@
       <label for="name">Nazwa:</label>
       <input type="text" class="form-control" id="name"  width="100px" formControlName="name" >
     </div>
-    <p *ngIf="formAddLibrary.get('name').errors && formAddLibrary.get('name').errors.required && formAddLibrary.get('name').dirty" class="text-danger"> Nazwa jest wymagana!  </p>
+
+
+    <p *ngIf="submitted && formAddLibrary.get('name').errors && formAddLibrary.get('name').errors.required " class="text-danger"> Nazwa jest wymagana!  </p>
     <div class="row">
       <div class="col">
         <label for="street">Ulica:</label>
@@ -17,7 +19,7 @@
       <div class="col">
         <label for="number">Nr:</label>
         <input type="text" class="form-control" id="number" width="20px" formControlName="number"  >
-        <p *ngIf="formAddLibrary.get('number').errors && formAddLibrary.get('number').errors.required && formAddLibrary.get('number').dirty" class="text-danger">Numer jest wymagany!  </p>
+        <p *ngIf="submitted && formAddLibrary.get('number').errors && formAddLibrary.get('number').errors.required" class="text-danger">Numer jest wymagany!  </p>
 
       </div>
 
@@ -30,17 +32,16 @@
       <label for="postalCode">Kod pocztowy:</label>
       <input type="text" class="form-control" id="postalCode"  width="100px" formControlName="postalCode"  >
     </div>
-    <p *ngIf="formAddLibrary.get('postalCode').errors && formAddLibrary.get('postalCode').errors.required && formAddLibrary.get('postalCode').dirty" class="text-danger"> Kod pocztowy jest wymagany </p>
+    <p *ngIf="submitted && formAddLibrary.get('postalCode').errors && formAddLibrary.get('postalCode').errors.required " class="text-danger"> Kod pocztowy jest wymagany </p>
 
     <div class="form-group">
       <label for="city">Miasto:</label>
       <input type="text" class="form-control" id="city"  width="100px" formControlName="city"   >
     </div>
-    <p *ngIf="formAddLibrary.get('city').errors && formAddLibrary.get('city').errors.required && formAddLibrary.get('city').dirty" class="text-danger"> Miasto jest wymagane!  </p>
+    <p *ngIf="submitted && formAddLibrary.get('city').errors && formAddLibrary.get('city').errors.required " class="text-danger"> Miasto jest wymagane!  </p>
 
     <button type="button" (click)="searchOnMap()">Zaznacz na mapie lokalizacje</button>
     <p class="text-danger" *ngIf="errors2">{{errors2}}</p>
-
     <div id="map" style="width: 100%; height: 40%;margin-top:15px;margin-bottom: 15px;"></div>
 
 
@@ -48,8 +49,9 @@
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email"  width="100px" formControlName="email"  >
     </div>
-    <p *ngIf="formAddLibrary.get('email').errors && formAddLibrary.get('email').errors.required && formAddLibrary.get('email').dirty" class="text-danger"> Email jest wymagany!  </p>
-    <p *ngIf="formAddLibrary.get('email').errors && formAddLibrary.get('email').errors.email && formAddLibrary.get('email').dirty" class="text-danger"> Podaj poprawny meil!  </p>
+    <p *ngIf="submitted && formAddLibrary.get('email').errors && formAddLibrary.get('email').errors.required " class="text-danger"> Email jest wymagany!  </p>
+    <p *ngIf="submitted && formAddLibrary.get('email').errors && formAddLibrary.get('email').errors.email && formAddLibrary.get('email').dirty" class="text-danger"> Podaj poprawny meil!  </p>
+    <p class="text-success" *ngIf="success">{{success}}</p>
 
 
 
@@ -57,7 +59,7 @@
 
     <p class="text-danger" *ngIf="errors">{{errors}}</p>
 
-    <button type="submit" class="btn btn-primary button2" class="signupbtn" [disabled]="formAddLibrary.invalid" >Wyslij</button>
+    <button type="submit" class="btn btn-primary button2" class="signupbtn"  >Wyslij</button>
     <button type="button" class="btn btn-primary button2" class="cancelbtn" (click)="reset()"  >Zresetuj</button>
   </form>
   </div>

@@ -18,10 +18,14 @@ export class AddLibraryComponent implements OnInit {
   public mapLng: string = '21.0158';
   public mapDefaultZoom = 10;
   public vectorLayer;
+  success = null;
 
   errors = null;
 
   errors2 = null;
+
+
+  submitted = false;
 
   url = 'https://nominatim.openstreetmap.org/search';
 
@@ -33,29 +37,44 @@ export class AddLibraryComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.submitted=false;
     this.initialize_map();
     this.initialize_form();
   }
 
 
   addLibrary() {
+    this.submitted=true;
+    this.errors2=null;
+
+    if(!this.formAddLibrary.valid) {
+      return "blad";
+    }
+
     const object = this.formAddLibrary.getRawValue();
 
     object.latitude = this.mapLat;
     object.longitude = this.mapLng;
 
     this.libraryService.addLibrary(object).subscribe(x => {
+      this.submitted=false;
       this.errors = null;
       this.reset();
+      this.success = "Pomyslnie dodano bibliotekę !";
+
 
     }, error1 => {
+      this.success=null;
+      this.submitted=true;
       this.errors = error1.error;
     })
 
   }
 
   reset() {
-
+    this.success = null;
+    this.errors = null;
+    this.errors2 = null;
     this.formAddLibrary.reset();
     this.mapLat = '52.2051';
     this.mapLng = '21.0158';
@@ -66,6 +85,9 @@ export class AddLibraryComponent implements OnInit {
   }
 
   searchOnMap() {
+    this.success=null;
+
+    this.errors=null;
     let adress = this.formAddLibrary.value.city;
     if (this.formAddLibrary.value.street) {
       adress += '+' + this.formAddLibrary.value.street;
@@ -73,6 +95,7 @@ export class AddLibraryComponent implements OnInit {
     if (this.formAddLibrary.value.number) {
       adress += '+' + this.formAddLibrary.value.number;
     }
+
 
     let params = new HttpParams().set('q', adress).append('format', 'json');
     this.http.get(this.url, {params: params}).subscribe(
@@ -85,12 +108,18 @@ export class AddLibraryComponent implements OnInit {
           this.mapLat = latitude;
           this.mapLng = longitude;
 
-
           this.setCenter();
           this.add_map_point(latitude, longitude);
           this.errors2 = null;
+
         } else {
-          this.errors2 = "Nie ma takiej lokalizacji";
+          this.errors2 = "Nie ma takiej lokalizacji!";
+          this.mapLat = '52.2051';
+          this.mapLng = '21.0158';
+          this.setCenter();
+          if (this.vectorLayer) {
+            this.map.removeLayer(this.vectorLayer);
+          }
         }
 
       }
@@ -156,6 +185,17 @@ export class AddLibraryComponent implements OnInit {
     });
     this.map.addLayer(this.vectorLayer);
 
+  }
+
+  isFieldValid(field: string) {
+    return !this.formAddLibrary.get(field).valid && this.formAddLibrary.get(field).touched;
+  }
+
+  displayFieldCss(field: string) {
+    return {
+      'has-error': this.isFieldValid(field),
+      'has-feedback': this.isFieldValid(field)
+    };
   }
 
 
