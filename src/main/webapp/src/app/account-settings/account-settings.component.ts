@@ -51,7 +51,7 @@ export class AccountSettingsComponent implements OnInit {
 
 
     this.userService.getLoggerInfo().subscribe((x: User) => {
-
+      console.log(x);
 
       this.settingsForm = new FormGroup({
         id: new FormControl(x.id),
@@ -76,10 +76,9 @@ export class AccountSettingsComponent implements OnInit {
   changeSettings() {
     this.userService.changeSettings(this.settingsForm.getRawValue()).subscribe(
       (x: User) => {
-        console.log(x.email)
 
-        let email:string =x.email;
-        let password:string = x.password;
+        let email: string = x.email;
+        let password: string = x.password;
 
         let creditians = {
           email,

@@ -70,6 +70,7 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Błędne hasło!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setUserRoles(logged.getUserRoles());
         user = userRepository.save(user);
 
         return ResponseEntity.ok(user);
