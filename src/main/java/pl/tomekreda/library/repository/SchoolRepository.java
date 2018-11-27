@@ -7,5 +7,5 @@ import pl.tomekreda.library.model.School;
 import java.util.UUID;
 
 @Repository
-public interface SchoolRepository extends JpaRepository<School, UUID> {
+public interface SchoolRepository extends JpaRepository<School, Long> {
 }

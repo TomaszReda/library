@@ -1,24 +1,29 @@
 package pl.tomekreda.library.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
 @Entity
+@ToString
 public class School {
 
     @Id
     @GeneratedValue
-    private UUID ID;
+    Long ID;
 
     private String schoolName;
 
 
-    @OneToMany(mappedBy = "school", cascade = CascadeType.ALL)
-    private List<Person> personList;
+    @OneToMany(mappedBy = "school", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Person> personList=new ArrayList<>();
 
 
     @OneToOne(cascade = CascadeType.ALL)

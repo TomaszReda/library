@@ -1,21 +1,25 @@
 package pl.tomekreda.library.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 @Entity
 public class Person {
 
     @Id
     @GeneratedValue
-    private UUID ID;
+    private Long ID;
 
     private String personName;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private School school;
 
     public Person(String personName) {

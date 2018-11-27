@@ -7,5 +7,5 @@ import pl.tomekreda.library.model.Person;
 import java.util.UUID;
 
 @Repository
-public interface PersonRepository extends JpaRepository<Person, UUID> {
+public interface PersonRepository extends JpaRepository<Person, Long> {
 }

@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddUserCasualRequest;
 
 @Controller
 public class AngularController {
 
+    private UserRepository userRepository;
     @GetMapping("/")
     public String page(Model model) {
         return "forward:/index.html";
@@ -20,6 +22,8 @@ public class AngularController {
 
     @GetMapping("/home")
     public String home(Model model) {
+        System.err.println(userRepository.findAll());
+
         return "forward:/index.html";
     }
 

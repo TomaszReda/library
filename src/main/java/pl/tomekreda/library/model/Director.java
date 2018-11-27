@@ -14,7 +14,7 @@ public class Director {
 
     @Id
     @GeneratedValue
-    private UUID ID;
+    private Long ID;
 
     private String directorName;
 

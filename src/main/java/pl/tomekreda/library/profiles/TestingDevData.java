@@ -12,6 +12,8 @@ import pl.tomekreda.library.repository.PersonRepository;
 import pl.tomekreda.library.repository.SchoolRepository;
 import pl.tomekreda.library.repository.UserRepository;
 
+import java.util.List;
+
 @Component
 @TestProfile
 @DevProfile
@@ -39,21 +41,19 @@ public class TestingDevData implements CommandLineRunner {
         Person person = new Person("person");
         School school = new School("school");
         Director director = new Director("director");
+        school.setDirector(director);
+
+        person = personRepository.save(person);
+
+        school = schoolRepository.save(school);
 
 
+        person.setSchool(school);
+        person = personRepository.save(person);
 
 
-            person.setSchool(school);
-            person = personRepository.save(person);
-            System.err.println("\n"+person);
-
-            school.setDirector(director);
-            System.err.print(school);
-            school= schoolRepository.save(school);
-            System.err.println(school);
-
-
-            System.err.println("\n"+school);
+        System.err.println("\n" + person);
+        System.err.println("\n" + school);
     }
 }
 
