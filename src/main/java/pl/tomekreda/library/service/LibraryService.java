@@ -11,10 +11,12 @@ import pl.tomekreda.library.repository.LibraryRepository;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddLibraryRequest;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Transactional
 public class LibraryService {
 
     private final LibraryRepository libraryRepository;

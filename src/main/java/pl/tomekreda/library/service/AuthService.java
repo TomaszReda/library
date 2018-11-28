@@ -19,8 +19,10 @@ import pl.tomekreda.library.validators.PasswordValidators;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 @Service
+@Transactional
 public class AuthService {
 
     @Autowired

@@ -18,7 +18,6 @@ public class UserController {
 
     @GetMapping("/online/user/info")
     public ResponseEntity info() {
-
         return userService.info();
     }
 

@@ -15,5 +15,15 @@ public class UserMenager implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID ID;
+    private Long ID;
+
+    @OneToMany(mappedBy = "userMenager", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Library> libraryList = new ArrayList<>();
+
+    public UserMenager() {
+
+    }
 }
+
+

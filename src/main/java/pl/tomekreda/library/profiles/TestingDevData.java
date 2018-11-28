@@ -4,19 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import pl.tomekreda.library.model.Director;
-import pl.tomekreda.library.model.Person;
-import pl.tomekreda.library.model.School;
+import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.model.user.UserMenager;
+import pl.tomekreda.library.model.user.UserRoleEnum;
+import pl.tomekreda.library.model.user.UserRoles;
 import pl.tomekreda.library.repository.LibraryRepository;
-import pl.tomekreda.library.repository.PersonRepository;
-import pl.tomekreda.library.repository.SchoolRepository;
 import pl.tomekreda.library.repository.UserRepository;
 
-import java.util.List;
+import javax.transaction.Transactional;
 
 @Component
 @TestProfile
 @DevProfile
+@Transactional
 public class TestingDevData implements CommandLineRunner {
 
     @Autowired
@@ -27,13 +28,6 @@ public class TestingDevData implements CommandLineRunner {
 
     @Autowired
     private LibraryRepository libraryRepository;
-
-
-    @Autowired
-    private SchoolRepository schoolRepository;
-
-    @Autowired
-    private PersonRepository personRepository;
 
     @Override
     public void run(String... args) throws Exception {
