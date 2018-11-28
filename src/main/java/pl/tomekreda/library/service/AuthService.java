@@ -84,8 +84,7 @@ public class AuthService {
             tmp.setLastname(user.getLastname());
             tmp.setPhoneNumber(user.getPhoneNumber());
             tmp.setPassword(passwordEncoder.encode(user.getPassword()));
-            tmp.setUserCasual(null);
-            tmp.setUserMenager(null);
+
             UserRoles useroles=new UserRoles();
             useroles.setUserRole(UserRoleEnum.CASUAL_USER);
             tmp.getUserRoles().add(useroles);
@@ -127,8 +126,8 @@ public class AuthService {
             tmp.setFirstname(user.getFirstname());
             tmp.setLastname(user.getLastname());
             tmp.setPassword(passwordEncoder.encode(user.getPassword()));
-            tmp.setUserCasual(null);
-            tmp.setUserMenager(null);
+            UserMenager userMenager=new UserMenager();
+            tmp.setUserMenager(userMenager);
             UserRoles useroles=new UserRoles();
             useroles.setUserRole(UserRoleEnum.LIBRARY_OWNER);
             tmp.getUserRoles().add(useroles);

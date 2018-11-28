@@ -42,19 +42,16 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<UserRoles> userRoles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL)
-    private List<Library> libraries;
+
 
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, int phoneNumber, String password, UserMenager userMenager, UserCasual userCasual) {
+    public User(String firstname, String lastname, String email, int phoneNumber, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
-        this.userMenager = userMenager;
-        this.userCasual = userCasual;
     }
 }

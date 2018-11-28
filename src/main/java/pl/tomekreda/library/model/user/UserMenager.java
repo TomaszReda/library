@@ -1,12 +1,13 @@
 package pl.tomekreda.library.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import pl.tomekreda.library.model.library.Library;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data

@@ -32,7 +32,6 @@ public class LibraryService {
 
             User user = userRepository.findById(addLibraryRequest.getUserID()).orElse(null);
             Library tmp = new Library();
-            tmp.setOwner(user);
             tmp.setCity(addLibraryRequest.getCity());
             tmp.setEmail(addLibraryRequest.getEmail());
             tmp.setLatitude(addLibraryRequest.getLatitude());
@@ -44,7 +43,9 @@ public class LibraryService {
             tmp.setPostalCode(addLibraryRequest.getPostalCode());
             if (addLibraryRequest.getStreet() != null)
                 tmp.setStreet(addLibraryRequest.getStreet());
-            libraryRepository.save(tmp);
+            tmp.setUserMenager(user.getUserMenager());
+            tmp = libraryRepository.save(tmp);
+
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             ex.printStackTrace();

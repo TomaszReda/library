@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.service.UserService;
 
@@ -15,6 +16,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     @GetMapping("/online/user/info")
     public ResponseEntity info() {

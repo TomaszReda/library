@@ -32,22 +32,23 @@ public class TestingDevData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Person person = new Person("person");
-        School school = new School("school");
-        Director director = new Director("director");
-        school.setDirector(director);
+        User owner = new User("Tomek", "Reda", "owner@local", 123456789, passwordEncoder.encode("password"));
+        UserRoles userOwnerRole = new UserRoles();
+        userOwnerRole.setUserRole(UserRoleEnum.LIBRARY_OWNER);
+        owner.getUserRoles().add(userOwnerRole);
+        UserMenager userMenager = new UserMenager();
+         owner.setUserMenager(userMenager);
+        owner = userRepository.save(owner);
 
-        person = personRepository.save(person);
+        Library library = new Library( "Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie", "34", "08-500 Ryki", null);
+        library.setUserMenager(owner.getUserMenager());
+        library = libraryRepository.save(library);
 
-        school = schoolRepository.save(school);
+        System.err.println(library);
+        System.err.println(owner);
 
 
-        person.setSchool(school);
-        person = personRepository.save(person);
 
-
-        System.err.println("\n" + person);
-        System.err.println("\n" + school);
     }
 }
 
