@@ -17,7 +17,6 @@ import pl.tomekreda.library.service.LibraryService;
 public class LibraryController {
 
 
-
     private final LibraryService libraryService;
 
     @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
@@ -25,5 +24,14 @@ public class LibraryController {
     public ResponseEntity addLibrary(@RequestBody AddLibraryRequest addLibraryRequest) {
         return libraryService.addLibrary(addLibraryRequest);
     }
+
+
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @GetMapping("/get/library/list")
+    public ResponseEntity getLibraryList(@RequestParam int page, @RequestParam int size) {
+        return libraryService.getLibraryList(page, size);
+
+    }
+
 
 }

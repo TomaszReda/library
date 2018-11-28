@@ -2,6 +2,10 @@ package pl.tomekreda.library.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,10 @@ import pl.tomekreda.library.request.AddLibraryRequest;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -49,11 +57,36 @@ public class LibraryService {
             tmp = libraryRepository.save(tmp);
 
 
-
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             ex.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
+    }
+
+
+    public ResponseEntity getLibraryList(int page, int size) {
+        try {
+            List<Library> libraryList = userService.findLoggedUser().getUserMenager().getLibraryList();
+            List<Map<String, Object>> libraryMap = createLibraryMap(libraryList);
+            Pageable pageable = new PageRequest(page, size);
+            int max = (size * (page + 1) > libraryMap.size()) ? libraryMap.size() : size * (page + 1);
+
+            Page<List<Map<String, Object>>> pageResult = new PageImpl(libraryMap.subList(size * page, max), pageable, libraryList.size());
+            return ResponseEntity.ok(pageResult);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    private List<Map<String, Object>> createLibraryMap(List<Library> libraryList) {
+        List<Map<String, Object>> listLibrary = new ArrayList<>();
+        for (Library library : libraryList) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("libraryId", library.getID());
+            map.put("libraryName", library.getName());
+            listLibrary.add(map);
+        }
+        return listLibrary;
     }
 }
