@@ -1,6 +1,7 @@
 package pl.tomekreda.library.model.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import pl.tomekreda.library.model.library.Library;
 
@@ -15,15 +16,22 @@ import java.util.UUID;
 public class UserMenager implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long ID;
 
-    @OneToMany(mappedBy = "userMenager", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "userMenager", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Library> libraryList = new ArrayList<>();
 
     public UserMenager() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "UserMenager{" +
+                "ID=" + ID +
+                '}';
     }
 }
 

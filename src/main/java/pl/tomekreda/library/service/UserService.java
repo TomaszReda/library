@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.repository.LibraryRepository;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.validators.PasswordValidators;
@@ -32,6 +33,13 @@ public class UserService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private LibraryRepository libraryRepository;
+
 
     public ResponseEntity info() {
         try {
@@ -73,7 +81,9 @@ public class UserService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserRoles(logged.getUserRoles());
+        user.setUserMenager(logged.getUserMenager());
         user = userRepository.save(user);
+
 
         return ResponseEntity.ok(user);
     }

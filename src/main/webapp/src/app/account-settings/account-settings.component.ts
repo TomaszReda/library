@@ -75,7 +75,6 @@ export class AccountSettingsComponent implements OnInit {
   changeSettings() {
     this.userService.changeSettings(this.settingsForm.getRawValue()).subscribe(
       (x: User) => {
-
         let email: string = x.email;
         let password: string = x.password;
 

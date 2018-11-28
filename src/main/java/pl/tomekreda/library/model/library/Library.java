@@ -1,6 +1,7 @@
 package pl.tomekreda.library.model.library;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,8 +31,8 @@ public class Library {
     private String postalCode;
     private String street;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
+    @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private  UserMenager userMenager;
 
     public Library(String city, String email, String latitude, String local, String longitude, String name, String number, String postalCode, String street) {
@@ -47,5 +48,22 @@ public class Library {
     }
 
     public Library() {
+    }
+
+    @Override
+    public String toString() {
+        return "Library{" +
+                "ID=" + ID +
+                ", city='" + city + '\'' +
+                ", email='" + email + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", local='" + local + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", street='" + street + '\'' +
+                ", userMenager=" + userMenager +
+                '}';
     }
 }

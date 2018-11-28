@@ -1,5 +1,6 @@
 package pl.tomekreda.library.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -8,13 +9,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.repository.LibraryRepository;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddUserCasualRequest;
+import pl.tomekreda.library.service.UserService;
+
+import javax.transaction.Transactional;
 
 @Controller
 public class AngularController {
 
+    @Autowired
     private UserRepository userRepository;
+
     @GetMapping("/")
     public String page(Model model) {
         return "forward:/index.html";

@@ -23,6 +23,8 @@ public class LibraryService {
 
     private final UserRepository userRepository;
 
+    private final UserService userService;
+
     public ResponseEntity addLibrary(AddLibraryRequest addLibraryRequest) {
         try {
 
@@ -30,7 +32,7 @@ public class LibraryService {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Najpierw zaznacz na mapie lokalizacje ");
             }
 
-            User user = userRepository.findById(addLibraryRequest.getUserID()).orElse(null);
+            User user = userService.findLoggedUser();
             Library tmp = new Library();
             tmp.setCity(addLibraryRequest.getCity());
             tmp.setEmail(addLibraryRequest.getEmail());
@@ -45,6 +47,8 @@ public class LibraryService {
                 tmp.setStreet(addLibraryRequest.getStreet());
             tmp.setUserMenager(user.getUserMenager());
             tmp = libraryRepository.save(tmp);
+
+
 
             return ResponseEntity.ok().build();
         } catch (Exception ex) {

@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 @Service
-@Transactional
 public class AuthService {
 
     @Autowired

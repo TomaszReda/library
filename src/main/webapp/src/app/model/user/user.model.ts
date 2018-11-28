@@ -1,4 +1,5 @@
 import {UserRoles} from "./user.roles.model";
+import {UserMenager} from "./userMenager.model";
 
 export class User {
   email?: string;
@@ -8,4 +9,5 @@ export class User {
   phoneNumber?: number;
   password?: string;
   userRoles?: Array<UserRoles>;
+  userMenager?: UserMenager;
 }

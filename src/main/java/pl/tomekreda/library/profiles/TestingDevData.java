@@ -37,16 +37,30 @@ public class TestingDevData implements CommandLineRunner {
         userOwnerRole.setUserRole(UserRoleEnum.LIBRARY_OWNER);
         owner.getUserRoles().add(userOwnerRole);
         UserMenager userMenager = new UserMenager();
-         owner.setUserMenager(userMenager);
+        owner.setUserMenager(userMenager);
         owner = userRepository.save(owner);
 
-        Library library = new Library( "Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie", "34", "08-500 Ryki", null);
+        Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie", "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
-        library = libraryRepository.save(library);
+        libraryRepository.save(library);
 
-        System.err.println(library);
-        System.err.println(owner);
+        Library library2 = new Library("Warszawa", "tomekreda@op.pl", "52.2631523", "101", "21.0288848266558", "Ksiazeczka", "11", "05-077 Warszawa", "Józefa Szanajcy");
+        library2.setUserMenager(owner.getUserMenager());
+        libraryRepository.save(library2);
 
+        User owner2 = new User("Tomek", "Reda", "owner2@local", 123456789, passwordEncoder.encode("password"));
+        UserRoles userOwner2Role = new UserRoles();
+        userOwner2Role.setUserRole(UserRoleEnum.LIBRARY_OWNER);
+        UserMenager userMenager2 = new UserMenager();
+        owner2.setUserMenager(userMenager2);
+        owner2.getUserRoles().add(userOwner2Role);
+        userRepository.save(owner2);
+
+        User casual = new User("Kasia", "Reda", "worker@local", 123456789, passwordEncoder.encode("password"));
+        UserRoles userCasualRole = new UserRoles();
+        userCasualRole.setUserRole(UserRoleEnum.CASUAL_USER);
+        casual.getUserRoles().add(userCasualRole);
+        userRepository.save(casual);
 
 
     }
