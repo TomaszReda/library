@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {LibraryService} from "../service/library.service";
+import {PageRequest} from "../model/page/page.request";
+import {LibraryPageRequest} from "../model/page/library.page.request";
 
 @Component({
   selector: 'app-my-library',
@@ -8,13 +10,15 @@ import {LibraryService} from "../service/library.service";
 })
 export class MyLibraryComponent implements OnInit {
 
+  public libraryPageList: Array<LibraryPageRequest>;
+
   constructor(private libraryService: LibraryService) {
   }
 
   ngOnInit() {
-    this.libraryService.gettAllLibrary().subscribe(x => {
-      console.log(x[0]);
-  })
+    this.libraryService.gettAllLibrary(0, 10).subscribe((x: PageRequest) => {
+      this.libraryPageList = x.content;
+    })
   }
 
 }

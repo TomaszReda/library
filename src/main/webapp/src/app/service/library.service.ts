@@ -18,8 +18,8 @@ export class LibraryService {
   }
 
 
-  gettAllLibrary(){
-    let params=new HttpParams().append('page','0').append("size",'10');
+  gettAllLibrary(page,size){
+    let params=new HttpParams().append('page',page).append("size",size);
     return this.http.get(this.url+'/get/library/list',{params: params});
   }
 

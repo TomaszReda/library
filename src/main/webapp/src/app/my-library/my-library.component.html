@@ -2,10 +2,9 @@
   <table class="table table-bordered ">
     <thead>
     <tr>
-      <th scope="col">#</th>
       <th scope="col">Nazwa</th>
-      <th scope="col">Dodaj ksiązkę</th>
-      <th scope="col">Usuń książke</th>
+      <th scope="col">Dodaj ksiązki</th>
+      <th scope="col">Usuń książki</th>
       <th scope="col">Potwierdz rezerwacje</th>
       <th scope="col">Odrzuć rezerwacje</th>
       <th scope="col">Statusy</th>
@@ -13,14 +12,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>aaa</td>
-      <td>bbb</td>
-      <td>cccc</td>
+    <tr *ngFor="let l of libraryPageList">
+      <td>{{l.libraryName}}</td>
+      <td>Dodaj ksiązki</td>
+      <td>Usuń książki</td>
+      <td>Potwierdz rezerwacje</td>
+      <td>Odrzuć rezerwacje</td>
+      <td>Statusy</td>
     </tr>
 
     </tbody>
