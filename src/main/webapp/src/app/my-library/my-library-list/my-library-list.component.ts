@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LibraryPageRequest} from "../../model/page/library.page.request";
 import {LibraryService} from "../../service/library.service";
 import {PageRequest} from "../../model/page/page.request";
+import {PageServiceService} from "../../service/page-service.service";
 
 @Component({
   selector: 'app-my-library-list',
@@ -12,13 +13,40 @@ export class MyLibraryListComponent implements OnInit {
 
   public libraryPageList: Array<LibraryPageRequest>;
 
-  constructor(private libraryService: LibraryService) {
+  public currentyPage = 0;
+
+  public pageNumber = [];
+
+  constructor(private libraryService: LibraryService, private pageService: PageServiceService) {
   }
 
   ngOnInit() {
-    this.libraryService.gettAllLibrary(0, 10).subscribe((x: PageRequest) => {
+    this.currentyPage = 0;
+    this.initLibraryList();
+  }
+
+  initLibraryList() {
+    this.libraryService.gettAllLibrary(this.currentyPage, 10).subscribe((x: PageRequest) => {
       this.libraryPageList = x.content;
+      this.pageNumber = this.pageService.returnpages(this.currentyPage + 1, x.totalPages);
     })
   }
+
+  changePage(currentyPage) {
+    this.currentyPage = currentyPage - 1;
+    this.initLibraryList();
+  }
+
+
+  next() {
+    this.currentyPage = this.currentyPage + 1;
+    this.initLibraryList();
+  }
+
+  previous() {
+    this.currentyPage = this.currentyPage - 1;
+    this.initLibraryList();
+  }
+
 
 }
