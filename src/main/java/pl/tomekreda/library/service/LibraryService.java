@@ -1,6 +1,7 @@
 package pl.tomekreda.library.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,7 +17,6 @@ import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddLibraryRequest;
 
 import javax.transaction.Transactional;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +25,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Transactional
+@Slf4j
 public class LibraryService {
 
     private final LibraryRepository libraryRepository;
@@ -39,6 +40,8 @@ public class LibraryService {
             if (addLibraryRequest.getLongitude().equals("21.0158") && addLibraryRequest.getLatitude().equals("52.2051")) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Najpierw zaznacz na mapie lokalizacje ");
             }
+
+            log.info("[Add library request]=" + addLibraryRequest);
 
             User user = userService.findLoggedUser();
             Library tmp = new Library();
@@ -56,7 +59,7 @@ public class LibraryService {
             tmp.setUserMenager(user.getUserMenager());
             tmp = libraryRepository.save(tmp);
 
-
+            log.info("[Added library]=" + tmp);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -71,6 +74,7 @@ public class LibraryService {
             List<Map<String, Object>> libraryMap = createLibraryMap(libraryList);
             Pageable pageable = new PageRequest(page, size);
             int max = (size * (page + 1) > libraryMap.size()) ? libraryMap.size() : size * (page + 1);
+            log.info("[Get library list]="+libraryMap);
 
             Page<List<Map<String, Object>>> pageResult = new PageImpl(libraryMap.subList(size * page, max), pageable, libraryList.size());
             return ResponseEntity.ok(pageResult);

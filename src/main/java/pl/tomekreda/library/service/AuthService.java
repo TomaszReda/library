@@ -1,5 +1,6 @@
 package pl.tomekreda.library.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,9 @@ import pl.tomekreda.library.validators.PasswordValidators;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 
 @Service
+@Slf4j
 public class AuthService {
 
     @Autowired
@@ -47,7 +48,7 @@ public class AuthService {
                 HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 SecurityContextHolder.getContext()
         );
-
+        log.info("[Logged]=" + authentication.getName());
         return new AuthenticationResponse(authentication.getName(), httpSession.getId());
 
     }
@@ -84,10 +85,11 @@ public class AuthService {
             tmp.setPhoneNumber(user.getPhoneNumber());
             tmp.setPassword(passwordEncoder.encode(user.getPassword()));
 
-            UserRoles useroles=new UserRoles();
+            UserRoles useroles = new UserRoles();
             useroles.setUserRole(UserRoleEnum.CASUAL_USER);
             tmp.getUserRoles().add(useroles);
-            userRepository.save(tmp);
+            tmp = userRepository.save(tmp);
+            log.info("[Register casual user]=" + user);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             ResponseEntity.badRequest().build();
@@ -125,12 +127,13 @@ public class AuthService {
             tmp.setFirstname(user.getFirstname());
             tmp.setLastname(user.getLastname());
             tmp.setPassword(passwordEncoder.encode(user.getPassword()));
-            UserMenager userMenager=new UserMenager();
+            UserMenager userMenager = new UserMenager();
             tmp.setUserMenager(userMenager);
-            UserRoles useroles=new UserRoles();
+            UserRoles useroles = new UserRoles();
             useroles.setUserRole(UserRoleEnum.LIBRARY_OWNER);
             tmp.getUserRoles().add(useroles);
-            userRepository.save(tmp);
+            tmp = userRepository.save(tmp);
+            log.info("[Register library owner]=" + tmp);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             ResponseEntity.badRequest().build();

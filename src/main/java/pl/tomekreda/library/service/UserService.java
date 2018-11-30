@@ -1,14 +1,12 @@
 package pl.tomekreda.library.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.LibraryRepository;
@@ -16,13 +14,11 @@ import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.validators.PasswordValidators;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
-import java.beans.Encoder;
 
 @Service
 @Transactional
+@Slf4j
 public class UserService {
 
     @Autowired
@@ -45,6 +41,7 @@ public class UserService {
         try {
             String loggedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = userRepository.findUserByEmail(loggedUserEmail);
+            log.info("[User info]="+user);
             return ResponseEntity.ok(user);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
@@ -58,6 +55,8 @@ public class UserService {
     }
 
     public ResponseEntity changeSettings(User user) {
+        log.info("[Change setings before]="+user);
+
         User logged = this.findLoggedUser();
         if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail() == ""
                 || user.getFirstname() == null || user.getFirstname() == ""
@@ -84,12 +83,14 @@ public class UserService {
         user.setUserMenager(logged.getUserMenager());
         user = userRepository.save(user);
 
-
+        log.info("[Change setings after]="+user);
         return ResponseEntity.ok(user);
     }
 
     public ResponseEntity changePassword(ChangePasswordRequest changePasswordRequest) {
         User loged = this.findLoggedUser();
+        log.info("[Change password before]="+loged);
+
         if (changePasswordRequest.getNewpassword() == null || changePasswordRequest.getNewpassword() == "" ||
                 changePasswordRequest.getNewpasswordrepeat() == null || changePasswordRequest.getNewpasswordrepeat() == "" ||
                 changePasswordRequest.getOldpassword() == null || changePasswordRequest.getOldpassword() == "") {
@@ -110,6 +111,7 @@ public class UserService {
         }
         loged.setPassword(passwordEncoder.encode(changePasswordRequest.getNewpassword()));
         loged = userRepository.save(loged);
+        log.info("[Change password after]="+loged);
 
         return ResponseEntity.ok(loged);
     }
