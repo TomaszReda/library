@@ -34,7 +34,7 @@ public class LibraryController {
 
     @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
     @GetMapping("/get/library/{libraryID}")
-    public ResponseEntity getLibraryById(@RequestParam UUID libraryID) {
+    public ResponseEntity getLibraryById(@PathVariable UUID libraryID) {
         return libraryService.getLibraryById(libraryID);
 
     }

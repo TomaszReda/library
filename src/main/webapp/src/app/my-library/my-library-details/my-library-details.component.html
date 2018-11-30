@@ -1,8 +1,56 @@
-<div class="container">
 
-  <div id="page-wrap">
 
+<div id="page-wrap">
+  <div style="display: flex; justify-content: center;">
+
+    <form class="text-center" [formGroup]="forModifyLibrary" (ngSubmit)="addLibrary()"  >
+      <div class="form-group">
+        <label for="name">Nazwa:</label>
+        <input type="text" class="form-control" id="name"  width="100px" formControlName="name" >
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <label for="street">Ulica:</label>
+          <input type="text" class="form-control" id="street"  width="80px" formControlName="street"  >
+        </div>
+        <div class="col">
+          <label for="number">Nr:</label>
+          <input type="text" class="form-control" id="number" width="20px" formControlName="number"  >
+
+        </div>
+
+        <div class="col">
+          <label for="local">Loc:</label>
+          <input type="text" class="form-control" id="local"  width="20px" formControlName="local"  >
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="postalCode">Kod pocztowy:</label>
+        <input type="text" class="form-control" id="postalCode"  width="100px" formControlName="postalCode"  >
+      </div>
+
+      <div class="form-group">
+        <label for="city">Miasto:</label>
+        <input type="text" class="form-control" id="city"  width="100px" formControlName="city"   >
+      </div>
+
+      <button type="button" (click)="searchOnMap()">Zaznacz na mapie lokalizacje</button>
+      <div id="map" style="width: 100%; height: 40%;margin-top:15px;margin-bottom: 15px;"></div>
+
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email"  width="100px" formControlName="email"  >
+      </div>
+
+      <button type="submit" class="btn btn-primary button2" class="signupbtn"  >Zmień daneLS
+      </button>
+      <button type="button" class="btn btn-primary button2" class="cancelbtn" (click)="reset()"  >Zresetuj</button>
+    </form>
   </div>
+
 </div>
 
 

@@ -16,7 +16,7 @@ const routes: Routes = [
       }
     ]},
   {
-    path: 'library/:id',
+    path: 'library/:libraryId',
     component: MyLibraryDetailsComponent,
   },
   {

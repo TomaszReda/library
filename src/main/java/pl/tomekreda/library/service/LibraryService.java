@@ -95,7 +95,7 @@ public class LibraryService {
     public ResponseEntity getLibraryById(UUID libraryID) {
         try {
             Library library = libraryRepository.findById(libraryID).orElse(null);
-            if (userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
+            if (!userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
 

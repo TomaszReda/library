@@ -189,16 +189,4 @@ export class AddLibraryComponent implements OnInit {
 
   }
 
-  isFieldValid(field: string) {
-    return !this.formAddLibrary.get(field).valid && this.formAddLibrary.get(field).touched;
-  }
-
-  displayFieldCss(field: string) {
-    return {
-      'has-error': this.isFieldValid(field),
-      'has-feedback': this.isFieldValid(field)
-    };
-  }
-
-
 }
