@@ -17,10 +17,7 @@ import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddLibraryRequest;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -74,7 +71,7 @@ public class LibraryService {
             List<Map<String, Object>> libraryMap = createLibraryMap(libraryList);
             Pageable pageable = new PageRequest(page, size);
             int max = (size * (page + 1) > libraryMap.size()) ? libraryMap.size() : size * (page + 1);
-            log.info("[Get library list]="+libraryMap);
+            log.info("[Get library list]=" + libraryMap);
 
             Page<List<Map<String, Object>>> pageResult = new PageImpl(libraryMap.subList(size * page, max), pageable, libraryList.size());
             return ResponseEntity.ok(pageResult);
@@ -92,5 +89,19 @@ public class LibraryService {
             listLibrary.add(map);
         }
         return listLibrary;
+    }
+
+
+    public ResponseEntity getLibraryById(UUID libraryID) {
+        try {
+            Library library = libraryRepository.findById(libraryID).orElse(null);
+            if (userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            return ResponseEntity.ok(library);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

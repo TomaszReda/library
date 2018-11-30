@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {MyLibraryComponent} from "./my-library.component";
 import {MyLibraryListComponent} from "./my-library-list/my-library-list.component";
+import {MyLibraryDetailsComponent} from "./my-library-details/my-library-details.component";
 
 const routes: Routes = [
   {
@@ -13,9 +14,18 @@ const routes: Routes = [
         component: MyLibraryListComponent,
 
       }
-    ]
+    ]},
+  {
+    path: 'library/:id',
+    component: MyLibraryDetailsComponent,
+  },
+  {
+    path: 'costam',
+    component: MyLibraryDetailsComponent
   }
-];
+
+]
+;
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

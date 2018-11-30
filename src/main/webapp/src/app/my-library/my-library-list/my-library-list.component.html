@@ -16,7 +16,8 @@
         </thead>
         <tbody>
         <tr *ngFor="let l of libraryPageList">
-          <td>{{l.libraryName}}</td>
+          <td><a routerLink="/myLibrary/library/{{l.libraryId}}">{{l.libraryName}}</a>
+          </td>
           <td>Dodaj ksiązki</td>
           <td>Usuń książki</td>
           <td>Potwierdz rezerwacje</td>
@@ -63,4 +64,6 @@
 </div>
 
 
+
+<router-outlet></router-outlet>
 

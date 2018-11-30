@@ -4,12 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import pl.tomekreda.library.repository.LibraryRepository;
-import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddLibraryRequest;
 import pl.tomekreda.library.service.LibraryService;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
@@ -30,6 +29,13 @@ public class LibraryController {
     @GetMapping("/get/library/list")
     public ResponseEntity getLibraryList(@RequestParam int page, @RequestParam int size) {
         return libraryService.getLibraryList(page, size);
+
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @GetMapping("/get/library/{libraryID}")
+    public ResponseEntity getLibraryById(@RequestParam UUID libraryID) {
+        return libraryService.getLibraryById(libraryID);
 
     }
 
