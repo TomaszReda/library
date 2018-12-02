@@ -1,7 +1,48 @@
 <div class="container">
 
   <div id="page-wrap">
+    <form class="text-center" [formGroup]="formAddBook" (ngSubmit)="addBooks()">
+      <div class="form-group">
+        <label for="author">Autor:</label>
+        <input type="text" class="form-control" id="author" width="100px" formControlName="author"   />
+      </div>
 
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('author').errors && formAddBook.get('author').errors.required">Autor jest wymagany!</p>
+      <div class="form-group">
+        <label for="title">Tytuł:</label>
+        <input type="text" class="form-control" id="title" width="100px" formControlName="title"/>
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('title').errors && formAddBook.get('title').errors.required">Tytuł jest wymagany!</p>
+
+      <div class="form-group">
+        <label for="publisher">Wydawca:</label>
+        <input type="text" class="form-control" id="publisher" width="100px" formControlName="publisher"/>
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('publisher').errors && formAddBook.get('publisher').errors.required">Wydawca jest wymagany!</p>
+
+      <div class="form-group">
+        <label for="date">Opublikowana:</label>
+        <input type="date" class="form-control" id="date" width="100px" formControlName="date"/>
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('date').errors && formAddBook.get('date').errors.required">Data wydania jest wymagana!</p>
+
+      <div class="form-group">
+        <label for="ISBN">ISBN:</label>
+        <input type="text" class="form-control" id="ISBN" width="100px" formControlName="ISBN"/>
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('ISBN').errors && formAddBook.get('ISBN').errors.required">ISBN jest wymagany!</p>
+
+      <div class="form-group">
+        <label for="quant">Ilosc:</label>
+        <input type="number" class="form-control" id="quant" width="100px" value="1" formControlName="quant"/>
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('quant').errors && formAddBook.get('quant').errors.required">Ilość jest wymagana!</p>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('quant').errors && formAddBook.get('quant').errors.min">Musisz dodać minimum 1 książke!</p>
+
+      <button type="submit" class="btn btn-primary button2" class="signupbtn">Dodaj</button>
+      <button type="button" class="btn btn-primary button2" class="cancelbtn" (click)="reset()" >Zresetuj</button>
+      <br/> <br/>
+    </form>
   </div>
 </div>
 
