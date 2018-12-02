@@ -5,10 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.model.user.UserMenager;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -31,9 +34,14 @@ public class Library {
     private String postalCode;
     private String street;
 
+    @OneToMany(mappedBy = "library",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Book> bookList=new ArrayList<>();
+
+
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private  UserMenager userMenager;
+    private UserMenager userMenager;
 
     public Library(String city, String email, String latitude, String local, String longitude, String name, String number, String postalCode, String street) {
         this.city = city;
