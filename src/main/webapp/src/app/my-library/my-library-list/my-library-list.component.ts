@@ -35,6 +35,10 @@ export class MyLibraryListComponent implements OnInit {
     })
   }
 
+  addBook(l) {
+    localStorage.setItem("libraryClickId", l);
+  }
+
   changePage(currentyPage) {
     this.currentyPage = currentyPage - 1;
     this.initLibraryList();
