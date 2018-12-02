@@ -47,6 +47,8 @@ export class AddLibraryComponent implements OnInit {
   addLibrary() {
     this.submitted = true;
     this.errors2 = null;
+    this.success = null;
+
 
     if (!this.formAddLibrary.valid) {
       return "blad";
@@ -62,7 +64,7 @@ export class AddLibraryComponent implements OnInit {
       this.submitted = false;
       this.errors = null;
       this.reset();
-      this.success = "Pomyslnie dodano bibliotekę !";
+      this.success = "Pomyslnie zmieniono dane biblioteki!";
 
 
     }, error1 => {

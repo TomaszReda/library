@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.tomekreda.library.request.AddLibraryRequest;
+import pl.tomekreda.library.request.UpdateLibraryRequest;
 import pl.tomekreda.library.service.LibraryService;
 
 import java.util.UUID;
@@ -22,6 +23,12 @@ public class LibraryController {
     @PostMapping("/add/library")
     public ResponseEntity addLibrary(@RequestBody AddLibraryRequest addLibraryRequest) {
         return libraryService.addLibrary(addLibraryRequest);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @PutMapping("update/library")
+    public ResponseEntity updateLibrary(@RequestBody UpdateLibraryRequest updateLibraryRequest) {
+        return libraryService.updateLibrary(updateLibraryRequest);
     }
 
 

@@ -3,11 +3,12 @@
 <div id="page-wrap">
   <div style="display: flex; justify-content: center;">
 
-    <form class="text-center" [formGroup]="forModifyLibrary" (ngSubmit)="addLibrary()"  >
+    <form class="text-center" [formGroup]="forModifyLibrary" (ngSubmit)="editLibrary()"  >
       <div class="form-group">
         <label for="name">Nazwa:</label>
         <input type="text" class="form-control" id="name"  width="100px" formControlName="name" >
       </div>
+      <p *ngIf="submitted && forModifyLibrary.get('name').errors && forModifyLibrary.get('name').errors.required" class="alert-danger"> Nazwa jest wymagana!  </p>
 
 
       <div class="row">
@@ -18,6 +19,7 @@
         <div class="col">
           <label for="number">Nr:</label>
           <input type="text" class="form-control" id="number" width="20px" formControlName="number"  >
+          <p *ngIf="submitted && forModifyLibrary.get('number').errors && forModifyLibrary.get('number').errors.required" class="alert-danger"> Numer jest wymagany!  </p>
 
         </div>
 
@@ -30,13 +32,18 @@
         <label for="postalCode">Kod pocztowy:</label>
         <input type="text" class="form-control" id="postalCode"  width="100px" formControlName="postalCode"  >
       </div>
+      <p *ngIf="submitted && forModifyLibrary.get('postalCode').errors && forModifyLibrary.get('postalCode').errors.required" class="alert-danger"> Kod pocztowy jest wymagany!  </p>
+
 
       <div class="form-group">
         <label for="city">Miasto:</label>
         <input type="text" class="form-control" id="city"  width="100px" formControlName="city"   >
       </div>
+      <p *ngIf="submitted && forModifyLibrary.get('city').errors && forModifyLibrary.get('city').errors.required" class="alert-danger"> Miasto jest wymagane!  </p>
 
-      <button type="button" (click)="searchOnMap()">Zaznacz na mapie lokalizacje</button>
+
+      <button type="button" (click)="searchOnMap()">Zaznacz na mapie lokalizacje</button><br/>
+      <p class=" alert-danger" *ngIf="notFindInMap">{{notFindInMap}}</p>
       <div id="map" style="width: 100%; height: 40%;margin-top:15px;margin-bottom: 15px;"></div>
 
 
@@ -44,10 +51,14 @@
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email"  width="100px" formControlName="email"  >
       </div>
-
-      <button type="submit" class="btn btn-primary button2" class="signupbtn"  >Zmień daneLS
+      <p *ngIf="submitted && forModifyLibrary.get('email').errors && forModifyLibrary.get('email').errors.required" class="alert-danger"> Email jest wymagana!  </p>
+      <p *ngIf="submitted && forModifyLibrary.get('email').errors && forModifyLibrary.get('email').errors.email" class="alert-danger"> Podaj poprawny email!  </p>
+      <p *ngIf="success" class="alert alert-success">{{success}}</p>
+      <p *ngIf="errors" class="alert alert-danger">{{errors}}</p>
+      <button type="submit" class="btn btn-primary button2" class="signupbtn"  >Zmień dane
       </button>
       <button type="button" class="btn btn-primary button2" class="cancelbtn" (click)="reset()"  >Zresetuj</button>
+
     </form>
   </div>
 

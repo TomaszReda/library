@@ -15,6 +15,7 @@ import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.LibraryRepository;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddLibraryRequest;
+import pl.tomekreda.library.request.UpdateLibraryRequest;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -31,6 +32,33 @@ public class LibraryService {
 
     private final UserService userService;
 
+
+    public ResponseEntity updateLibrary(UpdateLibraryRequest updateLibraryRequest) {
+        try {
+            if (updateLibraryRequest.getLongitude().equals("21.0158") && updateLibraryRequest.getLatitude().equals("52.2051")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Najpierw zaznacz na mapie lokalizacje ");
+            }
+
+
+            log.info("[Update library request]=" + updateLibraryRequest);
+            Library library = libraryRepository.findById(updateLibraryRequest.getLibraryID()).orElse(null);
+            User user = userService.findLoggedUser();
+
+            if (!user.getUserMenager().equals(library.getUserMenager())) {
+                return ResponseEntity.badRequest().build();
+            }
+            library = CreateLibrary(updateLibraryRequest, library, user);
+
+            log.info("[Updated library]=" + library);
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+
+    }
+
+
     public ResponseEntity addLibrary(AddLibraryRequest addLibraryRequest) {
         try {
 
@@ -39,22 +67,9 @@ public class LibraryService {
             }
 
             log.info("[Add library request]=" + addLibraryRequest);
-
             User user = userService.findLoggedUser();
-            Library tmp = new Library();
-            tmp.setCity(addLibraryRequest.getCity());
-            tmp.setEmail(addLibraryRequest.getEmail());
-            tmp.setLatitude(addLibraryRequest.getLatitude());
-            if (addLibraryRequest.getLocal() != null)
-                tmp.setLocal(addLibraryRequest.getLocal());
-            tmp.setLongitude(addLibraryRequest.getLongitude());
-            tmp.setName(addLibraryRequest.getName());
-            tmp.setNumber(addLibraryRequest.getNumber());
-            tmp.setPostalCode(addLibraryRequest.getPostalCode());
-            if (addLibraryRequest.getStreet() != null)
-                tmp.setStreet(addLibraryRequest.getStreet());
-            tmp.setUserMenager(user.getUserMenager());
-            tmp = libraryRepository.save(tmp);
+
+            Library tmp = CreateLibrary(addLibraryRequest, user);
 
             log.info("[Added library]=" + tmp);
             return ResponseEntity.ok().build();
@@ -103,5 +118,42 @@ public class LibraryService {
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+
+    private Library CreateLibrary(AddLibraryRequest addLibraryRequest, User user) {
+        Library tmp = new Library();
+        tmp.setCity(addLibraryRequest.getCity());
+        tmp.setEmail(addLibraryRequest.getEmail());
+        tmp.setLatitude(addLibraryRequest.getLatitude());
+        if (addLibraryRequest.getLocal() != null)
+            tmp.setLocal(addLibraryRequest.getLocal());
+        tmp.setLongitude(addLibraryRequest.getLongitude());
+        tmp.setName(addLibraryRequest.getName());
+        tmp.setNumber(addLibraryRequest.getNumber());
+        tmp.setPostalCode(addLibraryRequest.getPostalCode());
+        if (addLibraryRequest.getStreet() != null)
+            tmp.setStreet(addLibraryRequest.getStreet());
+        tmp.setUserMenager(user.getUserMenager());
+        tmp = libraryRepository.save(tmp);
+        return tmp;
+    }
+
+
+    private Library CreateLibrary(UpdateLibraryRequest updateLibraryRequest, Library library, User user) {
+        library.setCity(updateLibraryRequest.getCity());
+        library.setLatitude(updateLibraryRequest.getLatitude());
+        library.setEmail(updateLibraryRequest.getEmail());
+        if (updateLibraryRequest.getLocal() != null)
+            library.setLocal(updateLibraryRequest.getLocal());
+        library.setName(updateLibraryRequest.getName());
+        library.setLongitude(updateLibraryRequest.getLongitude());
+        library.setNumber(updateLibraryRequest.getNumber());
+        library.setPostalCode(updateLibraryRequest.getPostalCode());
+        library.setUserMenager(user.getUserMenager());
+        if (updateLibraryRequest.getStreet() != null)
+            library.setStreet(updateLibraryRequest.getStreet());
+        library = libraryRepository.save(library);
+        return library;
     }
 }

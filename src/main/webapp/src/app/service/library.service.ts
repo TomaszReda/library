@@ -17,6 +17,10 @@ export class LibraryService {
     return this.http.post(this.url + '/add/library', libraryRequest);
   }
 
+  updateLibrary(libraryRequest) {
+    return this.http.put(this.url + '/update/library', libraryRequest);
+  }
+
 
   gettAllLibrary(page, size) {
     let params = new HttpParams().append('page', page).append("size", size);

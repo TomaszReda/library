@@ -24,7 +24,7 @@ export class MyLibraryDetailsComponent implements OnInit {
 
   errors = null;
 
-  errors2 = null;
+  notFindInMap = null;
 
 
   submitted = false;
@@ -39,6 +39,11 @@ export class MyLibraryDetailsComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.success = null;
+    this.errors = null;
+    this.notFindInMap = null;
+    this.submitted = false;
+
     this.initDetails();
     this.initialize_map(this.mapLng, this.mapLat);
 
@@ -79,8 +84,8 @@ export class MyLibraryDetailsComponent implements OnInit {
           latitude: new FormControl(x.latitude),
           longitude: new FormControl(x.longitude),
         });
-      this.searchOnMap();
-      this.add_map_point(x.latitude,x.longitude);
+        this.searchOnMap();
+        this.add_map_point(x.latitude, x.longitude);
       }
     )
 
@@ -88,9 +93,8 @@ export class MyLibraryDetailsComponent implements OnInit {
 
 
   searchOnMap() {
-    this.success = null;
-
     this.errors = null;
+    this.notFindInMap = null;
     let adress = this.forModifyLibrary.value.city;
     if (this.forModifyLibrary.value.street) {
       adress += '+' + this.forModifyLibrary.value.street;
@@ -113,10 +117,10 @@ export class MyLibraryDetailsComponent implements OnInit {
 
           this.setCenter();
           this.add_map_point(latitude, longitude);
-          this.errors2 = null;
+          this.notFindInMap = null;
 
         } else {
-          this.errors2 = "Nie ma takiej lokalizacji!";
+          this.notFindInMap = "Nie ma takiej lokalizacji!";
           this.mapLat = '52.2051';
           this.mapLng = '21.0158';
           this.setCenter();
@@ -177,7 +181,35 @@ export class MyLibraryDetailsComponent implements OnInit {
   }
 
 
-  addLibrary() {
+  editLibrary() {
+    this.notFindInMap = null;
+    this.submitted = true;
+
+
+    if (!this.forModifyLibrary.valid) {
+      return "blad";
+    }
+
+    const object = this.forModifyLibrary.getRawValue();
+
+    object.latitude = this.mapLat;
+    object.longitude = this.mapLng;
+    object.userID = this.auth.user.id;
+    object.libraryID = this.router.snapshot.paramMap.get("libraryId");
+
+    this.libraryService.updateLibrary(object).subscribe(x => {
+      this.submitted = false;
+      this.errors = null;
+      this.reset();
+      this.success = "Pomyslnie zmieniono dane apteki !";
+
+
+    }, error1 => {
+      this.success = null;
+      this.submitted = true;
+      this.errors = error1.error;
+    });
+
   }
 
   reset() {
