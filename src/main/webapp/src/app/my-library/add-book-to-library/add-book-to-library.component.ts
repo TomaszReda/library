@@ -18,6 +18,8 @@ export class AddBookToLibraryComponent implements OnInit {
 
   public badAdd = null;
 
+  public bookCategory = ['Fantasy', 'Biografie/Autobiografie', 'Młodzieżowa', 'Naukowa', 'Sportowa', 'Bajka', 'Historyczna', 'Horror', 'Przygodowa', 'Inna'];
+
   constructor(private  bookSerice: BookService) {
   }
 
@@ -33,6 +35,7 @@ export class AddBookToLibraryComponent implements OnInit {
       date: new FormControl(null, [Validators.required]),
       isbn: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.required]),
+      bookCategory: new FormControl(this.bookCategory[0]),
       quant: new FormControl(null, [Validators.required, Validators.min(1)]),
     })
   }
@@ -41,15 +44,22 @@ export class AddBookToLibraryComponent implements OnInit {
   addBooks() {
     this.succesAdd = null;
     this.badAdd = null;
+    console.log(this.formAddBook);
     if (this.formAddBook.valid) {
       let object = this.formAddBook.getRawValue();
       object.libraryId = localStorage.getItem('libraryClickId');
       this.bookSerice.addBook(object).subscribe(x => {
         this.succesAdd = "Pomyslnie dodano ksiązki!";
-        this.submit=false;
+        this.submit = false;
         this.initForms();
       }, error1 => {
-        this.badAdd = "Wystapił bład podczas dodowania książek!"
+
+        let tmp = this.formAddBook.value.date;
+        if (tmp.length > 10) {
+          this.badAdd = "Błedny format daty";
+        } else {
+          this.badAdd = "Wystapił bład podczas dodowania książek!";
+        }
       });
     }
     this.submit = true;

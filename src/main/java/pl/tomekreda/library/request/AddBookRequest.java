@@ -16,6 +16,7 @@ public class AddBookRequest {
     private String isbn;
     private int quant;
     private String description;
+    private String bookCategory;
 
 
 }

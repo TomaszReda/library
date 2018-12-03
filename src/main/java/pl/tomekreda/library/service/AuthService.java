@@ -84,7 +84,8 @@ public class AuthService {
             tmp.setLastname(user.getLastname());
             tmp.setPhoneNumber(user.getPhoneNumber());
             tmp.setPassword(passwordEncoder.encode(user.getPassword()));
-
+            UserCasual userCasual = new UserCasual();
+            tmp.setUserCasual(userCasual);
             UserRoles useroles = new UserRoles();
             useroles.setUserRole(UserRoleEnum.CASUAL_USER);
             tmp.getUserRoles().add(useroles);
