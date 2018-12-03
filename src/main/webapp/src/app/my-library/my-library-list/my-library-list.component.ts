@@ -25,6 +25,10 @@ export class MyLibraryListComponent implements OnInit {
     this.initLibraryList();
   }
 
+  setLibrary(l) {
+    localStorage.setItem('libraryId',l);
+  }
+
   initLibraryList() {
     this.libraryService.gettAllLibrary(this.currentyPage, 10).subscribe((x: PageRequest) => {
       this.libraryPageList = x.content;

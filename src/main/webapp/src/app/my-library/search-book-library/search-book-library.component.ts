@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {LibraryPageRequest} from "../../model/page/library.page.request";
 import {Book} from "../../model/book/book.model";
+import {SearchService} from "../../service/search.service";
 
 @Component({
   selector: 'app-search-book-library',
@@ -19,7 +20,7 @@ export class SearchBookLibraryComponent implements OnInit {
 
   public pageNumber = [];
 
-  constructor() {
+  constructor(private searchService: SearchService) {
   }
 
   ngOnInit() {
@@ -31,6 +32,11 @@ export class SearchBookLibraryComponent implements OnInit {
 
   keyDown() {
     if (this.seachForm['word'].length >= 3) {
+      let word = this.seachForm.value.word;
+      this.searchService.search(word, this.currentyPage, 10).subscribe(x => {
+        console.log(x);
+      });
+
     }
   }
 

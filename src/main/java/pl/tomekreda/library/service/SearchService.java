@@ -31,6 +31,7 @@ public class SearchService {
 
     public ResponseEntity search(UUID libraryId,String word, int page, int size) {
         try {
+
             Library library = libraryRepository.findById(libraryId).orElse(null);
             if (!userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
                 return ResponseEntity.badRequest().build();
