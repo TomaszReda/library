@@ -11,5 +11,6 @@ export class Library {
   number?: string
   postalCode?: string
   street?: string
+  isbn?: string
   userMenager?: UserMenager;
 }

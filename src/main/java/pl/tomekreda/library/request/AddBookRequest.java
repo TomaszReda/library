@@ -1,9 +1,8 @@
 package pl.tomekreda.library.request;
 
 import lombok.Data;
-import pl.tomekreda.library.model.book.Book;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -13,8 +12,8 @@ public class AddBookRequest {
     private String author;
     private String title;
     private String publisher;
-    private Date date;
-    private String ISBN;
+    private LocalDate date;
+    private String isbn;
     private int quant;
 
 

@@ -41,7 +41,7 @@ public class BookService {
         book.setTitle(addBookRequest.getTitle());
         book.setPublisher(addBookRequest.getPublisher());
         book.setDate(addBookRequest.getDate());
-        book.setISBN(addBookRequest.getISBN());
+        book.setISBN(addBookRequest.getIsbn());
         book.setQuant(addBookRequest.getQuant());
 
         return book;

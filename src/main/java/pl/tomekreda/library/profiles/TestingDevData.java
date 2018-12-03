@@ -4,15 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.model.user.UserMenager;
 import pl.tomekreda.library.model.user.UserRoleEnum;
 import pl.tomekreda.library.model.user.UserRoles;
+import pl.tomekreda.library.repository.BookRepository;
 import pl.tomekreda.library.repository.LibraryRepository;
 import pl.tomekreda.library.repository.UserRepository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Component
 @TestProfile
@@ -28,6 +32,9 @@ public class TestingDevData implements CommandLineRunner {
 
     @Autowired
     private LibraryRepository libraryRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -60,14 +67,80 @@ public class TestingDevData implements CommandLineRunner {
     }
 
 
+    private void createBook(Library library) {
+
+        Book book = new Book("Henryk Sienkiewicz", "W pustyni i w puszczy", "PWD", LocalDate.of(1992, 12, 11), "12342", 1);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Jakub Żulczyk", "Ślepnąc od świateł", "ZNAK", LocalDate.of(1996, 10, 11), "132322", 6);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Jakub Żulczyk", "Ślepnąc od świateł", "PWD", LocalDate.of(1998, 10, 11), "124563", 3);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Rafał Wicijowski ", "Oczami Mężczyzny", "PZWL", LocalDate.of(1999, 2, 3), "5123", 1);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Rafał Wicijowski ", "Oczami Mężczyzny", "jaguar", LocalDate.of(2006, 3, 7), "32212", 9);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123422", 7);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnice", "ZNAK", LocalDate.of(1992, 9, 6), "123432", 1);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnice", "PWD", LocalDate.of(1998, 10, 3), "123242", 2);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnice", "PZWL", LocalDate.of(1995, 12, 2), "123342", 3);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12);
+        book.setLibrary(library);
+        bookRepository.save(book);
+
+    }
+
+
     private void addLibrary(User owner) {
         Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie", "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library);
+        library = libraryRepository.save(library);
+        this.createBook(library);
+
 
         Library library2 = new Library("Warszawa", "tomekreda@op.pl", "52.2631523", "101", "21.0288848266558", "Ksiazeczka", "11", "05-077 Warszawa", "Józefa Szanajcy");
         library2.setUserMenager(owner.getUserMenager());
         libraryRepository.save(library2);
+        this.createBook(library2);
+
 
         library2 = new Library("Warszawa", "tomekreda@op.pl", "52.2319237", null, "21.0067265", "Czytanko", "26", "02-512 Warszawa", "Puławska");
         library2.setUserMenager(owner.getUserMenager());

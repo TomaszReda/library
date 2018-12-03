@@ -27,10 +27,10 @@
       <p class="alert alert-danger" *ngIf="submit && formAddBook.get('date').errors && formAddBook.get('date').errors.required">Data wydania jest wymagana!</p>
 
       <div class="form-group">
-        <label for="ISBN">ISBN:</label>
-        <input type="text" class="form-control" id="ISBN" width="100px" formControlName="ISBN"/>
+        <label for="isbn">ISBN:</label>
+        <input type="text" class="form-control" id="isbn" width="100px" formControlName="isbn"/>
       </div>
-      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('ISBN').errors && formAddBook.get('ISBN').errors.required">ISBN jest wymagany!</p>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('isbn').errors && formAddBook.get('isbn').errors.required">ISBN jest wymagany!</p>
 
       <div class="form-group">
         <label for="quant">Ilosc:</label>
