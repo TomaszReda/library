@@ -1,6 +1,7 @@
 package pl.tomekreda.library.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class BookService {
 
     private final BookRepository bookRepository;
@@ -31,10 +33,12 @@ public class BookService {
 
     public ResponseEntity addBook(AddBookRequest addBookRequest) {
         try {
+            log.info("[Add book request]="+addBookRequest);
             Library library = libraryRepository.findById(addBookRequest.getLibraryId()).orElse(null);
             Book tmp = createBook(addBookRequest, library);
             bookRepository.save(tmp);
 
+            log.info("[Added book]="+tmp);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
