@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {NgForm} from "@angular/forms";
+import {LibraryPageRequest} from "../../model/page/library.page.request";
+import {Book} from "../../model/book/book.model";
 
 @Component({
   selector: 'app-search-book-library',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchBookLibraryComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild("search")
+  public seachForm: NgForm;
+
+  public bookPageList: Array<Book>;
+
+  public currentyPage = 0;
+
+  public pageNumber = [];
+
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+
+  onSubmit() {
+  }
+
+  keyDown() {
+    console.log(this.seachForm.word );
+    if (this.seachForm.word.length >= 3) {
+    }
   }
 
 }
