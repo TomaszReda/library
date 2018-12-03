@@ -16,5 +16,5 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
 
 
     Page<List<Book>> findAllByBookStateAndLibraryAndTitleIsContaining(BookState state, Library library, String word, Pageable pageable);
-
+    Page<List<Book>> findAllByBookStateAndLibrary(BookState bookState,Library library, Pageable pageable);
 }

@@ -29,7 +29,7 @@ public class SearchService {
     private final UserService userService;
 
 
-    public ResponseEntity search(UUID libraryId,String word, int page, int size) {
+    public ResponseEntity search(UUID libraryId, String word, int page, int size) {
         try {
 
             Library library = libraryRepository.findById(libraryId).orElse(null);
@@ -38,11 +38,31 @@ public class SearchService {
             }
 
             Pageable pageable = new PageRequest(page, size);
-            Page<List<Book>> pageResult =bookRepository.findAllByBookStateAndLibraryAndTitleIsContaining(BookState.NOTRESERVED, library, word,pageable);
+            Page<List<Book>> pageResult = bookRepository.findAllByBookStateAndLibraryAndTitleIsContaining(BookState.NOTRESERVED, library, word, pageable);
+
 
             return ResponseEntity.ok(pageResult);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    public ResponseEntity searchAll(UUID libraryId, int page, int size) {
+        try {
+            Library library = libraryRepository.findById(libraryId).orElse(null);
+            if (!userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            Pageable pageablee = new PageRequest(page, size);
+            Page<List<Book>> pageResult = bookRepository.findAllByBookStateAndLibrary(BookState.NOTRESERVED, library,  pageablee);
+
+
+            return ResponseEntity.ok(pageResult);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
 }

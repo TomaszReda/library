@@ -19,8 +19,12 @@ public class SearchController {
 
 
     @GetMapping("/search/library/{libraryId}")
-    public ResponseEntity search(@PathVariable UUID libraryId, @RequestParam String word , @RequestParam int page, @RequestParam int size) {
-        return searchService.search(libraryId,word, page, size);
+    public ResponseEntity search(@PathVariable UUID libraryId, @RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
+            if (word.length() < 3 || word.equals(null))
+            return searchService.searchAll(libraryId, page, size);
+        else
+            return searchService.search(libraryId, word, page, size);
+
     }
 
 }
