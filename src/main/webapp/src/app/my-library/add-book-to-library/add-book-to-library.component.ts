@@ -45,6 +45,8 @@ export class AddBookToLibraryComponent implements OnInit {
       object.libraryId = localStorage.getItem('libraryClickId');
       this.bookSerice.addBook(object).subscribe(x => {
         this.succesAdd = "Pomyslnie dodano ksiązki!";
+        this.submit=false;
+        this.initForms();
       }, error1 => {
         this.badAdd = "Wystapił bład podczas dodowania książek!"
       });
