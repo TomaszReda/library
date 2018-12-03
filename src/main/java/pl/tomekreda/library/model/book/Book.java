@@ -1,7 +1,9 @@
 package pl.tomekreda.library.model.book;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,8 +24,18 @@ public class Book {
     private String ISBN;
     private int quant;
 
+    @Column(length = 4096)
+    private String description;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Library library;
+
+    @Enumerated(EnumType.STRING)
+    private BookState bookState;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private User user;
 
     public Book(String author, String title, String publisher, LocalDate date, String ISBN, int quant) {
         this.author = author;

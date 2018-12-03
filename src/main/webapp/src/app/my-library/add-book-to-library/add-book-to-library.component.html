@@ -21,6 +21,13 @@
       <p class="alert alert-danger" *ngIf="submit && formAddBook.get('publisher').errors && formAddBook.get('publisher').errors.required">Wydawca jest wymagany!</p>
 
       <div class="form-group">
+        <label for="description">Opis:</label>
+        <textarea type="text" class="form-control" id="description" width="100px" maxlength="4999" formControlName="description"> </textarea>
+
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('description').errors && formAddBook.get('description').errors.required">Opis jest wymagany!</p>
+
+      <div class="form-group">
         <label for="date">Opublikowana:</label>
         <input type="date" class="form-control" id="date" width="100px" formControlName="date"/>
       </div>

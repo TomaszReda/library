@@ -32,6 +32,7 @@ export class AddBookToLibraryComponent implements OnInit {
       publisher: new FormControl(null, [Validators.required]),
       date: new FormControl(null, [Validators.required]),
       isbn: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, [Validators.required]),
       quant: new FormControl(null, [Validators.required, Validators.min(1)]),
     })
   }

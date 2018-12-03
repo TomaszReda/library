@@ -1,11 +1,12 @@
 package pl.tomekreda.library.model.user;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.book.Book;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +43,9 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<UserRoles> userRoles = new ArrayList<>();
 
-
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Book> bookList = new ArrayList<>();
 
     public User() {
     }

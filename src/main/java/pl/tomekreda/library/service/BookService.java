@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.book.Book;
+import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.repository.BookRepository;
 import pl.tomekreda.library.repository.LibraryRepository;
@@ -40,7 +41,9 @@ public class BookService {
         book.setAuthor(addBookRequest.getAuthor());
         book.setTitle(addBookRequest.getTitle());
         book.setPublisher(addBookRequest.getPublisher());
+        book.setBookState(BookState.NOTRESERVED);
         book.setDate(addBookRequest.getDate());
+        book.setDescription(addBookRequest.getDescription());
         book.setISBN(addBookRequest.getIsbn());
         book.setQuant(addBookRequest.getQuant());
 

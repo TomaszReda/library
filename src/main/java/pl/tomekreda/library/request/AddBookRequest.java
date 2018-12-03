@@ -15,6 +15,7 @@ public class AddBookRequest {
     private LocalDate date;
     private String isbn;
     private int quant;
+    private String description;
 
 
 }
