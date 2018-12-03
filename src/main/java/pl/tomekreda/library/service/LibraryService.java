@@ -89,6 +89,7 @@ public class LibraryService {
             log.info("[Get library list]=" + libraryMap);
 
             Page<List<Map<String, Object>>> pageResult = new PageImpl(libraryMap.subList(size * page, max), pageable, libraryList.size());
+
             return ResponseEntity.ok(pageResult);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();

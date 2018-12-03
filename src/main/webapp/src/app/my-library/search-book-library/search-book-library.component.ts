@@ -30,8 +30,7 @@ export class SearchBookLibraryComponent implements OnInit {
   }
 
   keyDown() {
-    console.log(this.seachForm.word );
-    if (this.seachForm.word.length >= 3) {
+    if (this.seachForm['word'].length >= 3) {
     }
   }
 
