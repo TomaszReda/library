@@ -17,7 +17,7 @@ export class SearchBookLibraryComponent implements OnInit {
   @ViewChild("search")
   public seachForm: NgForm;
 
-  public bookPageList: Array<Book>;
+  public bookPageList: Array<Book>=new Array<Book>();
 
   public currentyPage = 0;
 
@@ -32,10 +32,16 @@ export class SearchBookLibraryComponent implements OnInit {
 
 
   onSubmit() {
+    if(this.seachForm.invalid)
+      this.currentyPage=0;
+
     this.resultSearch();
   }
 
   keyDown() {
+    if(this.seachForm.invalid)
+      this.currentyPage=0;
+
     this.resultSearch();
 
   }
@@ -48,11 +54,13 @@ export class SearchBookLibraryComponent implements OnInit {
         word="";
       }
       this.searchService.search(word, this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
+        console.log(x.content);
         this.bookPageList = x.content;
-        this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
-        if (x.totalElements === 1) {
-          this.pageNumber = null;
-        }
+
+
+          this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+
+
       });
 
 

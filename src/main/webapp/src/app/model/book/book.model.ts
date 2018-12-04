@@ -7,4 +7,6 @@ export class Book {
   publisher?: string;
   date?: Date;
   quant?: number;
+  bookState?: string;
+  bookId?: string;
 }

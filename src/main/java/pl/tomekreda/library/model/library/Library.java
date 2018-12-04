@@ -34,7 +34,7 @@ public class Library {
     private String postalCode;
     private String street;
 
-    @OneToMany(mappedBy = "library",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "library",cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Book> bookList=new ArrayList<>();
 
@@ -61,7 +61,6 @@ public class Library {
     @Override
     public String toString() {
         return "Library{" +
-                "ID=" + ID +
                 ", city='" + city + '\'' +
                 ", email='" + email + '\'' +
                 ", latitude='" + latitude + '\'' +
