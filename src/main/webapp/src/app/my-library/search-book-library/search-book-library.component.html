@@ -5,7 +5,7 @@
 
     <!-- The form -->
     <form (ngSubmit)="onSubmit()" class="example" #search="ngForm">
-      <input type="text" placeholder="Search.." id="word" name="word" [(ngModel)]="search.word" #word="ngModel" (keyup)="keyDown()" minlength="3">
+      <input type="text" placeholder="Wyszukaj po tytule" id="word" name="word" [(ngModel)]="search.word" #word="ngModel" (keyup)="keyDown()" minlength="3">
       <button type="submit" ><i class="fa fa-search"></i></button>
     </form>
     <p class="alert alert-danger" *ngIf="word.dirty && word.errors && word.errors.minlength">Podaj przynajmniej 3 znaki!</p>
@@ -17,7 +17,7 @@
     <table class="table table-bordered ">
       <thead>
       <tr>
-        <th scope="col">Nazwa</th>
+        <th scope="col">Tytuł</th>
         <th scope="col">Autor</th>
         <th scope="col">Wydawnictwo</th>
         <th scope="col">Szczegóły</th>
