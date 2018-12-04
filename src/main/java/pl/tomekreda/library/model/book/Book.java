@@ -66,7 +66,6 @@ public class Book {
                 ", description='" + description + '\'' +
                 ", bookState=" + bookState +
                 ", userCasual=" + userCasual +
-                ", bookCategory=" + bookCategory +
                 '}';
     }
 }

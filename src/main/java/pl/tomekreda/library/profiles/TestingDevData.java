@@ -60,6 +60,8 @@ public class TestingDevData implements CommandLineRunner {
         owner2.getUserRoles().add(userOwner2Role);
         userRepository.save(owner2);
 
+        addLibrary(owner2);
+
         User casual = new User("Kasia", "Reda", "worker@local", 123456789, passwordEncoder.encode("password"));
         UserRoles userCasualRole = new UserRoles();
         userCasualRole.setUserRole(UserRoleEnum.CASUAL_USER);
@@ -225,7 +227,6 @@ public class TestingDevData implements CommandLineRunner {
         library2.setUserMenager(owner.getUserMenager());
         libraryRepository.save(library2);
         this.createBook(library2);
-
 
         library2 = new Library("Warszawa", "tomekreda@op.pl", "52.2319237", null, "21.0067265", "Czytanko", "26", "02-512 Warszawa", "Puławska");
         library2.setUserMenager(owner.getUserMenager());
