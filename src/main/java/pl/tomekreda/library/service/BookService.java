@@ -16,6 +16,7 @@ import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddBookRequest;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -33,12 +34,12 @@ public class BookService {
 
     public ResponseEntity addBook(AddBookRequest addBookRequest) {
         try {
-            log.info("[Add book request]="+addBookRequest);
+            log.info("[Add book request]=" + addBookRequest);
             Library library = libraryRepository.findById(addBookRequest.getLibraryId()).orElse(null);
             Book tmp = createBook(addBookRequest, library);
             bookRepository.save(tmp);
 
-            log.info("[Added book]="+tmp);
+            log.info("[Added book]=" + tmp);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
@@ -47,7 +48,7 @@ public class BookService {
 
 
     private Book createBook(AddBookRequest addBookRequest, Library library) {
-        BookCategory bookCategory= bookCategoryRepository.findFirstByCategoryType(addBookRequest.getBookCategory());
+        BookCategory bookCategory = bookCategoryRepository.findFirstByCategoryType(addBookRequest.getBookCategory());
         Book book = new Book();
         book.setBookCategory(bookCategory);
         book.setLibrary(library);
@@ -61,6 +62,26 @@ public class BookService {
         book.setQuant(addBookRequest.getQuant());
 
         return book;
+    }
+
+
+    public ResponseEntity deleteBook(UUID bookId) {
+        try {
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
+    public ResponseEntity detailsBook(UUID bookId) {
+        try {
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }
