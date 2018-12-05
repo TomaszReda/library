@@ -5,6 +5,7 @@ import {MyLibraryListComponent} from "./my-library-list/my-library-list.componen
 import {MyLibraryDetailsComponent} from "./my-library-details/my-library-details.component";
 import {AddBookToLibraryComponent} from "./add-book-to-library/add-book-to-library.component";
 import {SearchBookLibraryComponent} from "./search-book-library/search-book-library.component";
+import {BookDetailsComponent} from "./book-details/book-details.component";
 
 const routes: Routes = [
     {
@@ -29,6 +30,10 @@ const routes: Routes = [
     {
       path: 'library/search/book',
       component: SearchBookLibraryComponent
+    },
+    {
+      path:"library/book/:bookId/details",
+      component: BookDetailsComponent
     }
 
   ]

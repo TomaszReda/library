@@ -32,7 +32,7 @@
         <td>{{b.publisher}}</td>
         <td>{{b.bookState}}</td>
         <td>{{b.quant}}</td>
-        <td><button>Szczegóły</button></td>
+        <td><button routerLink="library/book/{{b.bookIdve}}/details" (click)="details(b.bookId)">Szczegóły</button></td>
       </tr>
       </tbody>
     </table>

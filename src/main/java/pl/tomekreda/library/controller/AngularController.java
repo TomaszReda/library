@@ -70,4 +70,8 @@ public class AngularController {
         return "forward:/index.html";
     }
 
+    @GetMapping("/myLibrary/library/book/{bookId}/details")
+    public String bookDetails(Model model,@PathVariable UUID bookId) {
+        return "forward:/index.html";
+    }
 }

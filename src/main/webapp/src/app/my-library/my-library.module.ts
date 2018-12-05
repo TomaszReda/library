@@ -8,6 +8,7 @@ import { MyLibraryDetailsComponent } from './my-library-details/my-library-detai
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AddBookToLibraryComponent } from './add-book-to-library/add-book-to-library.component';
 import { SearchBookLibraryComponent } from './search-book-library/search-book-library.component';
+import { BookDetailsComponent } from './book-details/book-details.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { SearchBookLibraryComponent } from './search-book-library/search-book-li
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [MyLibraryComponent, MyLibraryListComponent, MyLibraryDetailsComponent, AddBookToLibraryComponent, SearchBookLibraryComponent]
+  declarations: [MyLibraryComponent, MyLibraryListComponent, MyLibraryDetailsComponent, AddBookToLibraryComponent, SearchBookLibraryComponent, BookDetailsComponent]
 })
 export class MyLibraryModule { }

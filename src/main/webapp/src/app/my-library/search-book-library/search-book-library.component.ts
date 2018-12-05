@@ -1,11 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
-import {LibraryPageRequest} from "../../model/page/library.page.request";
 import {Book} from "../../model/book/book.model";
 import {SearchService} from "../../service/search.service";
 import {BookRequestSearch} from "../../model/book/book.request";
-import {LibraryService} from "../../service/library.service";
 import {PageServiceService} from "../../service/page-service.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-search-book-library',
@@ -17,51 +16,55 @@ export class SearchBookLibraryComponent implements OnInit {
   @ViewChild("search")
   public seachForm: NgForm;
 
-  public bookPageList: Array<Book>=new Array<Book>();
+  public bookPageList: Array<Book> = new Array<Book>();
 
   public currentyPage = 0;
 
   public pageNumber = [];
 
-  constructor(private searchService: SearchService, private pageService: PageServiceService) {
+  constructor(private searchService: SearchService, private pageService: PageServiceService,private router:Router) {
   }
 
   ngOnInit() {
-   this.resultSearch();
+    this.resultSearch();
   }
 
 
   onSubmit() {
-    if(this.seachForm.invalid)
-      this.currentyPage=0;
+    if (this.seachForm.invalid)
+      this.currentyPage = 0;
 
     this.resultSearch();
   }
 
   keyDown() {
-    if(this.seachForm.invalid)
-      this.currentyPage=0;
+    if (this.seachForm.invalid)
+      this.currentyPage = 0;
 
     this.resultSearch();
 
   }
 
-  resultSearch(){
+  details(bookId) {
+    this.router.navigate(["/myLibrary/library/book/"+bookId+"/details"]);
+  }
+
+  resultSearch() {
     this.bookPageList = null;
 
-      let word = this.seachForm.value.word;
-      if(word==null){
-        word="";
-      }
-      this.searchService.search(word, this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
-        console.log(x.content);
-        this.bookPageList = x.content;
+    let word = this.seachForm.value.word;
+    if (word == null) {
+      word = "";
+    }
+    this.searchService.search(word, this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
+      console.log(x.content);
+      this.bookPageList = x.content;
 
 
-          this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
 
 
-      });
+    });
 
 
   }

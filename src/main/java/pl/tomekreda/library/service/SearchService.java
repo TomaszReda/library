@@ -10,11 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.book.Book;
-import pl.tomekreda.library.model.book.BookCategory;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.repository.BookRepository;
 import pl.tomekreda.library.repository.LibraryRepository;
+import pl.tomekreda.library.utils.Utils;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -86,13 +86,14 @@ public class SearchService {
 
     private List<Map<String, Object>> createBook(List<Book> bookList) {
         List<Map<String, Object>> listLibrary = new ArrayList<>();
+        Utils utils=new Utils();
         for (Book b : bookList) {
             Map<String, Object> map = new HashMap<>();
             map.put("author", b.getAuthor());
             map.put("title", b.getTitle());
             map.put("publisher", b.getPublisher());
             map.put("libraryId", b.getLibrary().getID());
-            map.put("bookState", convert(b.getBookState()));
+            map.put("bookState", utils.convert(b.getBookState()));
             map.put("quant", b.getQuant());
             map.put("bookId", b.getID());
             listLibrary.add(map);
@@ -101,19 +102,6 @@ public class SearchService {
     }
 
 
-    private String convert(BookState bookState) {
-        String state = "";
-        if (bookState.equals(BookState.BOOKED)) {
-            state = "Zarezerwowana";
-        } else if (bookState.equals(BookState.CONFIRMED)) {
-            state = "Wyporzyczona";
-        } else if (bookState.equals(BookState.NOTRESERVED)) {
-            state = "Dostępna";
-        } else {
-            state = "Usunieta";
-        }
-        return state;
-    }
 
 }
 
