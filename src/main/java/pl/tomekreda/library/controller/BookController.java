@@ -25,7 +25,7 @@ public class BookController {
 
     @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
     @PostMapping("/book/{bookId}/delete/")
-    public ResponseEntity deleteBook(@RequestBody String quant,@PathVariable UUID bookId) {
+    public ResponseEntity deleteBook(@RequestBody int quant,@PathVariable UUID bookId) {
         return bookService.deleteBook(bookId,quant);
     }
 

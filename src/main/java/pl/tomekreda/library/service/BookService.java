@@ -71,7 +71,7 @@ public class BookService {
     }
 
 
-    public ResponseEntity deleteBook(UUID bookId,String quant) {
+    public ResponseEntity deleteBook(UUID bookId, int quant) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
             if (!userService.findLoggedUser().getUserMenager().equals(book.getLibrary().getUserMenager())) {
@@ -80,14 +80,46 @@ public class BookService {
             if (book.getBookState().equals(BookState.CONFIRMED) || book.getBookState().equals(BookState.BOOKED)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Ksiązka jest juz przez kogoś zarezerwowana lub jest wyporzyczona");
             }
-            book.setBookState(BookState.DELETE);
-            book = bookRepository.save(book);
+
+            if (quant < 1 && quant > book.getQuant()) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            if(book.getQuant()-quant==0){
+                book.setBookState(BookState.DELETE);
+                bookRepository.save(book);
+            }
+            else{
+                Book tmp = copyBook(book);
+                book.setBookState(BookState.DELETE);
+                book.setQuant(quant);
+                bookRepository.save(book);
+                tmp.setQuant(tmp.getQuant()-quant);
+                bookRepository.save(tmp);
+                log.info("[Delete book stay]="+tmp);
+            }
+
 
             log.info("[Delete book]=" + book);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    Book copyBook(Book book){
+        Book tmp=new Book();
+        tmp.setQuant(book.getQuant());
+        tmp.setBookState(book.getBookState());
+        tmp.setLibrary(book.getLibrary());
+        tmp.setISBN(book.getISBN());
+        tmp.setPublisher(book.getPublisher());
+        tmp.setTitle(book.getTitle());
+        tmp.setAuthor(book.getAuthor());
+        tmp.setBookCategory(book.getBookCategory());
+        tmp.setDate(book.getDate());
+        tmp.setDescription(book.getDescription());
+        return tmp;
     }
 
 
@@ -117,7 +149,7 @@ public class BookService {
         tmp.put(Book.class.getDeclaredField("date").getName(), book.getDate());
         tmp.put(Book.class.getDeclaredField("ISBN").getName(), book.getISBN());
         tmp.put(Book.class.getDeclaredField("quant").getName(), book.getQuant());
-        tmp.put(Book.class.getDeclaredField("description").getName(),book.getDescription());
+        tmp.put(Book.class.getDeclaredField("description").getName(), book.getDescription());
         tmp.put(BookCategory.class.getDeclaredField("categoryType").getName(), book.getBookCategory().getCategoryType());
         tmp.put(Book.class.getDeclaredField("bookState").getName(), utils.convert(book.getBookState()));
 

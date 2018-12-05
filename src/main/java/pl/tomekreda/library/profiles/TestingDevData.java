@@ -41,6 +41,7 @@ public class TestingDevData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        this.createBookCategory();
 
         User owner = new User("Tomek", "Reda", "owner@local", 123456789, passwordEncoder.encode("password"));
         UserRoles userOwnerRole = new UserRoles();
@@ -119,7 +120,7 @@ public class TestingDevData implements CommandLineRunner {
         book.setBookState(BookState.NOTRESERVED);
         bookRepository.save(book);
 
-        book = new Book("Jakub Żulczyk", "Ślepnąc od świateł", "ZNAK", LocalDate.of(1996, 10, 11), "132322", 6);
+        book = new Book("Jakub Żulczyk", "test Ślepnąc od świateł", "ZNAK", LocalDate.of(1996, 10, 11), "132322", 6);
         book.setLibrary(library);
         book.setDescription("Opis");
         book.setBookCategory(bookCategory);
@@ -215,7 +216,6 @@ public class TestingDevData implements CommandLineRunner {
 
 
     private void addLibrary(User owner) {
-        this.createBookCategory();
         Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie", "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
         library = libraryRepository.save(library);
