@@ -1,43 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Diagram>
   <ID>JAVA</ID>
-  <OriginalElement>pl.tomekreda.library.model.user</OriginalElement>
+  <OriginalElement>pl.tomekreda.library.model</OriginalElement>
   <nodes>
-    <node x="0.0" y="622.0">pl.tomekreda.library.model.user.Credentials</node>
-    <node x="582.0" y="0.0">pl.tomekreda.library.model.user.AuthenticationResponse</node>
-    <node x="46.35000000000002" y="0.0">pl.tomekreda.library.model.user.UserRoleEnum</node>
-    <node x="0.0" y="177.0">pl.tomekreda.library.model.user.UserRoles</node>
-    <node x="253.0" y="189.0">pl.tomekreda.library.model.user.UserMenager</node>
-    <node x="230.5" y="306.0">pl.tomekreda.library.model.user.User</node>
-    <node x="413.0" y="189.0">pl.tomekreda.library.model.user.UserCasual</node>
+    <node x="553.0" y="536.0">pl.tomekreda.library.model.AuthenticationResponse</node>
+    <node x="0.0" y="536.0">pl.tomekreda.library.model.UserRoles</node>
+    <node x="1024.857142857143" y="459.7142857142857">pl.tomekreda.library.model.BookCategory</node>
+    <node x="312.0" y="0.0">pl.tomekreda.library.model.Library</node>
+    <node x="612.0" y="0.0">pl.tomekreda.library.model.User</node>
+    <node x="0.0" y="364.0">pl.tomekreda.library.model.UserRoleEnum</node>
+    <node x="0.0" y="0.0">pl.tomekreda.library.model.Book</node>
+    <node x="278.0" y="536.0">pl.tomekreda.library.model.UserMenager</node>
+    <node x="254.0" y="660.0">pl.tomekreda.library.model.Credentials</node>
+    <node x="204.0" y="364.0">pl.tomekreda.library.model.BookState</node>
+    <node x="0.0" y="660.0">pl.tomekreda.library.model.UserCasual</node>
   </nodes>
   <notes />
-  <edges>
-    <edge source="pl.tomekreda.library.model.user.UserRoles" target="pl.tomekreda.library.model.user.UserRoleEnum">
-      <point x="58.25" y="-39.5" />
-      <point x="174.75" y="152.0" />
-      <point x="165.60000000000002" y="152.0" />
-      <point x="39.75" y="63.5" />
-    </edge>
-    <edge source="pl.tomekreda.library.model.user.User" target="pl.tomekreda.library.model.user.UserCasual">
-      <point x="102.0" y="-135.5" />
-      <point x="460.0" y="281.0" />
-      <point x="506.0" y="281.0" />
-      <point x="31.0" y="27.5" />
-    </edge>
-    <edge source="pl.tomekreda.library.model.user.User" target="pl.tomekreda.library.model.user.UserMenager">
-      <point x="0.0" y="-135.5" />
-      <point x="35.0" y="27.5" />
-    </edge>
-    <edge source="pl.tomekreda.library.model.user.User" target="pl.tomekreda.library.model.user.UserRoles">
-      <point x="-102.0" y="-135.5" />
-      <point x="256.0" y="281.0" />
-      <point x="116.5" y="281.0" />
-      <point x="0.0" y="39.5" />
-    </edge>
-  </edges>
-  <settings layout="Hierarchic Group" zoom="0.9599167822468793" x="370.6220333393925" y="398.94466117613064" />
-  <SelectedNodes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="703.0" y="529.4285714285713" />
+  <SelectedNodes>
+    <node>pl.tomekreda.library.model.BookCategory</node>
+  </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
   </Categories>
