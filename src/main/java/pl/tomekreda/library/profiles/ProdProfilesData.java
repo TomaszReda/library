@@ -3,7 +3,7 @@ package pl.tomekreda.library.profiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import pl.tomekreda.library.model.BookCategory;
+import pl.tomekreda.library.model.book.BookCategory;
 import pl.tomekreda.library.repository.BookCategoryRepository;
 
 import javax.transaction.Transactional;

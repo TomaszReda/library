@@ -1,7 +1,8 @@
-package pl.tomekreda.library.model;
+package pl.tomekreda.library.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import pl.tomekreda.library.model.book.Book;
 
 import javax.persistence.*;
 import java.io.Serializable;

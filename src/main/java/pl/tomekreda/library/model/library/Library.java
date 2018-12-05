@@ -1,8 +1,13 @@
-package pl.tomekreda.library.model;
+package pl.tomekreda.library.model.library;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import pl.tomekreda.library.model.book.Book;
+import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.model.user.UserMenager;
 
 import javax.persistence.*;
 import java.util.ArrayList;

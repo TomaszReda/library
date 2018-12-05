@@ -1,7 +1,9 @@
-package pl.tomekreda.library.model;
+package pl.tomekreda.library.model.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.user.UserCasual;
 
 import javax.persistence.*;
 import java.time.LocalDate;

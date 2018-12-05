@@ -3,9 +3,15 @@ package pl.tomekreda.library.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
-import pl.tomekreda.library.model.AuthenticationResponse;
-import pl.tomekreda.library.model.Credentials;
+import pl.tomekreda.library.model.user.AuthenticationResponse;
+import pl.tomekreda.library.model.user.Credentials;
 import pl.tomekreda.library.request.AddUserCasualRequest;
 import pl.tomekreda.library.request.AddUserLibraryOwnerRequest;
 import pl.tomekreda.library.service.AuthService;

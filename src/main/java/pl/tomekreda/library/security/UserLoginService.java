@@ -6,12 +6,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import pl.tomekreda.library.model.User;
-import pl.tomekreda.library.model.UserRoles;
+import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.model.user.UserRoles;
 import pl.tomekreda.library.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class UserLoginService implements UserDetailsService {
 
