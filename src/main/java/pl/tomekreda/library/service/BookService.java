@@ -71,7 +71,7 @@ public class BookService {
     }
 
 
-    public ResponseEntity deleteBook(UUID bookId) {
+    public ResponseEntity deleteBook(UUID bookId,String quant) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
             if (!userService.findLoggedUser().getUserMenager().equals(book.getLibrary().getUserMenager())) {
@@ -94,9 +94,11 @@ public class BookService {
     public ResponseEntity detailsBook(UUID bookId) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
+
             if (!userService.findLoggedUser().getUserMenager().equals(book.getLibrary().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
+
             Map<String, Object> bookDetails = createMap(book);
             log.info("[Book details]=" + bookDetails);
             return ResponseEntity.ok(bookDetails);
@@ -107,6 +109,7 @@ public class BookService {
 
     private Map<String, Object> createMap(Book book) throws NoSuchFieldException {
         Utils utils = new Utils();
+
         Map<String, Object> tmp = new HashMap<>();
         tmp.put(Book.class.getDeclaredField("author").getName(), book.getAuthor());
         tmp.put(Book.class.getDeclaredField("title").getName(), book.getTitle());
@@ -114,9 +117,9 @@ public class BookService {
         tmp.put(Book.class.getDeclaredField("date").getName(), book.getDate());
         tmp.put(Book.class.getDeclaredField("ISBN").getName(), book.getISBN());
         tmp.put(Book.class.getDeclaredField("quant").getName(), book.getQuant());
-        tmp.put(Book.class.getDeclaredField("categoryType").getName(), book.getBookCategory().getCategoryType());
+        tmp.put(Book.class.getDeclaredField("description").getName(),book.getDescription());
+        tmp.put(BookCategory.class.getDeclaredField("categoryType").getName(), book.getBookCategory().getCategoryType());
         tmp.put(Book.class.getDeclaredField("bookState").getName(), utils.convert(book.getBookState()));
-
 
         return tmp;
     }

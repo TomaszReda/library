@@ -77,6 +77,5 @@ export class PageServiceService {
 // }
 //
 // let pages = Array.from(Array((end + 1) - start).keys()).map(i => start + i);
-// console.log(pages);
 // return tmp;
 }

@@ -46,6 +46,7 @@ export class SearchBookLibraryComponent implements OnInit {
   }
 
   details(bookId) {
+    localStorage.setItem("bookId",bookId);
     this.router.navigate(["/myLibrary/library/book/"+bookId+"/details"]);
   }
 
@@ -57,7 +58,6 @@ export class SearchBookLibraryComponent implements OnInit {
       word = "";
     }
     this.searchService.search(word, this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
-      console.log(x.content);
       this.bookPageList = x.content;
 
 

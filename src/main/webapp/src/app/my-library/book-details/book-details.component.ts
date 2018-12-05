@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {BookService} from "../../service/book.service";
+import {Book} from "../../model/book/book.model";
 
 @Component({
   selector: 'app-book-details',
@@ -7,9 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookDetailsComponent implements OnInit {
 
-  constructor() { }
+  public book: Book;
 
-  ngOnInit() {
+  constructor(private bookService: BookService) {
   }
 
+  ngOnInit() {
+    this.initDetails();
+  }
+
+  initDetails() {
+
+    this.bookService.getDetails(localStorage.getItem("bookId")).subscribe(x => {
+      this.book = x;
+    });
+
+  }
+
+
+  deleteBook(bookId) {
+    this.bookService.deleteBook(localStorage.getItem("bookId"),this.book.quant).subscribe(x => {
+    });
+  }
 }

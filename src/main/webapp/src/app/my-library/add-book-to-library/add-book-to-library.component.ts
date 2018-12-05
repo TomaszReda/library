@@ -44,7 +44,6 @@ export class AddBookToLibraryComponent implements OnInit {
   addBooks() {
     this.succesAdd = null;
     this.badAdd = null;
-    console.log(this.formAddBook);
     if (this.formAddBook.valid) {
       let object = this.formAddBook.getRawValue();
       object.libraryId = localStorage.getItem('libraryClickId');

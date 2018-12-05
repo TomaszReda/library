@@ -2,5 +2,55 @@
 <div class="container">
 <div id="page-wrap">
 
+
+  <table class="table table-bordered ">
+
+    <tbody>
+    <tr>
+      <td>Tytuł</td>
+      <td>{{book.title}}</td>
+    </tr>
+    <tr>
+      <td>Autor</td>
+      <td>{{book.author}}</td>
+    </tr>
+    <tr>
+      <td>Wydawnictwo</td>
+      <td>{{book.publisher}}</td>
+    </tr>
+    <tr>
+      <td>Data wydania</td>
+      <td>{{book.date}}</td>
+    </tr>
+    <tr>
+      <td>Kategoria</td>
+      <td>{{book.categoryType}}</td>
+    </tr>
+    <tr>
+      <td>Opis</td>
+      <td>{{book.description}}</td>
+    </tr>
+    <tr>
+      <td>ISBN</td>
+      <td>{{book.ISBN}}</td>
+    </tr>
+    <tr>
+      <td>Ilosc</td>
+      <td>{{book.quant}}</td>
+    </tr>
+    <tr>
+      <td>Status</td>
+      <td>{{book.bookState}}</td>
+    </tr>
+    <tr >
+      <td>Usun</td>
+      <button type="button" (click)="deleteBook(book.bookId)">Usun</button>
+    </tr>
+
+
+
+
+    </tbody>
+  </table>
 </div>
 </div>

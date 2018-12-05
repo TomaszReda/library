@@ -13,6 +13,17 @@ export class BookService {
   private url: string = 'http://localhost:8080/api';
 
   public addBook(bookRequest) {
-    return this.http.post(this.url + "/book/add", bookRequest,{observe: 'response'});
+    return this.http.post(this.url + "/book/add", bookRequest, {observe: 'response'});
   }
+
+  public getDetails(bookId) {
+    return this.http.get(this.url + "/book/" + bookId + "/details");
+  }
+
+  public deleteBook(bookId,quant) {
+
+    return this.http.post(this.url + "/book/" + bookId + "/delete/",quant);
+  }
+
+
 }

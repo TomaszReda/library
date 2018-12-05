@@ -8,5 +8,7 @@ export class Book {
   date?: Date;
   quant?: number;
   bookState?: string;
+  description?:string;
   bookId?: string;
+  categoryType?: string;
 }
