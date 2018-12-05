@@ -1,4 +1,4 @@
-package pl.tomekreda.library.model.book;
+package pl.tomekreda.library.model;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package pl.tomekreda.library.utils;
 
-import pl.tomekreda.library.model.book.BookState;
+import pl.tomekreda.library.model.BookState;
 
 public class Utils {
 

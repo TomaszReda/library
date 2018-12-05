@@ -1,4 +1,4 @@
-package pl.tomekreda.library.model.user;
+package pl.tomekreda.library.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
