@@ -48,12 +48,12 @@ export class BookDetailsComponent implements OnInit {
     this.badQuantNumberToDelete = null;
     if (this.quantForm['quant'] < 1) {
       this.badQuantNumberToDelete = "Ilosc ksiązek do usuniecia musi wynosic conajmniej 1!";
-    }
-    if (this.book.quant < this.quantForm['quant']) {
+    } else if (this.book.quant < this.quantForm['quant']) {
       this.badQuantNumberToDelete = "Ilosc ksiązek do usuniecia jest wieksza od ilości posiadanych książek";
+    } else {
+      this.bookService.deleteBook(localStorage.getItem("bookId"), this.quantForm["quant"]).subscribe(x => {
+        this.router.navigate(["/myLibrary/library/search/book"])
+      });
     }
-    this.bookService.deleteBook(localStorage.getItem("bookId"), this.quantForm["quant"]).subscribe(x => {
-      this.router.navigate(["/myLibrary/library/search/book"])
-    });
   }
 }

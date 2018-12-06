@@ -33,11 +33,15 @@ spring:
   profiles: test
   jpa:
     hibernate:
-      ddl-auto: update
-  datasource:
+      ddl-auto: create
+
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation=true:
+    datasource:
     username: postgres
     password: aptekarze
     url: jdbc:postgresql://localhost:5432/library
     driver-class-name: org.postgresql.Driver
-
-
