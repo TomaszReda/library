@@ -42,9 +42,10 @@
       <td>Status</td>
       <td>{{book.bookState}}</td>
     </tr>
-    <tr >
+    <tr [hidden]="isDelete">
       <td>Usun</td>
-      <form (ngSubmit)="deleteBook(book.bookId)" #quantForm="ngForm">
+      <td >
+      <form  (ngSubmit)="deleteBook(book.bookId)" #quantForm="ngForm">
 
             <label >Ilość książek do usuniecia: </label>
             <input  type="number"  [(ngModel)]="quantForm.quant" name="quant" value="1" [value]="1" style="width: 50px;" min="1" [min]="1" max="book.quant" [max]="book.quant"   />
@@ -53,6 +54,8 @@
         <button type="submit" >Usun</button>
 
       </form>
+
+      </td>
     </tr>
 
 

@@ -16,36 +16,44 @@ export class BookDetailsComponent implements OnInit {
   @ViewChild("quantForm")
   public quantForm: string;
 
+  public isDelete = false;
+
   public badQuantNumberToDelete = null;
 
-  constructor(private bookService: BookService,private  router:Router) {
+  constructor(private bookService: BookService, private  router: Router) {
   }
 
   ngOnInit() {
     this.badQuantNumberToDelete = null;
-    this.quantForm['quant']=1;
+    this.quantForm['quant'] = 1;
     this.initDetails();
   }
 
   initDetails() {
-
+    this.isDelete = false;
     this.bookService.getDetails(localStorage.getItem("bookId")).subscribe(x => {
       this.book = x;
+      console.log(this.book.bookState)
+
+      if (this.book.bookState != 'Dostępna') {
+        this.isDelete = true
+      }
     });
+
 
   }
 
 
   deleteBook(bookId) {
     this.badQuantNumberToDelete = null;
-    if(this.quantForm['quant']<1){
-      this.badQuantNumberToDelete="Ilosc ksiązek do usuniecia musi wynosic conajmniej 1!";
+    if (this.quantForm['quant'] < 1) {
+      this.badQuantNumberToDelete = "Ilosc ksiązek do usuniecia musi wynosic conajmniej 1!";
     }
-    if(this.book.quant<this.quantForm['quant']){
-      this.badQuantNumberToDelete="Ilosc ksiązek do usuniecia jest wieksza od ilości posiadanych książek";
+    if (this.book.quant < this.quantForm['quant']) {
+      this.badQuantNumberToDelete = "Ilosc ksiązek do usuniecia jest wieksza od ilości posiadanych książek";
     }
     this.bookService.deleteBook(localStorage.getItem("bookId"), this.quantForm["quant"]).subscribe(x => {
-    this.router.navigate(["/myLibrary/library/search/book"])
+      this.router.navigate(["/myLibrary/library/search/book"])
     });
   }
 }
