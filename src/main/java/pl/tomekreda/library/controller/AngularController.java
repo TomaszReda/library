@@ -28,7 +28,7 @@ public class AngularController {
         return "forward:/index.html";
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search/book")
     public String users(Model model) {
         return "forward:/index.html";
     }
