@@ -24,6 +24,8 @@ public class Book {
     private String ISBN;
     private int quant;
 
+    private String bookSearch;
+
     @Column(length = 4096)
     private String description;
 
@@ -48,6 +50,20 @@ public class Book {
         this.date = date;
         this.ISBN = ISBN;
         this.quant = quant;
+    }
+
+    public Book(String author, String title, String publisher, LocalDate date, String ISBN, int quant, String description, Library library, BookState bookState, UserCasual userCasual, BookCategory bookCategory) {
+        this.author = author;
+        this.title = title;
+        this.publisher = publisher;
+        this.date = date;
+        this.ISBN = ISBN;
+        this.quant = quant;
+        this.description = description;
+        this.library = library;
+        this.bookState = bookState;
+        this.userCasual = userCasual;
+        this.bookCategory = bookCategory;
     }
 
     public Book() {

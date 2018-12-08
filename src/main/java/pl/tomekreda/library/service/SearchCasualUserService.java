@@ -43,6 +43,16 @@ public class SearchCasualUserService {
 
     public ResponseEntity search(String word,int page,int size){
         try{
+            System.err.println("Book search "+word+" result: ");
+
+            System.err.println(" ");
+
+
+            System.err.println(" findAllByBookSearchIsContaining(word) "+bookRepository.findAllByBookSearchIsContaining(word));
+            System.err.println(" findAllByBookSearchIsLike(word) "+bookRepository.findAllByBookSearchIsLike(word));
+            System.err.println(" findAllByBookSearchContains(word)"+bookRepository.findAllByBookSearchContains(word));
+            System.err.println(" findAllByTitleIsContaining(String word)"+bookRepository.findAllByTitleIsContaining(word));
+
             return ResponseEntity.ok().build();
         }
         catch(Exception ex){
