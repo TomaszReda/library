@@ -5,6 +5,7 @@ import { SearchRoutingModule } from './search-routing.module';
 import { SearchComponent } from './search.component';
 import { SearchBookListComponent } from './search-book-list/search-book-list.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { SearchBookDetailsComponent } from './search-book-details/search-book-details.component';
 
 @NgModule({
   imports: [
@@ -13,6 +14,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     ReactiveFormsModule,
     FormsModule
   ],
-  declarations: [SearchComponent, SearchBookListComponent]
+  declarations: [SearchComponent, SearchBookListComponent, SearchBookDetailsComponent]
 })
 export class SearchModule { }

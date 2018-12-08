@@ -4,6 +4,7 @@ import {SearchComponent} from "./search.component";
 import {MyLibraryComponent} from "../my-library/my-library.component";
 import {MyLibraryListComponent} from "../my-library/my-library-list/my-library-list.component";
 import {SearchBookListComponent} from "./search-book-list/search-book-list.component";
+import {SearchBookDetailsComponent} from "./search-book-details/search-book-details.component";
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
       }
     ]
   },
+  {
+    path:":bookId",
+    component:SearchBookDetailsComponent
+  }
 ];
 
 @NgModule({

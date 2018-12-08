@@ -47,7 +47,8 @@ export class SearchBookListComponent implements OnInit {
   }
 
   details(bookId) {
-    localStorage.setItem("bookId", bookId);
+    console.log(bookId);
+  this.router.navigate(["/search/book/"+bookId])
   }
 
   changePage(currentyPage) {

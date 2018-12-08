@@ -43,11 +43,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.userService.getLoggerInfo().subscribe(x => {
       this.authService.user = x;
       this.authService.pharmacyOwner = false;
+      if(this.authService.user!=null){
       for (let i = 0; i < this.authService.user.userRoles.length; i++) {
         if (this.authService.user.userRoles[i].userRole === "LIBRARY_OWNER") {
           this.authService.pharmacyOwner = true;
         }
-      }
+      }}
     })
     if (localStorage.getItem("tokenID")) {
       this.http.get(this.url + "tokenValid").subscribe(
