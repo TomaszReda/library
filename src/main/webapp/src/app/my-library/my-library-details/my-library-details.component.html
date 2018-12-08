@@ -14,36 +14,36 @@
       <div class="row">
         <div class="col">
           <label for="street">Ulica:</label>
-          <input type="text" class="form-control" id="street"  width="80px" formControlName="street"  >
+          <input type="text" class="form-control" id="street" (keyup)="keyUp()" width="80px" formControlName="street"  >
         </div>
         <div class="col">
           <label for="number">Nr:</label>
-          <input type="text" class="form-control" id="number" width="20px" formControlName="number"  >
+          <input type="text" class="form-control" id="number" (keyup)="keyUp()" width="20px" formControlName="number"  >
           <p *ngIf="submitted && forModifyLibrary.get('number').errors && forModifyLibrary.get('number').errors.required" class="alert-danger"> Numer jest wymagany!  </p>
 
         </div>
 
         <div class="col">
           <label for="local">Loc:</label>
-          <input type="text" class="form-control" id="local"  width="20px" formControlName="local"  >
+          <input type="text" class="form-control" id="local" (keyup)="keyUp()" width="20px" formControlName="local"  >
         </div>
       </div>
       <div class="form-group">
         <label for="postalCode">Kod pocztowy:</label>
-        <input type="text" class="form-control" id="postalCode"  width="100px" formControlName="postalCode"  >
+        <input type="text" class="form-control" id="postalCode" (keyup)="keyUp()"  width="100px" formControlName="postalCode"  >
       </div>
       <p *ngIf="submitted && forModifyLibrary.get('postalCode').errors && forModifyLibrary.get('postalCode').errors.required" class="alert-danger"> Kod pocztowy jest wymagany!  </p>
 
 
       <div class="form-group">
         <label for="city">Miasto:</label>
-        <input type="text" class="form-control" id="city"  width="100px" formControlName="city"   >
+        <input type="text" class="form-control" id="city" (keyup)="keyUp()"  width="100px" formControlName="city"   >
       </div>
       <p *ngIf="submitted && forModifyLibrary.get('city').errors && forModifyLibrary.get('city').errors.required" class="alert-danger"> Miasto jest wymagane!  </p>
 
 
       <button type="button" (click)="searchOnMap()">Zaznacz na mapie lokalizacje</button><br/>
-      <p class=" alert-danger" *ngIf="notFindInMap">{{notFindInMap}}</p>
+      <p class=" alert-danger" *ngIf="submitted && notFindInMap">{{notFindInMap}}</p>
       <div id="map" style="width: 100%; height: 40%;margin-top:15px;margin-bottom: 15px;"></div>
 
 

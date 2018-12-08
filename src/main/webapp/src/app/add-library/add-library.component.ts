@@ -29,7 +29,7 @@ export class AddLibraryComponent implements OnInit {
 
   public formAddLibrary: FormGroup;
 
-  constructor(private http: HttpClient, private libraryService: LibraryService, private auth: AuthService,private mapService:MapServiceService) {
+  constructor(private http: HttpClient, private libraryService: LibraryService, private auth: AuthService, private mapService: MapServiceService) {
 
   }
 
@@ -37,8 +37,8 @@ export class AddLibraryComponent implements OnInit {
   ngOnInit(): void {
 
     this.submitted = false;
-    this.mapService.mapLng='21.0158';
-    this.mapService.mapLat='52.2051';
+    this.mapService.mapLng = '21.0158';
+    this.mapService.mapLat = '52.2051';
     this.mapService.initialize_map();
     this.initialize_form();
   }
@@ -80,8 +80,8 @@ export class AddLibraryComponent implements OnInit {
     this.errors = null;
     this.errors2 = null;
     this.formAddLibrary.reset();
-    this.mapService.mapLng='21.0158';
-    this.mapService.mapLat='52.2051';
+    this.mapService.mapLng = '21.0158';
+    this.mapService.mapLat = '52.2051';
     this.mapService.setCenter();
 
   }
@@ -97,6 +97,7 @@ export class AddLibraryComponent implements OnInit {
     if (this.formAddLibrary.value.number) {
       adress += '+' + this.formAddLibrary.value.number;
     }
+    adress += '+' + this.formAddLibrary.value.postalCode;
 
 
     let params = new HttpParams().set('q', adress).append('format', 'json');
@@ -108,8 +109,8 @@ export class AddLibraryComponent implements OnInit {
           let longitude = x[0].lon;
 
 
-          this.mapService.mapLat=latitude;
-          this.mapService.mapLng=longitude;
+          this.mapService.mapLat = latitude;
+          this.mapService.mapLng = longitude;
           console.log(this.mapService.mapLng);
           this.mapService.setCenter();
           this.mapService.add_map_point(latitude, longitude);
@@ -117,8 +118,8 @@ export class AddLibraryComponent implements OnInit {
 
         } else {
           this.errors2 = "Nie ma takiej lokalizacji!";
-          this.mapService.mapLng='21.0158';
-          this.mapService.mapLat='52.2051';
+          this.mapService.mapLng = '21.0158';
+          this.mapService.mapLat = '52.2051';
           this.mapService.setCenter();
 
         }
@@ -127,7 +128,6 @@ export class AddLibraryComponent implements OnInit {
     );
 
   }
-
 
 
   initialize_form() {
@@ -143,9 +143,6 @@ export class AddLibraryComponent implements OnInit {
       longitude: new FormControl(null),
     });
   }
-
-
-
 
 
 }

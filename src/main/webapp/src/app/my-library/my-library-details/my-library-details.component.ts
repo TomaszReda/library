@@ -30,11 +30,14 @@ export class MyLibraryDetailsComponent implements OnInit {
 
   submitted = false;
 
+  submittSearch = false;
+
+
   url = 'https://nominatim.openstreetmap.org/search';
 
   public forModifyLibrary: FormGroup;
 
-  constructor(private http: HttpClient, private libraryService: LibraryService, private auth: AuthService, private router: ActivatedRoute,private mapService:MapServiceService) {
+  constructor(private http: HttpClient, private libraryService: LibraryService, private auth: AuthService, private router: ActivatedRoute, private mapService: MapServiceService) {
 
   }
 
@@ -44,10 +47,11 @@ export class MyLibraryDetailsComponent implements OnInit {
     this.errors = null;
     this.notFindInMap = null;
     this.submitted = false;
+    this.submittSearch = false;
 
     this.initDetails();
-    this.mapService.mapLng=this.mapLng;
-    this.mapService.mapLat=this.mapLat;
+    this.mapService.mapLng = this.mapLng;
+    this.mapService.mapLat = this.mapLat;
     this.mapService.initialize_map();
 
   }
@@ -55,6 +59,7 @@ export class MyLibraryDetailsComponent implements OnInit {
 
   initDetails() {
     this.submitted = false;
+    this.submittSearch = false;
     this.initialize_form();
 
 
@@ -105,6 +110,7 @@ export class MyLibraryDetailsComponent implements OnInit {
     if (this.forModifyLibrary.value.number) {
       adress += '+' + this.forModifyLibrary.value.number;
     }
+    adress += '+' + this.forModifyLibrary.value.postalCode;
 
 
     let params = new HttpParams().set('q', adress).append('format', 'json');
@@ -112,6 +118,7 @@ export class MyLibraryDetailsComponent implements OnInit {
       x => {
 
         if (x[0]) {
+          this.submittSearch=false;
           let latitude = x[0].lat;
           let longitude = x[0].lon;
 
@@ -123,7 +130,7 @@ export class MyLibraryDetailsComponent implements OnInit {
           this.notFindInMap = null;
 
         } else {
-          this.notFindInMap = "Nie ma takiej lokalizacji!";
+          this.notFindInMap = "Nie ma takiej lokalizacji! Upewnij sie czy podajesz poprawny adres !";
           this.mapService.mapLat = '52.2051';
           this.mapService.mapLng = '21.0158';
           this.mapService.setCenter();
@@ -137,24 +144,31 @@ export class MyLibraryDetailsComponent implements OnInit {
 
   }
 
-
-
-
-
+  keyUp() {
+    this.submittSearch = true;
+  }
 
   editLibrary() {
+
     this.notFindInMap = null;
     this.submitted = true;
+    this.success=null;
+    this.errors=null;
 
+    if (this.submittSearch === true ) {
+      this.errors = "Zmieniłes cos w adresie. Musisz zaznaczyć na mapie lokalizacje";
+      return;
+    }
 
     if (!this.forModifyLibrary.valid) {
       return "blad";
     }
 
+
     const object = this.forModifyLibrary.getRawValue();
 
-    object.latitude = this.mapLat;
-    object.longitude = this.mapLng;
+    object.latitude = this.mapService.mapLat;
+    object.longitude = this.mapService.mapLng;
     object.userID = this.auth.user.id;
     object.libraryID = this.router.snapshot.paramMap.get("libraryId");
 
@@ -170,7 +184,7 @@ export class MyLibraryDetailsComponent implements OnInit {
       this.submitted = true;
       this.errors = error1.error;
     });
-
+    this.submittSearch = false;
   }
 
   reset() {
