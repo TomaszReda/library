@@ -47,7 +47,6 @@ export class SearchBookListComponent implements OnInit {
   }
 
   details(bookId) {
-    console.log(bookId);
   this.router.navigate(["/search/book/"+bookId])
   }
 
