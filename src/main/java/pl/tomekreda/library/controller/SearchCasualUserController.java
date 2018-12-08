@@ -1,0 +1,31 @@
+package pl.tomekreda.library.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import pl.tomekreda.library.repository.BookRepository;
+import pl.tomekreda.library.service.SearchCasualUserService;
+
+import java.util.UUID;
+
+@Controller
+@RequestMapping("/api")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+public class SearchCasualUserController {
+
+    private final SearchCasualUserService searchCasualUserService;
+    @GetMapping("/search/book")
+    public ResponseEntity search( @RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
+        if (word.length() < 3 || word.equals(null))
+            return searchCasualUserService.searchAll( page, size);
+        else
+            return searchCasualUserService.search( word, page, size);
+
+    }
+
+}

@@ -23,7 +23,7 @@ import java.util.*;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 @Transactional
-public class SearchService {
+public class SearchLibraryOwnerService {
 
     private final LibraryRepository libraryRepository;
 
@@ -34,26 +34,26 @@ public class SearchService {
 
     public ResponseEntity search(UUID libraryId, String word, int page, int size) {
         try {
-
-            log.info("[Search word]=" + word);
             Library library = libraryRepository.findById(libraryId).orElse(null);
             if (!userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
-            BookState[] arr = new BookState[3];
-            arr[0] = BookState.BOOKED;
-            arr[1] = BookState.NOTRESERVED;
-            arr[2] = BookState.CONFIRMED;
-            List<Book> tmpbookList = bookRepository.findAllByLibraryAndTitleIsContainingAndBookStateIsIn(library, word, arr);
+            log.info("[Search word]=" + word);
 
-            List<Map<String, Object>> bookList = createBook(tmpbookList);
+            BookState[] array = new BookState[3];
+            array[1] = BookState.NOTRESERVED;
+            array[0] = BookState.BOOKED;
+            array[2] = BookState.CONFIRMED;
+            List<Book> tmpBookList = bookRepository.findAllByLibraryAndTitleIsContainingAndBookStateIsIn(library, word, array);
+            Utils utils=new Utils();
+            List<Map<String, Object>> bookLists=utils.createBookList(tmpBookList);
             Pageable pageable = new PageRequest(page, size);
-            int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
-            log.info("[Get Book list]=" + bookList);
-            Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
+            int max = (size * (page + 1) > bookLists.size()) ? bookLists.size() : size * (page + 1);
+            Page<List<Map<String, Object>>> bookListPageResult = new PageImpl(bookLists.subList(size * page, max), pageable, bookLists.size());
+            log.info("[Get Book list]=" + bookLists);
 
 //            log.info("[Search response]=");
-            return ResponseEntity.ok(pageResult);
+            return ResponseEntity.ok(bookListPageResult);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
@@ -71,9 +71,11 @@ public class SearchService {
             arr[1] = BookState.NOTRESERVED;
             arr[2] = BookState.CONFIRMED;
             List<Book> tmpbookList = bookRepository.findAllByLibraryAndBookStateIsIn(library, arr);
-            List<Map<String, Object>> bookList = createBook(tmpbookList);
-            Pageable pageable = new PageRequest(page, size);
+            Utils utils=new Utils();
+            List<Map<String, Object>> bookList=utils.createBookList(tmpbookList);
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
+            Pageable pageable = new PageRequest(page, size);
+
             log.info("[Get Book list]=" + bookList);
             Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
 
@@ -84,22 +86,6 @@ public class SearchService {
     }
 
 
-    private List<Map<String, Object>> createBook(List<Book> bookList) {
-        List<Map<String, Object>> listLibrary = new ArrayList<>();
-        Utils utils=new Utils();
-        for (Book b : bookList) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("author", b.getAuthor());
-            map.put("title", b.getTitle());
-            map.put("publisher", b.getPublisher());
-            map.put("libraryId", b.getLibrary().getID());
-            map.put("bookState", utils.convert(b.getBookState()));
-            map.put("quant", b.getQuant());
-            map.put("bookId", b.getID());
-            listLibrary.add(map);
-        }
-        return listLibrary;
-    }
 
 
 

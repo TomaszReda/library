@@ -18,6 +18,8 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     List<Book> findAllByLibraryAndTitleIsContainingAndBookStateIsIn(Library library, String word, BookState[] array);
 
     List<Book> findAllByLibraryAndBookStateIsIn(Library library, BookState[] array);
+
+    List<Book> findAllByBookStateIs(BookState bookState);
 }
 
 
