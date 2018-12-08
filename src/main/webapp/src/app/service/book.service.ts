@@ -25,5 +25,9 @@ export class BookService {
     return this.http.post(this.url + "/book/" + bookId + "/delete/",quant);
   }
 
+  public getDetailsForCasualUser(bookId){
+    return this.http.get(this.url+"/book/details/"+bookId);
+  }
+
 
 }

@@ -66,7 +66,7 @@ public class BookService {
         book.setDescription(addBookRequest.getDescription());
         book.setISBN(addBookRequest.getIsbn());
         book.setQuant(addBookRequest.getQuant());
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         return book;
     }
 
@@ -85,18 +85,17 @@ public class BookService {
                 return ResponseEntity.badRequest().build();
             }
 
-            if(book.getQuant()-quant==0){
+            if (book.getQuant() - quant == 0) {
                 book.setBookState(BookState.DELETE);
                 bookRepository.save(book);
-            }
-            else{
+            } else {
                 Book tmp = copyBook(book);
                 book.setBookState(BookState.DELETE);
                 book.setQuant(quant);
                 bookRepository.save(book);
-                tmp.setQuant(tmp.getQuant()-quant);
+                tmp.setQuant(tmp.getQuant() - quant);
                 bookRepository.save(tmp);
-                log.info("[Delete book stay]="+tmp);
+                log.info("[Delete book stay]=" + tmp);
             }
 
 
@@ -107,8 +106,8 @@ public class BookService {
         }
     }
 
-    Book copyBook(Book book){
-        Book tmp=new Book();
+    Book copyBook(Book book) {
+        Book tmp = new Book();
         tmp.setQuant(book.getQuant());
         tmp.setBookState(book.getBookState());
         tmp.setLibrary(book.getLibrary());
@@ -131,7 +130,7 @@ public class BookService {
                 return ResponseEntity.badRequest().build();
             }
 
-            Map<String, Object> bookDetails = createMap(book);
+            Map<String, Object> bookDetails = createBookMap(book,true);
             log.info("[Book details]=" + bookDetails);
             return ResponseEntity.ok(bookDetails);
         } catch (Exception e) {
@@ -139,7 +138,22 @@ public class BookService {
         }
     }
 
-    private Map<String, Object> createMap(Book book) throws NoSuchFieldException {
+
+
+    public ResponseEntity detailsBookCasual(UUID bookId) {
+        try {
+            Book book = bookRepository.findById(bookId).orElse(null);
+            if (!book.getBookState().equals(BookState.NOTRESERVED))
+                return ResponseEntity.badRequest().build();
+            Map<String, Object> bookDetails = createBookMap(book,false);
+            log.info("[Book details]=" + bookDetails);
+            return ResponseEntity.ok(bookDetails);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    private Map<String, Object> createBookMap(Book book, boolean isLibraryOwner) throws NoSuchFieldException {
         Utils utils = new Utils();
 
         Map<String, Object> tmp = new HashMap<>();
@@ -152,9 +166,20 @@ public class BookService {
         tmp.put(Book.class.getDeclaredField("description").getName(), book.getDescription());
         tmp.put(BookCategory.class.getDeclaredField("categoryType").getName(), book.getBookCategory().getCategoryType());
         tmp.put(Book.class.getDeclaredField("bookState").getName(), utils.convert(book.getBookState()));
-
+        if(isLibraryOwner==false){
+            tmp.put(Library.class.getDeclaredField("city").getName(),book.getLibrary().getCity());
+            tmp.put(Library.class.getDeclaredField("latitude").getName(),book.getLibrary().getLatitude());
+            tmp.put(Library.class.getDeclaredField("longitude").getName(),book.getLibrary().getLongitude());
+            tmp.put(Library.class.getDeclaredField("name").getName(),book.getLibrary().getName());
+            tmp.put(Library.class.getDeclaredField("number").getName(),book.getLibrary().getNumber());
+            tmp.put(Library.class.getDeclaredField("postalCode").getName(),book.getLibrary().getPostalCode());
+            tmp.put(Library.class.getDeclaredField("street").getName(),book.getLibrary().getStreet());
+            tmp.put(Library.class.getDeclaredField("email").getName(),book.getLibrary().getEmail());
+        }
         return tmp;
     }
+
+
 
 
 }

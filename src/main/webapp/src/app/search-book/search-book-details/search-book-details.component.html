@@ -43,31 +43,31 @@
       </tr>
       <tr>
         <td>Ksiegarnia</td>
-        <td>{{book.library.name}}</td>
+        <td>{{book.name}}</td>
       </tr>
       <tr>
         <td>Email</td>
-        <td>{{book.library.email}}</td>
+        <td>{{book.email}}</td>
       </tr>
       <tr>
         <td>Miasto</td>
-        <td>{{book.library.city}}</td>
+        <td>{{book.city}}</td>
       </tr>
       <tr>
         <td>Kod pocztowy</td>
-        <td>{{book.library.postalCode}}</td>
+        <td>{{book.postalCode}}</td>
       </tr>
-      <tr [hidden]="book.library.street" >
+      <tr [hidden]="book.street==null" >
         <td>Ulica</td>
-        <td>{{book.library.street}}</td>
+        <td>{{book.street}}</td>
       </tr>
-      <tr [hidden]="book.library.number">
+      <tr [hidden]="book.number==null">
         <td>Numer</td>
-        <td>{{book.library.number}}</td>
+        <td>{{book.number}}</td>
       </tr>
-      <tr [hidden]="book.library.local">
+      <tr [hidden]="book.local==null">
         <td>Local</td>
-        <td>{{book.library.local}}</td>
+        <td>{{book.local}}</td>
       </tr>
       <tr>
         <td>Mapa</td>

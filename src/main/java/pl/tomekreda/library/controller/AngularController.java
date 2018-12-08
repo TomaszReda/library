@@ -75,10 +75,7 @@ public class AngularController {
         return "forward:/index.html";
     }
 
-    @GetMapping("/search/book")
-    public String searchBookUserCasual(Model model) {
-        return "forward:/index.html";
-    }
+
 
 
 

@@ -29,11 +29,17 @@ public class BookController {
         return bookService.deleteBook(bookId,quant);
     }
 
+    //Details for library owner
     @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
     @GetMapping("/book/{bookId}/details")
     public ResponseEntity detailsBook(@PathVariable UUID bookId) {
         return bookService.detailsBook(bookId);
     }
 
+    //Details for casual and unregister user
+    @GetMapping("/book/details/{bookId}")
+    public ResponseEntity detailsBook2(@PathVariable UUID bookId) {
+        return bookService.detailsBookCasual(bookId);
+    }
 
 }
