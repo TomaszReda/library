@@ -1,6 +1,7 @@
 
 #page-wrap {
-  width: 1050px;
+  width: 100%;
+  height: 100%;
   margin: 50px auto;
   padding: 20px;
   background: white;
@@ -12,32 +13,43 @@
   box-shadow: 0 0 20px black;
 }
 
-button {
-  background-color: #4CAF50;
-  color: white;
-
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  opacity: 0.9;
+* {
+  box-sizing: border-box;
 }
 
-button:hover {
-  opacity:1;
-}
-
-/* Extra styles for the cancel button */
-.cancelbtn {
-  background-color: #f44336;
-}
-
-/* Float cancel and signup buttons and add an equal width */
-.cancelbtn, .signupbtn {
+/* Style the search field */
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
   float: left;
-  width: 50%;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example button {
+  float: left;
+  width: 5%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 
-form{
-  font-size: 15px;
-}
+
