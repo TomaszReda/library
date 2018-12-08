@@ -18,4 +18,9 @@ export class SearchService {
     return this.httpClient.get(this.url + "/search/library/" + libraryId+"/book", {params: params});
   }
 
+  searchCasualUser( word,page, size) {
+    let params = new HttpParams().append("word", word).append('page', page).append("size", size);
+    return this.httpClient.get(this.url + "/search/book" , {params: params});
+  }
+
 }

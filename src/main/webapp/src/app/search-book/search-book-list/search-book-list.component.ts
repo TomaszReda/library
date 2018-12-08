@@ -5,6 +5,7 @@ import {SearchRequest} from "../../model/search/search.request";
 import {SearchService} from "../../service/search.service";
 import {PageServiceService} from "../../service/page-service.service";
 import {Router} from "@angular/router";
+import {BookRequestSearch} from "../../model/book/book.request";
 
 @Component({
   selector: 'app-search-book-list',
@@ -26,28 +27,44 @@ export class SearchBookListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.seachForm.word="";
+    this.searchBook();
+  }
+
+  searchBook(){
+    this.bookPageList=null;
+    this.searchService.searchCasualUser(this.seachForm.word, 0, 10).subscribe((x:BookRequestSearch) => {
+      this.bookPageList=x.content;
+      this.pageNumber=this.pageService.returnpages(this.currentyPage,x.totalPages);
+    })
   }
 
   onSubmit() {
+    this.searchBook();
   }
 
   keyDown() {
+    this.searchBook();
   }
 
   details(bookId) {
     localStorage.setItem("bookId", bookId);
   }
 
-  next() {
-    this.currentyPage += 1;
+  changePage(currentyPage) {
+    this.currentyPage = currentyPage - 1;
+    this.searchBook();
   }
 
-  changePage(i) {
-    this.currentyPage = i;
+
+  next() {
+    this.currentyPage = this.currentyPage + 1;
+    this.searchBook();
   }
 
   previous() {
-    this.currentyPage -= 1;
+    this.currentyPage = this.currentyPage - 1;
+    this.searchBook();
   }
 
 }
