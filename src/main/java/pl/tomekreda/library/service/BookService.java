@@ -66,7 +66,7 @@ public class BookService {
         book.setDescription(addBookRequest.getDescription());
         book.setISBN(addBookRequest.getIsbn());
         book.setQuant(addBookRequest.getQuant());
-        book.setBookSearch(book.getTitle()+" "+book.getAuthor());
+        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
         return book;
     }
 
