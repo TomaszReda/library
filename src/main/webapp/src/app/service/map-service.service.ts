@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 declare var ol: any;
 
 @Injectable({
   providedIn: 'root'
 })
-export class MapServiceService {
+export class MapServiceService  implements OnInit{
 
   public mapDefaultZoom = 10;
   public map: any;
@@ -15,6 +15,12 @@ export class MapServiceService {
   constructor() {
 
   }
+
+  ngOnInit(): void {
+
+  }
+
+
 
 
 

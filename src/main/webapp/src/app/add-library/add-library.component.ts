@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {LibraryService} from "../service/library.service";
 import {AuthService} from "../service/auth.service";
+import {MapServiceService} from "../service/map-service.service";
 
 
 declare var ol: any;
@@ -14,11 +15,7 @@ declare var ol: any;
 })
 export class AddLibraryComponent implements OnInit {
 
-  public map: any;
-  public mapLat: string = '52.2051';
-  public mapLng: string = '21.0158';
-  public mapDefaultZoom = 10;
-  public vectorLayer;
+
   success = null;
 
   errors = null;
@@ -32,14 +29,17 @@ export class AddLibraryComponent implements OnInit {
 
   public formAddLibrary: FormGroup;
 
-  constructor(private http: HttpClient, private libraryService: LibraryService, private auth: AuthService) {
+  constructor(private http: HttpClient, private libraryService: LibraryService, private auth: AuthService,private mapService:MapServiceService) {
 
   }
 
 
   ngOnInit(): void {
+
     this.submitted = false;
-    this.initialize_map();
+    this.mapService.mapLng='21.0158';
+    this.mapService.mapLat='52.2051';
+    this.mapService.initialize_map();
     this.initialize_form();
   }
 
@@ -56,8 +56,8 @@ export class AddLibraryComponent implements OnInit {
 
     const object = this.formAddLibrary.getRawValue();
 
-    object.latitude = this.mapLat;
-    object.longitude = this.mapLng;
+    object.latitude = this.mapService.mapLat;
+    object.longitude = this.mapService.mapLng;
     object.userID = this.auth.user.id;
 
     this.libraryService.addLibrary(object).subscribe(x => {
@@ -80,12 +80,10 @@ export class AddLibraryComponent implements OnInit {
     this.errors = null;
     this.errors2 = null;
     this.formAddLibrary.reset();
-    this.mapLat = '52.2051';
-    this.mapLng = '21.0158';
-    this.setCenter();
-    if (this.vectorLayer) {
-      this.map.removeLayer(this.vectorLayer);
-    }
+    this.mapService.mapLng='21.0158';
+    this.mapService.mapLat='52.2051';
+    this.mapService.setCenter();
+
   }
 
   searchOnMap() {
@@ -109,21 +107,20 @@ export class AddLibraryComponent implements OnInit {
           let latitude = x[0].lat;
           let longitude = x[0].lon;
 
-          this.mapLat = latitude;
-          this.mapLng = longitude;
 
-          this.setCenter();
-          this.add_map_point(latitude, longitude);
+          this.mapService.mapLat=latitude;
+          this.mapService.mapLng=longitude;
+          console.log(this.mapService.mapLng);
+          this.mapService.setCenter();
+          this.mapService.add_map_point(latitude, longitude);
           this.errors2 = null;
 
         } else {
           this.errors2 = "Nie ma takiej lokalizacji!";
-          this.mapLat = '52.2051';
-          this.mapLng = '21.0158';
-          this.setCenter();
-          if (this.vectorLayer) {
-            this.map.removeLayer(this.vectorLayer);
-          }
+          this.mapService.mapLng='21.0158';
+          this.mapService.mapLat='52.2051';
+          this.mapService.setCenter();
+
         }
 
       }
@@ -131,10 +128,7 @@ export class AddLibraryComponent implements OnInit {
 
   }
 
-  setCenter() {
-    var view = this.map.getView();
-    view.setCenter(ol.proj.fromLonLat([parseFloat(this.mapLng), parseFloat(this.mapLat)]));
-  }
+
 
   initialize_form() {
     this.formAddLibrary = new FormGroup({
@@ -151,44 +145,7 @@ export class AddLibraryComponent implements OnInit {
   }
 
 
-  initialize_map() {
-    this.map = new ol.Map({
-      target: "map",
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM({
-            url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          })
-        })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([parseFloat(this.mapLng), parseFloat(this.mapLat)]),
-        zoom: this.mapDefaultZoom
-      })
-    });
-  }
 
-  add_map_point(lat, lng) {
-    if (this.vectorLayer) {
-      this.map.removeLayer(this.vectorLayer);
-    }
-    this.vectorLayer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: [new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lng), parseFloat(lat)], 'EPSG:4326', 'EPSG:3857')),
-        })]
-      }),
-      style: new ol.style.Style({
-        image: new ol.style.Icon({
-          anchor: [0.5, 0.5],
-          anchorXUnits: "fraction",
-          anchorYUnits: "fraction",
-          src: "https://upload.wikimedia.org/wikipedia/commons/e/ec/RedDot.svg"
-        })
-      })
-    });
-    this.map.addLayer(this.vectorLayer);
 
-  }
 
 }

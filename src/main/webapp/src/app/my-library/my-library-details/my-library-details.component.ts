@@ -5,6 +5,7 @@ import {LibraryService} from "../../service/library.service";
 import {AuthService} from "../../service/auth.service";
 import {ActivatedRoute} from "@angular/router";
 import {Library} from "../../model/library/library.model";
+import {MapServiceService} from "../../service/map-service.service";
 
 declare var ol: any;
 
@@ -33,7 +34,7 @@ export class MyLibraryDetailsComponent implements OnInit {
 
   public forModifyLibrary: FormGroup;
 
-  constructor(private http: HttpClient, private libraryService: LibraryService, private auth: AuthService, private router: ActivatedRoute) {
+  constructor(private http: HttpClient, private libraryService: LibraryService, private auth: AuthService, private router: ActivatedRoute,private mapService:MapServiceService) {
 
   }
 
@@ -45,7 +46,9 @@ export class MyLibraryDetailsComponent implements OnInit {
     this.submitted = false;
 
     this.initDetails();
-    this.initialize_map(this.mapLng, this.mapLat);
+    this.mapService.mapLng=this.mapLng;
+    this.mapService.mapLat=this.mapLat;
+    this.mapService.initialize_map();
 
   }
 
@@ -85,7 +88,7 @@ export class MyLibraryDetailsComponent implements OnInit {
           longitude: new FormControl(x.longitude),
         });
         this.searchOnMap();
-        this.add_map_point(x.latitude, x.longitude);
+        this.mapService.add_map_point(x.latitude, x.longitude);
       }
     )
 
@@ -112,18 +115,18 @@ export class MyLibraryDetailsComponent implements OnInit {
           let latitude = x[0].lat;
           let longitude = x[0].lon;
 
-          this.mapLat = latitude;
-          this.mapLng = longitude;
+          this.mapService.mapLat = latitude;
+          this.mapService.mapLng = longitude;
 
-          this.setCenter();
-          this.add_map_point(latitude, longitude);
+          this.mapService.setCenter();
+          this.mapService.add_map_point(latitude, longitude);
           this.notFindInMap = null;
 
         } else {
           this.notFindInMap = "Nie ma takiej lokalizacji!";
-          this.mapLat = '52.2051';
-          this.mapLng = '21.0158';
-          this.setCenter();
+          this.mapService.mapLat = '52.2051';
+          this.mapService.mapLng = '21.0158';
+          this.mapService.setCenter();
           if (this.vectorLayer) {
             this.map.removeLayer(this.vectorLayer);
           }
@@ -134,51 +137,9 @@ export class MyLibraryDetailsComponent implements OnInit {
 
   }
 
-  initialize_map(mapLng, mapLat) {
-    this.map = new ol.Map({
-      target: "map",
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM({
-            url: "https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          })
-        })
-      ],
-      view: new ol.View({
-        center: ol.proj.fromLonLat([parseFloat(mapLng), parseFloat(mapLat)]),
-        zoom: this.mapDefaultZoom
-      })
-    });
-  }
-
-  setCenter() {
-    var view = this.map.getView();
-    view.setCenter(ol.proj.fromLonLat([parseFloat(this.mapLng), parseFloat(this.mapLat)]));
-  }
 
 
-  add_map_point(lat, lng) {
-    if (this.vectorLayer) {
-      this.map.removeLayer(this.vectorLayer);
-    }
-    this.vectorLayer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: [new ol.Feature({
-          geometry: new ol.geom.Point(ol.proj.transform([parseFloat(lng), parseFloat(lat)], 'EPSG:4326', 'EPSG:3857')),
-        })]
-      }),
-      style: new ol.style.Style({
-        image: new ol.style.Icon({
-          anchor: [0.5, 0.5],
-          anchorXUnits: "fraction",
-          anchorYUnits: "fraction",
-          src: "https://upload.wikimedia.org/wikipedia/commons/e/ec/RedDot.svg"
-        })
-      })
-    });
-    this.map.addLayer(this.vectorLayer);
 
-  }
 
 
   editLibrary() {
