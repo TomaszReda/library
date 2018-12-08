@@ -32,8 +32,7 @@ export class SearchBookListComponent implements OnInit {
   }
 
   searchBook(){
-    this.bookPageList=null;
-    this.searchService.searchCasualUser(this.seachForm.word, 0, 10).subscribe((x:BookRequestSearch) => {
+    this.searchService.searchCasualUser(this.seachForm.word, this.currentyPage, 10).subscribe((x:BookRequestSearch) => {
       this.bookPageList=x.content;
       this.pageNumber=this.pageService.returnpages(this.currentyPage,x.totalPages);
     })

@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {HomeModule} from './home/home.module';
 import {AuthGuardsService} from "./guard/auth-guards.service";
 import {PharmacyOwnerGuardService} from "./guard/pharmacy-owner-guard.service";
+import {NoPharmacyOwnerGuardServiceService} from "./guard/no-pharmacy-owner-guard-service.service";
 
 const routes: Routes = [
   {
@@ -26,6 +27,7 @@ const routes: Routes = [
   {
     path: 'search/book',
     loadChildren: './search-book/search.module#SearchModule',
+    canActivate: [NoPharmacyOwnerGuardServiceService]
   },
   {
     path: 'addLibrary',

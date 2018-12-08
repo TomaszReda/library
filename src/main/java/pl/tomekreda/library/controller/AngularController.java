@@ -66,12 +66,20 @@ public class AngularController {
     }
 
     @GetMapping("/myLibrary/library/search/book")
-    public String searchBook(Model model) {
+    public String searchBookLibraryOwner(Model model) {
         return "forward:/index.html";
     }
 
     @GetMapping("/myLibrary/library/book/{bookId}/details")
-    public String bookDetails(Model model,@PathVariable UUID bookId) {
+    public String bookDetails(Model model, @PathVariable UUID bookId) {
         return "forward:/index.html";
     }
+
+    @GetMapping("/search/book")
+    public String searchBookUserCasual(Model model) {
+        return "forward:/index.html";
+    }
+
+
+
 }

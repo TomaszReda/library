@@ -9,7 +9,7 @@
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
       <li class="nav-item">
-        <a class="nav-link" routerLink="search/book">Wyszukaj</a>
+        <a class="nav-link" *ngIf="!authService.pharmacyOwner" routerLink="search/book">Wyszukaj</a>
       </li>
       <li class="nav-item">
         <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="addLibrary">Dodaj bibliotekę</a>

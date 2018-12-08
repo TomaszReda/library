@@ -116,6 +116,9 @@ public class TestingDevData implements CommandLineRunner {
         Book book = new Book("Henryk Sienkiewicz", "W pustyni i w puszczy", "PWD", LocalDate.of(1992, 12, 11), "12342", 1,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
         book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
         bookRepository.save(book);
+        book = new Book("Henryk Sienkiewicz", " sad asd ad adsa dasd ada", "PWD", LocalDate.of(1992, 12, 11), "12342", 1,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
+        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        bookRepository.save(book);
 
         book = new Book("Jakub Żulczyk", "test Ślepnąc od świateł", "ZNAK", LocalDate.of(1996, 10, 11), "132322", 6,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
         book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
@@ -177,7 +180,10 @@ public class TestingDevData implements CommandLineRunner {
         Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie", "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
         library = libraryRepository.save(library);
+        for(int i=0;i<10;i++){
             this.createBook(library);
+
+        }
 
 
 

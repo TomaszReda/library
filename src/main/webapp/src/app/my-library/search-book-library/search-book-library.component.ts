@@ -51,8 +51,6 @@ export class SearchBookLibraryComponent implements OnInit {
   }
 
   resultSearch() {
-    this.bookPageList = null;
-
     let word = this.seachForm.value.word;
     if (word == null) {
       word = "";

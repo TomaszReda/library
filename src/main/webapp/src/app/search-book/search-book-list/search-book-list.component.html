@@ -5,7 +5,7 @@
 
     <!-- The form -->
     <form (ngSubmit)="onSubmit()" class="example" >
-      <input type="text" placeholder="Wyszukaj po tytule" id="word" name="word" [(ngModel)]="seachForm.word" #word="ngModel" (keyup)="keyDown()" minlength="3">
+      <input type="text" placeholder="Wyszukaj tytuł autor" id="word" name="word" [(ngModel)]="seachForm.word" #word="ngModel" (keyup)="keyDown()" minlength="3">
       <button type="submit" ><i class="fa fa-search"></i></button>
     </form>
     <p class="alert alert-danger" *ngIf="word.dirty && word.errors && word.errors.minlength">Podaj przynajmniej 3 znaki!</p>
@@ -20,7 +20,6 @@
         <th scope="col">Tytuł</th>
         <th scope="col">Autor</th>
         <th scope="col">Wydawnictwo</th>
-        <th scope="col">Status</th>
         <th scope="col">Ilosc</th>
         <th scope="col">Szczegóły</th>
       </tr>
@@ -30,7 +29,6 @@
         <td >{{b.title}}</td>
         <td>{{b.author}}</td>
         <td>{{b.publisher}}</td>
-        <td>{{b.bookState}}</td>
         <td>{{b.quant}}</td>
         <td><button (click)="details(b.bookId)">Szczegóły</button></td>
       </tr>
@@ -57,7 +55,7 @@
           </div>
           <li class="page-item">
             <a class="page-link"  (click)="next()"
-               *ngIf="currentyPage<pageNumber[pageNumber.length-1]-1">Next</a>
+               *ngIf="currentyPage<pageNumber[pageNumber.length-1]-1" tabindex="-1">Next</a>
           </li>
           <li class="page-item disabled" *ngIf="currentyPage>=pageNumber[pageNumber.length-1]-1">
             <a class="page-link">Next</a>
