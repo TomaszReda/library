@@ -75,6 +75,15 @@ public class AngularController {
         return "forward:/index.html";
     }
 
+    @GetMapping("/myReserv")
+    public String myReserv(Model model) {
+        return "forward:/index.html";
+    }
+
+    @GetMapping("/search/book/{bookId}")
+    public String searchDetails(Model model,@PathVariable UUID bookId) {
+        return "forward:/index.html";
+    }
 
 
 
