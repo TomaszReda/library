@@ -103,13 +103,18 @@ export class MyLibraryDetailsComponent implements OnInit {
   searchOnMap() {
     this.errors = null;
     this.notFindInMap = null;
-    let adress = this.forModifyLibrary.value.city;
+    let adress = "";
     if (this.forModifyLibrary.value.street) {
-      adress += '+' + this.forModifyLibrary.value.street;
+      adress +=  this.forModifyLibrary.value.street;
     }
     if (this.forModifyLibrary.value.number) {
-      adress += '+' + this.forModifyLibrary.value.number;
+      if(adress==null)
+      adress +=   this.forModifyLibrary.value.number;
+      else
+        adress += '+' + this.forModifyLibrary.value.number;
+
     }
+    adress += "+" + this.forModifyLibrary.value.city;
     adress += '+' + this.forModifyLibrary.value.postalCode;
 
 
@@ -130,7 +135,8 @@ export class MyLibraryDetailsComponent implements OnInit {
           this.notFindInMap = null;
 
         } else {
-          this.notFindInMap = "Nie ma takiej lokalizacji! Upewnij sie czy podajesz poprawny adres !";
+          this.mapService.resetPoint();
+          this.notFindInMap = "Nie ma takiej lokalizacji! Upewnij sie czy podajesz poprawny adres (Obowiązkowo Miasto,Kod pocztowy,numer)!";
           this.mapService.mapLat = '52.2051';
           this.mapService.mapLng = '21.0158';
           this.mapService.setCenter();

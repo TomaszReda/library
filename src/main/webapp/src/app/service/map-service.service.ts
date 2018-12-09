@@ -48,6 +48,12 @@ export class MapServiceService  implements OnInit{
     view.setCenter(ol.proj.fromLonLat([parseFloat(this.mapLng), parseFloat(this.mapLat)]));
   }
 
+  resetPoint(){
+    if (this.vectorLayer) {
+      this.map.removeLayer(this.vectorLayer);
+    }
+  }
+
 
 
   add_map_point(lat, lng) {

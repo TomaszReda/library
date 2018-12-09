@@ -83,6 +83,7 @@ export class AddLibraryComponent implements OnInit {
     this.mapService.mapLng = '21.0158';
     this.mapService.mapLat = '52.2051';
     this.mapService.setCenter();
+    this.mapService.resetPoint();
 
   }
 
@@ -90,13 +91,18 @@ export class AddLibraryComponent implements OnInit {
     this.success = null;
 
     this.errors = null;
-    let adress = this.formAddLibrary.value.city;
+    let adress = "";
     if (this.formAddLibrary.value.street) {
-      adress += '+' + this.formAddLibrary.value.street;
+      adress +=  this.formAddLibrary.value.street;
     }
     if (this.formAddLibrary.value.number) {
-      adress += '+' + this.formAddLibrary.value.number;
+      if(adress==null)
+        adress +=   this.formAddLibrary.value.number;
+      else
+        adress += '+' + this.formAddLibrary.value.number;
+
     }
+    adress += "+" + this.formAddLibrary.value.city;
     adress += '+' + this.formAddLibrary.value.postalCode;
 
 
@@ -117,7 +123,7 @@ export class AddLibraryComponent implements OnInit {
           this.errors2 = null;
 
         } else {
-          this.errors2 = "Nie ma takiej lokalizacji!";
+          this.errors2 = "Nie ma takiej lokalizacji! Upewnij sie czy podajesz poprawny adres (Obowiązkowo Miasto,Kod pocztowy,numer)!";
           this.mapService.mapLng = '21.0158';
           this.mapService.mapLat = '52.2051';
           this.mapService.setCenter();

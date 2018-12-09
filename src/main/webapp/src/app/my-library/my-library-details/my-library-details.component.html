@@ -43,7 +43,7 @@
 
 
       <button type="button" (click)="searchOnMap()">Zaznacz na mapie lokalizacje</button><br/>
-      <p class=" alert-danger" *ngIf="submitted && notFindInMap">{{notFindInMap}}</p>
+      <p class=" alert-danger" *ngIf=" notFindInMap">{{notFindInMap}}</p>
       <div id="map" style="width: 100%; height: 40%;margin-top:15px;margin-bottom: 15px;"></div>
 
 
