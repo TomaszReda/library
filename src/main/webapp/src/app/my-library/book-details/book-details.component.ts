@@ -24,6 +24,7 @@ export class BookDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.quantForm="1";
     this.badQuantNumberToDelete = null;
     this.quantForm['quant'] = 1;
     this.initDetails();

@@ -38,6 +38,11 @@ const routes: Routes = [
     path: 'myLibrary',
     loadChildren: './my-library/my-library.module#MyLibraryModule',
     canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+  },
+  {
+    path: 'myReserv',
+    loadChildren: './my-reserv-book/my-reserv-book.module#MyReservBookModule',
+    canActivate: [NoPharmacyOwnerGuardServiceService,AuthGuardsService]
   }
 
 ];

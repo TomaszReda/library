@@ -12,6 +12,9 @@
         <a class="nav-link" *ngIf="!authService.pharmacyOwner" routerLink="search/book">Wyszukaj</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" *ngIf="!authService.pharmacyOwner && authService.user" routerLink="myReserv">Moje zarezerwowane</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="addLibrary">Dodaj bibliotekę</a>
       </li>
       <li class="nav-item">

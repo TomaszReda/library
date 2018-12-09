@@ -29,5 +29,9 @@ export class BookService {
     return this.http.get(this.url+"/book/details/"+bookId);
   }
 
+  public reservBook(bookId,quant){
+    return this.http.post(this.url + "/book/" + bookId + "/reserv",quant);
+  }
+
 
 }

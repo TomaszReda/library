@@ -1,4 +1,3 @@
-
 <div class="container">
   <div id="page-wrap">
 
@@ -45,6 +44,7 @@
         <td>Ksiegarnia</td>
         <td>{{book.name}}</td>
       </tr>
+
       <tr>
         <td>Email</td>
         <td>{{book.email}}</td>
@@ -57,7 +57,7 @@
         <td>Kod pocztowy</td>
         <td>{{book.postalCode}}</td>
       </tr>
-      <tr [hidden]="book.street==null" >
+      <tr [hidden]="book.street==null">
         <td>Ulica</td>
         <td>{{book.street}}</td>
       </tr>
@@ -73,31 +73,29 @@
         <td colspan="2" style="text-align: center;font-style: oblique;font-size: 25px;font-weight: bold">Mapa</td>
       </tr>
       <tr>
-        <td colspan="2"><div  id="map" style="width: 100%; height: 40%;margin-top:15px;margin-bottom: 15px;"></div></td>
+        <td colspan="2">
+          <div id="map" style="width: 100%; height: 40%;margin-top:15px;margin-bottom: 15px;"></div>
+        </td>
 
       </tr>
-      <tr>
+
+      <tr [hidden]="!this.authService.user">
         <td>Rezerwacja</td>
+        <td>
+          <form (ngSubmit)="reservBook(book.bookId)" #quantForm="ngForm">
+
+            <label>Ilość książek do usuniecia: </label>
+            <input type="number" [(ngModel)]="quantForm.value.quant" name="quant"
+                   style="width: 50px;"  [min]="1"  [max]="book.quant"/>
+
+
+            <button type="submit">Zarezerwuj</button>
+
+          </form>
+          <p *ngIf="errors" class="alert alert-danger">{{errors}}</p>
+        </td>
 
       </tr>
-
-      <!--<tr [hidden]="isDelete">-->
-        <!--<td>Usun</td>-->
-        <!--<td >-->
-          <!--<form  (ngSubmit)="deleteBook(book.bookId)" #quantForm="ngForm">-->
-
-            <!--<label >Ilość książek do usuniecia: </label>-->
-            <!--<input  type="number"  [(ngModel)]="quantForm.quant" name="quant" value="1" [value]="1" style="width: 50px;" min="1" [min]="1" max="book.quant" [max]="book.quant"   />-->
-
-
-            <!--<button type="submit" >Usun</button>-->
-
-          <!--</form>-->
-
-        <!--</td>-->
-      <!--</tr>-->
-
-
 
       </tbody>
     </table>

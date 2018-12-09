@@ -81,7 +81,7 @@ public class BookService {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Ksiązka jest juz przez kogoś zarezerwowana lub jest wyporzyczona");
             }
 
-            if (quant < 1 && quant > book.getQuant()) {
+            if (quant < 1 || quant > book.getQuant()) {
                 return ResponseEntity.badRequest().build();
             }
 
@@ -117,6 +117,7 @@ public class BookService {
         tmp.setAuthor(book.getAuthor());
         tmp.setBookCategory(book.getBookCategory());
         tmp.setDate(book.getDate());
+        tmp.setBookSearch(book.getBookSearch());
         tmp.setDescription(book.getDescription());
         return tmp;
     }
@@ -130,7 +131,7 @@ public class BookService {
                 return ResponseEntity.badRequest().build();
             }
 
-            Map<String, Object> bookDetails = createBookMap(book,true);
+            Map<String, Object> bookDetails = createBookMap(book, true);
             log.info("[Book details]=" + bookDetails);
             return ResponseEntity.ok(bookDetails);
         } catch (Exception e) {
@@ -139,13 +140,12 @@ public class BookService {
     }
 
 
-
     public ResponseEntity detailsBookCasual(UUID bookId) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
             if (!book.getBookState().equals(BookState.NOTRESERVED))
                 return ResponseEntity.badRequest().build();
-            Map<String, Object> bookDetails = createBookMap(book,false);
+            Map<String, Object> bookDetails = createBookMap(book, false);
             log.info("[Book details]=" + bookDetails);
             return ResponseEntity.ok(bookDetails);
         } catch (Exception ex) {
@@ -163,23 +163,55 @@ public class BookService {
         tmp.put(Book.class.getDeclaredField("date").getName(), book.getDate());
         tmp.put(Book.class.getDeclaredField("ISBN").getName(), book.getISBN());
         tmp.put(Book.class.getDeclaredField("quant").getName(), book.getQuant());
+        tmp.put("bookId",book.getID());
         tmp.put(Book.class.getDeclaredField("description").getName(), book.getDescription());
         tmp.put(BookCategory.class.getDeclaredField("categoryType").getName(), book.getBookCategory().getCategoryType());
         tmp.put(Book.class.getDeclaredField("bookState").getName(), utils.convert(book.getBookState()));
-        if(isLibraryOwner==false){
-            tmp.put(Library.class.getDeclaredField("city").getName(),book.getLibrary().getCity());
-            tmp.put(Library.class.getDeclaredField("latitude").getName(),book.getLibrary().getLatitude());
-            tmp.put(Library.class.getDeclaredField("longitude").getName(),book.getLibrary().getLongitude());
-            tmp.put(Library.class.getDeclaredField("name").getName(),book.getLibrary().getName());
-            tmp.put(Library.class.getDeclaredField("number").getName(),book.getLibrary().getNumber());
-            tmp.put(Library.class.getDeclaredField("postalCode").getName(),book.getLibrary().getPostalCode());
-            tmp.put(Library.class.getDeclaredField("street").getName(),book.getLibrary().getStreet());
-            tmp.put(Library.class.getDeclaredField("email").getName(),book.getLibrary().getEmail());
+        if (isLibraryOwner == false) {
+            tmp.put(Library.class.getDeclaredField("city").getName(), book.getLibrary().getCity());
+            tmp.put(Library.class.getDeclaredField("latitude").getName(), book.getLibrary().getLatitude());
+            tmp.put(Library.class.getDeclaredField("longitude").getName(), book.getLibrary().getLongitude());
+            tmp.put(Library.class.getDeclaredField("name").getName(), book.getLibrary().getName());
+            tmp.put(Library.class.getDeclaredField("number").getName(), book.getLibrary().getNumber());
+            tmp.put(Library.class.getDeclaredField("postalCode").getName(), book.getLibrary().getPostalCode());
+            tmp.put(Library.class.getDeclaredField("street").getName(), book.getLibrary().getStreet());
+            tmp.put(Library.class.getDeclaredField("email").getName(), book.getLibrary().getEmail());
         }
         return tmp;
     }
 
 
+    public ResponseEntity reservBook(UUID bookId, int quant) {
+        try {
+            Book book = bookRepository.findById(bookId).orElse(null);
+
+            if (!book.getBookState().equals(BookState.NOTRESERVED) ) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Ksiązka jest juz przez kogoś zarezerwowana lub jest wyporzyczona");
+            }
+            if (quant < 1 || quant > book.getQuant()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Podajesz nieprawidłową ilość!");
+            }
+            if (book.getQuant() - quant >= 1) {
+                Book tmp = copyBook(book);
+                book.setQuant(quant);
+                book.setBookState(BookState.BOOKED);
+                bookRepository.save(book);
+                tmp.setQuant(tmp.getQuant() - quant);
+                bookRepository.save(tmp);
+                log.info("[Reserv book stay]=" + tmp);
+
+            } else {
+                book.setBookState(BookState.BOOKED);
+                bookRepository.save(book);
+            }
+
+
+            log.info("[Delete book]=" + book);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 
 }

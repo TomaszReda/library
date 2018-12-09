@@ -46,7 +46,7 @@ public class SearchCasualUserService {
 
     public ResponseEntity search(String word,int page,int size){
         try{
-            List<Book> bookList=bookRepository.findAllByBookSearchContains(word);
+            List<Book> bookList=bookRepository.findAllByBookSearchContainsAndBookState(word,BookState.NOTRESERVED);
             List<Map<String, Object>> bookLists=utils.createBookList(bookList);
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
             Pageable pageableRequest = new PageRequest(page, size);

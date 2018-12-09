@@ -42,4 +42,10 @@ public class BookController {
         return bookService.detailsBookCasual(bookId);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
+    @PostMapping("/book/{bookId}/reserv")
+    public ResponseEntity reservBook(@RequestBody int quant,@PathVariable UUID bookId) {
+        return bookService.reservBook(bookId,quant);
+    }
+
 }

@@ -180,10 +180,9 @@ public class TestingDevData implements CommandLineRunner {
         Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie", "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
         library = libraryRepository.save(library);
-        for(int i=0;i<10;i++){
+//        for(int i=0;i<10;i++){
             this.createBook(library);
-
-        }
+//        }
 
 
 
