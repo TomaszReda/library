@@ -184,7 +184,6 @@ public class BookService {
     public ResponseEntity reservBook(UUID bookId, int quant) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
-
             if (!book.getBookState().equals(BookState.NOTRESERVED) ) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Ksiązka jest juz przez kogoś zarezerwowana lub jest wyporzyczona");
             }
@@ -195,6 +194,7 @@ public class BookService {
                 Book tmp = copyBook(book);
                 book.setQuant(quant);
                 book.setBookState(BookState.BOOKED);
+                book.setUserCasual(userService.findLoggedUser().getUserCasual());
                 bookRepository.save(book);
                 tmp.setQuant(tmp.getQuant() - quant);
                 bookRepository.save(tmp);
@@ -202,6 +202,7 @@ public class BookService {
 
             } else {
                 book.setBookState(BookState.BOOKED);
+                book.setUserCasual(userService.findLoggedUser().getUserCasual());
                 bookRepository.save(book);
             }
 

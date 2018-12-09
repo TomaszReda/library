@@ -24,7 +24,6 @@ export class BookDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.quantForm="1";
     this.badQuantNumberToDelete = null;
     this.quantForm['quant'] = 1;
     this.initDetails();
@@ -34,8 +33,6 @@ export class BookDetailsComponent implements OnInit {
     this.isDelete = false;
     this.bookService.getDetails(localStorage.getItem("bookId")).subscribe(x => {
       this.book = x;
-      console.log(this.book.bookState)
-
       if (this.book.bookState != 'Dostępna') {
         this.isDelete = true
       }

@@ -81,7 +81,6 @@ public class Book {
                 ", quant=" + quant +
                 ", description='" + description + '\'' +
                 ", bookState=" + bookState +
-                ", userCasual=" + userCasual +
                 '}';
     }
 }
