@@ -1,12 +1,11 @@
 package pl.tomekreda.library.repository;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.user.UserCasual;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +21,11 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     List<Book> findAllByBookStateIs(BookState bookState);
 
     List<Book> findAllByBookSearchContainsAndBookState(String booksearch,BookState bookState);
+
+    List<Book> findAllByUserCasualAndBookStateAndBookSearchContains(UserCasual userCasual,BookState bookState,String booksearch);
+
+    List<Book> findAllByUserCasualAndBookState(UserCasual userCasual,BookState bookState);
+
 
 
 }

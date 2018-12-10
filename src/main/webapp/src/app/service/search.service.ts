@@ -23,4 +23,9 @@ export class SearchService {
     return this.httpClient.get(this.url + "/search/book" , {params: params});
   }
 
+  searchReservBook(word,page,size){
+    let params = new HttpParams().append("word", word).append('page', page).append("size", size);
+    return this.httpClient.get(this.url + "/search/reserv/book" , {params: params});
+  }
+
 }

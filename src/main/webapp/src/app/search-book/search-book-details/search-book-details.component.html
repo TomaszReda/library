@@ -84,7 +84,7 @@
         <td>
           <form (ngSubmit)="reservBook(book.bookId)" #quantForm="ngForm">
 
-            <label>Ilość książek do usuniecia: </label>
+            <label>Ilość książek do do rezerwacji: </label>
             <input type="number" [(ngModel)]="quantForm.value.quant" name="quant"
                    style="width: 50px;"  [min]="1"  [max]="book.quant"/>
 

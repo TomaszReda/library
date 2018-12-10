@@ -11,13 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookState;
+import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.BookRepository;
 import pl.tomekreda.library.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -26,40 +24,63 @@ public class SearchCasualUserService {
 
     private final BookRepository bookRepository;
 
-    private Utils utils=new Utils();
-    public ResponseEntity searchAll(int page,int size){
-        try{
-            List<Book> bookList=bookRepository.findAllByBookStateIs(BookState.NOTRESERVED);
+    private final UserService userService;
 
-            List<Map<String, Object>> bookListss=utils.createBookList(bookList);
+    private final BookService bookService;
+
+    private Utils utils = new Utils();
+
+    public ResponseEntity searchAll(int page, int size) {
+        try {
+            List<Book> bookList = bookRepository.findAllByBookStateIs(BookState.NOTRESERVED);
+
+            List<Map<String, Object>> bookListss = utils.createBookList(bookList);
             int max = (size * (page + 1) > bookListss.size()) ? bookListss.size() : size * (page + 1);
             Pageable pageableRequest = new PageRequest(page, size);
             Page<List<Map<String, Object>>> bookSearchList = new PageImpl(bookListss.subList(size * page, max), pageableRequest, bookListss.size());
-            log.info("[Search result]="+bookSearchList);
+            log.info("[Search result]=" + bookSearchList);
 
             return ResponseEntity.ok(bookSearchList);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
     }
 
-    public ResponseEntity search(String word,int page,int size){
-        try{
-            List<Book> bookList=bookRepository.findAllByBookSearchContainsAndBookState(word,BookState.NOTRESERVED);
-            List<Map<String, Object>> bookLists=utils.createBookList(bookList);
+    public ResponseEntity search(String word, int page, int size) {
+        try {
+            List<Book> bookList = bookRepository.findAllByBookSearchContainsAndBookState(word, BookState.NOTRESERVED);
+            List<Map<String, Object>> bookLists = utils.createBookList(bookList);
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
             Pageable pageableRequest = new PageRequest(page, size);
             Page<List<Map<String, Object>>> bookSearchList = new PageImpl(bookLists.subList(size * page, max), pageableRequest, bookLists.size());
-            log.info("[Search result]="+bookSearchList);
+            log.info("[Search result]=" + bookSearchList);
             return ResponseEntity.ok(bookSearchList);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
     }
 
 
+    public ResponseEntity getReservBook(String word, int page, int size) {
+        try {
+            User user = userService.findLoggedUser();
+            List<Book> bookList = new ArrayList<>();
+            if (word.length() < 3 || word.equals(null)) {
+                bookList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.BOOKED);
+            } else {
+                bookList = bookRepository.findAllByUserCasualAndBookStateAndBookSearchContains(user.getUserCasual(), BookState.BOOKED, word);
+
+            }
+            List<Map<String, Object>> bookLists = utils.createBookList(bookList);
+            int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
+            Pageable pageableRequest = new PageRequest(page, size);
+            Page<List<Map<String, Object>>> bookSearchList = new PageImpl(bookLists.subList(size * page, max), pageableRequest, bookLists.size());
+            log.info("[Search result]=" + bookSearchList);
+            return ResponseEntity.ok(bookSearchList);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 
 }

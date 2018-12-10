@@ -143,8 +143,6 @@ public class BookService {
     public ResponseEntity detailsBookCasual(UUID bookId) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
-            if (!book.getBookState().equals(BookState.NOTRESERVED))
-                return ResponseEntity.badRequest().build();
             Map<String, Object> bookDetails = createBookMap(book, false);
             log.info("[Book details]=" + bookDetails);
             return ResponseEntity.ok(bookDetails);

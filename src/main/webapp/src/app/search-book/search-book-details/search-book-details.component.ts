@@ -28,7 +28,6 @@ export class SearchBookDetailsComponent implements OnInit {
   ngOnInit() {
     this.errors=null;
     this.quantForm.value.quant = 1;
-    console.log(this.quantForm.value.quant)
     this.initializeDetails();
     this.mapService.initialize_map();
   }
