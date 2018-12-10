@@ -48,6 +48,7 @@ export class SearchBookListComponent implements OnInit {
 
   details(bookId) {
     localStorage.setItem("deitalsGeneralSearch","true");
+    localStorage.setItem("detailsReservSearch",null);
   this.router.navigate(["/search/book/"+bookId])
   }
 

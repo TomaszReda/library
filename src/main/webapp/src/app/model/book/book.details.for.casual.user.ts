@@ -20,4 +20,5 @@ export class BookDetailsForCasualUser {
   street?:string;
   local?:string;
   deitalsGeneralSearch?:string;
+  detailsReservSearch?: string;
 }

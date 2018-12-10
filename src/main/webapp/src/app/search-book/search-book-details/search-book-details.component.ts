@@ -36,6 +36,7 @@ export class SearchBookDetailsComponent implements OnInit {
     this.bookService.getDetailsForCasualUser(this.activatedRouter.snapshot.paramMap.get("bookId")).subscribe((x: BookDetailsForCasualUser) => {
       this.book = x;
       this.book.deitalsGeneralSearch = localStorage.getItem("deitalsGeneralSearch");
+      this.book.detailsReservSearch = localStorage.getItem("detailsReservSearch");
       console.log(localStorage.getItem("deitalsGeneralSearch"));
       this.errors = null;
       this.mapService.mapLat = this.book.latitude;
@@ -54,6 +55,14 @@ export class SearchBookDetailsComponent implements OnInit {
         this.errors = error1.error;
       }
     )
+  }
+
+
+  deleteReserv(bookId) {
+    this.errors = null;
+    console.log(bookId);
+
+
   }
 
 

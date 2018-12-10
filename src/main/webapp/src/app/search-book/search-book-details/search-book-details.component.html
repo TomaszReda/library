@@ -89,12 +89,30 @@
                    style="width: 50px;"  [min]="1"  [max]="book.quant"/>
 
 
-            <button type="submit">Zarezerwuj</button>
+            <button type="submit" class="reservButton">Zarezerwuj</button>
 
           </form>
           <p *ngIf="errors" class="alert alert-danger">{{errors}}</p>
         </td>
       </tr>
+
+      <tr [hidden]=" !this.authService.user || book.detailsReservSearch !='true'">
+        <td>Usun Rezerwacje</td>
+        <td>
+          <form (ngSubmit)="deleteReserv(book.bookId)" >
+
+
+
+
+            <button type="submit"  class="btn btn-primary button2 cancelbtn">Usun</button>
+
+          </form>
+          <p *ngIf="errors" class="alert alert-danger">{{errors}}</p>
+
+        </td>
+      </tr>
+
+
 
       </tbody>
     </table>

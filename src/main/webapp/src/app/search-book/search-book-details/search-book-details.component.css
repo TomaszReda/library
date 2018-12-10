@@ -16,3 +16,34 @@
 * {
   box-sizing: border-box;
 }
+av.navbar {
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-menu {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  background-color: #f44336;
+}
+
+.reservButton{
+  width: 50%;
+  margin-left: 20px;
+}
