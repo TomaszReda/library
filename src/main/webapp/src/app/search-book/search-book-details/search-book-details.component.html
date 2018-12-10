@@ -79,7 +79,7 @@
 
       </tr>
 
-      <tr [hidden]="!this.authService.user">
+      <tr [hidden]=" !this.authService.user || book.deitalsGeneralSearch !='true'">
         <td>Rezerwacja</td>
         <td>
           <form (ngSubmit)="reservBook(book.bookId)" #quantForm="ngForm">
@@ -94,7 +94,6 @@
           </form>
           <p *ngIf="errors" class="alert alert-danger">{{errors}}</p>
         </td>
-
       </tr>
 
       </tbody>

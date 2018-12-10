@@ -19,4 +19,5 @@ export class BookDetailsForCasualUser {
   postalCode?:string;
   street?:string;
   local?:string;
+  deitalsGeneralSearch?:string;
 }

@@ -13,4 +13,6 @@ export class Book {
   bookId?: string;
   categoryType?: string;
   library?:Library;
+  deitalsGeneralSearch?: string;
+
 }

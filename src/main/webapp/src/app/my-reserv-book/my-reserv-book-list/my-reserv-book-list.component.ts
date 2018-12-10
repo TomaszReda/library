@@ -49,6 +49,7 @@ export class MyReservBookListComponent implements OnInit {
   }
 
   details(bookId) {
+    localStorage.setItem("deitalsGeneralSearch",null);
     this.router.navigate(["search/book/"+bookId])
   }
 

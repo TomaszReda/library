@@ -15,18 +15,18 @@ declare var ol: any;
 })
 export class SearchBookDetailsComponent implements OnInit {
 
-  public errors ;
+  public errors;
 
   @ViewChild("quantForm")
   public quantForm: NgForm;
 
   public book: BookDetailsForCasualUser = new BookDetailsForCasualUser();
 
-  constructor(private router:Router,private bookService: BookService, private activatedRouter: ActivatedRoute, private  mapService: MapServiceService,public authService:AuthService) {
+  constructor(private router: Router, private bookService: BookService, private activatedRouter: ActivatedRoute, private  mapService: MapServiceService, public authService: AuthService) {
   }
 
   ngOnInit() {
-    this.errors=null;
+    this.errors = null;
     this.quantForm.value.quant = 1;
     this.initializeDetails();
     this.mapService.initialize_map();
@@ -35,7 +35,9 @@ export class SearchBookDetailsComponent implements OnInit {
   initializeDetails() {
     this.bookService.getDetailsForCasualUser(this.activatedRouter.snapshot.paramMap.get("bookId")).subscribe((x: BookDetailsForCasualUser) => {
       this.book = x;
-      this.errors=null;
+      this.book.deitalsGeneralSearch = localStorage.getItem("deitalsGeneralSearch");
+      console.log(localStorage.getItem("deitalsGeneralSearch"));
+      this.errors = null;
       this.mapService.mapLat = this.book.latitude;
       this.mapService.mapLng = this.book.longitude;
       this.mapService.add_map_point(this.mapService.mapLat, this.mapService.mapLng);
@@ -45,11 +47,11 @@ export class SearchBookDetailsComponent implements OnInit {
 
 
   reservBook(bookId) {
-    this.errors=null;
+    this.errors = null;
     this.bookService.reservBook(bookId, this.quantForm.value.quant).subscribe(x => {
         this.router.navigate(["myReserv"]);
-      },error1 => {
-        this.errors=error1.error;
+      }, error1 => {
+        this.errors = error1.error;
       }
     )
   }
