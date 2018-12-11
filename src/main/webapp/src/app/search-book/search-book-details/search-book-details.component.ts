@@ -37,7 +37,6 @@ export class SearchBookDetailsComponent implements OnInit {
       this.book = x;
       this.book.deitalsGeneralSearch = localStorage.getItem("deitalsGeneralSearch");
       this.book.detailsReservSearch = localStorage.getItem("detailsReservSearch");
-      console.log(localStorage.getItem("deitalsGeneralSearch"));
       this.errors = null;
       this.mapService.mapLat = this.book.latitude;
       this.mapService.mapLng = this.book.longitude;
@@ -59,7 +58,6 @@ export class SearchBookDetailsComponent implements OnInit {
 
 
   deleteReserv(bookId) {
-    console.log("wchodzi");
     this.errors = null;
     this.bookService.deleteReservBook(bookId).subscribe(x => {
 
