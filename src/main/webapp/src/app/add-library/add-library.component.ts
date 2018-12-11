@@ -117,7 +117,6 @@ export class AddLibraryComponent implements OnInit {
 
           this.mapService.mapLat = latitude;
           this.mapService.mapLng = longitude;
-          console.log(this.mapService.mapLng);
           this.mapService.setCenter();
           this.mapService.add_map_point(latitude, longitude);
           this.errors2 = null;

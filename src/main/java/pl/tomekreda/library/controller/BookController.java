@@ -48,4 +48,10 @@ public class BookController {
         return bookService.reservBook(bookId,quant);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
+    @PostMapping("/book/{bookId}/delete/reserv")
+    public ResponseEntity deleteReservBook(@PathVariable UUID bookId) {
+        return bookService.deleteReservBook(bookId);
+    }
+
 }

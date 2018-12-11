@@ -7,6 +7,7 @@ import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.UserCasual;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
 
     List<Book> findAllByUserCasualAndBookState(UserCasual userCasual,BookState bookState);
 
+    Book findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(String author, String titile, String publisher, LocalDate date,Library library,BookState bookState);
 
 
 }

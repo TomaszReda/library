@@ -161,7 +161,7 @@ public class BookService {
         tmp.put(Book.class.getDeclaredField("date").getName(), book.getDate());
         tmp.put(Book.class.getDeclaredField("ISBN").getName(), book.getISBN());
         tmp.put(Book.class.getDeclaredField("quant").getName(), book.getQuant());
-        tmp.put("bookId",book.getID());
+        tmp.put("bookId", book.getID());
         tmp.put(Book.class.getDeclaredField("description").getName(), book.getDescription());
         tmp.put(BookCategory.class.getDeclaredField("categoryType").getName(), book.getBookCategory().getCategoryType());
         tmp.put(Book.class.getDeclaredField("bookState").getName(), utils.convert(book.getBookState()));
@@ -182,7 +182,7 @@ public class BookService {
     public ResponseEntity reservBook(UUID bookId, int quant) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
-            if (!book.getBookState().equals(BookState.NOTRESERVED) ) {
+            if (!book.getBookState().equals(BookState.NOTRESERVED)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Ksiązka jest juz przez kogoś zarezerwowana lub jest wyporzyczona");
             }
             if (quant < 1 || quant > book.getQuant()) {
@@ -206,6 +206,33 @@ public class BookService {
 
 
             log.info("[Delete book]=" + book);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
+    public ResponseEntity deleteReservBook(UUID bookId) {
+        try {
+            Book reservBook = bookRepository.findById(bookId).orElse(null);
+            Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
+
+            if (notReservBook!=null) {
+
+                reservBook.setBookState(BookState.DELETE);
+                reservBook.setUserCasual(null);
+                bookRepository.save(reservBook);
+                notReservBook.setQuant(reservBook.getQuant()+notReservBook.getQuant());
+                bookRepository.save(notReservBook);
+
+            } else {
+                reservBook.setBookState(BookState.NOTRESERVED);
+                reservBook.setUserCasual(null);
+                bookRepository.save(reservBook);
+            }
+
+
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

@@ -59,8 +59,12 @@ export class SearchBookDetailsComponent implements OnInit {
 
 
   deleteReserv(bookId) {
+    console.log("wchodzi");
     this.errors = null;
-    console.log(bookId);
+    this.bookService.deleteReservBook(bookId).subscribe(x => {
+
+      this.router.navigate(["myReserv"]);
+    })
 
 
   }

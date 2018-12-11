@@ -20,18 +20,21 @@ export class BookService {
     return this.http.get(this.url + "/book/" + bookId + "/details");
   }
 
-  public deleteBook(bookId,quant) {
+  public deleteBook(bookId, quant) {
 
-    return this.http.post(this.url + "/book/" + bookId + "/delete/",quant);
+    return this.http.post(this.url + "/book/" + bookId + "/delete/", quant);
   }
 
-  public getDetailsForCasualUser(bookId){
-    return this.http.get(this.url+"/book/details/"+bookId);
+  public getDetailsForCasualUser(bookId) {
+    return this.http.get(this.url + "/book/details/" + bookId);
   }
 
-  public reservBook(bookId,quant){
-    return this.http.post(this.url + "/book/" + bookId + "/reserv",quant);
+  public reservBook(bookId, quant) {
+    return this.http.post(this.url + "/book/" + bookId + "/reserv", quant);
   }
 
+  public deleteReservBook(bookId) {
+    return this.http.post(this.url + "/book/" + bookId + "/delete/reserv",null);
+  }
 
 }
