@@ -14,7 +14,7 @@ import {Credentials} from "../model/user/Credentials";
 export class AccountSettingsComponent implements OnInit {
 
 
-  private url: string = 'http://localhost:8080/api/';
+  private url: string = environment.url+"/";
 
   public settingsForm: FormGroup;
 

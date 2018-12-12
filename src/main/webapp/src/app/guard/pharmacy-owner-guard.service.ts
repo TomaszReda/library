@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
 import {AuthService} from "../service/auth.service";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PharmacyOwnerGuardService implements CanActivate {
 
-  private url: string = "http://localhost:8080/api/";
+  private url: string = environment.url;
 
   constructor(private authService: AuthService, private router: Router) {
   }

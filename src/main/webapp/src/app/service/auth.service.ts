@@ -7,6 +7,7 @@ import {User} from "../model/user/user.model";
 import {FormGroup, NgForm} from "@angular/forms";
 import {UserService} from "./user.service";
 import {UserRoles} from "../model/user/user.roles.model";
+import {environment} from "../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'
@@ -31,14 +32,14 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
 
-  url: string = "http://localhost:8080/api/";
+  url: string = environment.url;
 
   login(email: string, password: string, modalLogin: ModalComponent) {
     const creditians = {
       email,
       password
     };
-    this.http.post(this.url + "login", creditians).subscribe((x: Credentials) => {
+    this.http.post(this.url + "/login", creditians).subscribe((x: Credentials) => {
       localStorage.setItem("tokenID", x.token)
       modalLogin.close();
       this.badLogin = null;
@@ -68,7 +69,7 @@ export class AuthService {
     this.router.navigate(["/home"]);
     this.user = null;
     this.pharmacyOwner=null;
-    this.http.get(this.url + "logout").subscribe(x => {
+    this.http.get(this.url + "/logout").subscribe(x => {
       this.user = null;
       this.islogin = false;
       localStorage.removeItem("tokenID");
@@ -76,7 +77,7 @@ export class AuthService {
   }
 
   registerCasualUser(user: User, form: FormGroup, modalRegister: ModalComponent) {
-    this.http.post(this.url + "registerCasual", user).subscribe(x => {
+    this.http.post(this.url + "/registerCasual", user).subscribe(x => {
       modalRegister.close();
       this.badRegisterCasual = null;
       form.reset();
@@ -86,7 +87,7 @@ export class AuthService {
   }
 
   registerLibraryOwner(user: User, form: FormGroup, modalRegister: ModalComponent) {
-    this.http.post(this.url + "registerOwner", user).subscribe(x => {
+    this.http.post(this.url + "/registerOwner", user).subscribe(x => {
       modalRegister.close();
       this.badRegisterLibrary = null;
       form.reset();

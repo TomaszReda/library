@@ -5,6 +5,7 @@ import {ModalComponent} from "angular-custom-modal";
 import {User} from "./model/user/user.model";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "./service/user.service";
+import {environment} from "../environments/environment.prod";
 
 
 @Component({
@@ -15,7 +16,7 @@ import {UserService} from "./service/user.service";
 export class AppComponent implements OnInit, OnDestroy {
   title = 'webapp';
 
-  private url: string = "http://localhost:8080/api/";
+  private url: string = environment.url+"/";
 
   @ViewChild("loginForm")
   private loginForm: NgForm;
