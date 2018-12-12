@@ -12,7 +12,7 @@ spring:
         trace: false
         web-allow-others: true
   datasource:
-    url: jdbc:h2:file:~/test
+    url: jdbc:h2:file:~/test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -24,9 +24,16 @@ spring:
       initialize-schema: always
     timeout: 30m
   jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create
-    show-sql: false
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
+        enable_lazy_load_no_trans: true
+
 
 ---
 spring:
@@ -44,14 +51,19 @@ spring:
       initialize-schema: always
     timeout: 30m
   jpa:
-    hibernate:
-      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    properties:
       hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
         jdbc:
           lob:
-            non_contextual_creation=true:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: update
     datasource:
     username: postgres
-    password: aptekarze
+    password: GHJbnm123
     url: jdbc:postgresql://localhost:5432/library
     driver-class-name: org.postgresql.Driver
