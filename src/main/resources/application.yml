@@ -40,8 +40,8 @@ spring:
   profiles: test
   datasource:
     url: jdbc:postgresql://localhost:5432/library
-    username: postgres
-    password: aptekarze
+    username: ksiazeczka
+    password: ksiazeczka
     driver-class-name: org.postgresql.Driver
     platform: h2
 
