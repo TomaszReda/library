@@ -17,7 +17,8 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'pl.tomekreda.library'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 10
+sourceCompatibility = 8
+
 
 repositories {
     mavenCentral()
