@@ -24,6 +24,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'war'
 
 jar {
     baseName = 'gs-accessing-facebook'
@@ -68,7 +69,7 @@ dependencies {
 def webappDir = "$projectDir/src/main/webapp"
 def execTempDir = "./src/main/resources/static/"
 
-bootJar {
+bootWar {
     dependsOn "buildAngular"
 }
 
