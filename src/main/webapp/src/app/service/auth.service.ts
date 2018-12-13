@@ -77,7 +77,7 @@ export class AuthService {
   }
 
   registerCasualUser(user: User, form: FormGroup, modalRegister: ModalComponent) {
-    this.http.post(this.url + "registerCasual", user).subscribe(x => {
+    this.http.post(this.url + "/registerCasual", user).subscribe(x => {
       modalRegister.close();
       this.badRegisterCasual = null;
       form.reset();
