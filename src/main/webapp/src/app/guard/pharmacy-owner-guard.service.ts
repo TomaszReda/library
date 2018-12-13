@@ -8,7 +8,6 @@ import {HttpClient} from "@angular/common/http";
 })
 export class PharmacyOwnerGuardService implements CanActivate {
 
-  private url: string = "http://localhost:8080/api/";
 
   constructor(private authService: AuthService, private router: Router) {
   }

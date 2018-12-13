@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {User} from "../model/user/user.model";
 import {PasswordRequest} from "../model/user/changePassword.model";
+import {environment} from "../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  private url: string = 'http://localhost:8080/api';
+  private url: string = environment.url;
 
 
 

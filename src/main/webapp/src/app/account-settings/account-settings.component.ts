@@ -5,6 +5,7 @@ import {User} from "../model/user/user.model";
 import {FormControl, FormGroup, NgForm} from "@angular/forms";
 import {AuthService} from "../service/auth.service";
 import {Credentials} from "../model/user/Credentials";
+import {environment} from "../../environments/environment.prod";
 
 @Component({
   selector: 'app-account-settings',
@@ -14,7 +15,7 @@ import {Credentials} from "../model/user/Credentials";
 export class AccountSettingsComponent implements OnInit {
 
 
-  private url: string = 'http://localhost:8080/api/';
+  private url: string = environment.url;
 
   public settingsForm: FormGroup;
 
@@ -82,7 +83,7 @@ export class AccountSettingsComponent implements OnInit {
           email,
           password
         };
-        this.http.post(this.url + "login", creditians).subscribe((x: Credentials) => {
+        this.http.post(this.url + "/login", creditians).subscribe((x: Credentials) => {
           localStorage.setItem("tokenID", x.token)
         }, error1 => {
           localStorage.removeItem("tokenID");

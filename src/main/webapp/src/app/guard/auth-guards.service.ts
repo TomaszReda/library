@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot} from "@angular/router";
 import {AuthService} from "../service/auth.service";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardsService implements CanActivate {
 
-  private url: string = "http://localhost:8080/api/";
+  private url: string = environment.url;;
 
   constructor(private router: Router, private authService: AuthService, private http: HttpClient) {
   }
@@ -17,7 +18,7 @@ export class AuthGuardsService implements CanActivate {
 
 
     if (localStorage.getItem("tokenID")) {
-      this.http.get(this.url+"tokenValid").subscribe(
+      this.http.get(this.url+"/tokenValid").subscribe(
         x => {
           return true;
         }, error1 => {
