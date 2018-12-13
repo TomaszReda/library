@@ -14,17 +14,14 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'nebula.provided-base'
+
 group = 'pl.tomekreda.library'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 8
 
-
 repositories {
-    mavenCentral();
- 
+    mavenCentral()
 }
-
 
 
 dependencies {
@@ -41,7 +38,7 @@ dependencies {
     compile group: 'org.springframework.session', name: 'spring-session-core', version: '2.0.4.RELEASE'
     runtimeOnly('com.h2database:h2')
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.4'
-    provided 'org.projectlombok:lombok:1.18.4'
+    provided group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('io.projectreactor:reactor-test')
