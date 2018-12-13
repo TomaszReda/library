@@ -22,7 +22,10 @@ sourceCompatibility = 8
 
 
 repositories {
-    mavenCentral()
+    mavenCentral();
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
 }
 
 
