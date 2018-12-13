@@ -16,7 +16,7 @@ import {environment} from "../environments/environment.prod";
 export class AppComponent implements OnInit, OnDestroy {
   title = 'webapp';
 
-  private url: string = environment.url+"/";
+  private url: string = environment.url;
 
   @ViewChild("loginForm")
   private loginForm: NgForm;
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }}
     })
     if (localStorage.getItem("tokenID")) {
-      this.http.get(this.url + "tokenValid").subscribe(
+      this.http.get(this.url + "/tokenValid").subscribe(
         x => {
 
           this.authService.islogin = true;
