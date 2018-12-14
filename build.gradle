@@ -73,6 +73,10 @@ bootWar {
     dependsOn "buildAngular"
 }
 
+bootJar {
+    dependsOn "buildAngular"
+}
+
 task buildAngular(type: Exec) {
     dependsOn "installAngular"
     workingDir "$webappDir"
