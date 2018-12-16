@@ -65,7 +65,7 @@ spring:
   session:
     store-type: jdbc
     jdbc:
-      initialize-schema: never
+      initialize-schema: always
 logging:
   level:
     pl.tomekreda: DEBUG
@@ -73,4 +73,4 @@ server:
   port: 8080
   servlet:
     session:
-      timeout: 1800s
+      timeout: 30m
