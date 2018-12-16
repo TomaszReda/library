@@ -5,7 +5,6 @@ import lombok.*;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class AuthenticationResponse {
     private String username;

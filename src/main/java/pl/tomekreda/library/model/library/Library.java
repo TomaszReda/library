@@ -18,8 +18,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Library {
 
     @Id
