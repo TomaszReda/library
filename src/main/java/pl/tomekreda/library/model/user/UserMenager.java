@@ -1,7 +1,7 @@
 package pl.tomekreda.library.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.*;
 import pl.tomekreda.library.model.library.Library;
 
 import javax.persistence.*;
@@ -11,6 +11,10 @@ import java.util.List;
 
 @Data
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserMenager implements Serializable {
 
     @Id

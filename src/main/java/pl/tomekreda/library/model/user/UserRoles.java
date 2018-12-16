@@ -8,10 +8,11 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@NoArgsConstructor
-@Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Table(name = "ROLES")
 public class UserRoles implements Serializable {
 

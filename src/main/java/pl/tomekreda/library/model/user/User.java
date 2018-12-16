@@ -1,7 +1,6 @@
 package pl.tomekreda.library.model.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
@@ -12,7 +11,10 @@ import java.util.UUID;
 @Slf4j
 @Data
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "`user`")
 public class User {
 

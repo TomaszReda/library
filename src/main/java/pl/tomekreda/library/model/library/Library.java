@@ -2,9 +2,7 @@ package pl.tomekreda.library.model.library;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.model.user.UserMenager;
@@ -18,6 +16,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "library")
 @AllArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Library {
 
     @Id

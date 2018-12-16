@@ -1,6 +1,6 @@
 package pl.tomekreda.library.model.book;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +8,10 @@ import java.util.List;
 
 @Data
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class BookCategory {
 
     @Id

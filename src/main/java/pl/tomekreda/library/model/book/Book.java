@@ -1,7 +1,7 @@
 package pl.tomekreda.library.model.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.*;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.UserCasual;
 
@@ -11,6 +11,10 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Book {
 
     @Id
