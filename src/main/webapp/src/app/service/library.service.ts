@@ -15,22 +15,22 @@ export class LibraryService {
 
   addLibrary(libraryRequest) {
 
-    return this.http.post(this.url + 'add/library', libraryRequest);
+    return this.http.post(this.url + '/add/library', libraryRequest);
   }
 
   updateLibrary(libraryRequest) {
-    return this.http.put(this.url + 'update/library', libraryRequest);
+    return this.http.put(this.url + '/update/library', libraryRequest);
   }
 
 
   gettAllLibrary(page, size) {
     let params = new HttpParams().append('page', page).append("size", size);
-    return this.http.get(this.url + 'get/library/list', {params: params});
+    return this.http.get(this.url + '/get/library/list', {params: params});
   }
 
   getLibraryDeitals(libraryId) {
 
-    return this.http.get(this.url + "get/library/" + libraryId);
+    return this.http.get(this.url + "/get/library" + libraryId);
   }
 
 }

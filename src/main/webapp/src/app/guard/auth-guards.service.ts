@@ -9,7 +9,7 @@ import {environment} from "../../environments/environment.prod";
 })
 export class AuthGuardsService implements CanActivate {
 
-  private url: string = environment.url;;
+  private url: string = environment.url;
 
   constructor(private router: Router, private authService: AuthService, private http: HttpClient) {
   }
