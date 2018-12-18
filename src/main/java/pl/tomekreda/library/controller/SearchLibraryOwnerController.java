@@ -26,9 +26,9 @@ public class SearchLibraryOwnerController {
     }
 
 
-//    @GetMapping("/search/user/{userId}/reserv/book")
-//    public ResponseEntity searchReservBook(UUID userId) {
-//        return searchService.searchReservBook(userId);
-//    }
+    @GetMapping("/search/user/{userId}/reserv/book")
+    public ResponseEntity searchReservBook(@PathVariable UUID userId, @RequestParam int page, @RequestParam int size) {
+        return searchService.searchReservBook(userId,page,size);
+    }
 
 }

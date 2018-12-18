@@ -47,8 +47,8 @@ export class ReservUserListComponent implements OnInit {
     this.router.navigate(["/user/" + this.user.id]);
   }
 
-  reservDetails(){
-    console.log("zarezerwowane");
-  this.router.navigate(["/reserv/book/user/"+this.user.id]);
+  reservDetails() {
+    localStorage.setItem("userId", this.user.id);
+    this.router.navigate(["/reserv/book/user/" + this.user.id]);
   }
 }

@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.BookRepository;
 import pl.tomekreda.library.repository.LibraryRepository;
+import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.utils.Utils;
 
 import javax.transaction.Transactional;
@@ -31,6 +33,7 @@ public class SearchLibraryOwnerService {
 
     private final UserService userService;
 
+    private final UserRepository userRepository;
 
     public ResponseEntity search(UUID libraryId, String word, int page, int size) {
         try {
@@ -45,8 +48,8 @@ public class SearchLibraryOwnerService {
             array[0] = BookState.BOOKED;
             array[2] = BookState.CONFIRMED;
             List<Book> tmpBookList = bookRepository.findAllByLibraryAndTitleIsContainingAndBookStateIsIn(library, word, array);
-            Utils utils=new Utils();
-            List<Map<String, Object>> bookLists=utils.createBookList(tmpBookList);
+            Utils utils = new Utils();
+            List<Map<String, Object>> bookLists = utils.createBookList(tmpBookList);
             Pageable pageable = new PageRequest(page, size);
             int max = (size * (page + 1) > bookLists.size()) ? bookLists.size() : size * (page + 1);
             Page<List<Map<String, Object>>> bookListPageResult = new PageImpl(bookLists.subList(size * page, max), pageable, bookLists.size());
@@ -71,13 +74,12 @@ public class SearchLibraryOwnerService {
             arr[1] = BookState.NOTRESERVED;
             arr[2] = BookState.CONFIRMED;
             List<Book> tmpbookList = bookRepository.findAllByLibraryAndBookStateIsIn(library, arr);
-            Utils utils=new Utils();
-            List<Map<String, Object>> bookList=utils.createBookList(tmpbookList);
+            Utils utils = new Utils();
+            List<Map<String, Object>> bookList = utils.createBookList(tmpbookList);
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
-            Pageable pageable = new PageRequest(page, size);
 
             log.info("[Get Book list]=" + bookList);
-            Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
+            Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), null, bookList.size());
 
             return ResponseEntity.ok(pageResult);
         } catch (Exception ex) {
@@ -85,9 +87,40 @@ public class SearchLibraryOwnerService {
         }
     }
 
+    public ResponseEntity searchReservBook(UUID userId,int size,int page) {
+        try {
+            User user = userRepository.findById(userId).orElse(null);
+            List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.BOOKED);
+            List<Map<String, Object>> bookList=createBookList(booktmpList);
+
+            int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
+            Pageable pageable = new PageRequest(page, size);
+
+            log.info("[Get Book list]=" + bookList);
+            Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
+            return ResponseEntity.ok(bookList);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 
-
+    private List<Map<String, Object>> createBookList(List<Book> bookList) throws NoSuchFieldException {
+        List<Map<String, Object>> mapArrayList=new ArrayList<>();
+        for(Book b: bookList){
+            Map<String,Object> tmp=new HashMap<>();
+                    tmp.put(Book.class.getDeclaredField("author").getName(),b.getAuthor());
+            tmp.put(Book.class.getDeclaredField("title").getName(),b.getTitle());
+            tmp.put(Book.class.getDeclaredField("publisher").getName(),b.getPublisher());
+            tmp.put(Book.class.getDeclaredField("date").getName(),b.getDate());
+            tmp.put(Book.class.getDeclaredField("quant").getName(),b.getQuant());
+            tmp.put(Book.class.getDeclaredField("ISBN").getName(),b.getISBN());
+            tmp.put("bookId",b.getID());
+            tmp.put("libraryName",b.getLibrary().getName());
+            mapArrayList.add(tmp);
+        }
+        return  mapArrayList;
+    }
 
 }
 
