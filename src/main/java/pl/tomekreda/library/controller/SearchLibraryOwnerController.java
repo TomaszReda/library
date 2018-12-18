@@ -19,11 +19,16 @@ public class SearchLibraryOwnerController {
 
     @GetMapping("/search/library/{libraryId}/book")
     public ResponseEntity search(@PathVariable UUID libraryId, @RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
-            if (word.length() < 3 || word.equals(null))
+        if (word.length() < 3 || word.equals(null))
             return searchService.searchAll(libraryId, page, size);
         else
             return searchService.search(libraryId, word, page, size);
-
     }
+
+
+//    @GetMapping("/search/user/{userId}/reserv/book")
+//    public ResponseEntity searchReservBook(UUID userId) {
+//        return searchService.searchReservBook(userId);
+//    }
 
 }

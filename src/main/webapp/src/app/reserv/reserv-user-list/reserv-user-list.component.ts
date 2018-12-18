@@ -43,8 +43,12 @@ export class ReservUserListComponent implements OnInit {
   }
 
   details() {
-    console.log("aaa");
+
     this.router.navigate(["/user/" + this.user.id]);
   }
 
+  reservDetails(){
+    console.log("zarezerwowane");
+  this.router.navigate(["/reserv/book/user/"+this.user.id]);
+  }
 }
