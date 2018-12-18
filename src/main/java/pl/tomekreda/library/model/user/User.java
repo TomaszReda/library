@@ -31,7 +31,6 @@ public class User {
     private int phoneNumber;
 
     private String password;
-
     @OneToOne(cascade = CascadeType.ALL)
     private UserMenager userMenager;
 

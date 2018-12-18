@@ -15,17 +15,20 @@ export class UserService {
   private url: string = environment.url;
 
 
-
   getLoggerInfo() {
     return this.http.get(this.url + '/online/user/info');
   }
 
 
   changeSettings(user: User) {
-    return this.http.put(this.url+"/user/change/settings",user);
+    return this.http.put(this.url + "/user/change/settings", user);
   }
 
-  changePassword(changepas:PasswordRequest) {
-    return this.http.put(this.url+"/user/change/password",changepas);
+  changePassword(changepas: PasswordRequest) {
+    return this.http.put(this.url + "/user/change/password", changepas);
+  }
+
+  userInfo(uuid) {
+    return this.http.get(this.url + "/user/" + uuid);
   }
 }

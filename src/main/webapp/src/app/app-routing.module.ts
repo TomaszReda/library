@@ -47,6 +47,14 @@ const routes: Routes = [
   {
     path: 'reserv',
     loadChildren:'./reserv/reserv.module#ReservModule',
+    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+
+  },
+  {
+    path: 'user/:id',
+    loadChildren: './user-details/user-details.module#UserDetailsModule',
+    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+
   }
 
 ];

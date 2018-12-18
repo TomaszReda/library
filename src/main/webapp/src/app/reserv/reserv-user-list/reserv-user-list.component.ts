@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {User} from "../../model/user/user.model";
 import {ReservService} from "../../service/reserv.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-reserv-user-list',
@@ -22,7 +23,7 @@ export class ReservUserListComponent implements OnInit {
   public errors = null;
 
 
-  constructor(private reservService: ReservService) {
+  constructor(private reservService: ReservService, private router: Router) {
   }
 
 
@@ -34,11 +35,16 @@ export class ReservUserListComponent implements OnInit {
     this.errors = null;
     this.submit = true;
     this.reservService.getReservUserDetails(this.email).subscribe(x => {
-    this.user=x;
+      this.user = x;
     }, error1 => {
       console.log(error1);
       this.errors = error1.error;
     })
+  }
+
+  details() {
+    console.log("aaa");
+    this.router.navigate(["/user/" + this.user.id]);
   }
 
 }

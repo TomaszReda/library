@@ -15,6 +15,7 @@ import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.validators.PasswordValidators;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -119,5 +120,15 @@ public class UserService {
 
     public User getUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
+    }
+
+    public ResponseEntity getUserInfo(UUID uuid){
+        try {
+            User user = userRepository.findById(uuid).orElse(null);
+            log.info("[User info]="+user);
+            return ResponseEntity.ok(user);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

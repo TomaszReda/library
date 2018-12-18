@@ -10,6 +10,8 @@ import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.service.UserService;
 
+import java.util.UUID;
+
 @RestController()
 @RequestMapping("/api")
 public class UserController {
@@ -35,6 +37,11 @@ public class UserController {
     @PutMapping("/user/change/password")
     public ResponseEntity changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
         return userService.changePassword(changePasswordRequest);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity getUserInfo(@PathVariable UUID id){
+        return userService.getUserInfo(id);
     }
 
 }
