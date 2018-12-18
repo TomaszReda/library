@@ -7,10 +7,12 @@ import {ModalModule} from 'angular-custom-modal';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {TokenGuardInterceptor} from "./guard/token-guard.interceptor";
+import { UserDetailsComponent } from './user-details/user-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,

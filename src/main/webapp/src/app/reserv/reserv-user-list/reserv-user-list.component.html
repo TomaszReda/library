@@ -9,6 +9,7 @@
     </form>
     <br/>
     <p class="alert alert-danger" *ngIf=" submit && reserv.invalid">Podaj poprawny email!</p>
+    <p class="alert alert-danger" *ngIf="errors">{{errors}}</p>
 
     <table *ngIf="user" class="table table-bordered ">
       <thead>
@@ -23,9 +24,9 @@
       </thead>
       <tbody>
       <tr >
-        <td ></td>
-        <td></td>
-        <td></td>
+        <td>{{user.firstname}}</td>
+        <td>{{user.lastname}}</td>
+        <td>{{user.email}}</td>
         <td><button type="button">Szczegóły</button></td>
         <td><button type="button">Zarezerwowane</button></td>
       </tr>

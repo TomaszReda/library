@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {User} from "../../model/user/user.model";
+import {ReservService} from "../../service/reserv.service";
 
 @Component({
   selector: 'app-reserv-user-list',
@@ -18,7 +19,10 @@ export class ReservUserListComponent implements OnInit {
 
   public submit = false;
 
-  constructor() {
+  public errors = null;
+
+
+  constructor(private reservService: ReservService) {
   }
 
 
@@ -27,8 +31,14 @@ export class ReservUserListComponent implements OnInit {
   }
 
   onSubmit() {
+    this.errors = null;
     this.submit = true;
-    console.log(this.email+"");
+    this.reservService.getReservUserDetails(this.email).subscribe(x => {
+    this.user=x;
+    }, error1 => {
+      console.log(error1);
+      this.errors = error1.error;
+    })
   }
 
 }

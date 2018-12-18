@@ -63,7 +63,7 @@ public class TestingDevData implements CommandLineRunner {
 
         addLibrary(owner2);
 
-        User casual = new User("Kasia", "Reda", "worker@local", 123456789, passwordEncoder.encode("password"));
+        User casual = new User("Kasia", "Reda", "tomekreda@op.pl", 123456789, passwordEncoder.encode("password"));
         UserRoles userCasualRole = new UserRoles();
         userCasualRole.setUserRole(UserRoleEnum.CASUAL_USER);
         UserCasual userCasual=new UserCasual();

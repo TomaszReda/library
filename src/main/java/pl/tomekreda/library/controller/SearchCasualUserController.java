@@ -35,4 +35,10 @@ public class SearchCasualUserController {
             return searchCasualUserService.getReservBook(word,page,size);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @GetMapping("/search/user/{email}")
+    public ResponseEntity getSearchUser(@PathVariable String email){
+        return searchCasualUserService.searchByEmail(email);
+    }
+
 }

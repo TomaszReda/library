@@ -7,12 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.BookRepository;
+import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.utils.Utils;
 
 import java.util.*;
@@ -27,6 +29,8 @@ public class SearchCasualUserService {
     private final UserService userService;
 
     private final BookService bookService;
+
+    private final UserRepository userRepository;
 
     private Utils utils = new Utils();
 
@@ -82,5 +86,27 @@ public class SearchCasualUserService {
         }
     }
 
+    public ResponseEntity searchByEmail(String email) {
+        try {
+            User user = userRepository.findUserByEmail(email);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nie znaleziono uzytkownika");
+            }
+            return ResponseEntity.ok(createUserMap(user));
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
+    private Map<String, Object> createUserMap(User user) throws NoSuchFieldException {
+        Map<String, Object> map = new HashMap<>();
+        map.put(User.class.getDeclaredField("firstname").getName(), user.getFirstname());
+        map.put(User.class.getDeclaredField("lastname").getName(), user.getLastname());
+        map.put(User.class.getDeclaredField("email").getName(), user.getEmail());
+        map.put(User.class.getDeclaredField("id").getName(), user.getId());
+        return map;
+    }
 }
+
+
+
