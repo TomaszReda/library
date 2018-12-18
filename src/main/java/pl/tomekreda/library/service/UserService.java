@@ -81,6 +81,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setUserRoles(logged.getUserRoles());
         user.setUserMenager(logged.getUserMenager());
+        user.setUserCasual(logged.getUserCasual());
         user = userRepository.save(user);
 
         log.info("[Change setings after]="+user);

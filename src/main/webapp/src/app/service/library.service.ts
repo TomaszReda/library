@@ -30,7 +30,7 @@ export class LibraryService {
 
   getLibraryDeitals(libraryId) {
 
-    return this.http.get(this.url + "/get/library" + libraryId);
+    return this.http.get(this.url + "/get/library/" + libraryId);
   }
 
 }
