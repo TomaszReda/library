@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.UserCasual;
+import pl.tomekreda.library.model.user.UserMenager;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -41,6 +42,10 @@ public class Book {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private UserCasual userCasual;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private UserMenager userMenager;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

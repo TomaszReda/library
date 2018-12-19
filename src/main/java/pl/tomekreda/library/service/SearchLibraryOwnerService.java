@@ -91,7 +91,7 @@ public class SearchLibraryOwnerService {
     public ResponseEntity searchReservBook(UUID userId,int size,int page) {
         try {
             User user = userRepository.findById(userId).orElse(null);
-            List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.CONFIRMED);
+            List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookStateAndUserMenager(user.getUserCasual(), BookState.CONFIRMED,userService.findLoggedUser().getUserMenager());
             Utils utils=new Utils();
             List<Map<String, Object>> bookList=utils.createBookListForUserOwner(booktmpList);
 
@@ -110,7 +110,7 @@ public class SearchLibraryOwnerService {
     public ResponseEntity searchBookedBook(UUID userId,int size,int page) {
         try {
             User user = userRepository.findById(userId).orElse(null);
-            List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.BOOKED);
+            List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookStateAndUserMenager(user.getUserCasual(), BookState.BOOKED,userService.findLoggedUser().getUserMenager());
             Utils utils=new Utils();
             List<Map<String, Object>> bookList=utils.createBookListForUserOwner(booktmpList);
 

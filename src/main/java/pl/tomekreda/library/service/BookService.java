@@ -10,6 +10,7 @@ import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookCategory;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.BookCategoryRepository;
 import pl.tomekreda.library.repository.BookRepository;
 import pl.tomekreda.library.repository.LibraryRepository;
@@ -41,8 +42,10 @@ public class BookService {
     public ResponseEntity addBook(AddBookRequest addBookRequest) {
         try {
             log.info("[Add book request]=" + addBookRequest);
+            User user=userService.findLoggedUser();
             Library library = libraryRepository.findById(addBookRequest.getLibraryId()).orElse(null);
             Book tmp = createBook(addBookRequest, library);
+            tmp.setUserMenager(user.getUserMenager());
             bookRepository.save(tmp);
 
             log.info("[Added book]=" + tmp);
@@ -108,6 +111,7 @@ public class BookService {
 
     Book copyBook(Book book) {
         Book tmp = new Book();
+        tmp.setUserMenager(book.getUserMenager());
         tmp.setQuant(book.getQuant());
         tmp.setBookState(book.getBookState());
         tmp.setLibrary(book.getLibrary());
