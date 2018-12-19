@@ -37,6 +37,7 @@ export class SearchBookDetailsComponent implements OnInit {
       this.book = x;
       this.book.deitalsGeneralSearch = localStorage.getItem("deitalsGeneralSearch");
       this.book.detailsReservSearch = localStorage.getItem("detailsReservSearch");
+      this.book.detailsForCasualBookedUser = localStorage.getItem("detailsForCasualBookedUser");
       this.errors = null;
       this.mapService.mapLat = this.book.latitude;
       this.mapService.mapLng = this.book.longitude;

@@ -96,7 +96,7 @@
         </td>
       </tr>
 
-      <tr [hidden]=" !this.authService.user || book.detailsReservSearch !='true'">
+      <tr [hidden]=" !this.authService.user || book.detailsReservSearch !='true' || book.detailsForCasualBookedUser==='true'">
         <td>Usun Rezerwacje</td>
         <td>
           <form (ngSubmit)="deleteReserv(book.bookId)" >

@@ -21,4 +21,5 @@ export class BookDetailsForCasualUser {
   local?:string;
   deitalsGeneralSearch?:string;
   detailsReservSearch?: string;
+  detailsForCasualBookedUser?: string;
 }
