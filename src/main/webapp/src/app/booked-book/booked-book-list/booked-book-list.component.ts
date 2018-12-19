@@ -58,7 +58,6 @@ export class BookedBookListComponent implements OnInit {
   }
 
   details(bookId){
-    console.log("click");
     localStorage.setItem("deitalsGeneralSearch",null);
     localStorage.setItem("detailsReservSearch","true");
     localStorage.setItem("detailsForCasualBookedUser","true")

@@ -38,6 +38,14 @@ export class ReservBookListComponent implements OnInit {
     })
   }
 
+  details(bookId){
+    console.log("cos"+bookId);
+    localStorage.setItem("deitalsGeneralSearch",null);
+    localStorage.setItem("detailsReservSearch","true");
+    localStorage.setItem("detailsForCasualBookedUser","true")
+    this.router.navigate(["/search/book/"+bookId])
+  }
+
   akcept(bookId) {
     this.bookService.confirmReserv(bookId).subscribe(x => {
       let id = this.activated.snapshot.paramMap.get("userId")

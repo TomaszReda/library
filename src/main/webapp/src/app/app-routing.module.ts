@@ -26,7 +26,7 @@ const routes: Routes = [
   {
     path: 'search/book',
     loadChildren: './search-book/search.module#SearchModule',
-    canActivate: [NoPharmacyOwnerGuardServiceService]
+
   },
   {
     path: 'addLibrary',

@@ -2,7 +2,7 @@
   <div id="page-wrap">
 
     <div style="display: flex; justify-content: center;" *ngIf="pageNumber===null">
-      <h2 class="text-danger">Brak rezerwacji uzytkownika !</h2>
+      <h2 class="text-danger">Brak wyporzyczonych książek !</h2>
     </div>
     <div *ngIf="pageNumber!=null">
       <table class="table table-bordered ">
@@ -52,7 +52,7 @@
             </div>
             <li class="page-item">
               <a class="page-link" (click)="next()"
-                 *ngIf="currentyPage<pageNumber[pageNumber.length-1]-1">Next</a>
+                 *ngIf="currentyPage<pageNumber[pageNumber.length-1]-1" tabindex="-1">Next</a>
             </li>
             <li class="page-item disabled" *ngIf="currentyPage>=pageNumber[pageNumber.length-1]-1">
               <a class="page-link">Next</a>
