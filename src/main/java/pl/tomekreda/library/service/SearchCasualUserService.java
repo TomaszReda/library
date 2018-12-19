@@ -106,6 +106,24 @@ public class SearchCasualUserService {
         map.put(User.class.getDeclaredField("id").getName(), user.getId());
         return map;
     }
+
+    public ResponseEntity bookedBook(int page, int size) {
+        try {
+            User user = userService.findLoggedUser();
+            List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.CONFIRMED);
+            Utils utils=new Utils();
+            List<Map<String, Object>> bookList=utils.createBookListForUserOwner(booktmpList);
+
+            int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
+            Pageable pageable = new PageRequest(page, size);
+
+            log.info("[Get Book list]=" + bookList);
+            Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
+            return ResponseEntity.ok(pageResult);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
 
 

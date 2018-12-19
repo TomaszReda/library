@@ -41,4 +41,10 @@ public class SearchCasualUserController {
         return searchCasualUserService.searchByEmail(email);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
+    @GetMapping("/get/booked/book")
+    public ResponseEntity bookedBook(@RequestParam int page,@RequestParam int size) {
+        return searchCasualUserService.bookedBook(page,size);
+    }
+
 }

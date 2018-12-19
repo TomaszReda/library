@@ -92,7 +92,8 @@ public class SearchLibraryOwnerService {
         try {
             User user = userRepository.findById(userId).orElse(null);
             List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.BOOKED);
-            List<Map<String, Object>> bookList=createBookList(booktmpList);
+            Utils utils=new Utils();
+            List<Map<String, Object>> bookList=utils.createBookListForUserOwner(booktmpList);
 
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
             Pageable pageable = new PageRequest(page, size);
@@ -106,22 +107,6 @@ public class SearchLibraryOwnerService {
     }
 
 
-    private List<Map<String, Object>> createBookList(List<Book> bookList) throws NoSuchFieldException {
-        List<Map<String, Object>> mapArrayList=new ArrayList<>();
-        for(Book b: bookList){
-            Map<String,Object> tmp=new HashMap<>();
-            tmp.put(Book.class.getDeclaredField("author").getName(),b.getAuthor());
-            tmp.put(Book.class.getDeclaredField("title").getName(),b.getTitle());
-            tmp.put(Book.class.getDeclaredField("publisher").getName(),b.getPublisher());
-            tmp.put(Book.class.getDeclaredField("date").getName(),b.getDate());
-            tmp.put(Book.class.getDeclaredField("quant").getName(),b.getQuant());
-            tmp.put(Book.class.getDeclaredField("ISBN").getName(),b.getISBN());
-            tmp.put("bookId",b.getID());
-            tmp.put("libraryName",b.getLibrary().getName());
-            mapArrayList.add(tmp);
-        }
-        return  mapArrayList;
-    }
 
 
 

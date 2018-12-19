@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {HomeModule} from './home/home.module';
 import {AuthGuardsService} from "./guard/auth-guards.service";
 import {PharmacyOwnerGuardService} from "./guard/pharmacy-owner-guard.service";
 import {NoPharmacyOwnerGuardServiceService} from "./guard/no-pharmacy-owner-guard-service.service";
@@ -32,29 +31,33 @@ const routes: Routes = [
   {
     path: 'addLibrary',
     loadChildren: './add-library/add-library.module#AddLibraryModule',
-    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+    canActivate: [PharmacyOwnerGuardService, AuthGuardsService]
   },
   {
     path: 'myLibrary',
     loadChildren: './my-library/my-library.module#MyLibraryModule',
-    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+    canActivate: [PharmacyOwnerGuardService, AuthGuardsService]
   },
   {
     path: 'myReserv',
     loadChildren: './my-reserv-book/my-reserv-book.module#MyReservBookModule',
-    canActivate: [NoPharmacyOwnerGuardServiceService,AuthGuardsService]
+    canActivate: [NoPharmacyOwnerGuardServiceService, AuthGuardsService]
   },
   {
     path: 'reserv',
-    loadChildren:'./reserv/reserv.module#ReservModule',
-    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+    loadChildren: './reserv/reserv.module#ReservModule',
+    canActivate: [PharmacyOwnerGuardService, AuthGuardsService]
 
   },
   {
     path: 'user/:id',
     loadChildren: './user-details/user-details.module#UserDetailsModule',
-    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+    canActivate: [PharmacyOwnerGuardService, AuthGuardsService]
 
+  },
+  {
+    path: "booked/book",
+    loadChildren: './booked-book/booked-book.module#BookedBookModule'
   }
 
 ];
