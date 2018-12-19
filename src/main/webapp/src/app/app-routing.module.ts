@@ -58,6 +58,10 @@ const routes: Routes = [
   {
     path: "booked/book",
     loadChildren: './booked-book/booked-book.module#BookedBookModule'
+  },
+  {
+    path: "return/book",
+    loadChildren: "./return-book/return-book.module#ReturnBookModule"
   }
 
 ];

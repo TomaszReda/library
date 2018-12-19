@@ -22,10 +22,13 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="reserv">Rezerwacje</a>
+        <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="reserv">Rezerwacje książek</a>
       </li>
       <li class="nav-item">
         <a class="nav-link " *ngIf="!authService.pharmacyOwner && authService.user"  routerLink="booked/book">Wyporzyczone</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="return/book">Oddanie książek</a>
       </li>
 
       <!--<li class="nav-item">-->
