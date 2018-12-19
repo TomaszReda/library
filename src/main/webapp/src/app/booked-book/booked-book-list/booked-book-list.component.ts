@@ -31,7 +31,7 @@ export class BookedBookListComponent implements OnInit {
   }
 
   initializeBookedBook() {
-    this.searchService.searchBookedBook(this.currentyPage, 10).subscribe((x:BookRequestSearch) => {
+    this.searchService.searchBookedBookByLogedUser(this.currentyPage, 10).subscribe((x:BookRequestSearch) => {
       this.bookList=x.content;
       this.pageNumber=this.pageService.returnpages(this.currentyPage,x.totalPages);
       if (x.totalElements === 0) {

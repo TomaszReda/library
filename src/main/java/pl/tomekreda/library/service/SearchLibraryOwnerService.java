@@ -91,7 +91,7 @@ public class SearchLibraryOwnerService {
     public ResponseEntity searchReservBook(UUID userId,int size,int page) {
         try {
             User user = userRepository.findById(userId).orElse(null);
-            List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.BOOKED);
+            List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.CONFIRMED);
             Utils utils=new Utils();
             List<Map<String, Object>> bookList=utils.createBookListForUserOwner(booktmpList);
 
@@ -106,6 +106,24 @@ public class SearchLibraryOwnerService {
         }
     }
 
+
+    public ResponseEntity searchBookedBook(UUID userId,int size,int page) {
+        try {
+            User user = userRepository.findById(userId).orElse(null);
+            List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.BOOKED);
+            Utils utils=new Utils();
+            List<Map<String, Object>> bookList=utils.createBookListForUserOwner(booktmpList);
+
+            int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
+            Pageable pageable = new PageRequest(page, size);
+
+            log.info("[Get Book list]=" + bookList);
+            Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
+            return ResponseEntity.ok(pageResult);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 
 

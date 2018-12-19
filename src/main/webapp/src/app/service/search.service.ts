@@ -34,9 +34,16 @@ export class SearchService {
     return this.httpClient.get(this.url + "/search/user/" + userId + "/reserv/book", {params: params});
   }
 
-  searchBookedBook(page,size){
+  searchBookedBookByLogedUser(page, size){
     let params = new HttpParams().append('page', page).append("size", size);
     return this.httpClient.get(this.url + "/get/booked/book", {params: params});
   }
+
+  searchUserBookedBookById(userId,page, size) {
+    let params = new HttpParams().append('page', page).append("size", size);
+    return this.httpClient.get(this.url + "/search/user/" + userId + "/booked/book", {params: params});
+  }
+
+
 
 }
