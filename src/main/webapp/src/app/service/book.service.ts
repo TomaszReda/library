@@ -46,4 +46,9 @@ export class BookService {
     return this.http.get(this.url+"/book/"+bookId+"/reserv/accept");
   }
 
+  public bookReturn(bookId){
+    return this.http.get(this.url+"/book/"+bookId+"/book/return");
+
+  }
+
 }

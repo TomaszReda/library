@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Book} from "../../model/book/book.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SearchService} from "../../service/search.service";
@@ -37,15 +37,21 @@ export class ReturnBookListComponent implements OnInit {
     })
   }
 
-  details(bookId){
-    console.log("cos"+bookId);
-    localStorage.setItem("deitalsGeneralSearch",null);
-    localStorage.setItem("detailsReservSearch","true");
-    localStorage.setItem("detailsForCasualBookedUser","true")
-    this.router.navigate(["/search/book/"+bookId])
+  details(bookId) {
+    console.log("cos" + bookId);
+    localStorage.setItem("deitalsGeneralSearch", null);
+    localStorage.setItem("detailsReservSearch", "true");
+    localStorage.setItem("detailsForCasualBookedUser", "true")
+    this.router.navigate(["/search/book/" + bookId])
   }
 
   returns(bookId) {
+    this.bookService.bookReturn(bookId).subscribe(x => {
+      this.initSearchBookedBook();
+    });
+    this.initSearchBookedBook();
+    let id = this.activated.snapshot.paramMap.get("userId")
+    this.router.navigate(["/return/book/user/" + id]);
 
   }
 

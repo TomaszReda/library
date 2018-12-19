@@ -276,4 +276,32 @@ public class BookService {
 
 
 
+
+    public ResponseEntity returnBook(UUID bookId) {
+        try {
+            Book reservBook = bookRepository.findById(bookId).orElse(null);
+            Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
+
+            if (notReservBook != null) {
+
+                reservBook.setBookState(BookState.DELETE);
+                reservBook.setUserCasual(null);
+                bookRepository.save(reservBook);
+                notReservBook.setQuant(reservBook.getQuant() + notReservBook.getQuant());
+                bookRepository.save(notReservBook);
+
+            } else {
+                reservBook.setBookState(BookState.NOTRESERVED);
+                reservBook.setUserCasual(null);
+                bookRepository.save(reservBook);
+            }
+
+
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
 }
