@@ -38,4 +38,12 @@ export class BookService {
     return this.http.post(this.url + "/book/" + bookId + "/delete/reserv",null);
   }
 
+  public deleteReserv(bookId){
+    return this.http.get(this.url+"/book/"+bookId+"/reserv/delete");
+  }
+
+  public confirmReserv(bookId){
+    return this.http.get(this.url+"/book/"+bookId+"/reserv/accept");
+  }
+
 }

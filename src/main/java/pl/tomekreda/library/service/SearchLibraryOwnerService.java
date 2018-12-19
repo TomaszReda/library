@@ -109,7 +109,7 @@ public class SearchLibraryOwnerService {
         List<Map<String, Object>> mapArrayList=new ArrayList<>();
         for(Book b: bookList){
             Map<String,Object> tmp=new HashMap<>();
-                    tmp.put(Book.class.getDeclaredField("author").getName(),b.getAuthor());
+            tmp.put(Book.class.getDeclaredField("author").getName(),b.getAuthor());
             tmp.put(Book.class.getDeclaredField("title").getName(),b.getTitle());
             tmp.put(Book.class.getDeclaredField("publisher").getName(),b.getPublisher());
             tmp.put(Book.class.getDeclaredField("date").getName(),b.getDate());

@@ -14,5 +14,6 @@ export class Book {
   categoryType?: string;
   library?:Library;
   deitalsGeneralSearch?: string;
+  libraryName?: string;
 
 }

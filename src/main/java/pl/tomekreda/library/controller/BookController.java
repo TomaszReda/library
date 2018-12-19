@@ -54,4 +54,15 @@ public class BookController {
         return bookService.deleteReservBook(bookId);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @GetMapping("/book/{bookId}/reserv/accept")
+    public ResponseEntity acceptReserv(@PathVariable UUID bookId) {
+        return bookService.acceptReserv(bookId);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @GetMapping("/book/{bookId}/reserv/delete")
+    public ResponseEntity deleteReserv(@PathVariable UUID bookId) {
+        return bookService.deleteReserv(bookId);
+    }
 }
