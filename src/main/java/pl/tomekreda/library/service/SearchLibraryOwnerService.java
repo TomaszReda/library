@@ -48,8 +48,8 @@ public class SearchLibraryOwnerService {
             array[0] = BookState.BOOKED;
             array[2] = BookState.CONFIRMED;
             List<Book> tmpBookList = bookRepository.findAllByLibraryAndTitleIsContainingAndBookStateIsIn(library, word, array);
-            Utils utils = new Utils();
-            List<Map<String, Object>> bookLists = utils.createBookList(tmpBookList);
+            Utils utils=new Utils();
+            List<Map<String, Object>> bookLists=utils.createBookList(tmpBookList);
             Pageable pageable = new PageRequest(page, size);
             int max = (size * (page + 1) > bookLists.size()) ? bookLists.size() : size * (page + 1);
             Page<List<Map<String, Object>>> bookListPageResult = new PageImpl(bookLists.subList(size * page, max), pageable, bookLists.size());
@@ -74,12 +74,13 @@ public class SearchLibraryOwnerService {
             arr[1] = BookState.NOTRESERVED;
             arr[2] = BookState.CONFIRMED;
             List<Book> tmpbookList = bookRepository.findAllByLibraryAndBookStateIsIn(library, arr);
-            Utils utils = new Utils();
-            List<Map<String, Object>> bookList = utils.createBookList(tmpbookList);
+            Utils utils=new Utils();
+            List<Map<String, Object>> bookList=utils.createBookList(tmpbookList);
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
+            Pageable pageable = new PageRequest(page, size);
 
             log.info("[Get Book list]=" + bookList);
-            Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), null, bookList.size());
+            Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
 
             return ResponseEntity.ok(pageResult);
         } catch (Exception ex) {
@@ -98,7 +99,7 @@ public class SearchLibraryOwnerService {
 
             log.info("[Get Book list]=" + bookList);
             Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
-            return ResponseEntity.ok(bookList);
+            return ResponseEntity.ok(pageResult);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
@@ -121,6 +122,8 @@ public class SearchLibraryOwnerService {
         }
         return  mapArrayList;
     }
+
+
 
 }
 
