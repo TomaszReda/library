@@ -1,6 +1,9 @@
 buildscript {
     ext {
         springBootVersion = '2.0.6.RELEASE'
+        runList = 'main'
+        diffLog = "$projectDir/src/main/resources/db/liquibase-changelog.xml"
+
     }
     repositories {
         mavenCentral()
@@ -10,7 +13,10 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath 'org.springframework:springloaded:1.2.6.RELEASE'
-
+        classpath 'org.postgresql:postgresql:42.2.1'
+        classpath 'org.liquibase:liquibase-core:3.5.3'
+        classpath 'org.liquibase:liquibase-gradle-plugin:1.2.4'
+        classpath 'org.liquibase.ext:liquibase-hibernate5:3.6'
     }
 }
 plugins {
@@ -19,7 +25,7 @@ plugins {
 }
 
 
-
+apply plugin: 'org.liquibase.gradle'
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -54,6 +60,9 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-validation')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-webflux')
+    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile("org.liquibase:liquibase-core")
+
     implementation('org.springframework.boot:spring-boot-starter-security')
     compile group: 'org.springframework.session', name: 'spring-session-jdbc', version: '2.0.4.RELEASE'
     compile group: 'org.springframework.session', name: 'spring-session-core', version: '2.0.4.RELEASE'
@@ -68,6 +77,7 @@ dependencies {
 
 def webappDir = "$projectDir/src/main/webapp"
 def execTempDir = "./src/main/resources/static/"
+def diffLog = "$projectDir/src/main/resources/db/liquibase-changelog.xml"
 
 bootWar {
     dependsOn "buildAngular"
@@ -112,5 +122,26 @@ task copyAngular(type: Copy) {
 task cleanTempDir(type: Delete) {
     project.delete(execTempDir)
     project.file(execTempDir).mkdirs()
+}
+
+liquibase {
+    activities {
+        //noinspection GroovyAssignabilityCheck
+        main {
+            changeLogFile "$projectDir/src/main/resources/db/differences.postgresql.sql"
+            url 'jdbc:postgresql://localhost:5432/library'
+            username 'postgres'
+            password 'GHJbnm123'
+            driver 'org.postgresql.Driver'
+//            propertyFileWillOverride true
+            referenceUrl 'jdbc:postgresql://localhost:5432/liquidbase-library'
+            referenceUsername 'postgres'
+            referencePassword 'GHJbnm123'
+            referenceDriver 'org.postgresql.Driver'
+
+//            logLevel 'debug'
+        }
+//        runList = project.ext.runList
+    }
 }
 
