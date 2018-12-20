@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: liquidbase-dif
+    active: development
 ---
 spring:
   profiles: development
