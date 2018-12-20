@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: development
+    active: test
 ---
 spring:
   profiles: development
@@ -74,3 +74,46 @@ server:
   servlet:
     session:
       timeout: 30m
+
+---
+spring:
+  profiles: prod
+  application:
+    name: ksiazeczka
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/library
+    username: postgres
+    password: GHJbnm123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: update
+  mvc:
+    throw-exception-if-no-handler-found: true
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: always
+logging:
+  level:
+    pl.tomekreda: DEBUG
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 30m
+
+
+
