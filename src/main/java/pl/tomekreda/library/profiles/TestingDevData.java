@@ -21,7 +21,6 @@ import java.time.LocalDate;
 @TestProfile
 @DevProfile
 @Transactional
-@FirstRunProfile
 public class TestingDevData implements CommandLineRunner {
 
     @Autowired

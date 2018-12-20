@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: liquidbase-dif
+    active: development
 ---
 spring:
   profiles: development
@@ -17,6 +17,7 @@ spring:
     password:
     driver-class-name: org.h2.Driver
     platform: h2
+
   session:
     store-type: jdbc
     jdbc:
@@ -32,13 +33,11 @@ spring:
         use_sql_comments: true
         format_sql: true
         enable_lazy_load_no_trans: true
-  liquibase:
-    enabled: false
 
 
 ---
 spring:
-  profiles: firstrun
+  profiles: test
   application:
     name: ksiazeczka
   output:
@@ -49,7 +48,6 @@ spring:
     username: postgres
     password: GHJbnm123
     driver-class-name: org.postgresql.Driver
-
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQL94Dialect
     properties:
@@ -61,100 +59,13 @@ spring:
           lob:
             non_contextual_creation: true
     hibernate:
-      ddl-auto: none
-  mvc:
-    throw-exception-if-no-handler-found: true
-  session:
-    store-type: jdbc
-    jdbc:
-      initialize-schema: never
-  liquibase:
-    enabled: false
-logging:
-  level:
-    pl.tomekreda: DEBUG
-server:
-  port: 8080
-  servlet:
-    session:
-      timeout: 30m
-
----
-spring:
-  profiles: prod
-  application:
-    name: ksiazeczka
-  output:
-    ansi:
-      enabled: always
-  datasource:
-    url: jdbc:postgresql://localhost:5432/library
-    username: postgres
-    password: GHJbnm123
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
-    properties:
-      hibernate:
-        show_sql: false
-        use_sql_comments: true
-        format_sql: true
-        jdbc:
-          lob:
-            non_contextual_creation: true
-    hibernate:
-      ddl-auto: none
-  mvc:
-    throw-exception-if-no-handler-found: true
-  session:
-    store-type: jdbc
-    jdbc:
-      initialize-schema: never
-  liquibase:
-    enabled: true
-    change-log: classpath:/db/liquibase-changelog.xml
-logging:
-  level:
-    pl.tomekreda: DEBUG
-server:
-  port: 8080
-  servlet:
-    session:
-      timeout: 30m
----
-spring:
-  profiles: liquidbase-dif
-  application:
-    name: ksiazeczka
-  output:
-    ansi:
-      enabled: always
-  datasource:
-    url: jdbc:postgresql://localhost:5432/liquidbase-library
-    username: postgres
-    password: GHJbnm123
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
-    properties:
-      hibernate:
-        show_sql: false
-        use_sql_comments: true
-        format_sql: true
-        jdbc:
-          lob:
-            non_contextual_creation: true
-    hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
   mvc:
     throw-exception-if-no-handler-found: true
   session:
     store-type: jdbc
     jdbc:
       initialize-schema: always
-  liquibase:
-    enabled: false
 logging:
   level:
     pl.tomekreda: DEBUG
