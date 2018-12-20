@@ -130,11 +130,6 @@ public class BookService {
     public ResponseEntity detailsBook(UUID bookId) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
-
-            if (!userService.findLoggedUser().getUserMenager().equals(book.getLibrary().getUserMenager())) {
-                return ResponseEntity.badRequest().build();
-            }
-
             Map<String, Object> bookDetails = createBookMap(book, true);
             log.info("[Book details]=" + bookDetails);
             return ResponseEntity.ok(bookDetails);
@@ -221,7 +216,6 @@ public class BookService {
         try {
             Book reservBook = bookRepository.findById(bookId).orElse(null);
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
-
             if (notReservBook != null) {
 
                 reservBook.setBookState(BookState.DELETE);
@@ -246,7 +240,12 @@ public class BookService {
 
     public ResponseEntity acceptReserv(UUID bookId) {
         try {
+
             Book book = bookRepository.findById(bookId).orElse(null);
+            if(!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager()))
+            {
+                return ResponseEntity.badRequest().build();
+            }
             book.setBookState(BookState.CONFIRMED);
             bookRepository.save(book);
             return ResponseEntity.ok().build();
@@ -258,6 +257,10 @@ public class BookService {
     public ResponseEntity deleteReserv(UUID bookId) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
+            if(!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager()))
+            {
+                return ResponseEntity.badRequest().build();
+            }
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(book.getAuthor(), book.getTitle(), book.getPublisher(), book.getDate(), book.getLibrary(), BookState.NOTRESERVED);
 
             if (notReservBook != null) {
@@ -285,6 +288,11 @@ public class BookService {
         try {
             Book reservBook = bookRepository.findById(bookId).orElse(null);
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
+
+            if(!reservBook.getUserMenager().equals(userService.findLoggedUser().getUserMenager()))
+            {
+                return ResponseEntity.badRequest().build();
+            }
 
             if (notReservBook != null) {
 

@@ -42,6 +42,9 @@ public class LibraryService {
 
             log.info("[Update library request]=" + updateLibraryRequest);
             Library library = libraryRepository.findById(updateLibraryRequest.getLibraryID()).orElse(null);
+            if(library.getUserMenager().equals(userService.findLoggedUser().getUserMenager())){
+                return ResponseEntity.badRequest().build();
+            }
             User user = userService.findLoggedUser();
 
             if (!user.getUserMenager().equals(library.getUserMenager())) {
@@ -111,6 +114,9 @@ public class LibraryService {
     public ResponseEntity getLibraryById(UUID libraryID) {
         try {
             Library library = libraryRepository.findById(libraryID).orElse(null);
+            if(!library.getUserMenager().equals(userService.findLoggedUser().getUserMenager())){
+                return ResponseEntity.badRequest().build();
+            }
             if (!userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }

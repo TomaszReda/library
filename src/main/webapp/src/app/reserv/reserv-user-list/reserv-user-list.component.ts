@@ -36,6 +36,7 @@ export class ReservUserListComponent implements OnInit {
     this.submit = true;
     this.reservService.getReservUserDetails(this.email).subscribe(x => {
       this.user = x;
+      console.log("aaa")
     }, error1 => {
       console.log(error1);
       this.errors = error1.error;

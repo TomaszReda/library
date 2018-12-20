@@ -86,6 +86,17 @@ public class AngularController {
     }
 
 
+    @GetMapping("/return/book")
+    public String returnBook(Model model,@PathVariable UUID bookId) {
+        return "forward:/index.html";
+    }
+
+    @GetMapping("/booked/book")
+    public String bookedBook(Model model,@PathVariable UUID bookId) {
+        return "forward:/index.html";
+    }
+
+
 
 
 }
