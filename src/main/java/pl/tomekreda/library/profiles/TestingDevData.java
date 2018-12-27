@@ -70,7 +70,11 @@ public class TestingDevData implements CommandLineRunner {
 
         addLibrary(owner2);
 
-
+        User admin = new User("Tomek", "Reda", "admin@local", 123456789, passwordEncoder.encode("password"));
+        UserRoles userAdminRole = new UserRoles();
+        userAdminRole.setUserRole(UserRoleEnum.ADMIN);
+        admin.getUserRoles().add(userAdminRole);
+        userRepository.save(admin);
 
 
     }

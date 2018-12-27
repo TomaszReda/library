@@ -5,24 +5,27 @@ import {AuthService} from "../service/auth.service";
 @Injectable({
   providedIn: 'root'
 })
-export class PharmacyOwnerGuardService implements CanActivate, CanLoad {
+export class CasualUserGuardService implements CanActivate, CanLoad {
 
 
   constructor(private authService: AuthService, private router: Router) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if(this.authService.user==null){
+    if (this.authService.user == null) {
       this.router.navigate(["/home"]);
       return false;
     }
+
     for (let i = 0; i < this.authService.user.userRoles.length; i++) {
-      if (this.authService.user.userRoles[i].userRole === "LIBRARY_OWNER") {
-        return true;
+      if (this.authService.user.userRoles[i].userRole === "CASUAL_USER") {
+        return true
       }
     }
     this.router.navigate(["/home"]);
-    return false;
+    return false
+
+
   }
 
   canLoad(route: Route): boolean {
@@ -30,13 +33,15 @@ export class PharmacyOwnerGuardService implements CanActivate, CanLoad {
       this.router.navigate(["/home"]);
       return false;
     }
+
     for (let i = 0; i < this.authService.user.userRoles.length; i++) {
-      if (this.authService.user.userRoles[i].userRole === "LIBRARY_OWNER") {
-        return true;
+      if (this.authService.user.userRoles[i].userRole === "CASUAL_USER") {
+        return true
       }
     }
     this.router.navigate(["/home"]);
-    return false;
+    return false
   }
+
 
 }

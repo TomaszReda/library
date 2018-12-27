@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {AuthService} from "./service/auth.service";
 import {ModalComponent} from "angular-custom-modal";
@@ -43,11 +43,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.userService.getLoggerInfo().subscribe(x => {
       this.authService.user = x;
-      this.authService.pharmacyOwner = false;
+      this.authService.pharmacyOwner = null;
+      this.authService.admin = null;
+      this.authService.casualUser = null;
       if(this.authService.user!=null){
       for (let i = 0; i < this.authService.user.userRoles.length; i++) {
         if (this.authService.user.userRoles[i].userRole === "LIBRARY_OWNER") {
           this.authService.pharmacyOwner = true;
+        }
+        if (this.authService.user.userRoles[i].userRole === "CASUAL_USER") {
+          this.authService.casualUser = true;
+        }
+        if (this.authService.user.userRoles[i].userRole === "ADMIN") {
+          this.authService.admin = true;
         }
       }}
     })

@@ -36,7 +36,6 @@ public class AuthService {
 
     public AuthenticationResponse login(@RequestBody Credentials credentials, HttpServletRequest request) {
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());
-
         final Authentication authentication = this.authenticationManager.authenticate(token);
 
         SecurityContextHolder.getContext()

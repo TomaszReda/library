@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {ModalComponent} from "angular-custom-modal";
 import {Credentials} from "../model/user/Credentials";
 import {User} from "../model/user/user.model";
-import {FormGroup, NgForm} from "@angular/forms";
+import {FormGroup} from "@angular/forms";
 import {UserService} from "./user.service";
 import {UserRoles} from "../model/user/user.roles.model";
 import {environment} from "../../environments/environment.prod";
@@ -28,6 +28,10 @@ export class AuthService {
 
   public pharmacyOwner:boolean = false;
 
+  public admin: boolean = false;
+
+  public casualUser: boolean = false;
+
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
@@ -49,10 +53,21 @@ export class AuthService {
         let owner: UserRoles = new UserRoles("LIBRARY_OWNER");
         owner.userRole = "LIBRARY_OWNER";
 
+        let admin: UserRoles = new UserRoles("ADMIN");
+        admin.userRole = "ADMIN";
+
+        let casualsUser: UserRoles = new UserRoles("CASUAL_USER");
+        casualsUser.userRole = "CASUAL_USER";
 
         for (let i = 0; i < this.user.userRoles.length; i++) {
           if (this.user.userRoles[i].userRole === "LIBRARY_OWNER") {
             this.pharmacyOwner=true;
+          }
+          if (this.user.userRoles[i].userRole === "CASUAL_USER") {
+            this.casualUser = true;
+          }
+          if (this.user.userRoles[i].userRole === "ADMIN") {
+            this.admin = true;
           }
         }
 
@@ -62,6 +77,7 @@ export class AuthService {
       this.badLogin = 'Podaj poprawny login i hasło!';
       this.islogin = false;
     })
+
   }
 
 
@@ -69,6 +85,8 @@ export class AuthService {
     this.router.navigate(["/home"]);
     this.user = null;
     this.pharmacyOwner=null;
+    this.casualUser = null;
+    this.admin = null;
     this.http.get(this.url + "/logout").subscribe(x => {
       this.user = null;
       this.islogin = false;

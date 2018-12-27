@@ -23,10 +23,7 @@ public class AngularController {
     }
 
     @GetMapping("/home")
-    public String home(Model model) {
-
-        return "forward:/index.html";
-    }
+    public String home(Model model) { return "forward:/index.html"; }
 
     @GetMapping("/search/book")
     public String users(Model model) {
@@ -50,10 +47,7 @@ public class AngularController {
 
     @ResponseBody
     @GetMapping("/api/tokenValid")
-    public ResponseEntity cos() {
-
-        return ResponseEntity.ok().build();
-    }
+    public ResponseEntity cos() { return ResponseEntity.ok().build(); }
 
     @GetMapping("/myLibrary/library/add/book")
     public String addBook(Model model) {
@@ -85,18 +79,15 @@ public class AngularController {
         return "forward:/index.html";
     }
 
-
     @GetMapping("/return/book")
     public String returnBook(Model model,@PathVariable UUID bookId) {
         return "forward:/index.html";
     }
 
     @GetMapping("/booked/book")
-    public String bookedBook(Model model,@PathVariable UUID bookId) {
-        return "forward:/index.html";
-    }
+    public String bookedBook(Model model) { return "forward:/index.html"; }
 
-
-
+    @GetMapping("/admin/panel")
+    public String adminPanel(Model model) { return "forward:/index.html"; }
 
 }

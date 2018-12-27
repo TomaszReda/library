@@ -2,7 +2,8 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {AuthGuardsService} from "./guard/auth-guards.service";
 import {PharmacyOwnerGuardService} from "./guard/pharmacy-owner-guard.service";
-import {NoPharmacyOwnerGuardServiceService} from "./guard/no-pharmacy-owner-guard-service.service";
+import {CasualUserGuardService} from "./guard/casual-user-guard.service";
+import {AdminGuardService} from "./guard/admin-guard.service";
 
 const routes: Routes = [
   {
@@ -26,44 +27,58 @@ const routes: Routes = [
   {
     path: 'search/book',
     loadChildren: './forAll/search-book/search.module#SearchModule',
-
   },
   {
     path: 'addLibrary',
     loadChildren: './forLibraryOwner/add-library/add-library.module#AddLibraryModule',
-    canActivate: [PharmacyOwnerGuardService, AuthGuardsService]
+    canActivate: [ AuthGuardsService],
+    canLoad: [PharmacyOwnerGuardService]
+    
   },
   {
     path: 'myLibrary',
     loadChildren: './forLibraryOwner/my-library/my-library.module#MyLibraryModule',
-    canActivate: [PharmacyOwnerGuardService, AuthGuardsService]
+    canActivate: [AuthGuardsService],
+    canLoad: [PharmacyOwnerGuardService]
   },
   {
     path: 'myReserv',
     loadChildren: './forCasualUser/my-reserv-book/my-reserv-book.module#MyReservBookModule',
-    canActivate: [NoPharmacyOwnerGuardServiceService, AuthGuardsService]
+    canActivate: [AuthGuardsService],
+    canLoad: [CasualUserGuardService]
   },
   {
     path: 'reserv',
     loadChildren: './forLibraryOwner/reserv/reserv.module#ReservModule',
-    canActivate: [PharmacyOwnerGuardService, AuthGuardsService]
+    canActivate: [AuthGuardsService],
+    canLoad: [PharmacyOwnerGuardService]
 
   },
   {
     path: 'user/:id',
     loadChildren: './forLibraryOwner/user-details/user-details.module#UserDetailsModule',
-    canActivate: [PharmacyOwnerGuardService, AuthGuardsService]
-
+    canActivate: [AuthGuardsService],
+    canLoad: [PharmacyOwnerGuardService]
   },
   {
     path: "booked/book",
-    loadChildren: './forCasualUser/booked-book/booked-book.module#BookedBookModule'
+    loadChildren: './forCasualUser/booked-book/booked-book.module#BookedBookModule',
+    canActivate: [AuthGuardsService],
+    canLoad: [CasualUserGuardService]
+
   },
   {
     path: "return/book",
-    loadChildren: "./forLibraryOwner/return-book/return-book.module#ReturnBookModule"
+    loadChildren: "./forLibraryOwner/return-book/return-book.module#ReturnBookModule",
+    canActivate: [AuthGuardsService],
+    canLoad: [PharmacyOwnerGuardService]
+  },
+  {
+    path: "admin/panel",
+    loadChildren: "./forAdmin/admin-panel/admin-panel.module#AdminPanelModule",
+    canActivate: [AuthGuardsService],
+    canLoad: [AdminGuardService]
   }
-
 ];
 
 @NgModule({

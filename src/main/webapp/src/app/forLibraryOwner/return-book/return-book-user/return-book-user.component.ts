@@ -37,7 +37,6 @@ export class ReturnBookUserComponent implements OnInit {
     this.reservService.getReservUserDetails(this.email).subscribe(x => {
       this.user = x;
     }, error1 => {
-      console.log(error1);
       this.errors = error1.error;
     })
   }

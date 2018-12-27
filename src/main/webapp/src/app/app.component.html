@@ -9,10 +9,10 @@
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
       <li class="nav-item">
-        <a class="nav-link" *ngIf="!authService.pharmacyOwner" routerLink="search/book">Wyszukaj</a>
+        <a class="nav-link" *ngIf="!authService.pharmacyOwner && !authService.admin" routerLink="search/book">Wyszukaj</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" *ngIf="!authService.pharmacyOwner && authService.user" routerLink="myReserv">Moje zarezerwowane</a>
+        <a class="nav-link" *ngIf="authService.casualUser" routerLink="myReserv">Moje zarezerwowane</a>
       </li>
       <li class="nav-item">
         <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="addLibrary">Dodaj bibliotekę</a>
@@ -25,10 +25,13 @@
         <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="reserv">Rezerwacje książek</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " *ngIf="!authService.pharmacyOwner && authService.user"  routerLink="booked/book">Wyporzyczone</a>
+        <a class="nav-link " *ngIf="authService.casualUser"  routerLink="booked/book">Wyporzyczone</a>
       </li>
       <li class="nav-item">
         <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="return/book">Oddanie książek</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " *ngIf="authService.admin" routerLink="admin/panel">Panel Administracyjny</a>
       </li>
 
       <!--<li class="nav-item">-->
