@@ -1,3 +1,21 @@
-<p>
-  admin-panel works!
-</p>
+<div class="container">
+  <div id="page-wrap2">
+
+
+
+    <ul>
+      <li><a routerLinkActive="active"  routerLink="book/list">Ksiażki</a></li>
+      <li><a routerLinkActive="active" routerLink="user/list">Uzytkownicy</a></li>
+      <li><a routerLinkActive="active" routerLink="library/list">Biblioteki</a></li>
+    </ul>
+
+
+    <div style="margin-left:15%;padding:1px 16px;height:1100px;">
+      <router-outlet></router-outlet>
+    </div>
+
+
+
+
+  </div>
+</div>
