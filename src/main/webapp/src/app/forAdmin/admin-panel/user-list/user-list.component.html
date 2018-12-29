@@ -1,10 +1,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <!-- The form -->
-<form  class="example" >
-  <input type="text" placeholder="Wyszukaj tytuł autor" id="word" name="word"   minlength="3">
+<form  (ngSubmit)="onSubmit()" class="example" >
+  <input type="text" placeholder="Wyszukaj email użytkownika" id="word" name="word" name="word" [(ngModel)]="seachForm.word" #word="ngModel" (keyup)="keyDown()"  minlength="3">
   <button type="submit" ><i class="fa fa-search"></i></button>
 </form>
+<p class="alert alert-danger" *ngIf="word.dirty && word.errors && word.errors.minlength">Podaj przynajmniej 3 znaki!</p>
+
 <table  class="table table-bordered ">
   <thead>
   <tr>

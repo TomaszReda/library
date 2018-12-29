@@ -3,6 +3,8 @@ import {AdminService} from "../../../service/admin.service";
 import {User} from "../../../model/user/user.model";
 import {UserRequestSearch} from "../../../model/user/user.request";
 import {PageServiceService} from "../../../service/page-service.service";
+import {BookRequestSearch} from "../../../model/book/book.request";
+import {SearchRequest} from "../../../model/search/search.request";
 
 @Component({
   selector: 'app-user-list',
@@ -10,6 +12,8 @@ import {PageServiceService} from "../../../service/page-service.service";
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
+
+  public seachForm: SearchRequest = new SearchRequest()
 
   public userList: Array<User>;
 
@@ -22,6 +26,7 @@ export class UserListComponent implements OnInit {
 
 
   ngOnInit() {
+    this.seachForm.word = "";
     this.initUserList();
   }
 
@@ -32,6 +37,19 @@ export class UserListComponent implements OnInit {
 
     })
 
+  }
+
+  keyDown() {
+    this.searchUser();
+  }
+  onSubmit() {
+    this.searchUser();
+  }
+  searchUser() {
+    this.adminService.getSearchUser(this.seachForm.word, this.currentyPage, 10).subscribe((x: UserRequestSearch) => {
+      this.userList = x.content;
+      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+    })
   }
 
   changePage(currentyPage) {

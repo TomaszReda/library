@@ -16,9 +16,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     User findUserByEmail(String email);
 
-    List<User> findAllByUserRolesIsNot(UserRoleEnum userRoleEnum);
-
-    Page<User> findAllByUserRolesIsNot(UserRoleEnum userRoleEnum, Pageable pageable);
-
     User findAllByUserMenager(UserMenager userMenager);
+
+    Page<User> findAllByEmailContains(String word,Pageable pageable);
 }

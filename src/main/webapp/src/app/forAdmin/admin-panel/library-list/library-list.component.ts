@@ -3,6 +3,8 @@ import {AdminService} from "../../../service/admin.service";
 import {Library} from "../../../model/library/library.model";
 import {LibraryRequestSearch} from "../../../model/library/library.request";
 import {PageServiceService} from "../../../service/page-service.service";
+import {SearchRequest} from "../../../model/search/search.request";
+import {BookRequestSearch} from "../../../model/book/book.request";
 
 @Component({
   selector: 'app-library-list',
@@ -10,6 +12,8 @@ import {PageServiceService} from "../../../service/page-service.service";
   styleUrls: ['./library-list.component.css']
 })
 export class LibraryListComponent implements OnInit {
+
+  public seachForm: SearchRequest = new SearchRequest()
 
   public libraryList: Array<Library>;
 
@@ -21,6 +25,7 @@ export class LibraryListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.seachForm.word = "";
     this.initLibraryList();
   }
 
@@ -30,6 +35,19 @@ export class LibraryListComponent implements OnInit {
       this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
 
     });
+  }
+
+  keyDown() {
+    this.searchLibrary();
+  }
+  onSubmit() {
+    this.searchLibrary();
+  }
+  searchLibrary() {
+    this.adminService.getSearchLibrary(this.seachForm.word, this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
+      this.libraryList = x.content;
+      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+    })
   }
 
   changePage(currentyPage) {

@@ -32,5 +32,16 @@ export class AdminService {
     return this.http.get(this.url+"/library/"+libraryId+"/details")
   }
 
+  paramsSearch(word,page,size){
+  return  new HttpParams().append("word", word).append('page', page).append("size", size);
+
+  }
+  getSearchLibrary(word,page,size){
+    return this.http.get(this.url+"/search/library",{params: this.paramsSearch(word,page,size)});
+  }
+
+  getSearchUser(word,page,size){
+    return this.http.get(this.url+"/search/user",{params: this.paramsSearch(word,page,size)});
+  }
 
 }
