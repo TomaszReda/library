@@ -4,6 +4,8 @@ import {AdminService} from "../../../service/admin.service";
 import {BookRequestSearch} from "../../../model/book/book.request";
 import {PageServiceService} from "../../../service/page-service.service";
 import {Router} from "@angular/router";
+import {SearchRequest} from "../../../model/search/search.request";
+import {SearchService} from "../../../service/search.service";
 
 @Component({
   selector: 'app-book-list',
@@ -12,17 +14,35 @@ import {Router} from "@angular/router";
 })
 export class BookListComponent implements OnInit {
 
+  public seachForm: SearchRequest = new SearchRequest()
+
   public bookList: Array<Book>;
 
   public currentyPage = 0;
 
   public pageNumber = []
 
-  constructor(private router:Router,private  adminService: AdminService,private pageService: PageServiceService) {
+  constructor(private searchService: SearchService, private router: Router, private  adminService: AdminService, private pageService: PageServiceService) {
   }
 
   ngOnInit() {
-   this.initBookList();
+    this.seachForm.word = "";
+    this.initBookList();
+  }
+
+  searchBook() {
+    this.searchService.searchCasualUser(this.seachForm.word, this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
+      this.bookList = x.content;
+      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+    })
+  }
+
+  onSubmit() {
+    this.searchBook();
+  }
+
+  keyDown() {
+    this.searchBook();
   }
 
   initBookList(){
@@ -47,10 +67,15 @@ export class BookListComponent implements OnInit {
     this.initBookList();
   }
 
-    details(bookId) {
+  details(id, bookId) {
+
       localStorage.setItem("deitalsGeneralSearch",null);
       localStorage.setItem("detailsReservSearch",null);
-      this.router.navigate(["/search/book/"+bookId])
+    if (bookId != null)
+      this.router.navigate(["/search/book/"+bookId]);
+    else
+      this.router.navigate(["/search/book/" + id]);
+
     }
 
 
