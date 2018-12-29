@@ -11,16 +11,14 @@
     <th scope="col">Imie</th>
     <th scope="col">Nazwisko</th>
     <th scope="col">Email</th>
-    <th scope="col">Szczegóły</th>
 
   </tr>
   </thead>
   <tbody>
-  <tr >
-    <td></td>
-    <td></td>
-    <td></td>
-    <td><button type="button" >Szczegóły</button></td>
+  <tr *ngFor="let u of userList">
+    <td>{{u.firstname}}</td>
+    <td>{{u.lastname}}</td>
+    <td>{{u.email}}</td>
   </tr>
 
   </tbody>

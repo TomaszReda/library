@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @GetMapping("/user/find/all")
+    @GetMapping("/user/get/all")
     public ResponseEntity getAllUser(@RequestParam int page, @RequestParam int size) {
         return userService.getAllUser(page, size);
     }

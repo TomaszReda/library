@@ -1,10 +1,11 @@
-import {Book} from "./book.model";
+import {User} from "./user.model";
 
-export class BookRequestSearch {
+
+export class UserRequestSearch {
   totalElements?: number;
   totalPages?: number;
   size?: number;
   number?: number;
   numberOfElements?: number;
-  content?: Array<Book>;
+  content?: Array<User>;
 }

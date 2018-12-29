@@ -1,10 +1,10 @@
-import {Book} from "./book.model";
+import {Library} from "./library.model";
 
-export class BookRequestSearch {
+export class LibraryRequestSearch {
   totalElements?: number;
   totalPages?: number;
   size?: number;
   number?: number;
   numberOfElements?: number;
-  content?: Array<Book>;
+  content?: Array<Library>;
 }

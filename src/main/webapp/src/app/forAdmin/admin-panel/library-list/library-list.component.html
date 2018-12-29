@@ -17,11 +17,11 @@
   </tr>
   </thead>
   <tbody>
-  <tr >
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+  <tr *ngFor="let l of libraryList">
+    <td>{{l.name}}</td>
+    <td>{{l.city}}</td>
+    <td>{{l.email}}</td>
+    <td>{{l.postalCode}}</td>
 
   </tr>
 

@@ -13,16 +13,16 @@
     <th scope="col">Autor</th>
     <th scope="col">Wydawnictwo</th>
     <th scope="col">Ilosc</th>
-    <th scope="col">Szczegóły</th>
+    <th scope="col">Status</th>
   </tr>
   </thead>
   <tbody>
-  <tr >
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td><button >Szczegóły</button></td>
+  <tr *ngFor="let b of bookList">
+    <td>{{b.title}}</td>
+    <td>{{b.author}}</td>
+    <td>{{b.publisher}}</td>
+    <td>{{b.quant}}</td>
+    <td>{{b.bookState}}</td>
   </tr>
   </tbody>
 </table>
