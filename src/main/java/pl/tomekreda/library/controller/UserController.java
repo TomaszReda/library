@@ -3,7 +3,6 @@ package pl.tomekreda.library.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.UserRepository;
@@ -44,4 +43,9 @@ public class UserController {
         return userService.getUserInfo(id);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/user/find/all")
+    public ResponseEntity getAllUser(@RequestParam int page, @RequestParam int size) {
+        return userService.getAllUser(page, size);
+    }
 }

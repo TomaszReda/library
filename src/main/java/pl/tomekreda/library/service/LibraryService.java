@@ -163,4 +163,14 @@ public class LibraryService {
         library = libraryRepository.save(library);
         return library;
     }
+
+    public ResponseEntity getAllLibrary(int page, int size) {
+        try {
+            Pageable pageableRequest = new PageRequest(page, size);
+            Page<Library> libraryList = libraryRepository.findAll(pageableRequest);
+            return ResponseEntity.ok(libraryList);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

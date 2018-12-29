@@ -46,5 +46,9 @@ public class LibraryController {
 
     }
 
-
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/library/find/all")
+    public ResponseEntity getAllLibrary(@RequestParam int page, @RequestParam int size) {
+        return libraryService.getAllLibrary(page, size);
+    }
 }

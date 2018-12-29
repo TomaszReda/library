@@ -2,6 +2,9 @@ package pl.tomekreda.library.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -130,5 +133,17 @@ public class UserService {
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    public ResponseEntity getAllUser(int page, int size) {
+        try {
+            Pageable pageableRequest = new PageRequest(page, size);
+            Page<User> userList = userRepository.findAll(pageableRequest);
+
+            return ResponseEntity.ok(userList);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 }

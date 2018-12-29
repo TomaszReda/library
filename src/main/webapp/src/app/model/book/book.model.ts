@@ -1,4 +1,3 @@
-import {FormControl} from "@angular/forms";
 import {Library} from "../library/library.model";
 
 export class Book {
@@ -15,5 +14,7 @@ export class Book {
   library?:Library;
   deitalsGeneralSearch?: string;
   libraryName?: string;
+  id?: string;
+  bookSearch?: string;
 
 }

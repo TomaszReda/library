@@ -1,7 +1,10 @@
 package pl.tomekreda.library.model.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.UserCasual;
 import pl.tomekreda.library.model.user.UserMenager;
@@ -34,6 +37,7 @@ public class Book {
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Library library;
 
     @Enumerated(EnumType.STRING)

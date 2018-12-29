@@ -72,4 +72,9 @@ public class BookController {
         return bookService.returnBook(bookId);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/book/get/all")
+    public ResponseEntity getAllBook(@RequestParam int page, @RequestParam int size) {
+        return bookService.getAllBooks(page, size);
+    }
 }
