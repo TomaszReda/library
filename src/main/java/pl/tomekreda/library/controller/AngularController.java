@@ -90,4 +90,22 @@ public class AngularController {
     @GetMapping("/admin/panel")
     public String adminPanel(Model model) { return "forward:/index.html"; }
 
+    @GetMapping("/reserv")
+    public String reserv(Model model) {
+        return "forward:/index.html";
+    }
+
+    @GetMapping("/admin/panel/book/list")
+    public String adminBookList(Model model) {
+        return "forward:/index.html";
+    }
+
+    @GetMapping("/admin/panel/user/list")
+    public String adminUserList(Model model) { return "forward:/index.html"; }
+
+    @GetMapping("/admin/panel/library/list")
+    public String adminLibraryList(Model model) { return "forward:/index.html"; }
+
+    @GetMapping("/user/{userId}")
+    public String userDetails(Model model, @PathVariable UUID userId) { return "forward:/index.html"; }
 }

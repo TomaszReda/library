@@ -1,9 +1,10 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {AuthGuardsService} from "./guard/auth-guards.service";
-import {PharmacyOwnerGuardService} from "./guard/pharmacy-owner-guard.service";
+import {LibraryOwnerGuardService} from "./guard/library-owner-guard.service";
 import {CasualUserGuardService} from "./guard/casual-user-guard.service";
 import {AdminGuardService} from "./guard/admin-guard.service";
+import {LibraryOwnerAndAdminGuardService} from "./guard/library-owner-and-admin-guard.service";
 
 const routes: Routes = [
   {
@@ -32,14 +33,14 @@ const routes: Routes = [
     path: 'addLibrary',
     loadChildren: './forLibraryOwner/add-library/add-library.module#AddLibraryModule',
     canActivate: [ AuthGuardsService],
-    canLoad: [PharmacyOwnerGuardService]
+    canLoad: [LibraryOwnerGuardService]
     
   },
   {
     path: 'myLibrary',
     loadChildren: './forLibraryOwner/my-library/my-library.module#MyLibraryModule',
     canActivate: [AuthGuardsService],
-    canLoad: [PharmacyOwnerGuardService]
+    canLoad: [LibraryOwnerGuardService]
   },
   {
     path: 'myReserv',
@@ -51,14 +52,14 @@ const routes: Routes = [
     path: 'reserv',
     loadChildren: './forLibraryOwner/reserv/reserv.module#ReservModule',
     canActivate: [AuthGuardsService],
-    canLoad: [PharmacyOwnerGuardService]
+    canLoad: [LibraryOwnerGuardService]
 
   },
   {
     path: 'user/:id',
-    loadChildren: './forLibraryOwner/user-details/user-details.module#UserDetailsModule',
+    loadChildren: './forLibraryOwnerAndAdmin/user-details/user-details.module#UserDetailsModule',
     canActivate: [AuthGuardsService],
-    canLoad: [PharmacyOwnerGuardService]
+    canLoad: [LibraryOwnerAndAdminGuardService]
   },
   {
     path: "booked/book",
@@ -71,7 +72,7 @@ const routes: Routes = [
     path: "return/book",
     loadChildren: "./forLibraryOwner/return-book/return-book.module#ReturnBookModule",
     canActivate: [AuthGuardsService],
-    canLoad: [PharmacyOwnerGuardService]
+    canLoad: [LibraryOwnerGuardService]
   },
   {
     path: "admin/panel",
