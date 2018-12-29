@@ -51,4 +51,11 @@ public class LibraryController {
     public ResponseEntity getAllLibrary(@RequestParam int page, @RequestParam int size) {
         return libraryService.getAllLibrary(page, size);
     }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/library/{libraryID}/details")
+    public ResponseEntity getLibraryDetails(@PathVariable UUID libraryID) {
+        return libraryService.getLibraryDetails(libraryID);
+
+    }
 }

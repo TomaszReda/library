@@ -32,53 +32,50 @@ const routes: Routes = [
   {
     path: 'addLibrary',
     loadChildren: './forLibraryOwner/add-library/add-library.module#AddLibraryModule',
-    canActivate: [ AuthGuardsService],
-    canLoad: [LibraryOwnerGuardService]
-    
+    canActivate: [ AuthGuardsService,LibraryOwnerGuardService],
+
   },
   {
     path: 'myLibrary',
     loadChildren: './forLibraryOwner/my-library/my-library.module#MyLibraryModule',
-    canActivate: [AuthGuardsService],
-    canLoad: [LibraryOwnerGuardService]
+    canActivate: [AuthGuardsService,LibraryOwnerGuardService],
   },
   {
     path: 'myReserv',
     loadChildren: './forCasualUser/my-reserv-book/my-reserv-book.module#MyReservBookModule',
-    canActivate: [AuthGuardsService],
-    canLoad: [CasualUserGuardService]
+    canActivate: [AuthGuardsService,CasualUserGuardService],
   },
   {
     path: 'reserv',
     loadChildren: './forLibraryOwner/reserv/reserv.module#ReservModule',
-    canActivate: [AuthGuardsService],
-    canLoad: [LibraryOwnerGuardService]
+    canActivate: [AuthGuardsService,LibraryOwnerGuardService],
 
   },
   {
     path: 'user/:id',
     loadChildren: './forLibraryOwnerAndAdmin/user-details/user-details.module#UserDetailsModule',
-    canActivate: [AuthGuardsService],
-    canLoad: [LibraryOwnerAndAdminGuardService]
+    canActivate: [AuthGuardsService,LibraryOwnerAndAdminGuardService],
   },
   {
     path: "booked/book",
     loadChildren: './forCasualUser/booked-book/booked-book.module#BookedBookModule',
-    canActivate: [AuthGuardsService],
-    canLoad: [CasualUserGuardService]
+    canActivate: [AuthGuardsService,CasualUserGuardService],
 
   },
   {
     path: "return/book",
     loadChildren: "./forLibraryOwner/return-book/return-book.module#ReturnBookModule",
-    canActivate: [AuthGuardsService],
-    canLoad: [LibraryOwnerGuardService]
+    canActivate: [AuthGuardsService,LibraryOwnerGuardService],
   },
   {
     path: "admin/panel",
     loadChildren: "./forAdmin/admin-panel/admin-panel.module#AdminPanelModule",
-    canActivate: [AuthGuardsService],
-    canLoad: [AdminGuardService]
+    canActivate: [AuthGuardsService,AdminGuardService],
+  },
+  {
+    path: "library/:libraryId",
+    loadChildren: "./forAdmin/library-details/library-details.module#LibraryDetailsModule",
+    canActivate: [AuthGuardsService,AdminGuardService],
   }
 ];
 

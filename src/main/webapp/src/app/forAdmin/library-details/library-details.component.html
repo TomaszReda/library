@@ -1,0 +1,66 @@
+<div class="container">
+
+  <div id="page-wrap">
+
+    <table class="table table-bordered ">
+      <thead>
+      <tr>
+        <th scope="col">Nazwa</th>
+        <td>{{library.name}}</td>
+      </tr>
+      <tr>
+        <th scope="col">Email</th>
+        <td>{{library.email}}</td>
+      </tr>
+      <tr>
+        <th scope="col">Miasto</th>
+        <td>{{library.city}}</td>
+      </tr>
+      <tr>
+        <th scope="col">Kod pocztowy</th>
+        <td>{{library.postalCode}}</td>
+      </tr>
+      <tr *ngIf="library.street">
+        <th scope="col">Ulica</th>
+        <td>{{library.street}}</td>
+      </tr>
+      <tr *ngIf="library.local">
+        <th scope="col">Local</th>
+        <td>{{library.local}}</td>
+      </tr>
+      <tr *ngIf="library.number">
+        <th scope="col">Numer</th>
+        <td>{{library.number}}</td>
+      </tr>
+      <tr>
+        <th colspan="2">
+          <div id="map" style="width: 100%; height: 40%;margin-top:15px;margin-bottom: 15px;"></div>
+        </th>
+      </tr>
+      <tr>
+        <th colspan="2" style="text-align: center">Własciciel</th>
+      </tr>
+      <tr>
+        <th scope="col">Imie</th>
+        <td>{{library.owner.firstname}}</td>
+      </tr>
+      <tr>
+        <th scope="col">Nazwisko</th>
+        <td>{{library.owner.lastname}}</td>
+      </tr>
+      <tr>
+        <th scope="col">Telefon komurkowy</th>
+        <td>{{library.owner.phoneNumber}}</td>
+      </tr>
+      <tr>
+        <th scope="col">Email</th>
+        <td>{{library.owner.email}}</td>
+      </tr>
+      </thead>
+
+
+    </table>
+
+
+  </div>
+</div>

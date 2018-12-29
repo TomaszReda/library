@@ -3,6 +3,7 @@ import {Book} from "../../../model/book/book.model";
 import {AdminService} from "../../../service/admin.service";
 import {BookRequestSearch} from "../../../model/book/book.request";
 import {PageServiceService} from "../../../service/page-service.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-book-list',
@@ -17,7 +18,7 @@ export class BookListComponent implements OnInit {
 
   public pageNumber = []
 
-  constructor(private  adminService: AdminService,private pageService: PageServiceService) {
+  constructor(private router:Router,private  adminService: AdminService,private pageService: PageServiceService) {
   }
 
   ngOnInit() {
@@ -45,6 +46,12 @@ export class BookListComponent implements OnInit {
     this.currentyPage = this.currentyPage - 1;
     this.initBookList();
   }
+
+    details(bookId) {
+      localStorage.setItem("deitalsGeneralSearch",null);
+      localStorage.setItem("detailsReservSearch",null);
+      this.router.navigate(["/search/book/"+bookId])
+    }
 
 
 }

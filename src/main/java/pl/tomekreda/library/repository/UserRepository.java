@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.model.user.UserMenager;
 import pl.tomekreda.library.model.user.UserRoleEnum;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findAllByUserRolesIsNot(UserRoleEnum userRoleEnum);
 
     Page<User> findAllByUserRolesIsNot(UserRoleEnum userRoleEnum, Pageable pageable);
+
+    User findAllByUserMenager(UserMenager userMenager);
 }

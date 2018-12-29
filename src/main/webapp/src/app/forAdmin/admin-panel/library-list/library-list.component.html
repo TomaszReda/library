@@ -17,7 +17,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let l of libraryList">
+  <tr *ngFor="let l of libraryList" routerLink="/library/{{l.id}}">
     <td>{{l.name}}</td>
     <td>{{l.city}}</td>
     <td>{{l.email}}</td>

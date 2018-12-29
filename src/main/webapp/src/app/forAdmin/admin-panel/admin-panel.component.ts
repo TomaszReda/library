@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -8,10 +8,12 @@ import {Router} from "@angular/router";
 })
 export class AdminPanelComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router) {
+  }
 
   ngOnInit() {
     this.router.navigate(["/admin/panel/book/list"]);
   }
+
 
 }

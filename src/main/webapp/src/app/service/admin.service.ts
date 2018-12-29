@@ -28,5 +28,9 @@ export class AdminService {
     return this.http.get(this.url + "/library/get/all",{params: this.initParam(page,size)});
   }
 
+  getLibraryDetails(libraryId){
+    return this.http.get(this.url+"/library/"+libraryId+"/details")
+  }
+
 
 }

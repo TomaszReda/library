@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.LibraryRepository;
@@ -125,6 +126,41 @@ public class LibraryService {
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    public ResponseEntity getLibraryDetails(UUID libraryID) {
+        try {
+            Library tmp = libraryRepository.findById(libraryID).orElse(null);
+
+            Map<String, Object> library=libraryDetailsForAdmin(tmp);
+            return ResponseEntity.ok(library);
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    private Map<String, Object>  libraryDetailsForAdmin(Library tmp) throws NoSuchFieldException {
+        Map<String, Object> library = new HashMap<>();
+        library.put(Library.class.getDeclaredField("name").getName(), tmp.getName());
+        library.put(Library.class.getDeclaredField("email").getName(), tmp.getEmail());
+        library.put(Library.class.getDeclaredField("city").getName(), tmp.getCity());
+        library.put(Library.class.getDeclaredField("latitude").getName(), tmp.getLatitude());
+        library.put(Library.class.getDeclaredField("local").getName(), tmp.getLocal());
+        library.put(Library.class.getDeclaredField("longitude").getName(), tmp.getLongitude());
+        library.put(Library.class.getDeclaredField("number").getName(), tmp.getNumber());
+        library.put(Library.class.getDeclaredField("postalCode").getName(), tmp.getPostalCode());
+        library.put(Library.class.getDeclaredField("street").getName(), tmp.getStreet());
+        library.put(Library.class.getDeclaredField("ID").getName(), tmp.getID());
+
+        User user = userRepository.findAllByUserMenager(tmp.getUserMenager());
+        Map<String,Object> owner=new HashMap<>();
+        owner.put(User.class.getDeclaredField("email").getName(), user.getEmail());
+        owner.put(User.class.getDeclaredField("lastname").getName(), user.getLastname());
+        owner.put(User.class.getDeclaredField("firstname").getName(), user.getFirstname());
+        owner.put(User.class.getDeclaredField("phoneNumber").getName(),user.getPhoneNumber());
+        library.put("owner",owner);
+
+        return library;
     }
 
 

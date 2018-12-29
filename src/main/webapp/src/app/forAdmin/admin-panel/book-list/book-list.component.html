@@ -17,7 +17,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let b of bookList">
+  <tr *ngFor="let b of bookList" (click)="details(b.id)" >
     <td>{{b.title}}</td>
     <td>{{b.author}}</td>
     <td>{{b.publisher}}</td>
