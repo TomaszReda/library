@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: prod
 ---
 spring:
   profiles: development
@@ -78,7 +78,7 @@ spring:
     password: GHJbnm123
     host: smtp.gmail.com
     port: 587
-    tls: false
+    tls: true
 logging:
   level:
     pl.tomekreda: DEBUG
@@ -92,7 +92,7 @@ server:
 spring:
   profiles: prod
   application:
-    url: https://ksiazeczkaonline.pl
+    url: http://ksiazeczkaonline.pl
     name: ksiazeczka
   output:
     ansi:
@@ -125,7 +125,7 @@ spring:
     password: GHJbnm123
     host: smtp.gmail.com
     port: 587
-    tls: false
+    tls: true
 logging:
   level:
     pl.tomekreda: DEBUG
