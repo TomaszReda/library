@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: development
+    active: test
 ---
 spring:
   profiles: development
@@ -39,10 +39,13 @@ spring:
     host: smtp.gmail.com
     port: 587
     tls: true
+  application:
+    url: http://localhost:8080
 ---
 spring:
   profiles: test
   application:
+    url: http://localhost:808
     name: ksiazeczka
   output:
     ansi:
@@ -84,10 +87,12 @@ server:
   servlet:
     session:
       timeout: 30m
+
 ---
 spring:
   profiles: prod
   application:
+    url: https://ksiazeczkaonline.pl
     name: ksiazeczka
   output:
     ansi:
@@ -115,6 +120,12 @@ spring:
     store-type: jdbc
     jdbc:
       initialize-schema: always
+  mail:
+    username: ksiazeczkaonlie@gmail.com
+    password: GHJbnm123
+    host: smtp.gmail.com
+    port: 587
+    tls: true
 logging:
   level:
     pl.tomekreda: DEBUG
@@ -123,11 +134,5 @@ server:
   servlet:
     session:
       timeout: 30m
-  mail:
-    username: ksiazeczkaonlie@gmail.com
-    password: GHJbnm123
-    host: smtp.gmail.com
-    port: 587
-    tls: true
 
 

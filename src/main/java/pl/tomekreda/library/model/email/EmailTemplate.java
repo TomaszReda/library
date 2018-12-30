@@ -18,7 +18,7 @@ public class EmailTemplate {
     @Id
     EmailTemplateType emailTemplateType;
 
-    @Column(length = 1000)
+    @Column(length = 10000)
     private String content;
 
     private String description;
