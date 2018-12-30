@@ -32,6 +32,10 @@ export class AuthService {
 
   public casualUser: boolean = false;
 
+  public badResetPassowrdEmail: string = null;
+
+  public sendResetPasswordEmail: string = null;
+
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService) {
   }
@@ -111,6 +115,16 @@ export class AuthService {
       form.reset();
     }, error1 => {
       this.badRegisterLibrary = error1.error;
+    })
+  }
+
+  resetPasswordEmail(email, forgettingPasswordForm) {
+    this.http.post(this.url + "/user/send/reset/password/email", email).subscribe(x => {
+      this.badResetPassowrdEmail = null;
+      this.sendResetPasswordEmail = "Wysłano na podany email link do resetu hasła!"
+    }, error1 => {
+      this.badResetPassowrdEmail = error1.error;
+      this.sendResetPasswordEmail = null;
     })
 
   }

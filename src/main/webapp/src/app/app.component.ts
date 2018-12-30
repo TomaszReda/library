@@ -21,8 +21,14 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild("loginForm")
   private loginForm: NgForm;
 
+  @ViewChild("forgettingPasswordForm")
+  private forgettingPasswordForm: NgForm;
+
   @ViewChild("login")
   public modalLogin: ModalComponent;
+
+  @ViewChild("forgettingPassword")
+  public modalforgettingPassword: ModalComponent;
 
   @ViewChild("casualUser")
   public casualUser: ModalComponent;
@@ -91,6 +97,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
+  loginModelOpen(){
+    this.authService.badLogin=null;
+    this.authService.sendResetPasswordEmail=null;
+    this.authService.badResetPassowrdEmail=null;
+    this.modalLogin.open();
+  }
   onLogin(loginForm: NgForm) {
     this.authService.login(loginForm.value.email, loginForm.value.password, this.modalLogin);
 
@@ -114,6 +126,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.authService.logout();
+  }
+
+  resetPasswordEmail(forgettingPasswordForm: NgForm) {
+    this.authService.resetPasswordEmail(forgettingPasswordForm.value.email, this.modalforgettingPassword);
+    this.forgettingPasswordForm.resetForm();
   }
 
 

@@ -48,4 +48,9 @@ public class UserController {
     public ResponseEntity getAllUser(@RequestParam int page, @RequestParam int size) {
         return userService.getAllUser(page, size);
     }
+
+    @PostMapping("/user/send/reset/password/email")
+    public ResponseEntity sendEmail(@RequestBody String email) {
+        return userService.sendEmail(email);
+    }
 }

@@ -146,4 +146,19 @@ public class UserService {
         }
 
     }
+
+
+    public ResponseEntity sendEmail(String email) {
+        try{
+            User user=userRepository.findUserByEmail(email);
+            if(user==null){
+                return ResponseEntity.badRequest().body("Taki użytkownik nie istnieje");
+            }
+
+            return ResponseEntity.ok().build();
+        }
+        catch(Exception ex){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

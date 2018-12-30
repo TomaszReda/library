@@ -43,7 +43,7 @@
 
     </ul>
     <a class="nav-link disabled" *ngIf="authService.islogin" routerLink="/accountSettings">Moje konto</a>
-    <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="login.open()" routerLink="/home">Zaloguj się</a>
+    <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="loginModelOpen()" routerLink="/home">Zaloguj się</a>
     <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="register.open()" routerLink="/home">Zarejestruj
       się</a>
     <a class="nav-link disabled" *ngIf="authService.islogin" (click)="logout()" routerLink="/home">Wyloguj</a>
@@ -59,7 +59,7 @@
   <div>
     <ng-template #modalHeader><h2 align="center" class="text-center">Zaloguj się</h2></ng-template>
     <ng-template #modalBody>
-      <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm">
+      <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm" >
         <div class="form-group text-center ">
           <input ngModel type="email" class="form-control" name="email" id="email" placeholder="e-mail" required>
         </div>
@@ -75,6 +75,26 @@
 
         <button class="btn btn-primary text-center button1" [disabled]="loginForm.errors ">Zaloguj</button>
       </form>
+      <a (click)="forgettingPassword.open();login.close()" routerLink="/home">Zapomniałem hasła!</a>
+    </ng-template>
+  </div>
+</modal>
+
+
+<modal #forgettingPassword>
+  <div>
+    <ng-template #modalHeader><h2 align="center" class="text-center">Odzyskiwanie hasła</h2></ng-template>
+    <ng-template #modalBody>
+      <form (ngSubmit)="resetPasswordEmail(forgettingPasswordForm)" #forgettingPasswordForm="ngForm" *ngIf="!authService.sendResetPasswordEmail">
+        <div class="form-group text-center ">
+          <input ngModel type="email" class="form-control" name="email" id="email" placeholder="e-mail" required>
+        </div>
+        <div *ngIf="authService.badResetPassowrdEmail" class="alert alert-danger">{{authService.badResetPassowrdEmail}}</div>
+
+        <button class="btn btn-primary text-center button1" [disabled]="loginForm.errors ">Odzyskaj hasło</button>
+      </form>
+      <div *ngIf="authService.sendResetPasswordEmail" class="alert alert-success">{{authService.sendResetPasswordEmail}}</div>
+
     </ng-template>
   </div>
 </modal>
