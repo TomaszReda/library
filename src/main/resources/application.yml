@@ -32,9 +32,13 @@ spring:
         show_sql: false
         use_sql_comments: true
         format_sql: true
-        enable_lazy_load_no_trans: true
-
-
+        enable_lazy_load_no_trans: true=username=password
+  mail:
+    username: ksiazeczkaonlie@gmail.com
+    password: GHJbnm123
+    host: smtp.gmail.com
+    port: 587
+    tls: true
 ---
 spring:
   profiles: test
@@ -66,6 +70,12 @@ spring:
     store-type: jdbc
     jdbc:
       initialize-schema: always
+  mail:
+    username: ksiazeczkaonlie@gmail.com
+    password: GHJbnm123
+    host: smtp.gmail.com
+    port: 587
+    tls: true;
 logging:
   level:
     pl.tomekreda: DEBUG
@@ -74,7 +84,6 @@ server:
   servlet:
     session:
       timeout: 30m
-
 ---
 spring:
   profiles: prod
@@ -114,6 +123,11 @@ server:
   servlet:
     session:
       timeout: 30m
-
+  mail:
+    username: ksiazeczkaonlie@gmail.com
+    password: GHJbnm123
+    host: smtp.gmail.com
+    port: 587
+    tls: true
 
 

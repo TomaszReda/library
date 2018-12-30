@@ -11,6 +11,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.tomekreda.library.email.sender.EmailSender;
+import pl.tomekreda.library.email.service.EmailService;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.LibraryRepository;
 import pl.tomekreda.library.repository.UserRepository;
@@ -40,6 +42,8 @@ public class UserService {
     @Autowired
     private LibraryRepository libraryRepository;
 
+    @Autowired
+    private EmailService emailService;
 
     public ResponseEntity info() {
         try {
@@ -154,7 +158,7 @@ public class UserService {
             if(user==null){
                 return ResponseEntity.badRequest().body("Taki użytkownik nie istnieje");
             }
-
+            emailService.sendEmailaResetPassword(email);
             return ResponseEntity.ok().build();
         }
         catch(Exception ex){

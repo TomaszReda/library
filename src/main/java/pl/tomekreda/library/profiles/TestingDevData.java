@@ -1,5 +1,6 @@
 package pl.tomekreda.library.profiles;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -7,20 +8,21 @@ import org.springframework.stereotype.Component;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookCategory;
 import pl.tomekreda.library.model.book.BookState;
+import pl.tomekreda.library.model.email.EmailTemplate;
+import pl.tomekreda.library.model.email.EmailTemplateType;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.*;
-import pl.tomekreda.library.repository.BookCategoryRepository;
-import pl.tomekreda.library.repository.BookRepository;
-import pl.tomekreda.library.repository.LibraryRepository;
-import pl.tomekreda.library.repository.UserRepository;
+import pl.tomekreda.library.repository.*;
 
 import javax.transaction.Transactional;
+import java.io.InputStream;
 import java.time.LocalDate;
 
 @Component
 @TestProfile
 @DevProfile
 @Transactional
+@Slf4j
 public class TestingDevData implements CommandLineRunner {
 
     @Autowired
@@ -38,6 +40,9 @@ public class TestingDevData implements CommandLineRunner {
     @Autowired
     private BookCategoryRepository bookCategoryRepository;
 
+    @Autowired
+    private EmailTemplateRepository emailTemplateRepository;
+
     @Override
     public void run(String... args) throws Exception {
         this.createBookCategory();
@@ -45,7 +50,7 @@ public class TestingDevData implements CommandLineRunner {
         User casual = new User("Kasia", "Reda", "tomekreda@op.pl", 123456789, passwordEncoder.encode("password"));
         UserRoles userCasualRole = new UserRoles();
         userCasualRole.setUserRole(UserRoleEnum.CASUAL_USER);
-        UserCasual userCasual=new UserCasual();
+        UserCasual userCasual = new UserCasual();
         casual.setUserCasual(userCasual);
         casual.getUserRoles().add(userCasualRole);
         userRepository.save(casual);
@@ -76,6 +81,7 @@ public class TestingDevData implements CommandLineRunner {
         admin.getUserRoles().add(userAdminRole);
         userRepository.save(admin);
 
+        this.CreateTemplate();
 
     }
 
@@ -117,123 +123,120 @@ public class TestingDevData implements CommandLineRunner {
     private void createBook(Library library, User owner) {
         BookCategory bookCategory = bookCategoryRepository.findFirstByCategoryType("Przygodowa");
         BookCategory bookCategory1 = bookCategoryRepository.findFirstByCategoryType("Fantasy");
-        Book book = new Book("Henryk Sienkiewicz", "W pustyni i w puszczy", "PWD", LocalDate.of(1992, 12, 11), "12342", 1,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        Book book = new Book("Henryk Sienkiewicz", "W pustyni i w puszczy", "PWD", LocalDate.of(1992, 12, 11), "12342", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
 
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
-        book = new Book("Henryk Sienkiewicz", " sad asd ad adsa dasd ada", "PWD", LocalDate.of(1992, 12, 11), "12342", 1,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Henryk Sienkiewicz", " sad asd ad adsa dasd ada", "PWD", LocalDate.of(1992, 12, 11), "12342", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
 
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
-        book = new Book("Jakub Żulczyk", "test Ślepnąc od świateł", "ZNAK", LocalDate.of(1996, 10, 11), "132322", 6,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Jakub Żulczyk", "test Ślepnąc od świateł", "ZNAK", LocalDate.of(1996, 10, 11), "132322", 6, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
 
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Jakub Żulczyk", "Ślepnąc od świateł", "PWD", LocalDate.of(1998, 10, 11), "124563", 3,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Jakub Żulczyk", "Ślepnąc od świateł", "PWD", LocalDate.of(1998, 10, 11), "124563", 3, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Rafał Wicijowski ", "Oczami Mężczyzny", "PZWL", LocalDate.of(1999, 2, 3), "5123", 1,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Rafał Wicijowski ", "Oczami Mężczyzny", "PZWL", LocalDate.of(1999, 2, 3), "5123", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Rafał Wicijowski ", "Oczami Mężczyzny", "jaguar", LocalDate.of(2006, 3, 7), "32212", 9,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Rafał Wicijowski ", "Oczami Mężczyzny", "jaguar", LocalDate.of(2006, 3, 7), "32212", 9, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123422", 7,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123422", 7, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnice", "ZNAK", LocalDate.of(1992, 9, 6), "123432", 1,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnice", "ZNAK", LocalDate.of(1992, 9, 6), "123432", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnice", "PWD", LocalDate.of(1998, 10, 3), "123242", 2,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnice", "PWD", LocalDate.of(1998, 10, 3), "123242", 2, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnice", "PZWL", LocalDate.of(1995, 12, 2), "123342", 3,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnice", "PZWL", LocalDate.of(1995, 12, 2), "123342", 3, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12,"Opis",library,BookState.NOTRESERVED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11,"Opis",library,BookState.DELETE,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Opis", library, BookState.DELETE, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12,"Opis",library,BookState.DELETE,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12, "Opis", library, BookState.DELETE, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        User user=userRepository.findUserByEmail("tomekreda@op.pl");
+        User user = userRepository.findUserByEmail("tomekreda@op.pl");
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11,"Opis",library,BookState.CONFIRMED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Opis", library, BookState.CONFIRMED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12,"Opis",library,BookState.CONFIRMED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
-        book.setUserCasual(user.getUserCasual());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-
-        book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123422", 7,"Opis",library,BookState.BOOKED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
-        book.setUserCasual(user.getUserCasual());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3,"Opis",library,BookState.BOOKED,null,bookCategory);
-        book.setBookSearch(book.getAuthor()+" "+book.getTitle()+" "+book.getAuthor());
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12, "Opis", library, BookState.CONFIRMED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
 
+        book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123422", 7, "Opis", library, BookState.BOOKED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
+        book.setUserCasual(user.getUserCasual());
+        book.setUserMenager(owner.getUserMenager());
+        bookRepository.save(book);
 
+        book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3, "Opis", library, BookState.BOOKED, null, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
+        book.setUserCasual(user.getUserCasual());
+        book.setUserMenager(owner.getUserMenager());
+        bookRepository.save(book);
 
 
     }
@@ -246,7 +249,6 @@ public class TestingDevData implements CommandLineRunner {
 //        for(int i=0;i<10;i++){
         this.createBook(library, owner);
 //        }
-
 
 
         Library library2 = new Library("Warszawa", "tomekreda@op.pl", "52.2631523", "101", "21.0288848266558", "Ksiazeczka", "11", "05-077 Warszawa", "Józefa Szanajcy");
@@ -335,6 +337,34 @@ public class TestingDevData implements CommandLineRunner {
     }
 
 
+    private void CreateTemplate() {
+//        EmailTemplate emailTemplate = new EmailTemplate();
+//        emailTemplate.setContent();
+//        emailTemplate.setDescription("Wysyłanie zapytania o zmiane hasła");
+//        emailTemplate.setEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE);
+//        emailTemplateRepository.save(emailTemplate);
+
+
+        int lenght;
+        try {
+            byte bytes[];
+            InputStream template;
+            String toSave;
+
+            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE) == null) {
+                bytes = new byte[100000];
+                template = this.getClass().getClassLoader().getResourceAsStream("templates/resetPasswordMessage.html");
+                lenght = template.read(bytes);
+                String headerString = new String(bytes).substring(0, lenght).trim();
+                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.RESET_PASSWORD_MESSAGE));
+            }
+        } catch (Exception e) {
+            log.error("Exception in loading emails to database");
+            log.error(e.getMessage());
+        }
+
+
+    }
 }
 
 
