@@ -78,7 +78,7 @@ spring:
     password: GHJbnm123
     host: smtp.gmail.com
     port: 587
-    tls: true;
+    tls: false
 logging:
   level:
     pl.tomekreda: DEBUG
@@ -125,7 +125,7 @@ spring:
     password: GHJbnm123
     host: smtp.gmail.com
     port: 587
-    tls: true
+    tls: false
 logging:
   level:
     pl.tomekreda: DEBUG
