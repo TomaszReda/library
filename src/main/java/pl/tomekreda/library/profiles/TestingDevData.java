@@ -25,7 +25,6 @@ import java.time.LocalDate;
 @Transactional
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-
 public class TestingDevData implements CommandLineRunner {
 
     private final UserRepository userRepository;

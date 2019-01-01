@@ -3,6 +3,7 @@ package pl.tomekreda.library.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,7 +42,13 @@ public class AuthService {
 
     private final EmailService emailService;
 
+    @Value("${spring.application.required.activation}")
+    boolean requiredActivation;
+
     public AuthenticationResponse login(@RequestBody Credentials credentials, HttpServletRequest request) {
+        User user = userRepository.findUserByEmail(credentials.getEmail());
+
+
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());
         final Authentication authentication = this.authenticationManager.authenticate(token);
 
@@ -95,13 +102,18 @@ public class AuthService {
             UserRoles useroles = new UserRoles();
             useroles.setUserRole(UserRoleEnum.CASUAL_USER);
             tmp.getUserRoles().add(useroles);
-            tmp.setUserState(UserState.NOTACTIVE);
+            if (requiredActivation)
+                tmp.setUserState(UserState.NOTACTIVE);
+            else
+                tmp.setUserState(UserState.ACTIVE);
             ActivationUserToken activationUserToken = new ActivationUserToken(tmp, UUID.randomUUID(), LocalDateTime.now().plusMonths(1));
             activationUserToken.setUser(tmp);
             activationUserTokenRepository.save(activationUserToken);
             tmp.setActivationUserToken(activationUserToken);
             tmp = userRepository.save(tmp);
+            if(requiredActivation)
             emailService.sendRegisterEmailToCasualUser(tmp.getEmail(), tmp.getActivationUserToken().getActiveToken());
+
             log.info("[Register casual user]=" + user);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
@@ -137,7 +149,10 @@ public class AuthService {
             User tmp = new User();
             tmp.setPhoneNumber(user.getPhoneNumber());
             tmp.setEmail(user.getEmail());
-            tmp.setUserState(UserState.NOTACTIVE);
+            if (requiredActivation)
+                tmp.setUserState(UserState.NOTACTIVE);
+            else
+                tmp.setUserState(UserState.ACTIVE);
             tmp.setFirstname(user.getFirstname());
             tmp.setLastname(user.getLastname());
             tmp.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -151,7 +166,9 @@ public class AuthService {
             activationUserTokenRepository.save(activationUserToken);
             tmp.setActivationUserToken(activationUserToken);
             tmp = userRepository.save(tmp);
-            emailService.sendRegisterEmailToLibraryOwner(tmp.getEmail(), tmp.getActivationUserToken().getActiveToken());
+
+            if(requiredActivation)
+                emailService.sendRegisterEmailToLibraryOwner(tmp.getEmail(), tmp.getActivationUserToken().getActiveToken());
 
             log.info("[Register library owner]=" + tmp);
             return ResponseEntity.ok().build();

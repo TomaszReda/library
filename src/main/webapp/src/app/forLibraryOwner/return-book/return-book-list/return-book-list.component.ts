@@ -38,7 +38,6 @@ export class ReturnBookListComponent implements OnInit {
   }
 
   details(bookId) {
-    console.log("cos" + bookId);
     localStorage.setItem("deitalsGeneralSearch", null);
     localStorage.setItem("detailsReservSearch", "true");
     localStorage.setItem("detailsForCasualBookedUser", "true")

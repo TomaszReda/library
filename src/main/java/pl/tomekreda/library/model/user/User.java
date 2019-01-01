@@ -37,6 +37,7 @@ public class User {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ActivationUserToken activationUserToken;
 
     @Enumerated(EnumType.STRING)

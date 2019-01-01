@@ -256,7 +256,6 @@ public class UserService {
                 return ResponseEntity.badRequest().body("Token do aktywacji konta wygasł!");
 
             } else {
-                String newpassword = generatePassword();
                 activationUserToken.setExpireTime(null);
                 activationUserToken.setActiveToken(null);
                 activationUserTokenRepository.save(activationUserToken);

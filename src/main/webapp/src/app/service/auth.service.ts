@@ -79,7 +79,7 @@ export class AuthService {
       })
     }, error1 => {
       localStorage.removeItem("tokenID");
-      this.badLogin = 'Podaj poprawny login i hasło!';
+      this.badLogin = error1.error.message;
       this.islogin = false;
     })
 
