@@ -1,5 +1,6 @@
 package pl.tomekreda.library.model.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -45,6 +46,7 @@ public class User {
     private List<UserRoles> userRoles = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ResetPasswordToken resetPasswordToken;
 
 

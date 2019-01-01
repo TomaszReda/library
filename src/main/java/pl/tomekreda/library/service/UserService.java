@@ -83,15 +83,17 @@ public class UserService {
         if (!passwordEncoder.matches(user.getPassword(), logged.getPassword())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Błędne hasło!");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if (user.getResetPasswordToken() != null) {
-            user.getResetPasswordToken().setResetToken(null);
-            user.getResetPasswordToken().setExpireTime(null);
+
+        logged.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (logged.getResetPasswordToken() != null) {
+            logged.getResetPasswordToken().setResetToken(null);
+            logged.getResetPasswordToken().setExpireTime(null);
         }
-        user.setUserRoles(logged.getUserRoles());
-        user.setUserMenager(logged.getUserMenager());
-        user.setUserCasual(logged.getUserCasual());
-        user = userRepository.save(user);
+        logged.setEmail(user.getEmail());
+        logged.setLastname(user.getLastname());
+        logged.setFirstname(user.getFirstname());
+        logged.setPhoneNumber(user.getPhoneNumber());
+        logged = userRepository.save(logged);
 
         log.info("[Change setings after]="+user);
         return ResponseEntity.ok(user);
