@@ -41,7 +41,7 @@ export class UserService {
 
   activationUser(activationToken) {
     let activationUserRequest = {
-      resetToken: activationToken
+      activationToken: activationToken
     }
     return this.http.put(this.url + "/user/activation", activationUserRequest);
   }

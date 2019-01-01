@@ -249,7 +249,6 @@ public class UserService {
 
             ActivationUserToken activationUserToken = activationUserTokenRepository.findByActiveToken(activationUserRequest.getActivationToken());
 
-
             if (activationUserToken == null) {
                 return ResponseEntity.badRequest().body("Konto już zostało aktywowane!");
             }
@@ -264,7 +263,6 @@ public class UserService {
                 User user = activationUserToken.getUser();
                 user.setUserState(UserState.ACTIVE);
                 userRepository.save(user);
-                emailService.sendEmailNewPassword(user.getEmail(), newpassword);
                 return ResponseEntity.ok(JSONParser.quote("Konto aktywne! Możesz się zalogować"));
             }
         } catch (Exception ex) {

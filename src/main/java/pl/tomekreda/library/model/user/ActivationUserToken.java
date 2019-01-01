@@ -13,7 +13,7 @@ import java.util.UUID;
 public class ActivationUserToken {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     @OneToOne(mappedBy = "activationUserToken", cascade = CascadeType.ALL)
