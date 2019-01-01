@@ -14,7 +14,7 @@ export class LibraryDetailsComponent implements OnInit {
   public library: Library;
 
 
-  constructor(private  mapService: MapServiceService, private adminSerivce: AdminService, private activaterdRouter: ActivatedRoute,) {
+  constructor(private  mapService: MapServiceService, private adminSerivce: AdminService, private activatedRoute: ActivatedRoute,) {
   }
 
   ngOnInit() {
@@ -23,7 +23,7 @@ export class LibraryDetailsComponent implements OnInit {
   }
 
   public initLibraryDetails() {
-    this.adminSerivce.getLibraryDetails(this.activaterdRouter.snapshot.paramMap.get("libraryId")).subscribe((x: Library) => {
+    this.adminSerivce.getLibraryDetails(this.activatedRoute.snapshot.paramMap.get("libraryId")).subscribe((x: Library) => {
       this.library = x;
       this.mapService.mapLat = this.library.latitude;
       this.mapService.mapLng = this.library.longitude;

@@ -1,5 +1,6 @@
 package pl.tomekreda.library.service;
 
+import jdk.nashorn.internal.parser.JSONParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,10 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.tomekreda.library.email.sender.EmailSender;
 import pl.tomekreda.library.email.service.EmailService;
+import pl.tomekreda.library.model.user.ResetPasswordRequest;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.LibraryRepository;
 import pl.tomekreda.library.repository.UserRepository;
@@ -20,6 +22,7 @@ import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.validators.PasswordValidators;
 
 import javax.transaction.Transactional;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -44,6 +47,7 @@ public class UserService {
 
     @Autowired
     private EmailService emailService;
+
 
     public ResponseEntity info() {
         try {
@@ -158,13 +162,51 @@ public class UserService {
             if(user==null){
                 return ResponseEntity.badRequest().body("Taki użytkownik nie istnieje");
             }
-            emailService.sendEmailaResetPassword(email);
             user.setResetPasswordToken(UUID.randomUUID());
             userRepository.save(user);
+            emailService.sendEmailaResetPassword(email, user.getResetPasswordToken());
+
             return ResponseEntity.ok().build();
         }
         catch(Exception ex){
             return ResponseEntity.badRequest().build();
         }
+    }
+
+
+    public ResponseEntity resetPassword(ResetPasswordRequest resetPasswordRequest) {
+        try {
+            if (resetPasswordRequest == null) {
+                return ResponseEntity.badRequest().body("Token do resetu hasła wygasł!");
+            }
+            User user = userRepository.findUserByResetPasswordToken(resetPasswordRequest.getResetToken());
+            if (user == null) {
+                return ResponseEntity.badRequest().body("Token do resetu hasła wygasł!");
+            } else {
+                String newpassword=generatePassword();
+                user.setPassword(passwordEncoder.encode(newpassword));
+                user.setResetPasswordToken(null);
+                userRepository.save(user);
+                emailService.sendEmailNewPassword(user.getEmail(),newpassword);
+                return ResponseEntity.ok(JSONParser.quote("Nowe hasło zostało wysłane na meila"));
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    private String generatePassword(){
+        int leftLimit = 47; // letter '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 14;
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(targetStringLength);
+        for (int i = 0; i < targetStringLength; i++) {
+            int randomLimitedInt = leftLimit + (int)
+                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+            buffer.append((char) randomLimitedInt);
+        }
+        String generatedString = buffer.toString();
+        return generatedString;
     }
 }

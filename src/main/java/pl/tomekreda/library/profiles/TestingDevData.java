@@ -364,6 +364,26 @@ public class TestingDevData implements CommandLineRunner {
         }
 
 
+
+        try {
+            byte bytes[];
+            InputStream template;
+            String toSave;
+
+            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE) == null) {
+                bytes = new byte[100000];
+                template = this.getClass().getClassLoader().getResourceAsStream("templates/resetPasswordNewPassword.html");
+                lenght = template.read(bytes);
+                String headerString = new String(bytes).substring(0, lenght).trim();
+                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.RESET_PASSWORD_MESSAGE));
+            }
+        } catch (Exception e) {
+            log.error("Exception in loading emails to database");
+            log.error(e.getMessage());
+        }
+
+
+
     }
 }
 

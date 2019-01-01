@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.tomekreda.library.model.user.ResetPasswordRequest;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.ChangePasswordRequest;
@@ -53,4 +54,10 @@ public class UserController {
     public ResponseEntity sendEmail(@RequestBody String email) {
         return userService.sendEmail(email);
     }
+
+    @PutMapping("/user/reset/password")
+    public ResponseEntity sendEmail(@RequestBody ResetPasswordRequest resetPasswordRequest) {
+        return userService.resetPassword(resetPasswordRequest);
+    }
+
 }

@@ -10,4 +10,5 @@ export class User {
   password?: string;
   userRoles?: Array<UserRoles>;
   userMenager?: UserMenager;
+  resetPasswordToken?: string;
 }

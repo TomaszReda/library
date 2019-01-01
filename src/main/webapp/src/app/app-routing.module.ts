@@ -78,7 +78,7 @@ const routes: Routes = [
     canActivate: [AuthGuardsService,AdminGuardService],
   },
   {
-    path: "reset/password",
+    path: "reset/password/:resetPasswordToken",
     loadChildren: "./forAll/reset-password/reset-password.module#ResetPasswordModule"
   }
 ];
