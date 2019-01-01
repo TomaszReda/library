@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {AuthGuardsService} from "./guard/auth-guards.service";
 import {LibraryOwnerGuardService} from "./guard/library-owner-guard.service";
 import {CasualUserGuardService} from "./guard/casual-user-guard.service";
@@ -76,6 +76,10 @@ const routes: Routes = [
     path: "library/:libraryId",
     loadChildren: "./forAdmin/library-details/library-details.module#LibraryDetailsModule",
     canActivate: [AuthGuardsService,AdminGuardService],
+  },
+  {
+    path: "reset/password",
+    loadChildren: "./forAll/reset-password/reset-password.module#ResetPasswordModule"
   }
 ];
 

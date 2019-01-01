@@ -159,6 +159,8 @@ public class UserService {
                 return ResponseEntity.badRequest().body("Taki użytkownik nie istnieje");
             }
             emailService.sendEmailaResetPassword(email);
+            user.setResetPasswordToken(UUID.randomUUID());
+            userRepository.save(user);
             return ResponseEntity.ok().build();
         }
         catch(Exception ex){

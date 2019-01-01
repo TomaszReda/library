@@ -1,6 +1,9 @@
 package pl.tomekreda.library.model.user;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
@@ -41,6 +44,7 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<UserRoles> userRoles = new ArrayList<>();
 
+    private UUID resetPasswordToken;
 
     public User() {
     }
