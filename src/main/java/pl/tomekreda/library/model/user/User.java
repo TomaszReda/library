@@ -44,7 +44,9 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<UserRoles> userRoles = new ArrayList<>();
 
-    private UUID resetPasswordToken;
+    @OneToOne(cascade = CascadeType.ALL)
+    private ResetPasswordToken resetPasswordToken;
+
 
     public User() {
     }

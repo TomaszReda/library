@@ -8,20 +8,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.email.service.EmailService;
-import pl.tomekreda.library.model.user.ResetPasswordRequest;
+import pl.tomekreda.library.model.user.ResetPasswordToken;
 import pl.tomekreda.library.model.user.User;
-import pl.tomekreda.library.repository.LibraryRepository;
+import pl.tomekreda.library.repository.ResetPasswordTokenRepository;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.ChangePasswordRequest;
+import pl.tomekreda.library.request.ResetPasswordRequest;
 import pl.tomekreda.library.validators.PasswordValidators;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
@@ -37,17 +37,10 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private LibraryRepository libraryRepository;
-
-    @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private ResetPasswordTokenRepository resetPasswordTokenRepository;
 
     public ResponseEntity info() {
         try {
@@ -91,6 +84,10 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Błędne hasło!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getResetPasswordToken() != null) {
+            user.getResetPasswordToken().setResetToken(null);
+            user.getResetPasswordToken().setExpireTime(null);
+        }
         user.setUserRoles(logged.getUserRoles());
         user.setUserMenager(logged.getUserMenager());
         user.setUserCasual(logged.getUserCasual());
@@ -123,6 +120,10 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Hasło musi mieć 1 dużą i mała literę oraz cyfrę!");
         }
         loged.setPassword(passwordEncoder.encode(changePasswordRequest.getNewpassword()));
+        if (loged.getResetPasswordToken() != null) {
+            loged.getResetPasswordToken().setResetToken(null);
+            loged.getResetPasswordToken().setExpireTime(null);
+        }
         loged = userRepository.save(loged);
         log.info("[Change password after]="+loged);
 
@@ -162,9 +163,21 @@ public class UserService {
             if(user==null){
                 return ResponseEntity.badRequest().body("Taki użytkownik nie istnieje");
             }
-            user.setResetPasswordToken(UUID.randomUUID());
+            ResetPasswordToken resetPasswordToken;
+            if (user.getResetPasswordToken() != null) {
+                resetPasswordToken = user.getResetPasswordToken();
+                resetPasswordToken.setExpireTime(LocalDateTime.now().plusDays(1));
+                resetPasswordToken.setResetToken(UUID.randomUUID());
+                resetPasswordToken = resetPasswordTokenRepository.save(resetPasswordToken);
+
+            } else {
+                resetPasswordToken = new ResetPasswordToken(UUID.randomUUID(), LocalDateTime.now().plusDays(1));
+                resetPasswordToken.setUser(user);
+                resetPasswordToken = resetPasswordTokenRepository.save(resetPasswordToken);
+            }
+            user.setResetPasswordToken(resetPasswordToken);
             userRepository.save(user);
-            emailService.sendEmailaResetPassword(email, user.getResetPasswordToken());
+            emailService.sendEmailaResetPassword(email, user.getResetPasswordToken().getResetToken());
 
             return ResponseEntity.ok().build();
         }
@@ -179,18 +192,28 @@ public class UserService {
             if (resetPasswordRequest == null) {
                 return ResponseEntity.badRequest().body("Token do resetu hasła wygasł!");
             }
-            User user = userRepository.findUserByResetPasswordToken(resetPasswordRequest.getResetToken());
-            if (user == null) {
+
+            ResetPasswordToken resetPasswordToken = resetPasswordTokenRepository.findByResetToken(resetPasswordRequest.getResetToken());
+
+            if (resetPasswordToken == null) {
                 return ResponseEntity.badRequest().body("Token do resetu hasła wygasł!");
+            }
+            if (!LocalDateTime.now().isBefore(resetPasswordToken.getExpireTime())) {
+                return ResponseEntity.badRequest().body("Token do resetu hasła wygasł!");
+
             } else {
                 String newpassword=generatePassword();
+                resetPasswordToken.setExpireTime(null);
+                resetPasswordToken.setResetToken(null);
+                resetPasswordTokenRepository.save(resetPasswordToken);
+                User user = resetPasswordToken.getUser();
                 user.setPassword(passwordEncoder.encode(newpassword));
-                user.setResetPasswordToken(null);
                 userRepository.save(user);
                 emailService.sendEmailNewPassword(user.getEmail(),newpassword);
                 return ResponseEntity.ok(JSONParser.quote("Nowe hasło zostało wysłane na meila"));
             }
         } catch (Exception ex) {
+
             return ResponseEntity.badRequest().build();
         }
     }
