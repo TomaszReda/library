@@ -35,6 +35,13 @@ public class User {
     private int phoneNumber;
 
     private String password;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private ActivationUserToken activationUserToken;
+
+    @Enumerated(EnumType.STRING)
+    private UserState userState;
+
     @OneToOne(cascade = CascadeType.ALL)
     private UserMenager userMenager;
 
@@ -53,11 +60,12 @@ public class User {
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, int phoneNumber, String password) {
+    public User(String firstname, String lastname, String email, int phoneNumber, String password,UserState userState) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;
+        this.userState=userState;
     }
 }

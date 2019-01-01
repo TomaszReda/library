@@ -1,4 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
+
 declare var ol: any;
 
 @Injectable({

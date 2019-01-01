@@ -1,6 +1,7 @@
 package pl.tomekreda.library.service;
 
 import jdk.nashorn.internal.parser.JSONParser;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,10 +13,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.email.service.EmailService;
+import pl.tomekreda.library.model.user.ActivationUserToken;
 import pl.tomekreda.library.model.user.ResetPasswordToken;
 import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.model.user.UserState;
+import pl.tomekreda.library.repository.ActivationUserTokenRepository;
 import pl.tomekreda.library.repository.ResetPasswordTokenRepository;
 import pl.tomekreda.library.repository.UserRepository;
+import pl.tomekreda.library.request.ActivationUserRequest;
 import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.request.ResetPasswordRequest;
 import pl.tomekreda.library.validators.PasswordValidators;
@@ -28,19 +33,19 @@ import java.util.UUID;
 @Service
 @Transactional
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailService emailService;
 
-    @Autowired
-    private ResetPasswordTokenRepository resetPasswordTokenRepository;
+    private final ResetPasswordTokenRepository resetPasswordTokenRepository;
+
+    private final ActivationUserTokenRepository activationUserTokenRepository;
 
     public ResponseEntity info() {
         try {
@@ -234,4 +239,38 @@ public class UserService {
         String generatedString = buffer.toString();
         return generatedString;
     }
+
+
+    public ResponseEntity activationUser(ActivationUserRequest activationUserRequest) {
+        try {
+            if (activationUserRequest == null) {
+                return ResponseEntity.badRequest().body("Token do aktywacji konta wygasł!");
+            }
+
+            ActivationUserToken activationUserToken = activationUserTokenRepository.findByActiveToken(activationUserRequest.getActivationToken());
+
+
+            if (activationUserToken == null) {
+                return ResponseEntity.badRequest().body("Konto już zostało aktywowane!");
+            }
+            if (!LocalDateTime.now().isBefore(activationUserToken.getExpireTime())) {
+                return ResponseEntity.badRequest().body("Token do aktywacji konta wygasł!");
+
+            } else {
+                String newpassword = generatePassword();
+                activationUserToken.setExpireTime(null);
+                activationUserToken.setActiveToken(null);
+                activationUserTokenRepository.save(activationUserToken);
+                User user = activationUserToken.getUser();
+                user.setUserState(UserState.ACTIVE);
+                userRepository.save(user);
+                emailService.sendEmailNewPassword(user.getEmail(), newpassword);
+                return ResponseEntity.ok(JSONParser.quote("Konto aktywne! Możesz się zalogować"));
+            }
+        } catch (Exception ex) {
+
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

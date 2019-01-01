@@ -65,6 +65,37 @@ public class EmailService {
             ex.printStackTrace();
         }
     }
+
+
+
+    public void sendRegisterEmailToCasualUser(String to,UUID token) {
+        try {
+
+            EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.REGISTER_CASUAL_USER).orElse(null);
+            Context context = new Context();
+            context.setVariable("activationUrl",applicationUrl+"/user/activation/"+token);
+
+            String body = stringTemplateEngine.process("registrationCasualUser", context);
+            emailSender.sendEmail(to, EmailUtils.REGISTER_CASUAL_USER, body);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
+    public void sendRegisterEmailToLibraryOwner(String to,UUID token) {
+        try {
+
+            EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.REGISTER_LIBRARY_OWNER).orElse(null);
+            Context context = new Context();
+            context.setVariable("activationUrl",applicationUrl+"/user/activation/"+token);
+
+            String body = stringTemplateEngine.process("registrationLibraryOwnerUser", context);
+            emailSender.sendEmail(to, EmailUtils.REGISTER_LIBRARY_OWNER, body);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }
 
 

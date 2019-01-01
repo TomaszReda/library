@@ -1,5 +1,6 @@
 package pl.tomekreda.library.profiles;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -23,31 +24,27 @@ import java.time.LocalDate;
 @DevProfile
 @Transactional
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+
 public class TestingDevData implements CommandLineRunner {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private LibraryRepository libraryRepository;
+    private final LibraryRepository libraryRepository;
 
-    @Autowired
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
 
-    @Autowired
-    private BookCategoryRepository bookCategoryRepository;
+    private final BookCategoryRepository bookCategoryRepository;
 
-    @Autowired
-    private EmailTemplateRepository emailTemplateRepository;
+    private final EmailTemplateRepository emailTemplateRepository;
 
     @Override
     public void run(String... args) throws Exception {
         this.createBookCategory();
 
-        User casual = new User("Kasia", "Reda", "tomekreda@op.pl", 123456789, passwordEncoder.encode("password"));
+        User casual = new User("Kasia", "Reda", "tomekreda@op.pl", 123456789, passwordEncoder.encode("password"), UserState.ACTIVE);
         UserRoles userCasualRole = new UserRoles();
         userCasualRole.setUserRole(UserRoleEnum.CASUAL_USER);
         UserCasual userCasual = new UserCasual();
@@ -55,7 +52,7 @@ public class TestingDevData implements CommandLineRunner {
         casual.getUserRoles().add(userCasualRole);
         userRepository.save(casual);
 
-        User owner = new User("Tomek", "Reda", "owner@local", 123456789, passwordEncoder.encode("password"));
+        User owner = new User("Tomek", "Reda", "owner@local", 123456789, passwordEncoder.encode("password"), UserState.ACTIVE);
         UserRoles userOwnerRole = new UserRoles();
         userOwnerRole.setUserRole(UserRoleEnum.LIBRARY_OWNER);
         owner.getUserRoles().add(userOwnerRole);
@@ -65,7 +62,7 @@ public class TestingDevData implements CommandLineRunner {
 
         addLibrary(owner);
 
-        User owner2 = new User("Tomek", "Reda", "owner2@local", 123456789, passwordEncoder.encode("password"));
+        User owner2 = new User("Tomek", "Reda", "owner2@local", 123456789, passwordEncoder.encode("password"), UserState.ACTIVE);
         UserRoles userOwner2Role = new UserRoles();
         userOwner2Role.setUserRole(UserRoleEnum.LIBRARY_OWNER);
         UserMenager userMenager2 = new UserMenager();
@@ -75,7 +72,7 @@ public class TestingDevData implements CommandLineRunner {
 
         addLibrary(owner2);
 
-        User admin = new User("Tomek", "Reda", "admin@local", 123456789, passwordEncoder.encode("password"));
+        User admin = new User("Tomek", "Reda", "admin@local", 123456789, passwordEncoder.encode("password"), UserState.ACTIVE);
         UserRoles userAdminRole = new UserRoles();
         userAdminRole.setUserRole(UserRoleEnum.ADMIN);
         admin.getUserRoles().add(userAdminRole);
@@ -344,7 +341,6 @@ public class TestingDevData implements CommandLineRunner {
 //        emailTemplate.setEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE);
 //        emailTemplateRepository.save(emailTemplate);
 
-
         int lenght;
         try {
             byte bytes[];
@@ -358,32 +354,32 @@ public class TestingDevData implements CommandLineRunner {
                 String headerString = new String(bytes).substring(0, lenght).trim();
                 emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.RESET_PASSWORD_MESSAGE));
             }
-        } catch (Exception e) {
-            log.error("Exception in loading emails to database");
-            log.error(e.getMessage());
-        }
-
-
-
-        try {
-            byte bytes[];
-            InputStream template;
-            String toSave;
-
-            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE) == null) {
+            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_NEW_PASSWORD) == null) {
                 bytes = new byte[100000];
                 template = this.getClass().getClassLoader().getResourceAsStream("templates/resetPasswordNewPassword.html");
                 lenght = template.read(bytes);
                 String headerString = new String(bytes).substring(0, lenght).trim();
-                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.RESET_PASSWORD_MESSAGE));
+                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.RESET_PASSWORD_NEW_PASSWORD));
             }
+            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.REGISTER_CASUAL_USER) == null) {
+                bytes = new byte[100000];
+                template = this.getClass().getClassLoader().getResourceAsStream("templates/registrationCasualUser.html");
+                lenght = template.read(bytes);
+                String headerString = new String(bytes).substring(0, lenght).trim();
+                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.REGISTER_CASUAL_USER));
+            }
+            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.REGISTER_LIBRARY_OWNER) == null) {
+                bytes = new byte[100000];
+                template = this.getClass().getClassLoader().getResourceAsStream("templates/registrationLibraryOwnerUser.html");
+                lenght = template.read(bytes);
+                String headerString = new String(bytes).substring(0, lenght).trim();
+                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.REGISTER_LIBRARY_OWNER));
+            }
+
         } catch (Exception e) {
             log.error("Exception in loading emails to database");
             log.error(e.getMessage());
         }
-
-
-
     }
 }
 

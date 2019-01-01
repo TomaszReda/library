@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {User} from "../model/user/user.model";
 import {PasswordRequest} from "../model/user/changePassword.model";
 import {environment} from "../../environments/environment.prod";
@@ -38,5 +38,13 @@ export class UserService {
     }
     return this.http.put(this.url + "/user/reset/password", resetPasswordRequest);
   }
+
+  activationUser(activationToken) {
+    let activationUserRequest = {
+      resetToken: activationToken
+    }
+    return this.http.put(this.url + "/user/activation", activationUserRequest);
+  }
+
 
 }

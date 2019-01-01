@@ -35,7 +35,7 @@ public class ResetPasswordToken {
     public String toString() {
         return "ResetPasswordToken{" +
                 "ID=" + ID +
-                ", resetToken=" + resetToken +
+                ", activationToken=" + resetToken +
                 ", expireTime=" + expireTime +
                 '}';
     }

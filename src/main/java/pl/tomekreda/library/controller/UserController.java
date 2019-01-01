@@ -1,26 +1,27 @@
 package pl.tomekreda.library.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pl.tomekreda.library.request.ResetPasswordRequest;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.UserRepository;
+import pl.tomekreda.library.request.ActivationUserRequest;
 import pl.tomekreda.library.request.ChangePasswordRequest;
+import pl.tomekreda.library.request.ResetPasswordRequest;
 import pl.tomekreda.library.service.UserService;
 
 import java.util.UUID;
 
 @RestController()
 @RequestMapping("/api")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     @GetMapping("/online/user/info")
@@ -58,6 +59,11 @@ public class UserController {
     @PutMapping("/user/reset/password")
     public ResponseEntity sendEmail(@RequestBody ResetPasswordRequest resetPasswordRequest) {
         return userService.resetPassword(resetPasswordRequest);
+    }
+
+    @PutMapping("/user/activation")
+    public ResponseEntity activationUser(@RequestBody ActivationUserRequest activationUserRequest) {
+        return userService.activationUser(activationUserRequest);
     }
 
 }

@@ -80,6 +80,10 @@ const routes: Routes = [
   {
     path: "reset/password/:resetPasswordToken",
     loadChildren: "./forAll/reset-password/reset-password.module#ResetPasswordModule"
+  },
+  {
+    path: "user/activation/:activationToken",
+    loadChildren: "./forAll/activation-user/activation-user.module#ActivationUserModule"
   }
 ];
 

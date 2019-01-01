@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.BookRepository;
@@ -21,6 +20,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 @Transactional
+
 public class SearchAdminService {
 
     private final UserRepository userRepository;

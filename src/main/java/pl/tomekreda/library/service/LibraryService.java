@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.LibraryRepository;

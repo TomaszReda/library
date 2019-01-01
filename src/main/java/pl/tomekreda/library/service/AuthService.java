@@ -1,5 +1,6 @@
 package pl.tomekreda.library.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import pl.tomekreda.library.email.service.EmailService;
 import pl.tomekreda.library.model.user.*;
+import pl.tomekreda.library.repository.ActivationUserTokenRepository;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.AddUserCasualRequest;
 import pl.tomekreda.library.request.AddUserLibraryOwnerRequest;
@@ -20,19 +23,23 @@ import pl.tomekreda.library.validators.PasswordValidators;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthService {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    private final ActivationUserTokenRepository activationUserTokenRepository;
+
+    private final EmailService emailService;
 
     public AuthenticationResponse login(@RequestBody Credentials credentials, HttpServletRequest request) {
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());
@@ -88,7 +95,13 @@ public class AuthService {
             UserRoles useroles = new UserRoles();
             useroles.setUserRole(UserRoleEnum.CASUAL_USER);
             tmp.getUserRoles().add(useroles);
+            tmp.setUserState(UserState.NOTACTIVE);
+            ActivationUserToken activationUserToken = new ActivationUserToken(tmp, UUID.randomUUID(), LocalDateTime.now().plusMonths(1));
+            activationUserToken.setUser(tmp);
+            activationUserTokenRepository.save(activationUserToken);
+            tmp.setActivationUserToken(activationUserToken);
             tmp = userRepository.save(tmp);
+            emailService.sendRegisterEmailToCasualUser(tmp.getEmail(), tmp.getActivationUserToken().getActiveToken());
             log.info("[Register casual user]=" + user);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
@@ -124,6 +137,7 @@ public class AuthService {
             User tmp = new User();
             tmp.setPhoneNumber(user.getPhoneNumber());
             tmp.setEmail(user.getEmail());
+            tmp.setUserState(UserState.NOTACTIVE);
             tmp.setFirstname(user.getFirstname());
             tmp.setLastname(user.getLastname());
             tmp.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -132,7 +146,13 @@ public class AuthService {
             UserRoles useroles = new UserRoles();
             useroles.setUserRole(UserRoleEnum.LIBRARY_OWNER);
             tmp.getUserRoles().add(useroles);
+            ActivationUserToken activationUserToken = new ActivationUserToken(tmp, UUID.randomUUID(), LocalDateTime.now().plusMonths(1));
+            activationUserToken.setUser(tmp);
+            activationUserTokenRepository.save(activationUserToken);
+            tmp.setActivationUserToken(activationUserToken);
             tmp = userRepository.save(tmp);
+            emailService.sendRegisterEmailToLibraryOwner(tmp.getEmail(), tmp.getActivationUserToken().getActiveToken());
+
             log.info("[Register library owner]=" + tmp);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
