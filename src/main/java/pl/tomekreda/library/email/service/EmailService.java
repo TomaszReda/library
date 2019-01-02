@@ -32,19 +32,27 @@ public class EmailService {
 
     private final EmailSender emailSender;
 
+
+
+
+    @Qualifier("emailTemplateEngine")
     @Autowired
     private TemplateEngine stringTemplateEngine;
+
 
 
     public void sendEmailaResetPassword(String to, UUID token) {
         try {
 
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.RESET_PASSWORD_MESSAGE).orElse(null);
+            String head=emailTemplateRepository.findById(EmailTemplateType.HEADER).orElse(null).getContent();
+            String footer=emailTemplateRepository.findById(EmailTemplateType.FOOTER).orElse(null).getContent();
+
             Context context = new Context();
             String url = applicationUrl + "/reset/password/"+token;
             context.setVariable("passwordResetUrl", url);
 
-            String body = stringTemplateEngine.process("resetPasswordMessage", context);
+            String body = stringTemplateEngine.process(head+emailTemplate.getContent()+footer, context);
             emailSender.sendEmail(to, EmailUtils.RESET_PASSWORD_MESSAGE_TITTLE, body);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -56,10 +64,12 @@ public class EmailService {
         try {
 
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.RESET_PASSWORD_NEW_PASSWORD).orElse(null);
+            String head=emailTemplateRepository.findById(EmailTemplateType.HEADER).orElse(null).getContent();
+            String footer=emailTemplateRepository.findById(EmailTemplateType.FOOTER).orElse(null).getContent();
             Context context = new Context();
             context.setVariable("newPassword",newPassword);
 
-            String body = stringTemplateEngine.process("resetPasswordNewPassword", context);
+            String body = stringTemplateEngine.process(head+emailTemplate.getContent()+footer, context);
             emailSender.sendEmail(to, EmailUtils.RESET_PASSWORD_NEW_PASSWORD, body);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -72,10 +82,12 @@ public class EmailService {
         try {
 
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.REGISTER_CASUAL_USER).orElse(null);
+            String head=emailTemplateRepository.findById(EmailTemplateType.HEADER).orElse(null).getContent();
+            String footer=emailTemplateRepository.findById(EmailTemplateType.FOOTER).orElse(null).getContent();
             Context context = new Context();
             context.setVariable("activationUrl",applicationUrl+"/user/activation/"+token);
 
-            String body = stringTemplateEngine.process("registrationCasualUser", context);
+            String body = stringTemplateEngine.process(head+emailTemplate.getContent()+footer, context);
             emailSender.sendEmail(to, EmailUtils.REGISTER_CASUAL_USER, body);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -87,10 +99,12 @@ public class EmailService {
         try {
 
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.REGISTER_LIBRARY_OWNER).orElse(null);
+            String head=emailTemplateRepository.findById(EmailTemplateType.HEADER).orElse(null).getContent();
+            String footer=emailTemplateRepository.findById(EmailTemplateType.FOOTER).orElse(null).getContent();
             Context context = new Context();
             context.setVariable("activationUrl",applicationUrl+"/user/activation/"+token);
 
-            String body = stringTemplateEngine.process("registrationLibraryOwnerUser", context);
+            String body = stringTemplateEngine.process(head+emailTemplate.getContent()+footer, context);
             emailSender.sendEmail(to, EmailUtils.REGISTER_LIBRARY_OWNER, body);
         } catch (Exception ex) {
             ex.printStackTrace();

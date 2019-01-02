@@ -93,28 +93,28 @@ public class ProdProfilesData implements CommandLineRunner {
 
             if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE) == null) {
                 bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/resetPasswordMessage.html");
+                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/resetPasswordMessage.html");
                 lenght = template.read(bytes);
                 String headerString = new String(bytes).substring(0, lenght).trim();
                 emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.RESET_PASSWORD_MESSAGE));
             }
             if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_NEW_PASSWORD) == null) {
                 bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/resetPasswordNewPassword.html");
+                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/resetPasswordNewPassword.html");
                 lenght = template.read(bytes);
                 String headerString = new String(bytes).substring(0, lenght).trim();
                 emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.RESET_PASSWORD_NEW_PASSWORD));
             }
             if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.REGISTER_CASUAL_USER) == null) {
                 bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/registrationCasualUser.html");
+                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/registrationCasualUser.html");
                 lenght = template.read(bytes);
                 String headerString = new String(bytes).substring(0, lenght).trim();
                 emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.REGISTER_CASUAL_USER));
             }
             if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.REGISTER_LIBRARY_OWNER) == null) {
                 bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/registrationLibraryOwnerUser.html");
+                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/registrationLibraryOwnerUser.html");
                 lenght = template.read(bytes);
                 String headerString = new String(bytes).substring(0, lenght).trim();
                 emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.REGISTER_LIBRARY_OWNER));
