@@ -111,4 +111,10 @@ public class AngularController {
 
     @GetMapping("/reset/password/{resetPasswordToken}")
     public String resetPasswordToken(Model model, @PathVariable UUID userId) { return "forward:/index.html"; }
+
+    @GetMapping("/user/activation/{tokenId}")
+    public String activationUser(Model model, @PathVariable UUID tokenId) { return "forward:/index.html"; }
+
+    @GetMapping("/reset/password/{tokenId}")
+    public String resetPassword(Model model, @PathVariable UUID tokenId) { return "forward:/index.html"; }
 }
