@@ -101,6 +101,7 @@ export class AddLibraryComponent implements OnInit {
 
   searchOnMap() {
     this.success = null;
+    this.submittSearch=false;
 
     this.errors = null;
     let adress = "";
