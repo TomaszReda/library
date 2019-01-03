@@ -14,29 +14,29 @@
     <div class="row">
       <div class="col">
         <label for="street">Ulica:</label>
-        <input type="text" class="form-control" id="street"  width="80px" formControlName="street"  >
+        <input type="text" class="form-control" (keyup)="keyUp()" id="street"  width="80px" formControlName="street"  >
       </div>
       <div class="col">
         <label for="number">Nr:</label>
-        <input type="text" class="form-control" id="number" width="20px" formControlName="number"  >
+        <input type="text" class="form-control" (keyup)="keyUp()" id="number" width="20px" formControlName="number"  >
         <p *ngIf="submitted && formAddLibrary.get('number').errors && formAddLibrary.get('number').errors.required" class="text-danger">Numer jest wymagany!  </p>
 
       </div>
 
       <div class="col">
         <label for="local">Loc:</label>
-        <input type="text" class="form-control" id="local"  width="20px" formControlName="local"  >
+        <input type="text" class="form-control" (keyup)="keyUp()" id="local"  width="20px" formControlName="local"  >
       </div>
     </div>
     <div class="form-group">
       <label for="postalCode">Kod pocztowy:</label>
-      <input type="text" class="form-control" id="postalCode"  width="100px" formControlName="postalCode"  >
+      <input type="text" class="form-control" (keyup)="keyUp()" id="postalCode"  width="100px" formControlName="postalCode"  >
     </div>
     <p *ngIf="submitted && formAddLibrary.get('postalCode').errors && formAddLibrary.get('postalCode').errors.required " class="text-danger"> Kod pocztowy jest wymagany </p>
 
     <div class="form-group">
       <label for="city">Miasto:</label>
-      <input type="text" class="form-control" id="city"  width="100px" formControlName="city"   >
+      <input type="text" class="form-control" (keyup)="keyUp()" id="city"  width="100px" formControlName="city"   >
     </div>
     <p *ngIf="submitted && formAddLibrary.get('city').errors && formAddLibrary.get('city').errors.required " class="text-danger"> Miasto jest wymagane!  </p>
 

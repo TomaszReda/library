@@ -25,6 +25,8 @@ export class AddLibraryComponent implements OnInit {
 
   submitted = false;
 
+  submittSearch = true;
+
   url = 'https://nominatim.openstreetmap.org/search';
 
   public formAddLibrary: FormGroup;
@@ -33,9 +35,14 @@ export class AddLibraryComponent implements OnInit {
 
   }
 
+  keyUp() {
+    this.submittSearch = true;
+  }
+
 
   ngOnInit(): void {
 
+    this.submittSearch=false;
     this.submitted = false;
     this.mapService.mapLng = '21.0158';
     this.mapService.mapLat = '52.2051';
@@ -49,6 +56,11 @@ export class AddLibraryComponent implements OnInit {
     this.errors2 = null;
     this.success = null;
 
+
+    if (this.submittSearch === true ) {
+      this.errors = "Zmieniłes cos w adresie. Musisz zaznaczyć na mapie lokalizacje";
+      return;
+    }
 
     if (!this.formAddLibrary.valid) {
       return "blad";
@@ -111,6 +123,7 @@ export class AddLibraryComponent implements OnInit {
       x => {
 
         if (x[0]) {
+          this.submittSearch=false;
           let latitude = x[0].lat;
           let longitude = x[0].lon;
 
