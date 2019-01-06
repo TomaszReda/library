@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import pl.tomekreda.library.model.task.Task;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -57,6 +58,9 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ResetPasswordToken resetPasswordToken;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Task> taskList=new ArrayList<>();
 
     public User() {
     }

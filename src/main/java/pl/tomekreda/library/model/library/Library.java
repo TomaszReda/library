@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import pl.tomekreda.library.model.book.Book;
+import pl.tomekreda.library.model.task.Task;
+import pl.tomekreda.library.model.task.TaskForLibrary;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.model.user.UserMenager;
 
@@ -37,6 +39,10 @@ public class Library {
     @OneToMany(mappedBy = "library",cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Book> bookList=new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "library")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Task> taskForLibrary;
 
 
     @ManyToOne

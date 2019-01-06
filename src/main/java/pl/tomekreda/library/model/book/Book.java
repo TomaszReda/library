@@ -6,11 +6,13 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.task.Task;
 import pl.tomekreda.library.model.user.UserCasual;
 import pl.tomekreda.library.model.user.UserMenager;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +34,10 @@ public class Book {
     private int quant;
 
     private String bookSearch;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "book")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Task> task;
 
     @Column(length = 4096)
     private String description;
