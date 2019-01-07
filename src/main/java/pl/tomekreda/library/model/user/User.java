@@ -58,7 +58,7 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ResetPasswordToken resetPasswordToken;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    @OneToMany(mappedBy = "user")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Task> taskList=new ArrayList<>();
 
@@ -72,5 +72,25 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.userState=userState;
+    }
+
+    @Override
+    public String toString() {
+
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", password='" + password + '\'' +
+                ", activationUserToken=" + activationUserToken +
+                ", userState=" + userState +
+                ", userMenager=" + userMenager +
+                ", userCasual=" + userCasual +
+                ", userRoles=" + userRoles +
+                ", resetPasswordToken=" + resetPasswordToken +
+                ", taskList=" + taskList.size() +
+                '}';
     }
 }

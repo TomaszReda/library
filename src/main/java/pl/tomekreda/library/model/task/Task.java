@@ -1,6 +1,6 @@
 package pl.tomekreda.library.model.task;
 
-import lombok.Data;
+import lombok.*;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.User;
@@ -13,13 +13,17 @@ import java.util.UUID;
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name="TASK_TYPE",discriminatorType=DiscriminatorType.STRING)
-public abstract class Task {
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@Getter
+@Setter
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID uuid;
 
-    @JoinColumn(name = "user_id")
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
@@ -38,5 +42,23 @@ public abstract class Task {
     @ManyToOne(cascade = CascadeType.ALL)
     private Library library;
 
+    public Task(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library) {
+        this.user = user;
+        this.dateCreate = dateCreate;
+        this.dateExpiration = dateExpiration;
+        this.taskStatus = taskStatus;
+        this.book = book;
+        this.library = library;
+    }
 
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "uuid=" + uuid +
+                ", dateCreate=" + dateCreate +
+                ", dateExpiration=" + dateExpiration +
+                ", taskStatus=" + taskStatus +
+                '}';
+    }
 }

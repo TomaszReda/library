@@ -1,5 +1,5 @@
 package pl.tomekreda.library.model.task;
 
 public enum TaskStatus {
-    NEW,PROGRESS,DONE
+    TO_DO,PROGRESS,REMOVED,DONE
 }

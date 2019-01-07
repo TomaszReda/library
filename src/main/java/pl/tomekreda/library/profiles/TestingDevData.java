@@ -12,12 +12,14 @@ import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.email.EmailTemplate;
 import pl.tomekreda.library.model.email.EmailTemplateType;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.task.*;
 import pl.tomekreda.library.model.user.*;
 import pl.tomekreda.library.repository.*;
 
 import javax.transaction.Transactional;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 @TestProfile
@@ -38,6 +40,10 @@ public class TestingDevData implements CommandLineRunner {
     private final BookCategoryRepository bookCategoryRepository;
 
     private final EmailTemplateRepository emailTemplateRepository;
+
+    private final TaskForLibraryRepository taskForLibraryRepository;
+
+    private final TaskForUserRepository taskForUserRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -208,32 +214,47 @@ public class TestingDevData implements CommandLineRunner {
         bookRepository.save(book);
 
         User user = userRepository.findUserByEmail("tomekreda@op.pl");
+        User user2=userRepository.findUserByEmail("owner@local");
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Opis", library, BookState.CONFIRMED, null, bookCategory);
+        TaskForUser taskForUser;
+        TaskForLibrary taskForLibrary;
+
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Opis", library, BookState.BOOKED, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
+        book = bookRepository.save(book);
+        taskForUser = new TaskForUser(user, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
+        taskForUserRepository.save(taskForUser);
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12, "Opis", library, BookState.CONFIRMED, null, bookCategory);
+        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12, "Opis", library, BookState.BOOKED, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
+        book = bookRepository.save(book);
+        taskForUser = new TaskForUser(user, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
+        taskForUserRepository.save(taskForUser);
 
-
-        book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123422", 7, "Opis", library, BookState.BOOKED, null, bookCategory);
+        book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123422", 7, "Opis", library, BookState.CONFIRMED, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
+        book =bookRepository.save(book);
+        taskForUser = new TaskForUser(user, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForUserType.GIVE_BOOK);
+        taskForUserRepository.save(taskForUser);
+        taskForLibrary=new TaskForLibrary(user2, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
+        taskForLibraryRepository.save(taskForLibrary);
 
-        book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3, "Opis", library, BookState.BOOKED, null, bookCategory);
+
+        book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3, "Opis", library, BookState.CONFIRMED, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
+        book =bookRepository.save(book);
+        taskForUser = new TaskForUser(user, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForUserType.GIVE_BOOK);
+        taskForUserRepository.save(taskForUser);
+        taskForLibrary=new TaskForLibrary(user2, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
+        taskForLibraryRepository.save(taskForLibrary);
 
     }
 
