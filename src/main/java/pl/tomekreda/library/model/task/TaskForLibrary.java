@@ -5,7 +5,9 @@ import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.User;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,4 +28,8 @@ public class TaskForLibrary extends Task {
         this.taskForLibraryType = taskForLibraryType;
     }
 
+    public TaskForLibrary(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForLibraryType taskForLibraryType,LocalDateTime dateDone) {
+        super(user, dateCreate, dateExpiration, taskStatus, book, library, dateDone);
+        this.taskForLibraryType = taskForLibraryType;
+    }
 }

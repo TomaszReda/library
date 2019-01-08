@@ -48,7 +48,7 @@ public class BookService {
     public ResponseEntity addBook(AddBookRequest addBookRequest) {
         try {
             log.info("[Add book request]=" + addBookRequest);
-            User user=userService.findLoggedUser();
+            User user = userService.findLoggedUser();
             Library library = libraryRepository.findById(addBookRequest.getLibraryId()).orElse(null);
             Book tmp = createBook(addBookRequest, library);
             tmp.setUserMenager(user.getUserMenager());
@@ -199,7 +199,7 @@ public class BookService {
                 book.setBookState(BookState.BOOKED);
                 book.setUserCasual(userService.findLoggedUser().getUserCasual());
                 book = bookRepository.save(book);
-                TaskForUser taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
+                TaskForUser taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUserRepository.save(taskForUser);
                 tmp.setQuant(tmp.getQuant() - quant);
                 book = bookRepository.save(tmp);
@@ -211,10 +211,9 @@ public class BookService {
                 book.setBookState(BookState.BOOKED);
                 book.setUserCasual(userService.findLoggedUser().getUserCasual());
                 book = bookRepository.save(book);
-                TaskForUser taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
+                TaskForUser taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUserRepository.save(taskForUser);
             }
-
 
 
             log.info("[Delete book]=" + book);
@@ -228,7 +227,8 @@ public class BookService {
     public ResponseEntity deleteReservBook(UUID bookId) {
         try {
             Book reservBook = bookRepository.findById(bookId).orElse(null);
-            TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(reservBook,TaskStatus.TO_DO);
+            TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(reservBook, TaskStatus.TO_DO);
+            taskForUser.setDateDone(LocalDateTime.now());
             taskForUser.setTaskStatus(TaskStatus.REMOVED);
             taskForUserRepository.save(taskForUser);
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
@@ -258,19 +258,19 @@ public class BookService {
         try {
 
             Book book = bookRepository.findById(bookId).orElse(null);
-            TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(book,TaskStatus.TO_DO);
+            TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(book, TaskStatus.TO_DO);
             taskForUser.setTaskStatus(TaskStatus.DONE);
+            taskForUser.setDateDone(LocalDateTime.now());
             taskForUserRepository.save(taskForUser);
-            if(!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager()))
-            {
+            if (!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
             book.setBookState(BookState.CONFIRMED);
             book = bookRepository.save(book);
             User user = userRepository.findByUserCasual(book.getUserCasual());
-            TaskForUser tmp = new TaskForUser(user, LocalDateTime.now().plusDays(14), LocalDateTime.now(), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GIVE_BOOK);
+            TaskForUser tmp = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GIVE_BOOK);
             taskForUserRepository.save(tmp);
-            TaskForLibrary taskForLibrary = new TaskForLibrary(userService.findLoggedUser(), LocalDateTime.now().plusDays(14), LocalDateTime.now(), TaskStatus.TO_DO, book, book.getLibrary(), TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
+            TaskForLibrary taskForLibrary = new TaskForLibrary(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, book.getLibrary(), TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
             taskForLibraryRepository.save(taskForLibrary);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
@@ -281,12 +281,12 @@ public class BookService {
     public ResponseEntity deleteReserv(UUID bookId) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
-            if(!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager()))
-            {
+            if (!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
-            TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(book,TaskStatus.TO_DO);
+            TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(book, TaskStatus.TO_DO);
             taskForUser.setTaskStatus(TaskStatus.REMOVED);
+            taskForUser.setDateDone(LocalDateTime.now());
             taskForUserRepository.save(taskForUser);
 
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(book.getAuthor(), book.getTitle(), book.getPublisher(), book.getDate(), book.getLibrary(), BookState.NOTRESERVED);
@@ -310,22 +310,21 @@ public class BookService {
     }
 
 
-
-
     public ResponseEntity returnBook(UUID bookId) {
         try {
             System.err.println(bookId);
             Book reservBook = bookRepository.findById(bookId).orElse(null);
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
-            TaskForLibrary taskForLibrary = taskForLibraryRepository.findByBookAndTaskStatus(reservBook,TaskStatus.TO_DO);
-            TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(reservBook,TaskStatus.TO_DO);
+            TaskForLibrary taskForLibrary = taskForLibraryRepository.findByBookAndTaskStatus(reservBook, TaskStatus.TO_DO);
+            TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(reservBook, TaskStatus.TO_DO);
             taskForLibrary.setTaskStatus(TaskStatus.DONE);
             taskForUser.setTaskStatus(TaskStatus.DONE);
+            taskForLibrary.setDateDone(LocalDateTime.now());
+            taskForUser.setDateDone(LocalDateTime.now());
             taskForLibraryRepository.save(taskForLibrary);
             taskForUserRepository.save(taskForUser);
 
-            if(!reservBook.getUserMenager().equals(userService.findLoggedUser().getUserMenager()))
-            {
+            if (!reservBook.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
 
@@ -351,13 +350,12 @@ public class BookService {
     }
 
 
-    public ResponseEntity getAllBooks(int page,int size){
-        try{
+    public ResponseEntity getAllBooks(int page, int size) {
+        try {
             Pageable pageableRequest = new PageRequest(page, size);
-            Page<Book> bookList=bookRepository.findAll(pageableRequest);
+            Page<Book> bookList = bookRepository.findAll(pageableRequest);
             return ResponseEntity.ok(bookList);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
 

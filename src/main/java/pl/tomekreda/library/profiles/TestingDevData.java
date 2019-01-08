@@ -224,7 +224,7 @@ public class TestingDevData implements CommandLineRunner {
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
         book = bookRepository.save(book);
-        taskForUser = new TaskForUser(user, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
+        taskForUser = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
 
         book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "123432", 12, "Opis", library, BookState.BOOKED, null, bookCategory);
@@ -232,7 +232,7 @@ public class TestingDevData implements CommandLineRunner {
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
         book = bookRepository.save(book);
-        taskForUser = new TaskForUser(user, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
+        taskForUser = new TaskForUser(user,LocalDateTime.now(),  LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
 
         book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123422", 7, "Opis", library, BookState.CONFIRMED, null, bookCategory);
@@ -240,10 +240,12 @@ public class TestingDevData implements CommandLineRunner {
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
         book =bookRepository.save(book);
-        taskForUser = new TaskForUser(user, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForUserType.GIVE_BOOK);
+        taskForUser = new TaskForUser(user, LocalDateTime.now(),LocalDateTime.now().plusDays(14),  TaskStatus.TO_DO, book, library, TaskForUserType.GIVE_BOOK);
         taskForUserRepository.save(taskForUser);
-        taskForLibrary=new TaskForLibrary(user2, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
+        taskForLibrary=new TaskForLibrary(user2,LocalDateTime.now(), LocalDateTime.now().plusDays(14),  TaskStatus.TO_DO, book, library, TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
         taskForLibraryRepository.save(taskForLibrary);
+        taskForUser = new TaskForUser(user, LocalDateTime.now().minusDays(2),LocalDateTime.now().plusDays(1),  TaskStatus.DONE, book, library, TaskForUserType.GET_THE_BOOK,LocalDateTime.now());
+        taskForUserRepository.save(taskForUser);
 
 
         book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3, "Opis", library, BookState.CONFIRMED, null, bookCategory);
@@ -251,10 +253,12 @@ public class TestingDevData implements CommandLineRunner {
         book.setUserCasual(user.getUserCasual());
         book.setUserMenager(owner.getUserMenager());
         book =bookRepository.save(book);
-        taskForUser = new TaskForUser(user, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForUserType.GIVE_BOOK);
+        taskForUser = new TaskForUser(user,  LocalDateTime.now(), LocalDateTime.now().plusDays(14),TaskStatus.TO_DO, book, library, TaskForUserType.GIVE_BOOK);
         taskForUserRepository.save(taskForUser);
-        taskForLibrary=new TaskForLibrary(user2, LocalDateTime.now().plusDays(3), LocalDateTime.now(), TaskStatus.TO_DO, book, library, TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
+        taskForLibrary=new TaskForLibrary(user2,LocalDateTime.now(), LocalDateTime.now().plusDays(14),  TaskStatus.TO_DO, book, library, TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
         taskForLibraryRepository.save(taskForLibrary);
+        taskForUser = new TaskForUser(user, LocalDateTime.now().minusDays(2),LocalDateTime.now().plusDays(1),  TaskStatus.DONE, book, library, TaskForUserType.GIVE_BOOK,LocalDateTime.now());
+        taskForUserRepository.save(taskForUser);
 
     }
 

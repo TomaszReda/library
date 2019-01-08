@@ -27,4 +27,10 @@ public class TaskForUser extends Task {
         this.taskForUserType = taskForUserType;
     }
 
+
+
+    public TaskForUser(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForUserType taskForUserType, LocalDateTime dateDone) {
+        super(user, dateCreate, dateExpiration, taskStatus, book, library, dateDone);
+        this.taskForUserType = taskForUserType;
+    }
 }

@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name="TASK_TYPE",discriminatorType=DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "TASK_TYPE", discriminatorType = DiscriminatorType.STRING)
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -30,6 +30,8 @@ public class Task {
     private LocalDateTime dateCreate;
 
     private LocalDateTime dateExpiration;
+
+    private LocalDateTime dateDone;
 
     @Enumerated(value = EnumType.STRING)
     private TaskStatus taskStatus;
@@ -51,6 +53,15 @@ public class Task {
         this.library = library;
     }
 
+    public Task(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, LocalDateTime dateDone) {
+        this.user = user;
+        this.dateCreate = dateCreate;
+        this.dateExpiration = dateExpiration;
+        this.dateDone = dateDone;
+        this.taskStatus = taskStatus;
+        this.book = book;
+        this.library = library;
+    }
 
     @Override
     public String toString() {
