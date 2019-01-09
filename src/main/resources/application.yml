@@ -11,13 +11,16 @@ spring:
       settings:
         trace: false
         web-allow-others: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
   datasource:
     url: jdbc:h2:file:~/test2;DB_CLOSE_DELAY=-1
     username: sa
     password:
     driver-class-name: org.h2.Driver
     platform: h2
-
   session:
     store-type: jdbc
     jdbc:
@@ -43,6 +46,13 @@ spring:
     url: http://localhost:4200
     required:
       activation: false
+ksiazeczka:
+  quartz:
+    deploy: 20
+    #      If we set -1 to quartz it will start the task according to the date
+    #      if we set a different number then quarz will run the task after this time in second
+
+
 ---
 spring:
   profiles: test
@@ -91,7 +101,9 @@ server:
   servlet:
     session:
       timeout: 30m
-
+ksiazeczka:
+  quartz:
+    deploy: -1
 ---
 spring:
   profiles: prod
@@ -140,5 +152,7 @@ server:
   servlet:
     session:
       timeout: 30m
-
+ksiazeczka:
+  quartz:
+    deploy: -1
 

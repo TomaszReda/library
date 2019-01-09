@@ -3,11 +3,13 @@ package pl.tomekreda.library.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookCategory;
@@ -15,12 +17,15 @@ import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.task.*;
 import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.quartz.service.ReceiveTheBookForUserService;
 import pl.tomekreda.library.repository.*;
 import pl.tomekreda.library.request.AddBookRequest;
+import pl.tomekreda.library.utils.DataUtils;
 import pl.tomekreda.library.utils.Utils;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -44,6 +49,13 @@ public class BookService {
     private final TaskForUserRepository taskForUserRepository;
 
     private final TaskForLibraryRepository taskForLibraryRepository;
+
+    private final ReceiveTheBookForUserService receiveTheBookForUserService;
+
+    private final SchedulerFactoryBean schedulerFactoryBean;
+
+    @Value("${ksiazeczka.quartz.deploy}")
+    private int deploy;
 
     public ResponseEntity addBook(AddBookRequest addBookRequest) {
         try {
@@ -193,14 +205,15 @@ public class BookService {
             if (quant < 1 || quant > book.getQuant()) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Podajesz nieprawidłową ilość!");
             }
+            TaskForUser taskForUser;
             if (book.getQuant() - quant >= 1) {
                 Book tmp = copyBook(book);
                 book.setQuant(quant);
                 book.setBookState(BookState.BOOKED);
                 book.setUserCasual(userService.findLoggedUser().getUserCasual());
                 book = bookRepository.save(book);
-                TaskForUser taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
-                taskForUserRepository.save(taskForUser);
+                taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
+                taskForUser = taskForUserRepository.save(taskForUser);
                 tmp.setQuant(tmp.getQuant() - quant);
                 book = bookRepository.save(tmp);
 
@@ -211,10 +224,16 @@ public class BookService {
                 book.setBookState(BookState.BOOKED);
                 book.setUserCasual(userService.findLoggedUser().getUserCasual());
                 book = bookRepository.save(book);
-                TaskForUser taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
+                taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUserRepository.save(taskForUser);
             }
-
+            Date date;
+            if (this.deploy == -1) {
+                 date = DataUtils.convertToDateViaInstant(taskForUser.getDateExpiration());
+            } else {
+                date = DataUtils.convertToDateViaInstant(LocalDateTime.now().plusSeconds(this.deploy));
+            }
+            receiveTheBookForUserService.receiveTheBook(date, taskForUser.getBook().getID(), taskForUser.getUuid());
 
             log.info("[Delete book]=" + book);
             return ResponseEntity.ok().build();
@@ -228,6 +247,7 @@ public class BookService {
         try {
             Book reservBook = bookRepository.findById(bookId).orElse(null);
             TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(reservBook, TaskStatus.TO_DO);
+            receiveTheBookForUserService.deleteJob(taskForUser.getUuid());
             taskForUser.setDateDone(LocalDateTime.now());
             taskForUser.setTaskStatus(TaskStatus.REMOVED);
             taskForUserRepository.save(taskForUser);
@@ -246,7 +266,6 @@ public class BookService {
                 bookRepository.save(reservBook);
             }
 
-
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -260,6 +279,8 @@ public class BookService {
             Book book = bookRepository.findById(bookId).orElse(null);
             TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(book, TaskStatus.TO_DO);
             taskForUser.setTaskStatus(TaskStatus.DONE);
+            receiveTheBookForUserService.deleteJob(taskForUser.getUuid());
+
             taskForUser.setDateDone(LocalDateTime.now());
             taskForUserRepository.save(taskForUser);
             if (!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
@@ -285,6 +306,7 @@ public class BookService {
                 return ResponseEntity.badRequest().build();
             }
             TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(book, TaskStatus.TO_DO);
+            receiveTheBookForUserService.deleteJob(taskForUser.getUuid());
             taskForUser.setTaskStatus(TaskStatus.REMOVED);
             taskForUser.setDateDone(LocalDateTime.now());
             taskForUserRepository.save(taskForUser);
