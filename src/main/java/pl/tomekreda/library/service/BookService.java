@@ -312,7 +312,6 @@ public class BookService {
 
     public ResponseEntity returnBook(UUID bookId) {
         try {
-            System.err.println(bookId);
             Book reservBook = bookRepository.findById(bookId).orElse(null);
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
             TaskForLibrary taskForLibrary = taskForLibraryRepository.findByBookAndTaskStatus(reservBook, TaskStatus.TO_DO);
