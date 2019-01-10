@@ -29,49 +29,50 @@ public class ProdProfilesData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         this.createBookCategory();
+        this.CreateTemplate();
 
     }
 
     private void createBookCategory() {
         BookCategory bookCategory = null;
-        if (bookCategoryRepository.findFirstByCategoryType("Fantasy").equals(null)) {
+        if (bookCategoryRepository.findFirstByCategoryType("Fantasy")==null) {
             bookCategory = new BookCategory("Fantasy");
             bookCategoryRepository.save(bookCategory);
         }
 
-        if (bookCategoryRepository.findFirstByCategoryType("Biografie/Autobiografie").equals(null)) {
+      if (bookCategoryRepository.findFirstByCategoryType("Biografie/Autobiografie")==null) {
             bookCategory = new BookCategory("Biografie/Autobiografie");
             bookCategoryRepository.save(bookCategory);
         }
-        if (bookCategoryRepository.findFirstByCategoryType("Młodzieżowa").equals(null)) {
+        if (bookCategoryRepository.findFirstByCategoryType("Młodzieżowa")==null) {
             bookCategory = new BookCategory("Młodzieżowa");
             bookCategoryRepository.save(bookCategory);
         }
-        if (bookCategoryRepository.findFirstByCategoryType("Naukowa").equals(null)) {
+        if (bookCategoryRepository.findFirstByCategoryType("Naukowa")==null) {
             bookCategory = new BookCategory("Naukowa");
             bookCategoryRepository.save(bookCategory);
         }
-        if (bookCategoryRepository.findFirstByCategoryType("Sportowa").equals(null)) {
+        if (bookCategoryRepository.findFirstByCategoryType("Sportowa")==null) {
             bookCategory = new BookCategory("Sportowa");
             bookCategoryRepository.save(bookCategory);
         }
-        if (bookCategoryRepository.findFirstByCategoryType("Bajka").equals(null)) {
+        if (bookCategoryRepository.findFirstByCategoryType("Bajka")==null) {
             bookCategory = new BookCategory("Bajka");
             bookCategoryRepository.save(bookCategory);
         }
-        if (bookCategoryRepository.findFirstByCategoryType("Historyczna").equals(null)) {
+        if (bookCategoryRepository.findFirstByCategoryType("Historyczna")==null) {
             bookCategory = new BookCategory("Historyczna");
             bookCategoryRepository.save(bookCategory);
         }
-        if (bookCategoryRepository.findFirstByCategoryType("Horror").equals(null)) {
+        if (bookCategoryRepository.findFirstByCategoryType("Horror")==null) {
             bookCategory = new BookCategory("Horror");
             bookCategoryRepository.save(bookCategory);
         }
-        if (bookCategoryRepository.findFirstByCategoryType("Przygodowa").equals(null)) {
+        if (bookCategoryRepository.findFirstByCategoryType("Przygodowa")==null) {
             bookCategory = new BookCategory("Przygodowa");
             bookCategoryRepository.save(bookCategory);
         }
-        if (bookCategoryRepository.findFirstByCategoryType("Inna").equals(null)) {
+        if (bookCategoryRepository.findFirstByCategoryType("Inna")==null) {
             bookCategory = new BookCategory("Inna");
             bookCategoryRepository.save(bookCategory);
         }

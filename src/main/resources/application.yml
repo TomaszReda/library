@@ -78,7 +78,7 @@ spring:
           lob:
             non_contextual_creation: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   mvc:
     throw-exception-if-no-handler-found: true
   session:
@@ -148,7 +148,7 @@ spring:
     tls: true
   quartz:
     jdbc:
-      initialize-schema: embedded
+      initialize-schema: always
     job-store-type: jdbc
 logging:
   level:

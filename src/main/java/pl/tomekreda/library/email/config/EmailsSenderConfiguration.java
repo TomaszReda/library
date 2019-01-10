@@ -19,7 +19,7 @@ import java.util.Properties;
 @Configuration
 public class EmailsSenderConfiguration {
 
-    @Value("${spring.mail.username}")
+    @Value("${spring.mail.host}}")
     private String username;
 
     @Value("${spring.mail.password}")
