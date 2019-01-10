@@ -68,9 +68,7 @@
                  placeholder="hasło" required
                  minlength="8">
         </div>
-        <div *ngIf="password.invalid && password.dirty" class="alert alert-danger" >
-          <div *ngIf="password.errors.minlength">Hasło musi mieć conajmniej 8 znaków</div>
-        </div>
+
         <div *ngIf="authService.badLogin" class="alert alert-danger">{{authService.badLogin}}</div>
 
         <button class="btn btn-primary text-center button1" [disabled]="loginForm.errors ">Zaloguj</button>

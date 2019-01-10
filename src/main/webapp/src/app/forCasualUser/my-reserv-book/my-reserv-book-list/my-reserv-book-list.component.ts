@@ -27,11 +27,11 @@ export class MyReservBookListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.seachForm.word="";
     this.initSearchResult();
   }
 
   initSearchResult() {
-    this.seachForm.word="";
     this.searchService.searchReservBook(this.seachForm.word, this.currentyPage, 10).subscribe((x:BookRequestSearch) => {
       this.bookPageList=x.content;
       this.pageNumber=this.pageService.returnpages(this.currentyPage,x.totalPages);
