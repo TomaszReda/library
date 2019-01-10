@@ -16,7 +16,7 @@ spring:
     jdbc:
       initialize-schema: always
   datasource:
-    url: jdbc:h2:file:~/test2;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:file:~/test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -29,7 +29,7 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: false
@@ -51,8 +51,6 @@ ksiazeczka:
     deploy: 20
     #      If we set -1 to quartz it will start the task according to the date
     #      if we set a different number then quarz will run the task after this time in second
-
-
 ---
 spring:
   profiles: test
@@ -80,7 +78,7 @@ spring:
           lob:
             non_contextual_creation: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   mvc:
     throw-exception-if-no-handler-found: true
   session:
@@ -93,6 +91,10 @@ spring:
     host: smtp.gmail.com
     port: 587
     tls: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: embedded
 logging:
   level:
     pl.tomekreda: DEBUG
@@ -144,6 +146,10 @@ spring:
     host: smtp.gmail.com
     port: 587
     tls: true
+  quartz:
+    jdbc:
+      initialize-schema: embedded
+    job-store-type: jdbc
 logging:
   level:
     pl.tomekreda: DEBUG

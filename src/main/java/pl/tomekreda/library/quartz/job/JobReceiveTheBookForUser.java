@@ -1,5 +1,6 @@
 package pl.tomekreda.library.quartz.job;
 
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -16,6 +17,7 @@ import pl.tomekreda.library.repository.TaskForUserRepository;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Slf4j
 public class JobReceiveTheBookForUser implements Job {
 
     @Autowired
@@ -29,7 +31,7 @@ public class JobReceiveTheBookForUser implements Job {
 
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.err.println("Job sobie poszedł");
+        log.info("[Quartz JobReceiveTheBookForUser run with time]"+LocalDateTime.now().toString());
         JobDataMap detail = context.getJobDetail().getJobDataMap();
         UUID bookId = (UUID) detail.get("bookId");
         UUID taskForUserId = (UUID) detail.get("taskForUserId");
