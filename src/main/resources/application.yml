@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: development
 ---
 spring:
   profiles: development
@@ -63,7 +63,7 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: ksiazeczka
     password: GHJbnm123
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -106,7 +106,7 @@ server:
       timeout: 30m
 ksiazeczka:
   quartz:
-    deploy: 21
+    deploy: 20
 
 ---
 spring:
@@ -120,7 +120,7 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
     username: ksiazeczka
     password: GHJbnm123
     driver-class-name: com.mysql.cj.jdbc.Driver
