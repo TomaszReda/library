@@ -92,9 +92,9 @@ spring:
     port: 587
     tls: true
   quartz:
-    job-store-type: memory
+    job-store-type: jdbc
     jdbc:
-      initialize-schema: never
+      initialize-schema: always
 logging:
   level:
     pl.tomekreda: DEBUG
@@ -105,7 +105,7 @@ server:
       timeout: 30m
 ksiazeczka:
   quartz:
-    deploy: -1
+    deploy: 20
 
 ---
 spring:
