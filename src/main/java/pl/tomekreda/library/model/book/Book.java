@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.task.Task;
 import pl.tomekreda.library.model.user.UserCasual;
@@ -23,7 +24,9 @@ import java.util.UUID;
 public class Book {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID ID;
 
     private String author;

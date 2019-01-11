@@ -1,6 +1,7 @@
 package pl.tomekreda.library.model.task;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.User;
@@ -21,7 +22,9 @@ import java.util.UUID;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID uuid;
 
     @ManyToOne(cascade = CascadeType.ALL)

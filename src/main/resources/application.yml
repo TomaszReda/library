@@ -66,7 +66,7 @@ spring:
     url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false
     username: ksiazeczka
     password: GHJbnm123
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
@@ -78,7 +78,7 @@ spring:
           lob:
             non_contextual_creation: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   mvc:
     throw-exception-if-no-handler-found: true
   session:
@@ -95,6 +95,7 @@ spring:
     job-store-type: jdbc
     jdbc:
       initialize-schema: always
+      schema: classpath:org/quartz/impl/jdbcjobstore/tables_mysql_library.sql
 logging:
   level:
     pl.tomekreda: DEBUG
@@ -105,7 +106,7 @@ server:
       timeout: 30m
 ksiazeczka:
   quartz:
-    deploy: 20
+    deploy: 21
 
 ---
 spring:
@@ -119,10 +120,10 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:mysql://localhost:3306/library
+    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false
     username: ksiazeczka
     password: GHJbnm123
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
