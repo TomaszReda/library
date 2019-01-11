@@ -37,18 +37,19 @@ spring:
         format_sql: true
         enable_lazy_load_no_trans: true=username=password
   mail:
-    username: ksiazeczkaonlie@gmail.com
-    password: GHJbnm123
+    username: ksiazeczkaonline@gmail.com
+    password: GHJbnm123/']
     host: smtp.gmail.com
     port: 587
     tls: true
+    test-connection: true
   application:
     url: http://localhost:4200
     required:
-      activation: false
+      activation: true
 ksiazeczka:
   quartz:
-    deploy: 20
+    deploy: -1
     #      If we set -1 to quartz it will start the task according to the date
     #      if we set a different number then quarz will run the task after this time in second
 ---
@@ -86,11 +87,12 @@ spring:
     jdbc:
       initialize-schema: always
   mail:
-    username: ksiazeczkaonlie@gmail.com
-    password: GHJbnm123
+    username: ksiazeczkaonline@gmail.com
+    password: GHJbnm123/']
     host: smtp.gmail.com
     port: 587
     tls: true
+    test-connection: true
   quartz:
     job-store-type: jdbc
     jdbc:
@@ -143,8 +145,8 @@ spring:
     jdbc:
       initialize-schema: never
   mail:
-    username: ksiazeczkaonlie@gmail.com
-    password: GHJbnm123
+    username: ksiazeczkaonline@gmail.com
+    password: GHJbnm123/']
     host: smtp.gmail.com
     port: 587
     tls: true
