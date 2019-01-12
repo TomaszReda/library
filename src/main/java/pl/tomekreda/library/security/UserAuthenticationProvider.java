@@ -39,7 +39,6 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         if (authentication.getPrincipal() == null) {
             throw new IllegalArgumentException("Uzupełnij wszystkie pola!");
         }
-        System.err.println("wchodzi2");
 
         User user = userService.getUserByEmail(authentication.getPrincipal().toString());
         if (user == null) {
