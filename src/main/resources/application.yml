@@ -49,7 +49,7 @@ spring:
       activation: true
 ksiazeczka:
   quartz:
-    deploy: -1
+    deploy: 20
     #      If we set -1 to quartz it will start the task according to the date
     #      if we set a different number then quarz will run the task after this time in second
 ---
@@ -79,7 +79,7 @@ spring:
           lob:
             non_contextual_creation: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   mvc:
     throw-exception-if-no-handler-found: true
   session:
