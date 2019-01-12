@@ -1,6 +1,7 @@
 package pl.tomekreda.library.model.user;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class ResetPasswordToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ID;
 
+    @Type(type="org.hibernate.type.UUIDCharType")
     private UUID resetToken;
 
     @OneToOne(mappedBy = "resetPasswordToken",cascade = CascadeType.ALL)
