@@ -79,7 +79,7 @@ spring:
           lob:
             non_contextual_creation: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   mvc:
     throw-exception-if-no-handler-found: true
   session:
