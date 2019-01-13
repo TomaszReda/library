@@ -232,7 +232,7 @@ public class BookService {
                 book = bookRepository.save(book);
                 taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUser = taskForUserRepository.save(taskForUser);
-                contentForCasualUser=" Zarezerwowałeś książke " +book.getTitle()+" "+book.getAuthor()+". Masz 3 dni na jego odebranie( Termin mija )"+taskForUser.getDateExpiration();
+                contentForCasualUser="Zarezerwowałeś książke " +book.getTitle()+" "+book.getAuthor()+". Masz 3 dni na jego odebranie( Termin mija )"+taskForUser.getDateExpiration();
                 contentForLibraryOwner=" Uzytkownik"+ userService.findLoggedUser().getEmail()+" zarezerwował twoja książke "+book.getTitle()+" "+book.getAuthor();
                 messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary());
                 messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
@@ -283,7 +283,7 @@ public class BookService {
             taskForUser.setDateDone(LocalDateTime.now());
             taskForUser.setTaskStatus(TaskStatus.REMOVED);
             taskForUser = taskForUserRepository.save(taskForUser);
-            String content = " Uzytkownik " + userService.findLoggedUser().getEmail() + " zrezygnował z rezerwacji ksiazki " + reservBook.getTitle() + " " + reservBook.getAuthor()+ " w bibliotece "+reservBook.getLibrary().getName()+".";
+            String content = "Uzytkownik " + userService.findLoggedUser().getEmail() + " zrezygnował z rezerwacji ksiazki " + reservBook.getTitle() + " " + reservBook.getAuthor()+ " w bibliotece "+reservBook.getLibrary().getName()+".";
             MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(content,MessageUtils.MESSAGE_RESIGNATION_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary() );
             messageToLibraryOwnerRepository.save(messageToLibraryOwner);
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
@@ -316,7 +316,10 @@ public class BookService {
             receiveTheBookForUserService.deleteJob(taskForUser.getUuid());
             taskForUser.setTaskStatus(TaskStatus.DONE);
             taskForUser.setDateDone(LocalDateTime.now());
-            taskForUserRepository.save(taskForUser);
+            taskForUser = taskForUserRepository.save(taskForUser);
+            String content = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje ksiazki " + book.getTitle() + " " + book.getAuthor();
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
+            messageToCasualUserRepository.save(messageToCasualUser);
             if (!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
@@ -328,6 +331,7 @@ public class BookService {
 
             TaskForLibrary taskForLibrary = new TaskForLibrary(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, book.getLibrary(), TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
             taskForLibrary = taskForLibraryRepository.save(taskForLibrary);
+
             if (this.deploy == -1) {
                 reminderOfGivingABookForLibraryService.reminderOfGivingABookForLibrary(DataUtils.convertToDateViaInstant(taskForLibrary.getDateExpiration()), taskForLibrary.getBook().getID(), taskForLibrary.getUuid());
                 reminderOfGivingABookForUserService.reminderOfGivingABookForUser(DataUtils.convertToDateViaInstant(tmp.getDateExpiration()), tmp.getBook().getID(), tmp.getUuid());
@@ -367,6 +371,9 @@ public class BookService {
                 book.setUserCasual(null);
                 bookRepository.save(book);
             }
+            String content = "Biblioteka " + book.getLibrary().getName() + " odrzuciła twoją rezerwacje ksiazki " + book.getTitle() + " " + book.getAuthor();
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
+            messageToCasualUserRepository.save(messageToCasualUser);
 
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
