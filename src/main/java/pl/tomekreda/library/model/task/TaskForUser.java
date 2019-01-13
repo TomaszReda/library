@@ -35,4 +35,11 @@ public class TaskForUser extends Task {
         super(user, dateCreate, dateExpiration, taskStatus, book, library, dateDone);
         this.taskForUserType = taskForUserType;
     }
+
+    @Override
+    public String toString() {
+        return "TaskForUser{" +
+                "taskForUserType=" + taskForUserType +
+                '}';
+    }
 }

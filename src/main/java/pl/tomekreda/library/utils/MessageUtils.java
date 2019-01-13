@@ -16,4 +16,8 @@ public class MessageUtils {
 
     public static final String RETURN_BOOK_TO_LIBRARY_OWNER_TITLE = "Użytkownik oddał ksiązkę";
 
+    public static final String RESERV_NOT_RECEIVED_FOR_CASUAL_USER = "Rezerwacaj wygasła";
+
+    public static final String RESERV_NOT_RECEIVED_FOR_LIBRARY_OWNER = "Rezerwacja nie odebrana";
+
 }

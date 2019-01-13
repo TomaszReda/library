@@ -32,4 +32,10 @@ public class MessageToLibraryOwner extends Message {
 
     public MessageToLibraryOwner() {
     }
+
+    @Override
+    public String toString() {
+        return "MessageToLibraryOwner{" +
+                '}';
+    }
 }

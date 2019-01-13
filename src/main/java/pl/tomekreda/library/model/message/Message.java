@@ -41,4 +41,15 @@ public abstract class Message {
 
     public Message() {
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "ID=" + ID +
+                ", content='" + content + '\'' +
+                ", title='" + title + '\'' +
+                ", dataCreate=" + dataCreate +
+                ", dateRead=" + dateRead +
+                '}';
+    }
 }

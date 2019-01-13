@@ -31,6 +31,7 @@ import pl.tomekreda.library.utils.Utils;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -212,6 +213,7 @@ public class BookService {
 
     public ResponseEntity reservBook(UUID bookId, int quant) {
         try {
+            log.info("Create quartz task"+ LocalTime.now().toString());
             Book book = bookRepository.findById(bookId).orElse(null);
             if (!book.getBookState().equals(BookState.NOTRESERVED)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Ksiązka jest juz przez kogoś zarezerwowana lub jest wyporzyczona");
@@ -220,7 +222,6 @@ public class BookService {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Podajesz nieprawidłową ilość!");
             }
             TaskForUser taskForUser;
-            TaskForLibrary taskForLibrary;
             MessageToCasualUser messageToCasualUser;
             MessageToLibraryOwner messageToLibraryOwner;
             String contentForLibraryOwner="";
@@ -242,8 +243,7 @@ public class BookService {
                 messageToLibraryOwnerRepository.save(messageToLibraryOwner);
                 tmp.setQuant(tmp.getQuant() - quant);
                 book = bookRepository.save(tmp);
-
-                log.info("[Reserv book stay]=" + tmp);
+                log.info("[Reserv book]=" + tmp);
 
             } else {
 
@@ -259,6 +259,8 @@ public class BookService {
                 messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
                 messageToLibraryOwnerRepository.save(messageToLibraryOwner);
                 messageToCasualUserRepository.save(messageToCasualUser);
+                log.info("[Reserv book]=" + book);
+
             }
             Date date;
             if (this.deploy == -1) {
@@ -268,7 +270,6 @@ public class BookService {
             }
             receiveTheBookForUserService.receiveTheBook(date, taskForUser.getBook().getID(), taskForUser.getUuid());
 
-            log.info("[Delete book]=" + book);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();

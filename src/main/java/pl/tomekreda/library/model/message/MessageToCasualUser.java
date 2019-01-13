@@ -25,4 +25,10 @@ public class MessageToCasualUser extends Message {
     public MessageToCasualUser() {
 
     }
+
+    @Override
+    public String toString() {
+        return "MessageToCasualUser{" +
+                '}';
+    }
 }

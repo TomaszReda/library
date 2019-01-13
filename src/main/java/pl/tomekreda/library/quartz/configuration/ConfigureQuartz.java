@@ -10,9 +10,12 @@ import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
+import org.thymeleaf.util.DateUtils;
+import pl.tomekreda.library.utils.DataUtils;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Properties;
 
@@ -26,24 +29,14 @@ public class ConfigureQuartz {
         return sampleJobFactory;
     }
 
-    @Bean
-    public SchedulerFactoryBean schedulerFactoryBean(DataSource dataSource, JobFactory jobFactory) throws IOException {
-        SchedulerFactoryBean factory = new SchedulerFactoryBean();
-        factory.setOverwriteExistingJobs(true);
-        factory.setAutoStartup(true);
-        factory.setDataSource(dataSource);
-        factory.setJobFactory(jobFactory);
-        return factory;
-    }
 
 
 
     public static SimpleTriggerFactoryBean createTrigger(JobDetail jobDetail, Date date) {
         SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
         factoryBean.setJobDetail(jobDetail);
-        factoryBean.setStartDelay(0L);
         factoryBean.setStartTime(date);
-        factoryBean.setRepeatInterval(1);
+        factoryBean.setRepeatInterval(0);
         factoryBean.setRepeatCount(0);
         factoryBean.setMisfireInstruction(SimpleTrigger.MISFIRE_INSTRUCTION_RESCHEDULE_NEXT_WITH_REMAINING_COUNT);
         return factoryBean;

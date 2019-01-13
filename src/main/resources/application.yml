@@ -49,7 +49,7 @@ spring:
       activation: false
 ksiazeczka:
   quartz:
-    deploy: 20
+    deploy: 10
     #      If we set -1 to quartz it will start the task according to the date
     #      if we set a different number then quarz will run the task after this time in second
 ---

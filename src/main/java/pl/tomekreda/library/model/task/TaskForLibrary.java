@@ -34,4 +34,11 @@ public class TaskForLibrary extends Task {
         super(user, dateCreate, dateExpiration, taskStatus, book, library, dateDone);
         this.taskForLibraryType = taskForLibraryType;
     }
+
+    @Override
+    public String toString() {
+        return "TaskForLibrary{" +
+                "taskForLibraryType=" + taskForLibraryType +
+                '}';
+    }
 }
