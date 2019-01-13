@@ -12,5 +12,8 @@ public class MessageUtils {
 
     public static final String MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE = "Odrzucenie rezerwacji";
 
+    public static final String RETURN_BOOK_TO_CASUAL_USER_TITLE = "Oddanie ksiażki";
+
+    public static final String RETURN_BOOK_TO_LIBRARY_OWNER_TITLE = "Użytkownik oddał ksiązkę";
 
 }
