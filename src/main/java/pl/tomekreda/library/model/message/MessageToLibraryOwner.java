@@ -16,13 +16,18 @@ public class MessageToLibraryOwner extends Message {
     @ManyToOne(cascade = CascadeType.ALL)
     private Library library;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     private TaskForLibrary taskForLibrary;
 
     public MessageToLibraryOwner(String content, String title, Library library, TaskForLibrary taskForLibrary) {
         super(content, title);
         this.library = library;
         this.taskForLibrary = taskForLibrary;
+    }
+
+    public MessageToLibraryOwner(String content, String title, Library library) {
+        super(content, title);
+        this.library = library;
     }
 
     public MessageToLibraryOwner() {

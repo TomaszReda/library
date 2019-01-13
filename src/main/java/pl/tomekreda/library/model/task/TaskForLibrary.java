@@ -21,7 +21,7 @@ public class TaskForLibrary extends Task {
     @Enumerated(value = EnumType.STRING)
     private TaskForLibraryType taskForLibraryType;
 
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "taskForLibrary")
+    @OneToOne(mappedBy = "taskForLibrary")
     private MessageToLibraryOwner messageToLibraryOwner;
 
 

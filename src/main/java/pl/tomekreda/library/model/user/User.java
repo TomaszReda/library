@@ -67,6 +67,7 @@ public class User {
     private List<Task> taskList=new ArrayList<>();
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<MessageToCasualUser>   messageToCasualUsers=new ArrayList<>();
 
     public User() {

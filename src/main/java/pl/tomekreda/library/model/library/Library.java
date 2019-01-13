@@ -54,6 +54,7 @@ public class Library {
     private UserMenager userMenager;
 
     @OneToMany(mappedBy = "library",cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<MessageToLibraryOwner> messageToLibraryOwners = new ArrayList<>();
 
     public Library(String city, String email, String latitude, String local, String longitude, String name, String number, String postalCode, String street) {
