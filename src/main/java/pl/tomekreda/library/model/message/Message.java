@@ -38,4 +38,7 @@ public abstract class Message {
         this.content = content;
         this.title = title;
     }
+
+    public Message() {
+    }
 }

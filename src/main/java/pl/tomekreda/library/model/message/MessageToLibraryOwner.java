@@ -24,4 +24,7 @@ public class MessageToLibraryOwner extends Message {
         this.library = library;
         this.taskForLibrary = taskForLibrary;
     }
+
+    public MessageToLibraryOwner() {
+    }
 }

@@ -15,4 +15,14 @@ public class MessageToCasualUser extends Message {
 
     @OneToOne(cascade = CascadeType.ALL)
     private TaskForUser taskForUser;
+
+    public MessageToCasualUser(String content, String title, User user, TaskForUser taskForUser) {
+        super(content, title);
+        this.user = user;
+        this.taskForUser = taskForUser;
+    }
+
+    public MessageToCasualUser() {
+
+    }
 }

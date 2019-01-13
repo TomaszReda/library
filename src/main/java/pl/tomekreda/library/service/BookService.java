@@ -15,6 +15,7 @@ import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookCategory;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.message.MessageToCasualUser;
 import pl.tomekreda.library.model.message.MessageToLibraryOwner;
 import pl.tomekreda.library.model.task.*;
 import pl.tomekreda.library.model.user.User;
@@ -218,17 +219,28 @@ public class BookService {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Podajesz nieprawidłową ilość!");
             }
             TaskForUser taskForUser;
-//            MessageToLibraryOwner messageToLibraryOwner;
+            TaskForLibrary taskForLibrary;
+            MessageToCasualUser messageToCasualUser;
+            MessageToLibraryOwner messageToLibraryOwner;
+            String contentForLibraryOwner="";
+            String contentForCasualUser="";
             if (book.getQuant() - quant >= 1) {
                 Book tmp = copyBook(book);
                 book.setQuant(quant);
-                book.setBookState(BookState.BOOKED);
                 book.setUserCasual(userService.findLoggedUser().getUserCasual());
+                book.setBookState(BookState.BOOKED);
                 book = bookRepository.save(book);
                 taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUser = taskForUserRepository.save(taskForUser);
-//                messageToLibraryOwner=new MessageToLibraryOwner("content", MessageUtils.MESSAGE_RESERV_BOOK_TO_USER_TITLE,book.getLibrary(),ta);
-//                messageToLibraryOwner = messageToLibraryOwnerRepository.save(messageToLibraryOwner);
+                taskForLibrary = new TaskForLibrary();
+                taskForLibraryRepository.save(taskForLibrary);
+                contentForCasualUser=" Zarezerwowałeś książke " +book.getTitle()+" "+book.getAuthor()+". Masz 3 dni na jego odebranie( Termin mija )"+taskForUser.getDateExpiration();
+                contentForLibraryOwner=" Uzytkownik"+ userService.findLoggedUser().getEmail()+" zarezerwował twoja książke "+book.getTitle()+" "+book.getAuthor();
+                messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(), null);
+                messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
+                messageToLibraryOwner = messageToLibraryOwnerRepository.save(messageToLibraryOwner);
+                messageToCasualUserRepository.save(messageToCasualUser);
+                messageToLibraryOwnerRepository.save(messageToLibraryOwner);
                 tmp.setQuant(tmp.getQuant() - quant);
                 book = bookRepository.save(tmp);
 
@@ -241,6 +253,13 @@ public class BookService {
                 book = bookRepository.save(book);
                 taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUserRepository.save(taskForUser);
+                contentForLibraryOwner=" Uzytkownik"+ userService.findLoggedUser().getEmail()+" zarezerwował twoja książke "+book.getTitle()+" "+book.getAuthor();
+                contentForCasualUser=" Zarezerwowałeś książke " +book.getTitle()+" "+book.getAuthor()+". Masz 3 dni na jego odebranie( Termin mija )"+taskForUser.getDateExpiration();
+                messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(), null);
+                messageToLibraryOwner = messageToLibraryOwnerRepository.save(messageToLibraryOwner);
+                messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
+                messageToLibraryOwnerRepository.save(messageToLibraryOwner);
+                messageToCasualUserRepository.save(messageToCasualUser);
             }
             Date date;
             if (this.deploy == -1) {
