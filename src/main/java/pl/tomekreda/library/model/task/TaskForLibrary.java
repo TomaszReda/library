@@ -3,11 +3,10 @@ package pl.tomekreda.library.model.task;
 import lombok.*;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.message.MessageToLibraryOwner;
 import pl.tomekreda.library.model.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,6 +20,9 @@ public class TaskForLibrary extends Task {
 
     @Enumerated(value = EnumType.STRING)
     private TaskForLibraryType taskForLibraryType;
+
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "taskForLibrary")
+    private MessageToLibraryOwner messageToLibraryOwner;
 
 
     public TaskForLibrary(User toUser, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForLibraryType taskForLibraryType) {

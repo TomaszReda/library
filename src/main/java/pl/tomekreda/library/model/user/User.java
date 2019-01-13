@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.GenericGenerator;
+import pl.tomekreda.library.model.message.MessageToCasualUser;
 import pl.tomekreda.library.model.task.Task;
 
 import javax.persistence.*;
@@ -64,6 +65,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Task> taskList=new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<MessageToCasualUser>   messageToCasualUsers=new ArrayList<>();
 
     public User() {
     }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import pl.tomekreda.library.model.book.Book;
+import pl.tomekreda.library.model.message.MessageToLibraryOwner;
 import pl.tomekreda.library.model.task.Task;
 import pl.tomekreda.library.model.task.TaskForLibrary;
 import pl.tomekreda.library.model.user.User;
@@ -51,6 +52,9 @@ public class Library {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private UserMenager userMenager;
+
+    @OneToMany(mappedBy = "library",cascade = CascadeType.ALL)
+    private List<MessageToLibraryOwner> messageToLibraryOwners = new ArrayList<>();
 
     public Library(String city, String email, String latitude, String local, String longitude, String name, String number, String postalCode, String street) {
         this.city = city;

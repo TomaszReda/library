@@ -15,6 +15,7 @@ import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookCategory;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.message.MessageToLibraryOwner;
 import pl.tomekreda.library.model.task.*;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.quartz.service.ReceiveTheBookForUserService;
@@ -23,6 +24,7 @@ import pl.tomekreda.library.quartz.service.ReminderOfGivingABookForUserService;
 import pl.tomekreda.library.repository.*;
 import pl.tomekreda.library.request.AddBookRequest;
 import pl.tomekreda.library.utils.DataUtils;
+import pl.tomekreda.library.utils.MessageUtils;
 import pl.tomekreda.library.utils.Utils;
 
 import javax.transaction.Transactional;
@@ -59,6 +61,10 @@ public class BookService {
     private final ReminderOfGivingABookForLibraryService reminderOfGivingABookForLibraryService;
 
     private final ReminderOfGivingABookForUserService reminderOfGivingABookForUserService;
+
+    private final MessageToCasualUserRepository messageToCasualUserRepository;
+
+    private final MessageToLibraryOwnerRepository messageToLibraryOwnerRepository;
 
     @Value("${ksiazeczka.quartz.deploy}")
     private int deploy;
@@ -212,6 +218,7 @@ public class BookService {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Podajesz nieprawidłową ilość!");
             }
             TaskForUser taskForUser;
+//            MessageToLibraryOwner messageToLibraryOwner;
             if (book.getQuant() - quant >= 1) {
                 Book tmp = copyBook(book);
                 book.setQuant(quant);
@@ -220,6 +227,8 @@ public class BookService {
                 book = bookRepository.save(book);
                 taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUser = taskForUserRepository.save(taskForUser);
+//                messageToLibraryOwner=new MessageToLibraryOwner("content", MessageUtils.MESSAGE_RESERV_BOOK_TO_USER_TITLE,book.getLibrary(),ta);
+//                messageToLibraryOwner = messageToLibraryOwnerRepository.save(messageToLibraryOwner);
                 tmp.setQuant(tmp.getQuant() - quant);
                 book = bookRepository.save(tmp);
 
