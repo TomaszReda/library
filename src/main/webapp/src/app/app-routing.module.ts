@@ -84,6 +84,11 @@ const routes: Routes = [
   {
     path: "user/activation/:activationToken",
     loadChildren: "./forAll/activation-user/activation-user.module#ActivationUserModule"
+  },
+  {
+    path: "notifications",
+    loadChildren: "./forLoggedUser/notifications/notifications.module#NotificationsModule",
+    canActivate: [AuthGuardsService]
   }
 ];
 
