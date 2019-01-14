@@ -238,7 +238,6 @@ public class BookService {
                 contentForLibraryOwner = " Uzytkownik " + userService.findLoggedUser().getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getEmail();
                 messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary());
                 messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
-                messageToLibraryOwner = messageToLibraryOwnerRepository.save(messageToLibraryOwner);
                 messageToCasualUserRepository.save(messageToCasualUser);
                 messageToLibraryOwnerRepository.save(messageToLibraryOwner);
                 tmp.setQuant(tmp.getQuant() - quant);
