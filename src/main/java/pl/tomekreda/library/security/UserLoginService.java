@@ -11,9 +11,7 @@ import pl.tomekreda.library.model.user.UserRoles;
 import pl.tomekreda.library.repository.UserRepository;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class UserLoginService implements UserDetailsService {
 
@@ -23,10 +21,10 @@ public class UserLoginService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByEmail(username);
-        if(user == null)
+        if (user == null)
             throw new UsernameNotFoundException("User not found");
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for(UserRoles userRoles : user.getUserRoles()) {
+        for (UserRoles userRoles : user.getUserRoles()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + userRoles.getUserRole().toString()));
         }
         org.springframework.security.core.userdetails.User userDetails =

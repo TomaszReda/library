@@ -21,30 +21,30 @@ public class ReminderOfGivingABookForUserService {
     private SchedulerFactoryBean schedulerFactoryBean;
 
     public void reminderOfGivingABookForUser(Date date, UUID bookId, UUID taskForUserId) {
-        JobDetailFactoryBean jobDetailFactoryBean= ConfigureQuartz.createJobDetail(JobReminderOfGivingABookForUser.class);
-        jobDetailFactoryBean.getJobDataMap().put("bookId",bookId);
-        jobDetailFactoryBean.getJobDataMap().put("taskForUserId",taskForUserId);
+        JobDetailFactoryBean jobDetailFactoryBean = ConfigureQuartz.createJobDetail(JobReminderOfGivingABookForUser.class);
+        jobDetailFactoryBean.getJobDataMap().put("bookId", bookId);
+        jobDetailFactoryBean.getJobDataMap().put("taskForUserId", taskForUserId);
         jobDetailFactoryBean.setGroup("reminder_of_giving_a_book_for_user");
-        jobDetailFactoryBean.setBeanName("reminder_of_giving_a_book_for_user"+taskForUserId);
+        jobDetailFactoryBean.setBeanName("reminder_of_giving_a_book_for_user" + taskForUserId);
         jobDetailFactoryBean.afterPropertiesSet();
 
-        SimpleTriggerFactoryBean simpleTriggerFactoryBean=ConfigureQuartz.createTrigger(jobDetailFactoryBean.getObject(),date);
+        SimpleTriggerFactoryBean simpleTriggerFactoryBean = ConfigureQuartz.createTrigger(jobDetailFactoryBean.getObject(), date);
         simpleTriggerFactoryBean.setGroup("reminder_of_giving_a_book_for_user");
-        simpleTriggerFactoryBean.setBeanName("reminder_of_giving_a_book_for_user"+taskForUserId);
+        simpleTriggerFactoryBean.setBeanName("reminder_of_giving_a_book_for_user" + taskForUserId);
         simpleTriggerFactoryBean.afterPropertiesSet();
 
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
-            scheduler.scheduleJob(jobDetailFactoryBean.getObject(),simpleTriggerFactoryBean.getObject());
+            scheduler.scheduleJob(jobDetailFactoryBean.getObject(), simpleTriggerFactoryBean.getObject());
         } catch (SchedulerException e) {
         }
     }
 
 
-    public void deleteJob(UUID taskForUserId){
+    public void deleteJob(UUID taskForUserId) {
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
-            JobKey jobKey=new JobKey("reminder_of_giving_a_book_for_user"+taskForUserId,"reminder_of_giving_a_book_for_user");
+            JobKey jobKey = new JobKey("reminder_of_giving_a_book_for_user" + taskForUserId, "reminder_of_giving_a_book_for_user");
             scheduler.deleteJob(jobKey);
 
         } catch (SchedulerException e) {

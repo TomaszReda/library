@@ -23,7 +23,9 @@ public class AngularController {
     }
 
     @GetMapping("/home")
-    public String home(Model model) { return "forward:/index.html"; }
+    public String home(Model model) {
+        return "forward:/index.html";
+    }
 
     @GetMapping("/search/book")
     public String users(Model model) {
@@ -47,7 +49,9 @@ public class AngularController {
 
     @ResponseBody
     @GetMapping("/api/tokenValid")
-    public ResponseEntity cos() { return ResponseEntity.ok().build(); }
+    public ResponseEntity cos() {
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping("/myLibrary/library/add/book")
     public String addBook(Model model) {
@@ -75,20 +79,24 @@ public class AngularController {
     }
 
     @GetMapping("/search/book/{bookId}")
-    public String searchDetails(Model model,@PathVariable UUID bookId) {
+    public String searchDetails(Model model, @PathVariable UUID bookId) {
         return "forward:/index.html";
     }
 
     @GetMapping("/return/book")
-    public String returnBook(Model model,@PathVariable UUID bookId) {
+    public String returnBook(Model model, @PathVariable UUID bookId) {
         return "forward:/index.html";
     }
 
     @GetMapping("/booked/book")
-    public String bookedBook(Model model) { return "forward:/index.html"; }
+    public String bookedBook(Model model) {
+        return "forward:/index.html";
+    }
 
     @GetMapping("/admin/panel")
-    public String adminPanel(Model model) { return "forward:/index.html"; }
+    public String adminPanel(Model model) {
+        return "forward:/index.html";
+    }
 
     @GetMapping("/reserv")
     public String reserv(Model model) {
@@ -101,18 +109,28 @@ public class AngularController {
     }
 
     @GetMapping("/admin/panel/user/list")
-    public String adminUserList(Model model) { return "forward:/index.html"; }
+    public String adminUserList(Model model) {
+        return "forward:/index.html";
+    }
 
     @GetMapping("/admin/panel/library/list")
-    public String adminLibraryList(Model model) { return "forward:/index.html"; }
+    public String adminLibraryList(Model model) {
+        return "forward:/index.html";
+    }
 
     @GetMapping("/user/{userId}")
-    public String userDetails(Model model, @PathVariable UUID userId) { return "forward:/index.html"; }
+    public String userDetails(Model model, @PathVariable UUID userId) {
+        return "forward:/index.html";
+    }
 
     @GetMapping("/reset/password/{resetPasswordToken}")
-    public String resetPasswordToken(Model model, @PathVariable UUID resetPasswordToken) { return "forward:/index.html"; }
+    public String resetPasswordToken(Model model, @PathVariable UUID resetPasswordToken) {
+        return "forward:/index.html";
+    }
 
     @GetMapping("/user/activation/{activationToken}")
-    public String activationUser(Model model, @PathVariable UUID activationToken) { return "forward:/index.html"; }
+    public String activationUser(Model model, @PathVariable UUID activationToken) {
+        return "forward:/index.html";
+    }
 
 }

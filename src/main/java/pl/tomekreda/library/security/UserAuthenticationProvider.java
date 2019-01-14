@@ -47,7 +47,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         }
 
         String password = authentication.getCredentials().toString();
-        if (passwordEncoder.matches(password,user.getPassword())) {
+        if (passwordEncoder.matches(password, user.getPassword())) {
             if (user.getUserState().equals(UserState.ACTIVE)) {
                 List<GrantedAuthority> userRoleEnums = new ArrayList<>();
                 for (UserRoles userRoles : user.getUserRoles())

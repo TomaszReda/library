@@ -27,7 +27,7 @@ public class Utils {
 
     public List<Map<String, Object>> createBookList(List<Book> bookList) {
         List<Map<String, Object>> listLibrary = new ArrayList<>();
-        Utils utils=new Utils();
+        Utils utils = new Utils();
         for (Book b : bookList) {
             Map<String, Object> map = new HashMap<>();
             map.put("author", b.getAuthor());
@@ -44,20 +44,20 @@ public class Utils {
 
 
     public List<Map<String, Object>> createBookListForUserOwner(List<Book> bookList) throws NoSuchFieldException {
-        List<Map<String, Object>> mapArrayList=new ArrayList<>();
-        for(Book b: bookList){
-            Map<String,Object> tmp=new HashMap<>();
-            tmp.put(Book.class.getDeclaredField("author").getName(),b.getAuthor());
-            tmp.put(Book.class.getDeclaredField("title").getName(),b.getTitle());
-            tmp.put(Book.class.getDeclaredField("publisher").getName(),b.getPublisher());
-            tmp.put(Book.class.getDeclaredField("date").getName(),b.getDate());
-            tmp.put(Book.class.getDeclaredField("quant").getName(),b.getQuant());
-            tmp.put(Book.class.getDeclaredField("ISBN").getName(),b.getISBN());
-            tmp.put("bookId",b.getID());
-            tmp.put("libraryName",b.getLibrary().getName());
+        List<Map<String, Object>> mapArrayList = new ArrayList<>();
+        for (Book b : bookList) {
+            Map<String, Object> tmp = new HashMap<>();
+            tmp.put(Book.class.getDeclaredField("author").getName(), b.getAuthor());
+            tmp.put(Book.class.getDeclaredField("title").getName(), b.getTitle());
+            tmp.put(Book.class.getDeclaredField("publisher").getName(), b.getPublisher());
+            tmp.put(Book.class.getDeclaredField("date").getName(), b.getDate());
+            tmp.put(Book.class.getDeclaredField("quant").getName(), b.getQuant());
+            tmp.put(Book.class.getDeclaredField("ISBN").getName(), b.getISBN());
+            tmp.put("bookId", b.getID());
+            tmp.put("libraryName", b.getLibrary().getName());
             mapArrayList.add(tmp);
         }
-        return  mapArrayList;
+        return mapArrayList;
     }
 
 }

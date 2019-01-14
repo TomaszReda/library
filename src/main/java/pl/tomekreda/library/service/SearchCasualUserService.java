@@ -114,8 +114,8 @@ public class SearchCasualUserService {
         try {
             User user = userService.findLoggedUser();
             List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.CONFIRMED);
-            Utils utils=new Utils();
-            List<Map<String, Object>> bookList=utils.createBookListForUserOwner(booktmpList);
+            Utils utils = new Utils();
+            List<Map<String, Object>> bookList = utils.createBookListForUserOwner(booktmpList);
 
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
             Pageable pageable = new PageRequest(page, size);

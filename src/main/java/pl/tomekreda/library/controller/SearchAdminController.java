@@ -19,19 +19,19 @@ public class SearchAdminController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/search/user")
-    public ResponseEntity searchUser( @RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity searchUser(@RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
         if (word.length() < 3 || word.equals(null))
-            return adminService.searchAllUser( page, size);
+            return adminService.searchAllUser(page, size);
         else
-            return adminService.searchUser( word, page, size);
+            return adminService.searchUser(word, page, size);
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @GetMapping("/search/library")
-    public ResponseEntity searchLirary( @RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity searchLirary(@RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
         if (word.length() < 3 || word.equals(null))
-            return adminService.searchAllLibrary( page, size);
+            return adminService.searchAllLibrary(page, size);
         else
-            return adminService.searchLibrary( word, page, size);
+            return adminService.searchLibrary(word, page, size);
     }
 }

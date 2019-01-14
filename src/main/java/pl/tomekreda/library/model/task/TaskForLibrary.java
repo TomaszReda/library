@@ -30,7 +30,7 @@ public class TaskForLibrary extends Task {
         this.taskForLibraryType = taskForLibraryType;
     }
 
-    public TaskForLibrary(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForLibraryType taskForLibraryType,LocalDateTime dateDone) {
+    public TaskForLibrary(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForLibraryType taskForLibraryType, LocalDateTime dateDone) {
         super(user, dateCreate, dateExpiration, taskStatus, book, library, dateDone);
         this.taskForLibraryType = taskForLibraryType;
     }
@@ -38,7 +38,9 @@ public class TaskForLibrary extends Task {
     @Override
     public String toString() {
         return "TaskForLibrary{" +
+                super.toString() +
                 "taskForLibraryType=" + taskForLibraryType +
+                ", messageToLibraryOwner=" + messageToLibraryOwner +
                 '}';
     }
 }

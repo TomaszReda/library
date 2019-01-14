@@ -42,7 +42,7 @@ public class LibraryService {
 
             log.info("[Update library request]=" + updateLibraryRequest);
             Library library = libraryRepository.findById(updateLibraryRequest.getLibraryID()).orElse(null);
-            if(library.getUserMenager().equals(userService.findLoggedUser().getUserMenager())){
+            if (library.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
             User user = userService.findLoggedUser();
@@ -114,7 +114,7 @@ public class LibraryService {
     public ResponseEntity getLibraryById(UUID libraryID) {
         try {
             Library library = libraryRepository.findById(libraryID).orElse(null);
-            if(!library.getUserMenager().equals(userService.findLoggedUser().getUserMenager())){
+            if (!library.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
             if (!userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
@@ -131,14 +131,14 @@ public class LibraryService {
         try {
             Library tmp = libraryRepository.findById(libraryID).orElse(null);
 
-            Map<String, Object> library=libraryDetailsForAdmin(tmp);
+            Map<String, Object> library = libraryDetailsForAdmin(tmp);
             return ResponseEntity.ok(library);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
     }
 
-    private Map<String, Object>  libraryDetailsForAdmin(Library tmp) throws NoSuchFieldException {
+    private Map<String, Object> libraryDetailsForAdmin(Library tmp) throws NoSuchFieldException {
         Map<String, Object> library = new HashMap<>();
         library.put(Library.class.getDeclaredField("name").getName(), tmp.getName());
         library.put(Library.class.getDeclaredField("email").getName(), tmp.getEmail());
@@ -152,12 +152,12 @@ public class LibraryService {
         library.put(Library.class.getDeclaredField("ID").getName(), tmp.getID());
 
         User user = userRepository.findAllByUserMenager(tmp.getUserMenager());
-        Map<String,Object> owner=new HashMap<>();
+        Map<String, Object> owner = new HashMap<>();
         owner.put(User.class.getDeclaredField("email").getName(), user.getEmail());
         owner.put(User.class.getDeclaredField("lastname").getName(), user.getLastname());
         owner.put(User.class.getDeclaredField("firstname").getName(), user.getFirstname());
-        owner.put(User.class.getDeclaredField("phoneNumber").getName(),user.getPhoneNumber());
-        library.put("owner",owner);
+        owner.put(User.class.getDeclaredField("phoneNumber").getName(), user.getPhoneNumber());
+        library.put("owner", owner);
 
         return library;
     }

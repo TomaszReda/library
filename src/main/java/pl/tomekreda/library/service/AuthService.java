@@ -111,8 +111,8 @@ public class AuthService {
             activationUserTokenRepository.save(activationUserToken);
             tmp.setActivationUserToken(activationUserToken);
             tmp = userRepository.save(tmp);
-            if(requiredActivation)
-            emailService.sendRegisterEmailToCasualUser(tmp.getEmail(), tmp.getActivationUserToken().getActiveToken());
+            if (requiredActivation)
+                emailService.sendRegisterEmailToCasualUser(tmp.getEmail(), tmp.getActivationUserToken().getActiveToken());
 
             log.info("[Register casual user]=" + user);
             return ResponseEntity.ok().build();
@@ -167,7 +167,7 @@ public class AuthService {
             tmp.setActivationUserToken(activationUserToken);
             tmp = userRepository.save(tmp);
 
-            if(requiredActivation)
+            if (requiredActivation)
                 emailService.sendRegisterEmailToLibraryOwner(tmp.getEmail(), tmp.getActivationUserToken().getActiveToken());
 
             log.info("[Register library owner]=" + tmp);

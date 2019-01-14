@@ -8,6 +8,7 @@ import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.message.MessageToCasualUser;
 import pl.tomekreda.library.model.message.MessageToLibraryOwner;
+import pl.tomekreda.library.model.task.TaskForLibrary;
 import pl.tomekreda.library.model.task.TaskForUser;
 import pl.tomekreda.library.model.task.TaskStatus;
 import pl.tomekreda.library.model.user.User;
@@ -29,6 +30,8 @@ public class QuartzService {
 
     private final TaskForUserRepository taskForUserRepository;
 
+    private final TaskForLibraryRepository taskForLibraryRepository;
+
     private final BookRepository bookRepository;
 
     private final UserRepository userRepository;
@@ -37,7 +40,7 @@ public class QuartzService {
 
     private final MessageToCasualUserRepository messageToCasualUserRepository;
 
-    public void createMessageToJobReceiveTheBookForUser(UUID bookId, UUID taskForUserId) {
+    public void quartzJobReceiveTheBookForUser(UUID bookId, UUID taskForUserId) {
         Book reservBook = bookRepository.findById(bookId).orElse(null);
         TaskForUser taskForUser = taskForUserRepository.findById(taskForUserId).orElse(null);
         User user = userRepository.findByUserCasual(reservBook.getUserCasual());
@@ -68,4 +71,26 @@ public class QuartzService {
             }
         }
     }
+
+
+    public void quartzJobReminderOfGivingABookForLibrary(UUID bookId, UUID taskForLibraryId) {
+        Book reservBook = bookRepository.findById(bookId).orElse(null);
+        TaskForLibrary taskForLibrary = taskForLibraryRepository.findById(taskForLibraryId).orElse(null);
+        User user = userRepository.findByUserCasual(reservBook.getUserCasual());
+        String content = "Termin oddania ksiazki " + reservBook.getTitle() + " " + reservBook.getAuthor() + " użytkownika " + user.getEmail() + " w bibliotece " + reservBook.getLibrary().getName() + " minal.";
+        MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(content, MessageUtils.REMINDER_OF_GIVING_A_BOOK_FOR_LIBRARY_OWNER, reservBook.getLibrary(), taskForLibrary);
+        messageToLibraryOwnerRepository.save(messageToLibraryOwner);
+    }
+
+
+    public void quartzJobReminderOfGivingABookForUser(UUID bookId, UUID taskForUserId) {
+        Book reservBook = bookRepository.findById(bookId).orElse(null);
+        TaskForUser taskForUser = taskForUserRepository.findById(taskForUserId).orElse(null);
+        User user = userRepository.findByUserCasual(reservBook.getUserCasual());
+        String content = "Termin oddania ksiazki " + reservBook.getTitle() + " " + reservBook.getAuthor() + " w bibliotece " + reservBook.getLibrary().getName() + " minal.";
+        MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.REMINDER_OF_GIVING_A_BOOK_FOR_CASUAL_USER, user, taskForUser);
+        messageToCasualUserRepository.save(messageToCasualUser);
+    }
+
+
 }

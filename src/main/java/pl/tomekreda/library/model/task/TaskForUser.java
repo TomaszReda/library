@@ -21,14 +21,13 @@ public class TaskForUser extends Task {
     @Enumerated(value = EnumType.STRING)
     private TaskForUserType taskForUserType;
 
-    @OneToOne(mappedBy = "taskForUser",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "taskForUser", cascade = CascadeType.ALL)
     private MessageToCasualUser messageToCasualUser;
 
     public TaskForUser(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForUserType taskForUserType) {
         super(user, dateCreate, dateExpiration, taskStatus, book, library);
         this.taskForUserType = taskForUserType;
     }
-
 
 
     public TaskForUser(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForUserType taskForUserType, LocalDateTime dateDone) {
@@ -39,7 +38,9 @@ public class TaskForUser extends Task {
     @Override
     public String toString() {
         return "TaskForUser{" +
+                super.toString() +
                 "taskForUserType=" + taskForUserType +
+                ", messageToCasualUser=" + messageToCasualUser +
                 '}';
     }
 }

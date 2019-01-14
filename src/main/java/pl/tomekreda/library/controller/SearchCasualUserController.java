@@ -17,31 +17,32 @@ import pl.tomekreda.library.service.SearchCasualUserService;
 public class SearchCasualUserController {
 
     private final SearchCasualUserService searchCasualUserService;
+
     @GetMapping("/search/book")
-    public ResponseEntity search( @RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
+    public ResponseEntity search(@RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
         if (word.length() < 3 || word.equals(null))
-            return searchCasualUserService.searchAll( page, size);
+            return searchCasualUserService.searchAll(page, size);
         else
-            return searchCasualUserService.search( word, page, size);
+            return searchCasualUserService.search(word, page, size);
 
     }
 
     @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
     @GetMapping("/search/reserv/book")
-    public ResponseEntity getReservBook(@RequestParam int page, @RequestParam int size,@RequestParam(defaultValue = "") String word){
-            return searchCasualUserService.getReservBook(word,page,size);
+    public ResponseEntity getReservBook(@RequestParam int page, @RequestParam int size, @RequestParam(defaultValue = "") String word) {
+        return searchCasualUserService.getReservBook(word, page, size);
     }
 
     @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
     @GetMapping("/search/user/{email}")
-    public ResponseEntity getSearchUser(@PathVariable String email){
+    public ResponseEntity getSearchUser(@PathVariable String email) {
         return searchCasualUserService.searchByEmail(email);
     }
 
     @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
     @GetMapping("/get/booked/book")
-    public ResponseEntity bookedBook(@RequestParam int page,@RequestParam int size) {
-        return searchCasualUserService.bookedBook(page,size);
+    public ResponseEntity bookedBook(@RequestParam int page, @RequestParam int size) {
+        return searchCasualUserService.bookedBook(page, size);
     }
 
 }

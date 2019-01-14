@@ -32,13 +32,13 @@ public class SearchLibraryOwnerController {
     @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
     @GetMapping("/search/user/{userId}/reserv/book")
     public ResponseEntity searchReservBook(@PathVariable UUID userId, @RequestParam int page, @RequestParam int size) {
-        return searchService.searchReservBook(userId,size,page);
+        return searchService.searchReservBook(userId, size, page);
     }
 
     @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
     @GetMapping("/search/user/{userId}/booked/book")
     public ResponseEntity searchBookedBook(@PathVariable UUID userId, @RequestParam int page, @RequestParam int size) {
-        return searchService.searchBookedBook(userId,size,page);
+        return searchService.searchBookedBook(userId, size, page);
     }
 
 }

@@ -51,7 +51,7 @@ public class UserService {
         try {
             String loggedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
             User user = userRepository.findUserByEmail(loggedUserEmail);
-            log.info("[User info]="+user);
+            log.info("[User info]=" + user);
             return ResponseEntity.ok(user);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
@@ -65,7 +65,7 @@ public class UserService {
     }
 
     public ResponseEntity changeSettings(User user) {
-        log.info("[Change setings before]="+user);
+        log.info("[Change setings before]=" + user);
 
         User logged = this.findLoggedUser();
         if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail() == ""
@@ -100,13 +100,13 @@ public class UserService {
         logged.setPhoneNumber(user.getPhoneNumber());
         logged = userRepository.save(logged);
 
-        log.info("[Change setings after]="+user);
+        log.info("[Change setings after]=" + user);
         return ResponseEntity.ok(user);
     }
 
     public ResponseEntity changePassword(ChangePasswordRequest changePasswordRequest) {
         User loged = this.findLoggedUser();
-        log.info("[Change password before]="+loged);
+        log.info("[Change password before]=" + loged);
 
         if (changePasswordRequest.getNewpassword() == null || changePasswordRequest.getNewpassword() == "" ||
                 changePasswordRequest.getNewpasswordrepeat() == null || changePasswordRequest.getNewpasswordrepeat() == "" ||
@@ -132,7 +132,7 @@ public class UserService {
             loged.getResetPasswordToken().setExpireTime(null);
         }
         loged = userRepository.save(loged);
-        log.info("[Change password after]="+loged);
+        log.info("[Change password after]=" + loged);
 
         return ResponseEntity.ok(loged);
     }
@@ -141,10 +141,10 @@ public class UserService {
         return userRepository.findUserByEmail(email);
     }
 
-    public ResponseEntity getUserInfo(UUID uuid){
+    public ResponseEntity getUserInfo(UUID uuid) {
         try {
             User user = userRepository.findById(uuid).orElse(null);
-            log.info("[User info]="+user);
+            log.info("[User info]=" + user);
             return ResponseEntity.ok(user);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
@@ -165,9 +165,9 @@ public class UserService {
 
 
     public ResponseEntity sendEmail(String email) {
-        try{
-            User user=userRepository.findUserByEmail(email);
-            if(user==null){
+        try {
+            User user = userRepository.findUserByEmail(email);
+            if (user == null) {
                 return ResponseEntity.badRequest().body("Taki użytkownik nie istnieje");
             }
             ResetPasswordToken resetPasswordToken;
@@ -187,8 +187,7 @@ public class UserService {
             emailService.sendEmailaResetPassword(email, user.getResetPasswordToken().getResetToken());
 
             return ResponseEntity.ok().build();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
     }
@@ -209,14 +208,14 @@ public class UserService {
                 return ResponseEntity.badRequest().body("Token do resetu hasła wygasł!");
 
             } else {
-                String newpassword=generatePassword();
+                String newpassword = generatePassword();
                 resetPasswordToken.setExpireTime(null);
                 resetPasswordToken.setResetToken(null);
                 resetPasswordTokenRepository.save(resetPasswordToken);
                 User user = resetPasswordToken.getUser();
                 user.setPassword(passwordEncoder.encode(newpassword));
                 userRepository.save(user);
-                emailService.sendEmailNewPassword(user.getEmail(),newpassword);
+                emailService.sendEmailNewPassword(user.getEmail(), newpassword);
                 return ResponseEntity.ok(JSONParser.quote("Nowe hasło zostało wysłane na meila"));
             }
         } catch (Exception ex) {
@@ -225,7 +224,7 @@ public class UserService {
         }
     }
 
-    private String generatePassword(){
+    private String generatePassword() {
         int leftLimit = 47; // letter '0'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 14;

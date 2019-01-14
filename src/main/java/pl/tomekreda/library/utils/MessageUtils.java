@@ -20,4 +20,8 @@ public class MessageUtils {
 
     public static final String RESERV_NOT_RECEIVED_FOR_LIBRARY_OWNER = "Rezerwacja nie odebrana";
 
+    public static final String REMINDER_OF_GIVING_A_BOOK_FOR_CASUAL_USER = "Przypomnienie o rezerwacji";
+
+    public static final String REMINDER_OF_GIVING_A_BOOK_FOR_LIBRARY_OWNER = "Przypomnienie o rezerwacji";
+
 }

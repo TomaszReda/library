@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity getUserInfo(@PathVariable UUID id){
+    public ResponseEntity getUserInfo(@PathVariable UUID id) {
         return userService.getUserInfo(id);
     }
 
