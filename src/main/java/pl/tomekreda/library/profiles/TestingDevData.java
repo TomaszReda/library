@@ -246,8 +246,9 @@ public class TestingDevData implements CommandLineRunner {
         taskForLibraryRepository.save(taskForLibrary);
         taskForUser = new TaskForUser(user, LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(1), TaskStatus.DONE, book, library, TaskForUserType.GET_THE_BOOK, LocalDateTime.now());
         taskForUserRepository.save(taskForUser);
-
-
+        contentForCasualUser = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje ksiazki " + book.getTitle() + " " + book.getAuthor();
+        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser);
+        messageToCasualUserRepository.save(messageToCasualUser);
         book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3, "Opis", library, BookState.CONFIRMED, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserCasual(user.getUserCasual());
@@ -264,7 +265,7 @@ public class TestingDevData implements CommandLineRunner {
 
 
     private void addLibrary(User owner) {
-        Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie", "34", "08-500 Ryki", null);
+        Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie" + Math.random(), "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
         library = libraryRepository.save(library);
 //        for(int i=0;i<10;i++){
