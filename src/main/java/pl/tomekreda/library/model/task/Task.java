@@ -1,5 +1,6 @@
 package pl.tomekreda.library.model.task;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import pl.tomekreda.library.model.book.Book;
@@ -28,6 +29,7 @@ public class Task {
     private UUID uuid;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
     private LocalDateTime dateCreate;
@@ -41,10 +43,12 @@ public class Task {
 
     @JoinColumn(name = "book_id")
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Book book;
 
     @JoinColumn(name = "library_id")
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Library library;
 
     public Task(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library) {

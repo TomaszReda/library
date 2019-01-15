@@ -15,7 +15,6 @@ import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookCategory;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
-import pl.tomekreda.library.model.message.Message;
 import pl.tomekreda.library.model.message.MessageToCasualUser;
 import pl.tomekreda.library.model.message.MessageToLibraryOwner;
 import pl.tomekreda.library.model.task.*;
@@ -235,7 +234,7 @@ public class BookService {
                 taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUser = taskForUserRepository.save(taskForUser);
                 contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " " + book.getAuthor() + ". Masz 3 dni na jego odebranie( Termin mija )" + taskForUser.getDateExpiration();
-                contentForLibraryOwner = " Uzytkownik " + userService.findLoggedUser().getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getEmail();
+                contentForLibraryOwner = " Uzytkownik " + userService.findLoggedUser().getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getName();
                 messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary());
                 messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
                 messageToCasualUserRepository.save(messageToCasualUser);
@@ -320,8 +319,9 @@ public class BookService {
             taskForUser.setDateDone(LocalDateTime.now());
             taskForUser = taskForUserRepository.save(taskForUser);
             String content = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje ksiazki " + book.getTitle() + " " + book.getAuthor();
-            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser);
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null);
             messageToCasualUserRepository.save(messageToCasualUser);
+
             if (!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
@@ -332,6 +332,7 @@ public class BookService {
 
             TaskForLibrary taskForLibrary = new TaskForLibrary(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, book.getLibrary(), TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);
             taskForLibrary = taskForLibraryRepository.save(taskForLibrary);
+
 
             if (this.deploy == -1) {
                 reminderOfGivingABookForLibraryService.reminderOfGivingABookForLibrary(DataUtils.convertToDateViaInstant(taskForLibrary.getDateExpiration()), taskForLibrary.getBook().getID(), taskForLibrary.getUuid());
@@ -375,7 +376,7 @@ public class BookService {
             }
 
             String content = "Biblioteka " + book.getLibrary().getName() + " odrzuciła twoją rezerwacje ksiazki " + book.getTitle() + " " + book.getAuthor();
-            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser);
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null);
             messageToCasualUserRepository.save(messageToCasualUser);
 
             return ResponseEntity.ok().build();

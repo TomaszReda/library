@@ -10,5 +10,5 @@ import java.util.UUID;
 
 @RepositoryRestResource
 public interface MessageToLibraryOwnerRepository extends JpaRepository<MessageToLibraryOwner, UUID> {
-    List<MessageToLibraryOwner> findAllByLibrary(Library library);
+    List<MessageToLibraryOwner> findAllByLibraryAndDateReadIsNullOrderByDataCreateDesc(Library library);
 }

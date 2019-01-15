@@ -46,7 +46,7 @@ public class QuartzService {
         User user = userRepository.findByUserCasual(reservBook.getUserCasual());
         String contentForCasualUser = "Nie odebrałeś w ciągu 3 dni zarezerwowanej ksiązki " + reservBook.getAuthor() + " " + reservBook.getTitle() + " z biblioteki" + reservBook.getLibrary().getName();
         String contentForLibraryOwner = "Uzytkownik" + user.getEmail() + " nie odebrał ksiazki w ciagu 3 dni zarezerwowanej ksiazki  " + reservBook.getAuthor() + " " + reservBook.getTitle() + " z biblioteki" + reservBook.getLibrary().getName();
-        MessageToCasualUser messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.RESERV_NOT_RECEIVED_FOR_CASUAL_USER, user, taskForUser);
+        MessageToCasualUser messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.RESERV_NOT_RECEIVED_FOR_CASUAL_USER, user, null);
         MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.RESERV_NOT_RECEIVED_FOR_LIBRARY_OWNER, reservBook.getLibrary());
         messageToCasualUserRepository.save(messageToCasualUser);
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
