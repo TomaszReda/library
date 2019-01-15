@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pl.tomekreda.library.request.NotificationRequest;
 import pl.tomekreda.library.service.MessageToCasualUserService;
 
 import java.util.UUID;
@@ -23,8 +24,7 @@ public class MessageToCasualUserController {
     }
 
     @PostMapping("/read/notification")
-    public ResponseEntity readNotification(@RequestBody UUID messageId) {
-        System.err.println(messageId);
-        return messageService.readNotification(messageId);
+    public ResponseEntity readNotification(@RequestBody NotificationRequest notificationRequest) {
+        return messageService.readNotification(notificationRequest.getMessageId());
     }
 }

@@ -42,6 +42,8 @@ export class NotificationsComponent implements OnInit {
           this.notificationService.getAllUnreadNotificationForCasualUser(this.currentyPage, 5).subscribe((x: NotificationRequest) => {
             this.notificationList = x.content;
             this.pageNumber = this.pageService.returnpages5(this.currentyPage, x.totalPages);
+            console.log(x.totalElements);
+            console.log(this.currentyPage);
             if (x.totalElements === 0) {
               this.pageNumber = null;
             }
@@ -72,7 +74,7 @@ export class NotificationsComponent implements OnInit {
 
   deleteMessage(messageId) {
     this.notificationService.readNotification(messageId).subscribe(x => {
-      console.log("Usunieto");
+      this.init();
       }
     )
   }

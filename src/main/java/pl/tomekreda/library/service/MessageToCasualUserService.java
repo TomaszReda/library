@@ -49,7 +49,7 @@ public class MessageToCasualUserService {
     public ResponseEntity readNotification(UUID messageId) {
         try {
             Message message=messageRepository.findById(messageId).orElse(null);
-            message.setDataCreate(LocalDateTime.now());
+            message.setDateRead(LocalDateTime.now());
             messageRepository.save(message);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {

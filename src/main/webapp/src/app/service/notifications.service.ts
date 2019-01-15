@@ -24,10 +24,10 @@ export class NotificationsService {
   }
 
   public readNotification(messageId) {
-    const tmp = {
+    const notificationRequest = {
       messageId: messageId
     }
-    return this.http.post(this.url + "/read/notification", tmp);
+    return this.http.post(this.url + "/read/notification", notificationRequest);
   }
 
 
