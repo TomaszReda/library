@@ -33,7 +33,7 @@ export class UserListComponent implements OnInit {
   initUserList() {
     this.adminService.getAllUser(this.currentyPage, 10).subscribe((x: UserRequestSearch) => {
       this.userList = x.content;
-      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+      this.pageNumber = this.pageService.returnpages10(this.currentyPage, x.totalPages);
 
     })
 
@@ -48,7 +48,7 @@ export class UserListComponent implements OnInit {
   searchUser() {
     this.adminService.getSearchUser(this.seachForm.word, this.currentyPage, 10).subscribe((x: UserRequestSearch) => {
       this.userList = x.content;
-      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+      this.pageNumber = this.pageService.returnpages10(this.currentyPage, x.totalPages);
     })
   }
 

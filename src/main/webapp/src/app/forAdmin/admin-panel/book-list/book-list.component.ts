@@ -33,7 +33,7 @@ export class BookListComponent implements OnInit {
   searchBook() {
     this.searchService.searchCasualUser(this.seachForm.word, this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
       this.bookList = x.content;
-      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+      this.pageNumber = this.pageService.returnpages10(this.currentyPage, x.totalPages);
     })
   }
 
@@ -48,7 +48,7 @@ export class BookListComponent implements OnInit {
   initBookList(){
     this.adminService.getAllBook(this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
       this.bookList = x.content;
-      this.pageNumber=this.pageService.returnpages(this.currentyPage,x.totalPages);
+      this.pageNumber=this.pageService.returnpages10(this.currentyPage,x.totalPages);
 
     })
   }

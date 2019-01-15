@@ -57,7 +57,7 @@ export class SearchBookLibraryComponent implements OnInit {
     }
     this.searchService.search(word, this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
       this.bookPageList = x.content;
-      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+      this.pageNumber = this.pageService.returnpages10(this.currentyPage, x.totalPages);
     });
 
 

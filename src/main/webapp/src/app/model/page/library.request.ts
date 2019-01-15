@@ -1,4 +1,4 @@
-import {Library} from "./library.model";
+import {Library} from "../library/library.model";
 
 export class LibraryRequestSearch {
   totalElements?: number;

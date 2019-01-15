@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AdminService} from "../../../service/admin.service";
 import {Library} from "../../../model/library/library.model";
-import {LibraryRequestSearch} from "../../../model/library/library.request";
+import {LibraryRequestSearch} from "../../../model/page/library.request";
 import {PageServiceService} from "../../../service/page-service.service";
 import {SearchRequest} from "../../../model/search/search.request";
 import {BookRequestSearch} from "../../../model/book/book.request";
@@ -32,7 +32,7 @@ export class LibraryListComponent implements OnInit {
   initLibraryList() {
     this.adminService.getAllLibrary(this.currentyPage, 10).subscribe((x: LibraryRequestSearch) => {
       this.libraryList = x.content;
-      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+      this.pageNumber = this.pageService.returnpages10(this.currentyPage, x.totalPages);
 
     });
   }
@@ -46,7 +46,7 @@ export class LibraryListComponent implements OnInit {
   searchLibrary() {
     this.adminService.getSearchLibrary(this.seachForm.word, this.currentyPage, 10).subscribe((x: BookRequestSearch) => {
       this.libraryList = x.content;
-      this.pageNumber = this.pageService.returnpages(this.currentyPage, x.totalPages);
+      this.pageNumber = this.pageService.returnpages10(this.currentyPage, x.totalPages);
     })
   }
 

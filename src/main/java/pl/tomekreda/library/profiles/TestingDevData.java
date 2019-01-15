@@ -12,6 +12,7 @@ import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.email.EmailTemplate;
 import pl.tomekreda.library.model.email.EmailTemplateType;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.message.MessageDisplay;
 import pl.tomekreda.library.model.message.MessageToCasualUser;
 import pl.tomekreda.library.model.message.MessageToLibraryOwner;
 import pl.tomekreda.library.model.task.TaskForLibrary;
@@ -244,8 +245,8 @@ public class TestingDevData implements CommandLineRunner {
         contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " " + book.getAuthor() + ". Masz 3 dni na jego odebranie( Termin mija )" + taskForUser.getDateExpiration();
         contentForLibraryOwner = " Uzytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getName();
         ;
-        messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary());
-        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser);
+        messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(), MessageDisplay.ALERT);
+        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
         messageToCasualUserRepository.save(messageToCasualUser);
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
 
@@ -258,8 +259,8 @@ public class TestingDevData implements CommandLineRunner {
         taskForUserRepository.save(taskForUser);
         contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " " + book.getAuthor() + ". Masz 3 dni na jego odebranie( Termin mija )" + taskForUser.getDateExpiration();
         contentForLibraryOwner = " Uzytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getName();
-        messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary());
-        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser);
+        messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(),MessageDisplay.ALERT);
+        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
         messageToCasualUserRepository.save(messageToCasualUser);
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
 

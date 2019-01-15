@@ -21,14 +21,14 @@ public class MessageToLibraryOwner extends Message {
     @OneToOne(cascade = CascadeType.ALL)
     private TaskForLibrary taskForLibrary;
 
-    public MessageToLibraryOwner(String content, String title, Library library, TaskForLibrary taskForLibrary) {
-        super(content, title);
+    public MessageToLibraryOwner(String content, String title, Library library, TaskForLibrary taskForLibrary,MessageDisplay messageDisplay) {
+        super(content, title,messageDisplay);
         this.library = library;
         this.taskForLibrary = taskForLibrary;
     }
 
-    public MessageToLibraryOwner(String content, String title, Library library) {
-        super(content, title);
+    public MessageToLibraryOwner(String content, String title, Library library,MessageDisplay messageDisplay) {
+        super(content, title,messageDisplay);
         this.library = library;
     }
 

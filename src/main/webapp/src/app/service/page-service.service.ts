@@ -8,7 +8,7 @@ export class PageServiceService {
   constructor() {
   }
 
-  public returnpages(currentyPage: number, totalPages: number): Array<number> {
+  public returnpages10(currentyPage: number, totalPages: number): Array<number> {
     let tmp: Array<number> = new Array<number>(null);
     let end, start
 
@@ -53,29 +53,33 @@ export class PageServiceService {
     return pages;
   }
 
+  public returnpages5(currentyPage: number, totalPages: number): Array<number> {
+    let tmp: Array<number> = new Array<number>(null);
+    let end, start
 
-//   let tmp: Array<number> = new Array<number>(null);
-//   let end, start
-//
-//   if (totalPages <= 5) {
-//   start = 1;
-//   end = totalPages;
-// } else if (currentyPage + 1 >= totalPages) {
-//   start = totalPages - 4;
-//   end = totalPages;
-// } else {
-//   if (totalPages >= currentyPage) {
-//     start = currentyPage - 2;
-//   } else {
-//     start = currentyPage;
-//   }
-//   if (currentyPage + 2 <= totalPages) {
-//     end = currentyPage + 2;
-//   } else {
-//     end = totalPages;
-//   }
-// }
-//
-// let pages = Array.from(Array((end + 1) - start).keys()).map(i => start + i);
-// return tmp;
+    if (totalPages <= 5) {
+      start = 1;
+      end = totalPages;
+    } else if (currentyPage + 1 >= totalPages) {
+      start = totalPages - 4;
+      end = totalPages;
+    } else {
+      if (totalPages >= currentyPage) {
+        start = currentyPage - 2;
+      } else {
+        start = currentyPage;
+      }
+      if (currentyPage + 2 <= totalPages) {
+        end = currentyPage + 2;
+      } else {
+        end = totalPages;
+      }
+    }
+
+    let pages = Array.from(Array((end + 1) - start).keys()).map(i => start + i);
+    return tmp;
+  }
+
+
+
 }

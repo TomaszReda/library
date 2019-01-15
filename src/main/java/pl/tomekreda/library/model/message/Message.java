@@ -27,6 +27,9 @@ public abstract class Message {
 
     private String title;
 
+    @Enumerated(value = EnumType.STRING)
+    private MessageDisplay messageDisplay;
+
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dataCreate;
@@ -34,9 +37,10 @@ public abstract class Message {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateRead;
 
-    public Message(String content, String title) {
+    public Message(String content, String title,MessageDisplay messageDisplay) {
         this.content = content;
         this.title = title;
+        this.messageDisplay=messageDisplay;
     }
 
     public Message() {

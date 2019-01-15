@@ -30,7 +30,7 @@ export class ReturnBookListComponent implements OnInit {
   initSearchBookedBook() {
     this.searchService.searchUserBookedBookById(localStorage.getItem("userId"), 0, 10).subscribe((x: BookRequestSearch) => {
       this.bookList = x.content;
-      this.pageNumber = this.pageService.returnpages(this.currentyPage + 1, x.totalPages);
+      this.pageNumber = this.pageService.returnpages10(this.currentyPage + 1, x.totalPages);
       if (x.totalElements === 0) {
         this.pageNumber = null;
       }

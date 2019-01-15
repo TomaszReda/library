@@ -15,6 +15,7 @@ import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookCategory;
 import pl.tomekreda.library.model.book.BookState;
 import pl.tomekreda.library.model.library.Library;
+import pl.tomekreda.library.model.message.MessageDisplay;
 import pl.tomekreda.library.model.message.MessageToCasualUser;
 import pl.tomekreda.library.model.message.MessageToLibraryOwner;
 import pl.tomekreda.library.model.task.*;
@@ -235,8 +236,8 @@ public class BookService {
                 taskForUser = taskForUserRepository.save(taskForUser);
                 contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " " + book.getAuthor() + ". Masz 3 dni na jego odebranie( Termin mija )" + taskForUser.getDateExpiration();
                 contentForLibraryOwner = " Uzytkownik " + userService.findLoggedUser().getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getName();
-                messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary());
-                messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
+                messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(), MessageDisplay.ALERT);
+                messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser, MessageDisplay.ALERT);
                 messageToCasualUserRepository.save(messageToCasualUser);
                 messageToLibraryOwnerRepository.save(messageToLibraryOwner);
                 tmp.setQuant(tmp.getQuant() - quant);
@@ -252,9 +253,9 @@ public class BookService {
                 taskForUserRepository.save(taskForUser);
                 contentForLibraryOwner = " Uzytkownik " + userService.findLoggedUser().getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getName();
                 contentForCasualUser = " Zarezerwowałeś książke " + book.getTitle() + " " + book.getAuthor() + ". Masz 3 dni na jego odebranie( Termin mija )" + taskForUser.getDateExpiration();
-                messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary());
+                messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(), MessageDisplay.ALERT);
                 messageToLibraryOwner = messageToLibraryOwnerRepository.save(messageToLibraryOwner);
-                messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser);
+                messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, userService.findLoggedUser(), taskForUser, MessageDisplay.ALERT);
                 messageToLibraryOwnerRepository.save(messageToLibraryOwner);
                 messageToCasualUserRepository.save(messageToCasualUser);
                 log.info("[Reserv book]=" + book);
@@ -284,7 +285,7 @@ public class BookService {
             taskForUser.setTaskStatus(TaskStatus.REMOVED);
             taskForUser = taskForUserRepository.save(taskForUser);
             String content = "Uzytkownik " + userService.findLoggedUser().getEmail() + " zrezygnował z rezerwacji ksiazki " + reservBook.getTitle() + " " + reservBook.getAuthor() + " w bibliotece " + reservBook.getLibrary().getName() + ".";
-            MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(content, MessageUtils.MESSAGE_RESIGNATION_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary());
+            MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(content, MessageUtils.MESSAGE_RESIGNATION_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary(), MessageDisplay.DANGER);
             messageToLibraryOwnerRepository.save(messageToLibraryOwner);
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
             if (notReservBook != null) {
@@ -319,7 +320,7 @@ public class BookService {
             taskForUser.setDateDone(LocalDateTime.now());
             taskForUser = taskForUserRepository.save(taskForUser);
             String content = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje ksiazki " + book.getTitle() + " " + book.getAuthor();
-            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null);
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null,MessageDisplay.ALERT);
             messageToCasualUserRepository.save(messageToCasualUser);
 
             if (!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
@@ -376,7 +377,7 @@ public class BookService {
             }
 
             String content = "Biblioteka " + book.getLibrary().getName() + " odrzuciła twoją rezerwacje ksiazki " + book.getTitle() + " " + book.getAuthor();
-            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null);
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null,MessageDisplay.DANGER);
             messageToCasualUserRepository.save(messageToCasualUser);
 
             return ResponseEntity.ok().build();
@@ -407,8 +408,8 @@ public class BookService {
             User user = userRepository.findByUserCasual(reservBook.getUserCasual());
             String contentMessageToLibraryOwner = "Uzytkownik " + user.getEmail() + " oddał książke " + reservBook.getTitle() + " " + reservBook.getAuthor() + " do biblioteki" + reservBook.getLibrary().getName();
             String contentMessageToCasualUser = "Oddałeś książkę " + reservBook.getTitle() + " " + reservBook.getAuthor() + "do biblioteki" + reservBook.getLibrary().getName() + ".";
-            MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(contentMessageToLibraryOwner, MessageUtils.RETURN_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary(), taskForLibrary);
-            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(contentMessageToCasualUser, MessageUtils.RETURN_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser);
+            MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(contentMessageToLibraryOwner, MessageUtils.RETURN_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary(), taskForLibrary,MessageDisplay.ALERT);
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(contentMessageToCasualUser, MessageUtils.RETURN_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
             messageToCasualUserRepository.save(messageToCasualUser);
             messageToLibraryOwnerRepository.save(messageToLibraryOwner);
 

@@ -32,7 +32,7 @@ export class MyLibraryListComponent implements OnInit {
   initLibraryList() {
     this.libraryService.gettAllLibrary(this.currentyPage, 10).subscribe((x: PageRequest) => {
       this.libraryPageList = x.content;
-      this.pageNumber = this.pageService.returnpages(this.currentyPage + 1, x.totalPages);
+      this.pageNumber = this.pageService.returnpages10(this.currentyPage + 1, x.totalPages);
       if (this.libraryPageList.length === 0) {
         this.pageNumber = null;
       }
