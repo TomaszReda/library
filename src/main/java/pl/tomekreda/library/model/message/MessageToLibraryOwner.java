@@ -1,5 +1,6 @@
 package pl.tomekreda.library.model.message;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.task.TaskForLibrary;
@@ -14,9 +15,10 @@ import javax.persistence.OneToOne;
 public class MessageToLibraryOwner extends Message {
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Library library;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
     private TaskForLibrary taskForLibrary;
 
     public MessageToLibraryOwner(String content, String title, Library library, TaskForLibrary taskForLibrary) {
