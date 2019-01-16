@@ -51,6 +51,12 @@ export class NotificationsComponent implements OnInit {
         }
 
       }
+      this.notificationService.getUnreadNotificationGet().subscribe(
+        (x: number) => {
+          this.authService.unreadNotification = x;
+          console.log("a");
+        }
+      )
     });
 
   }
@@ -75,14 +81,14 @@ export class NotificationsComponent implements OnInit {
   deleteMessage(messageId) {
     this.notificationService.readNotification(messageId).subscribe(x => {
         this.init();
-        this.authService.unreadNotification = 0;
-      }
+          }
     )
   }
 
   readAll() {
     this.notificationService.readAllNotification().subscribe(x => {
       this.init();
+
     });
   }
 

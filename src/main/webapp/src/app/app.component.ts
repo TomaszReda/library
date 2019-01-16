@@ -51,11 +51,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    // this.notificationService.getUnreadNotificationGet().subscribe((x: number) => {
-    //   this.unreadNotification2 = x;
-    //   console.log(x);
-    // });
-
+    this.notificationService.getUnreadNotificationGet().subscribe(
+      (x: number) => {
+        this.authService.unreadNotification = x;
+      }
+    );
     this.userService.getLoggerInfo().subscribe(x => {
 
       this.authService.user = x;

@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {MapServiceService} from "../../../service/map-service.service";
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../../../service/auth.service";
+import {NotificationsService} from "../../../service/notifications.service";
 
 declare var ol: any;
 
@@ -22,7 +23,7 @@ export class SearchBookDetailsComponent implements OnInit {
 
   public book: BookDetailsForCasualUser = new BookDetailsForCasualUser();
 
-  constructor(private router: Router, private bookService: BookService, private activatedRouter: ActivatedRoute, private  mapService: MapServiceService, public authService: AuthService) {
+  constructor(private notificationService: NotificationsService, private router: Router, private bookService: BookService, private activatedRouter: ActivatedRoute, private  mapService: MapServiceService, public authService: AuthService) {
   }
 
   ngOnInit() {
@@ -51,6 +52,11 @@ export class SearchBookDetailsComponent implements OnInit {
     this.errors = null;
     this.bookService.reservBook(bookId, this.quantForm.value.quant).subscribe(x => {
         this.router.navigate(["myReserv"]);
+        this.notificationService.getUnreadNotificationGet().subscribe(
+          (x: number) => {
+            this.authService.unreadNotification = x;
+          }
+        );
       }, error1 => {
         this.errors = error1.error;
       }
@@ -63,9 +69,12 @@ export class SearchBookDetailsComponent implements OnInit {
     this.bookService.deleteReservBook(bookId).subscribe(x => {
 
       this.router.navigate(["myReserv"]);
-    })
-
-
+    });
+    this.notificationService.getUnreadNotificationGet().subscribe(
+      (x: number) => {
+        this.authService.unreadNotification = x;
+      }
+    )
   }
 
 

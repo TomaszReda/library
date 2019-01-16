@@ -5,6 +5,8 @@ import {SearchService} from "../../../service/search.service";
 import {PageServiceService} from "../../../service/page-service.service";
 import {BookService} from "../../../service/book.service";
 import {BookRequestSearch} from "../../../model/book/book.request";
+import {AuthService} from "../../../service/auth.service";
+import {NotificationsService} from "../../../service/notifications.service";
 
 @Component({
   selector: 'app-return-book-list',
@@ -19,7 +21,7 @@ export class ReturnBookListComponent implements OnInit {
 
   public pageNumber = [];
 
-  constructor(private router: Router, private searchService: SearchService, private pageService: PageServiceService, private bookService: BookService, private activated: ActivatedRoute) {
+  constructor(private authService: AuthService, private notificationService: NotificationsService, private router: Router, private searchService: SearchService, private pageService: PageServiceService, private bookService: BookService, private activated: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -46,6 +48,11 @@ export class ReturnBookListComponent implements OnInit {
 
   returns(bookId) {
     this.bookService.bookReturn(bookId).subscribe(x => {
+      this.notificationService.getUnreadNotificationGet().subscribe(
+        (x: number) => {
+          this.authService.unreadNotification = x;
+        }
+      )
       this.initSearchBookedBook();
     });
     this.initSearchBookedBook();
