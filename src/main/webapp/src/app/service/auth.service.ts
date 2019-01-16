@@ -8,6 +8,7 @@ import {FormGroup} from "@angular/forms";
 import {UserService} from "./user.service";
 import {UserRoles} from "../model/user/user.roles.model";
 import {environment} from "../../environments/environment.prod";
+import {NotificationsService} from "./notifications.service";
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class AuthService {
 
   public user: User;
 
-  public pharmacyOwner:boolean = false;
+  public pharmacyOwner: boolean = false;
 
   public admin: boolean = false;
 
@@ -35,9 +36,10 @@ export class AuthService {
   public badResetPassowrdEmail: string = null;
 
   public sendResetPasswordEmail: string = null;
+  public unreadNotification: number;
 
 
-  constructor(private http: HttpClient, private router: Router, private userService: UserService) {
+  constructor(private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
   }
 
   url: string = environment.url;
@@ -48,6 +50,10 @@ export class AuthService {
       password
     };
     this.http.post(this.url + "/login", creditians).subscribe((x: Credentials) => {
+      this.notificationService.getUnreadNotificationPost(email).subscribe((x:number) => {
+        this.unreadNotification=x;
+      });
+
       localStorage.setItem("tokenID", x.token)
       modalLogin.close();
       this.badLogin = null;
@@ -65,7 +71,7 @@ export class AuthService {
 
         for (let i = 0; i < this.user.userRoles.length; i++) {
           if (this.user.userRoles[i].userRole === "LIBRARY_OWNER") {
-            this.pharmacyOwner=true;
+            this.pharmacyOwner = true;
           }
           if (this.user.userRoles[i].userRole === "CASUAL_USER") {
             this.casualUser = true;
@@ -83,13 +89,14 @@ export class AuthService {
       this.islogin = false;
     })
 
+
   }
 
 
   logout() {
     this.router.navigate(["/home"]);
     this.user = null;
-    this.pharmacyOwner=null;
+    this.pharmacyOwner = null;
     this.casualUser = null;
     this.admin = null;
     this.http.get(this.url + "/logout").subscribe(x => {

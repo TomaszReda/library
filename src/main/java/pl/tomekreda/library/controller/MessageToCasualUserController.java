@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.tomekreda.library.request.NotificationRequest;
 import pl.tomekreda.library.service.MessageToCasualUserService;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -23,8 +21,25 @@ public class MessageToCasualUserController {
         return messageService.getAllUnreadNotificationForCasualUser(page,size);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_CASUAL_USER','ROLE_LIBRARY_OWNER')")
     @PostMapping("/read/notification")
     public ResponseEntity readNotification(@RequestBody NotificationRequest notificationRequest) {
         return messageService.readNotification(notificationRequest.getMessageId());
+    }
+
+    @PostMapping("/get/unread/notification")
+    public ResponseEntity getUnreadNotification(@RequestBody String email) {
+        return messageService.getUnreadNotification(email);
+    }
+
+    @GetMapping("/get/unread/notification")
+    public ResponseEntity getUnreadNotification() {
+        return messageService.getUnreadNotification();
+    }
+
+
+    @GetMapping("/read/all/notification")
+    public ResponseEntity readAllNotification(){
+        return messageService.readAllNotification();
     }
 }

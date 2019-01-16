@@ -13,4 +13,5 @@ public interface MessageToCasualUserRepository extends JpaRepository<MessageToCa
 
     List<MessageToCasualUser> findAllByUserAndDateReadIsNullOrderByDataCreateDesc(User user);
 
+    List<MessageToCasualUser> findAllByDateReadIsNull();
 }

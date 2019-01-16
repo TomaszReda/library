@@ -5,6 +5,8 @@ import {UserService} from "../../service/user.service";
 import {User} from "../../model/user/user.model";
 import {NotificationRequest} from "../../model/page/notification.request";
 import {PageServiceService} from "../../service/page-service.service";
+import {init} from "protractor/built/launcher";
+import {AuthService} from "../../service/auth.service";
 
 @Component({
   selector: 'app-notifications',
@@ -19,7 +21,7 @@ export class NotificationsComponent implements OnInit {
 
   public pageNumber = [];
 
-  constructor(private notificationService: NotificationsService, private userService: UserService, private pageService: PageServiceService) {
+  constructor(private authService: AuthService, private notificationService: NotificationsService, private userService: UserService, private pageService: PageServiceService) {
   }
 
   ngOnInit() {
@@ -42,8 +44,6 @@ export class NotificationsComponent implements OnInit {
           this.notificationService.getAllUnreadNotificationForCasualUser(this.currentyPage, 5).subscribe((x: NotificationRequest) => {
             this.notificationList = x.content;
             this.pageNumber = this.pageService.returnpages5(this.currentyPage, x.totalPages);
-            console.log(x.totalElements);
-            console.log(this.currentyPage);
             if (x.totalElements === 0) {
               this.pageNumber = null;
             }
@@ -74,9 +74,16 @@ export class NotificationsComponent implements OnInit {
 
   deleteMessage(messageId) {
     this.notificationService.readNotification(messageId).subscribe(x => {
-      this.init();
+        this.init();
+        this.authService.unreadNotification = 0;
       }
     )
+  }
+
+  readAll() {
+    this.notificationService.readAllNotification().subscribe(x => {
+      this.init();
+    });
   }
 
 }

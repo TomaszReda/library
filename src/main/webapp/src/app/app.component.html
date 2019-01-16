@@ -42,7 +42,9 @@
       <!--</li>-->
 
     </ul>
-    <a class="nav-link disabled" *ngIf="authService.casualUser || authService.pharmacyOwner" routerLink="/notifications">Powiadomienia</a>
+    <a>{{unreadNotification2}}</a>
+    <a class="nav-link disabled" *ngIf="authService.casualUser || authService.pharmacyOwner" routerLink="/notifications">Powiadomienia [{{authService.unreadNotification}}]</a>
+
     <a class="nav-link disabled" *ngIf="authService.islogin" routerLink="/accountSettings">Moje konto</a>
     <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="loginModelOpen()" routerLink="/home">Zaloguj się</a>
     <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="register.open()" routerLink="/home">Zarejestruj

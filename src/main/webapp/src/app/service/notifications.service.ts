@@ -30,5 +30,20 @@ export class NotificationsService {
     return this.http.post(this.url + "/read/notification", notificationRequest);
   }
 
+  public getUnreadNotificationPost(email) {
+    return this.http.post(this.url + "/get/unread/notification",email);
 
-}
+  }
+
+  public getUnreadNotificationGet() {
+    return this.http.get(this.url + "/get/unread/notification");
+
+  }
+
+  public readAllNotification(){
+    return this.http.get(this.url+"/read/all/notification");
+  }
+
+
+
+  }
