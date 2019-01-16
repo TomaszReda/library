@@ -247,7 +247,7 @@ public class TestingDevData implements CommandLineRunner {
         taskForUser = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
         String formatDate = taskForUser.getDateExpiration().format(formatter);
-        contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " - " + book.getAuthor() + " w ilosci " + book.getQuant() + " w bibliotece " + book.getLibrary() + ". " + ". Masz 3 dni na jej odebranie( Termin mija " + formatDate + " ).";
+        contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " - " + book.getAuthor() + " w ilosci " + book.getQuant() + " w bibliotece " + book.getLibrary().getName() + "." + " Masz 3 dni na jej odebranie( Termin mija " + formatDate + " ).";
         contentForLibraryOwner = " Użytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " - " + book.getAuthor() + " w bibliotecę " + book.getLibrary().getName() + ".";
 
         messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(), MessageDisplay.ALERT);
@@ -262,7 +262,7 @@ public class TestingDevData implements CommandLineRunner {
         book = bookRepository.save(book);
         taskForUser = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
-        contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " - " + book.getAuthor() + " w ilosci " + book.getQuant() + " w bibliotece " + book.getLibrary() + ". " + " Masz 3 dni na jej odebranie( Termin mija " + formatDate + " ).";
+        contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " - " + book.getAuthor() + " w ilosci " + book.getQuant() + " w bibliotece " + book.getLibrary().getName() + "." + " Masz 3 dni na jej odebranie( Termin mija " + formatDate + " ).";
         contentForLibraryOwner = " Użytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " - " + book.getAuthor() + " w bibliotecę " + book.getLibrary().getName() + ".";
         messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(),MessageDisplay.ALERT);
         messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
