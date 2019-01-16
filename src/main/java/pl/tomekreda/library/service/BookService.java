@@ -305,7 +305,7 @@ public class BookService {
                 reservBook.setUserCasual(null);
                 bookRepository.save(reservBook);
             }
-
+            log.info("[Delete reserv book CasualUser]= "+reservBook);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -347,6 +347,8 @@ public class BookService {
                 reminderOfGivingABookForUserService.reminderOfGivingABookForUser(DataUtils.convertToDateViaInstant(LocalDateTime.now().plusSeconds(this.deploy)), tmp.getBook().getID(), tmp.getUuid());
 
             }
+            log.info("[Akcept reserv book]= "+book);
+
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
@@ -383,6 +385,7 @@ public class BookService {
             String content = "Biblioteka " + book.getLibrary().getName() + " odrzuciła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + " w ilości " + book.getQuant() + ".";
             MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null,MessageDisplay.DANGER);
             messageToCasualUserRepository.save(messageToCasualUser);
+            log.info("[Delete reserv book LibraryOwner]= "+book);
 
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
@@ -416,6 +419,7 @@ public class BookService {
             MessageToCasualUser messageToCasualUser = new MessageToCasualUser(contentMessageToCasualUser, MessageUtils.RETURN_BOOK_TO_CASUAL_USER_TITLE, user, null,MessageDisplay.ALERT);
             messageToCasualUserRepository.save(messageToCasualUser);
             messageToLibraryOwnerRepository.save(messageToLibraryOwner);
+            log.info("[Return book ]= "+reservBook);
 
             if (!reservBook.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();

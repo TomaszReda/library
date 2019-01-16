@@ -1,6 +1,7 @@
 package pl.tomekreda.library.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class MessageToCasualUserService {
 
@@ -139,6 +141,8 @@ public class MessageToCasualUserService {
                             message.setDateRead(LocalDateTime.now());
                             messageToCasualUserRepository.save(message);
                         }
+                        log.info("[Read all notification for Casual User]");
+
                     }
                     if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.LIBRARY_OWNER) {
                         List<Library> libraryList = libraryRepository.findAllByUserMenager(user.getUserMenager());
@@ -151,6 +155,8 @@ public class MessageToCasualUserService {
                             message.setDateRead(LocalDateTime.now());
                             messageToLibraryOwnerRepository.save(message);
                         }
+                        log.info("[Read all notification for Library Owner]");
+
                     }
                 }
                 return ResponseEntity.ok().build();
