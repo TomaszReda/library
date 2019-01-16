@@ -50,7 +50,6 @@ export class ReservBookListComponent implements OnInit {
       let id = this.activated.snapshot.paramMap.get("userId")
       this.router.navigate(["/reserv/book/user/" + id]);
       this.initSearchReservBook();
-      console.log("a");
     });
   }
 

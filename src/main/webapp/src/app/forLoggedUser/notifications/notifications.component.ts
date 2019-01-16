@@ -54,7 +54,6 @@ export class NotificationsComponent implements OnInit {
       this.notificationService.getUnreadNotificationGet().subscribe(
         (x: number) => {
           this.authService.unreadNotification = x;
-          console.log("a");
         }
       )
     });
