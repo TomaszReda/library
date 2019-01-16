@@ -27,6 +27,8 @@ import javax.transaction.Transactional;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 @Component
 @TestProfile
@@ -235,6 +237,8 @@ public class TestingDevData implements CommandLineRunner {
         MessageToCasualUser messageToCasualUser;
         MessageToLibraryOwner messageToLibraryOwner;
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
         book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Opis", library, BookState.BOOKED, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserCasual(user.getUserCasual());
@@ -242,9 +246,10 @@ public class TestingDevData implements CommandLineRunner {
         book = bookRepository.save(book);
         taskForUser = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
-        contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " " + book.getAuthor() + ". Masz 3 dni na jego odebranie( Termin mija )" + taskForUser.getDateExpiration();
-        contentForLibraryOwner = " Uzytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getName();
-        ;
+        String formatDate = taskForUser.getDateExpiration().format(formatter);
+        contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " - " + book.getAuthor() + " w ilosci " + book.getQuant() + " w bibliotece " + book.getLibrary() + ". " + ". Masz 3 dni na jej odebranie( Termin mija " + formatDate + " ).";
+        contentForLibraryOwner = " Użytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " - " + book.getAuthor() + " w bibliotecę " + book.getLibrary().getName() + ".";
+
         messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(), MessageDisplay.ALERT);
         messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
         messageToCasualUserRepository.save(messageToCasualUser);
@@ -257,15 +262,15 @@ public class TestingDevData implements CommandLineRunner {
         book = bookRepository.save(book);
         taskForUser = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
-        contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " " + book.getAuthor() + ". Masz 3 dni na jego odebranie( Termin mija )" + taskForUser.getDateExpiration();
-        contentForLibraryOwner = " Uzytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getName();
+        contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " - " + book.getAuthor() + " w ilosci " + book.getQuant() + " w bibliotece " + book.getLibrary() + ". " + " Masz 3 dni na jej odebranie( Termin mija " + formatDate + " ).";
+        contentForLibraryOwner = " Użytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " - " + book.getAuthor() + " w bibliotecę " + book.getLibrary().getName() + ".";
         messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(),MessageDisplay.ALERT);
         messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
         messageToCasualUserRepository.save(messageToCasualUser);
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
 
 
-        // Ksiazki do oddania
+//         Ksiazki do oddania
 //        book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123422", 7, "Opis", library, BookState.CONFIRMED, null, bookCategory);
 //        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
 //        book.setUserCasual(user.getUserCasual());
@@ -277,11 +282,11 @@ public class TestingDevData implements CommandLineRunner {
 //        taskForLibraryRepository.save(taskForLibrary);
 //        taskForUser = new TaskForUser(user, LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(1), TaskStatus.DONE, book, library, TaskForUserType.GET_THE_BOOK, LocalDateTime.now());
 //        taskForUserRepository.save(taskForUser);
-//        contentForCasualUser = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje ksiazki " + book.getTitle() + " " + book.getAuthor();
-//        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser);
+//         contentForCasualUser = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + " w ilości " + book.getQuant() + ".";
+//        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
 //        messageToCasualUserRepository.save(messageToCasualUser);
-
-
+//
+//
 //        book = new Book("Blanka Lipińska ", "Ten dzień", "Znak", LocalDate.of(2008, 9, 1), "123432", 3, "Opis", library, BookState.CONFIRMED, null, bookCategory);
 //        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
 //        book.setUserCasual(user.getUserCasual());
@@ -293,20 +298,20 @@ public class TestingDevData implements CommandLineRunner {
 //        taskForLibraryRepository.save(taskForLibrary);
 //        taskForUser = new TaskForUser(user, LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(1), TaskStatus.DONE, book, library, TaskForUserType.GIVE_BOOK, LocalDateTime.now());
 //        taskForUserRepository.save(taskForUser);
-//        contentForCasualUser = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje ksiazki " + book.getTitle() + " " + book.getAuthor();
-//        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser);
+//        contentForCasualUser = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + " w ilości " + book.getQuant() + ".";
+//        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
 //        messageToCasualUserRepository.save(messageToCasualUser);
 
     }
 
 
     private void addLibrary(User owner) {
-        Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie" + Math.random(), "34", "08-500 Ryki", null);
+        Random rn = new Random();
+
+        Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie" + rn.nextInt(10) + 1, "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
         library = libraryRepository.save(library);
-//        for(int i=0;i<10;i++){
         this.createBook(library, owner);
-//        }
 
 
         Library library2 = new Library("Warszawa", "tomekreda@op.pl", "52.2631523", "101", "21.0288848266558", "Ksiazeczka", "11", "05-077 Warszawa", "Józefa Szanajcy");

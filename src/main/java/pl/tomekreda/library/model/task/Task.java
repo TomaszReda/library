@@ -3,6 +3,7 @@ package pl.tomekreda.library.model.task;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.User;
@@ -34,6 +35,7 @@ public class Task {
 
     private LocalDateTime dateCreate;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dateExpiration;
 
     private LocalDateTime dateDone;
