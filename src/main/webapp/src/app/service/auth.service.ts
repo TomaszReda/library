@@ -9,6 +9,7 @@ import {UserService} from "./user.service";
 import {UserRoles} from "../model/user/user.roles.model";
 import {environment} from "../../environments/environment.prod";
 import {NotificationsService} from "./notifications.service";
+import {WebSocketService} from "./web-socket.service";
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class AuthService {
   public unreadNotification: number;
 
 
-  constructor(private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
+  constructor(private webSocketService:WebSocketService ,private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
   }
 
   url: string = environment.url;
@@ -50,6 +51,7 @@ export class AuthService {
       password
     };
     this.http.post(this.url + "/login", creditians).subscribe((x: Credentials) => {
+      this.webSocketService.connect();
       this.notificationService.getUnreadNotificationPost(email).subscribe((x:number) => {
         this.unreadNotification=x;
       });
@@ -100,6 +102,7 @@ export class AuthService {
     this.casualUser = null;
     this.admin = null;
     this.http.get(this.url + "/logout").subscribe(x => {
+      this.webSocketService.disconnect();
       this.user = null;
       this.islogin = false;
       localStorage.removeItem("tokenID");
