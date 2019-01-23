@@ -7,9 +7,10 @@ import {User} from "../model/user/user.model";
 import {FormGroup} from "@angular/forms";
 import {UserService} from "./user.service";
 import {UserRoles} from "../model/user/user.roles.model";
-import {environment} from "../../environments/environment.prod";
 import {NotificationsService} from "./notifications.service";
-import {WebSocketService} from "./web-socket.service";
+import * as Stomp from '@stomp/stompjs';
+import * as SockJS from 'sockjs-client';
+import {environment} from "../../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'
@@ -37,13 +38,29 @@ export class AuthService {
   public badResetPassowrdEmail: string = null;
 
   public sendResetPasswordEmail: string = null;
+
   public unreadNotification: number;
 
+  private urlWebSocket = environment.webSocketUrl;
 
-  constructor(private webSocketService:WebSocketService ,private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
+  private stompClient = null;
+
+  public connected: boolean = false;
+
+
+  constructor( private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
   }
 
   url: string = environment.url;
+
+  readUnreadNotification(){
+    this.notificationService.getUnreadNotificationGet().subscribe(
+      (x: number) => {
+        console.log("notification"+x)
+        this.unreadNotification = x;
+      }
+    );
+  }
 
   login(email: string, password: string, modalLogin: ModalComponent) {
     const creditians = {
@@ -51,7 +68,7 @@ export class AuthService {
       password
     };
     this.http.post(this.url + "/login", creditians).subscribe((x: Credentials) => {
-      this.webSocketService.connect();
+      this.connect();
       this.notificationService.getUnreadNotificationPost(email).subscribe((x:number) => {
         this.unreadNotification=x;
       });
@@ -102,7 +119,7 @@ export class AuthService {
     this.casualUser = null;
     this.admin = null;
     this.http.get(this.url + "/logout").subscribe(x => {
-      this.webSocketService.disconnect();
+      this.disconnect();
       this.user = null;
       this.islogin = false;
       localStorage.removeItem("tokenID");
@@ -139,5 +156,46 @@ export class AuthService {
     })
 
   }
+
+
+  connect() {
+    this.connected = false;
+    const socket = new SockJS(this.urlWebSocket + 'websockets');
+    if (socket.connected == false) {
+
+    } else {
+      this.connected = true;
+      this.stompClient = Stomp.over(socket);
+      const _this = this;
+      this.stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        _this.stompClient.subscribe('/app/notification', function (hello) {
+          console.log("connector");
+          _this.readUnreadNotification();
+          console.log("connector");
+
+        });
+      });
+    }
+
+  }
+
+  disconnect() {
+    this.connected = false;
+
+    if (this.stompClient != null) {
+      this.stompClient.disconnect();
+    }
+    console.log('Disconnected!');
+  }
+
+  sendNotification() {
+    this.stompClient.send(
+      '/notification',
+      {},
+      JSON.stringify({'name': "test"})
+    );
+  }
+
 
 }

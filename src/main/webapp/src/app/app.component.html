@@ -42,7 +42,7 @@
       <!--</li>-->
 
     </ul>
-    <a>{{unreadNotification2}}</a>
+    <p>{{authService.connected}}</p>
     <a class="nav-link disabled" *ngIf="authService.casualUser || authService.pharmacyOwner" routerLink="/notifications">Powiadomienia [{{authService.unreadNotification}}]</a>
 
     <a class="nav-link disabled" *ngIf="authService.islogin" routerLink="/accountSettings">Moje konto</a>
