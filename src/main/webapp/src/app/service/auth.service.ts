@@ -53,13 +53,10 @@ export class AuthService {
 
   url: string = environment.url;
 
-  readUnreadNotification(){
-    this.notificationService.getUnreadNotificationGet().subscribe(
-      (x: number) => {
-        console.log("notification"+x)
-        this.unreadNotification = x;
-      }
-    );
+  readUnreadNotification(email){
+    this.notificationService.getUnreadNotificationPost(email).subscribe((x:number) => {
+      this.unreadNotification=x;
+    });
   }
 
   login(email: string, password: string, modalLogin: ModalComponent) {
@@ -68,10 +65,10 @@ export class AuthService {
       password
     };
     this.http.post(this.url + "/login", creditians).subscribe((x: Credentials) => {
-      this.connect();
       this.notificationService.getUnreadNotificationPost(email).subscribe((x:number) => {
         this.unreadNotification=x;
       });
+      this.connect(email);
 
       localStorage.setItem("tokenID", x.token)
       modalLogin.close();
@@ -106,10 +103,10 @@ export class AuthService {
       localStorage.removeItem("tokenID");
       this.badLogin = error1.error.message;
       this.islogin = false;
-    })
-
+    });
 
   }
+
 
 
   logout() {
@@ -158,20 +155,22 @@ export class AuthService {
   }
 
 
-  connect() {
+  connect(email) {
     this.connected = false;
     const socket = new SockJS(this.urlWebSocket + 'websockets');
-    if (socket.connected == false) {
+    this.stompClient = Stomp.over(socket);
 
+    if (this.stompClient.connected == false) {
+
+      this.readUnreadNotification(email);
     } else {
       this.connected = true;
-      this.stompClient = Stomp.over(socket);
       const _this = this;
       this.stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
+        console.log('Connected: ' );
         _this.stompClient.subscribe('/app/notification', function (hello) {
           console.log("connector");
-          _this.readUnreadNotification();
+          _this.readUnreadNotification(email);
           console.log("connector");
 
         });
