@@ -6,6 +6,7 @@ import {MapServiceService} from "../../../service/map-service.service";
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../../../service/auth.service";
 import {NotificationsService} from "../../../service/notifications.service";
+import {WebSocketService} from "../../../service/web-socket.service";
 
 declare var ol: any;
 
@@ -23,7 +24,7 @@ export class SearchBookDetailsComponent implements OnInit {
 
   public book: BookDetailsForCasualUser = new BookDetailsForCasualUser();
 
-  constructor(private notificationService: NotificationsService, private router: Router, private bookService: BookService, private activatedRouter: ActivatedRoute, private  mapService: MapServiceService, public authService: AuthService) {
+  constructor(private webSocketService:WebSocketService,private notificationService: NotificationsService, private router: Router, private bookService: BookService, private activatedRouter: ActivatedRoute, private  mapService: MapServiceService, public authService: AuthService) {
   }
 
   ngOnInit() {
@@ -51,6 +52,7 @@ export class SearchBookDetailsComponent implements OnInit {
   reservBook(bookId) {
     this.errors = null;
     this.bookService.reservBook(bookId, this.quantForm.value.quant).subscribe(x => {
+        this.webSocketService.sendNotification();
         this.router.navigate(["myReserv"]);
         this.notificationService.getUnreadNotificationGet().subscribe(
           (x: number) => {

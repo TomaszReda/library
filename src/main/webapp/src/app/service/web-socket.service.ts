@@ -8,7 +8,7 @@ import {environment} from "../../environments/environment.prod";
 })
 export class WebSocketService {
 
-  private url = environment.url;
+  private url = environment.webSocketUrl;
 
   private stompClient = null;
 
@@ -24,6 +24,7 @@ export class WebSocketService {
     this.stompClient.connect({}, function (frame) {
       console.log('Connected: ' + frame);
       _this.stompClient.subscribe('/app/notification', function (hello) {
+        console.log("connector");
       });
     });
 
