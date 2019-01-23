@@ -70,7 +70,9 @@ export class SearchBookDetailsComponent implements OnInit {
   deleteReserv(bookId) {
     this.errors = null;
     this.bookService.deleteReservBook(bookId).subscribe(x => {
-
+      if(this.authService.connected == true){
+        this.authService.sendNotification();
+      }
       this.router.navigate(["myReserv"]);
     });
     this.notificationService.getUnreadNotificationGet().subscribe(

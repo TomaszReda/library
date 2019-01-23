@@ -63,6 +63,8 @@ export class AuthService implements OnDestroy {
   }
 
   login(email: string, password: string, modalLogin: ModalComponent) {
+    console.log("aaa2")
+
     const creditians = {
       email,
       password
@@ -71,7 +73,9 @@ export class AuthService implements OnDestroy {
       this.notificationService.getUnreadNotificationPost(email).subscribe((x:number) => {
         this.unreadNotification=x;
       });
+      console.log("aaa4")
       this.connect(email);
+      console.log("aaa6")
 
       localStorage.setItem("tokenID", x.token)
       modalLogin.close();
@@ -116,6 +120,7 @@ export class AuthService implements OnDestroy {
     if ( this.subscription != null) {
       this.subscription.unsubscribe();
     }
+    console.log("aaa3")
     this.router.navigate(["/home"]);
     this.user = null;
     this.pharmacyOwner = null;
@@ -163,24 +168,26 @@ export class AuthService implements OnDestroy {
   subscription: Subscription = null;
 
   connect(email) {
+    console.log("aaa");
     this.connected = false;
     const socket = new SockJS(this.urlWebSocket + 'websockets');
     this.stompClient = Stomp.over(socket);
+    this.stompClient.connect({}, function (frame) {
+      console.log('WebSocket: ');
+      this.stompClient.subscribe('/app/notification', function (hello) {
+        console.log("connector");
+        this.readUnreadNotification(email);
+        console.log("connector");
 
+      });
+    });
     if (this.stompClient.connected == false) {
+      console.log("filter")
       const source = interval(environment.timeToNotification);
       this.subscription = source.subscribe(val => this.readUnreadNotification(email));
     } else {
       this.connected = true;
-      this.stompClient.connect({}, function (frame) {
-        console.log('Connected: ' );
-        this.stompClient.subscribe('/app/notification', function (hello) {
-          console.log("connector");
-          this.readUnreadNotification(email);
-          console.log("connector");
 
-        });
-      });
     }
 
   }
@@ -191,7 +198,6 @@ export class AuthService implements OnDestroy {
     if (this.stompClient != null) {
       this.stompClient.disconnect();
     }
-    console.log('Disconnecteddd!');
   }
 
   sendNotification() {
@@ -204,7 +210,6 @@ export class AuthService implements OnDestroy {
 
 
   ngOnDestroy(): void {
-    console.log("On destroyy");
 
     if ( this.subscription != null) {
       this.subscription.unsubscribe();

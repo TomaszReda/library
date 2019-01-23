@@ -6,6 +6,7 @@ import {BookRequestSearch} from "../../../model/book/book.request";
 import {PageServiceService} from "../../../service/page-service.service";
 import {BookService} from "../../../service/book.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AuthService} from "../../../service/auth.service";
 
 @Component({
   selector: 'app-reserv-book-list',
@@ -20,7 +21,7 @@ export class ReservBookListComponent implements OnInit {
 
   public pageNumber = [];
 
-  constructor(private router: Router, private searchService: SearchService, private pageService: PageServiceService, private bookService: BookService, private activated: ActivatedRoute) {
+  constructor(private authService:AuthService,private router: Router, private searchService: SearchService, private pageService: PageServiceService, private bookService: BookService, private activated: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -47,6 +48,9 @@ export class ReservBookListComponent implements OnInit {
 
   akcept(bookId) {
     this.bookService.confirmReserv(bookId).subscribe(x => {
+      if(this.authService.connected == true){
+        this.authService.sendNotification();
+      }
       let id = this.activated.snapshot.paramMap.get("userId")
       this.router.navigate(["/reserv/book/user/" + id]);
       this.initSearchReservBook();
@@ -55,6 +59,9 @@ export class ReservBookListComponent implements OnInit {
 
   remove(bookId) {
     this.bookService.deleteReserv(bookId).subscribe(x => {
+      if(this.authService.connected == true){
+        this.authService.sendNotification();
+      }
       let id = this.activated.snapshot.paramMap.get("userId")
       this.router.navigate(["/reserv/book/user/" + id]);
       this.initSearchReservBook();
