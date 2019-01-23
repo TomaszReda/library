@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Router} from "@angular/router";
 import {ModalComponent} from "angular-custom-modal";
@@ -11,11 +11,14 @@ import {NotificationsService} from "./notifications.service";
 import * as Stomp from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import {environment} from "../../environments/environment.prod";
+import {interval, Subscription} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
+
+
 
   public islogin: boolean = false;
 
@@ -110,6 +113,9 @@ export class AuthService {
 
 
   logout() {
+    if ( this.subscription != null) {
+      this.subscription.unsubscribe();
+    }
     this.router.navigate(["/home"]);
     this.user = null;
     this.pharmacyOwner = null;
@@ -154,6 +160,7 @@ export class AuthService {
 
   }
 
+  subscription: Subscription = null;
 
   connect(email) {
     this.connected = false;
@@ -161,16 +168,15 @@ export class AuthService {
     this.stompClient = Stomp.over(socket);
 
     if (this.stompClient.connected == false) {
-
-      this.readUnreadNotification(email);
+      const source = interval(environment.timeToNotification);
+      this.subscription = source.subscribe(val => this.readUnreadNotification(email));
     } else {
       this.connected = true;
-      const _this = this;
       this.stompClient.connect({}, function (frame) {
         console.log('Connected: ' );
-        _this.stompClient.subscribe('/app/notification', function (hello) {
+        this.stompClient.subscribe('/app/notification', function (hello) {
           console.log("connector");
-          _this.readUnreadNotification(email);
+          this.readUnreadNotification(email);
           console.log("connector");
 
         });
@@ -185,7 +191,7 @@ export class AuthService {
     if (this.stompClient != null) {
       this.stompClient.disconnect();
     }
-    console.log('Disconnected!');
+    console.log('Disconnecteddd!');
   }
 
   sendNotification() {
@@ -194,6 +200,15 @@ export class AuthService {
       {},
       JSON.stringify({'name': "test"})
     );
+  }
+
+
+  ngOnDestroy(): void {
+    console.log("On destroyy");
+
+    if ( this.subscription != null) {
+      this.subscription.unsubscribe();
+    }
   }
 
 

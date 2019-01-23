@@ -51,7 +51,9 @@ export class SearchBookDetailsComponent implements OnInit {
   reservBook(bookId) {
     this.errors = null;
     this.bookService.reservBook(bookId, this.quantForm.value.quant).subscribe(x => {
-        this.authService.sendNotification();
+        if(this.authService.connected == true){
+          this.authService.sendNotification();
+        }
         this.router.navigate(["myReserv"]);
         this.notificationService.getUnreadNotificationGet().subscribe(
           (x: number) => {
