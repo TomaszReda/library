@@ -9,8 +9,7 @@ import {UserService} from "./user.service";
 import {UserRoles} from "../model/user/user.roles.model";
 import {environment} from "../../environments/environment.prod";
 import {NotificationsService} from "./notifications.service";
-import * as Stomp from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
+import {WebSocketService} from "./web-socket.service";
 
 @Injectable({
   providedIn: 'root'
@@ -38,14 +37,10 @@ export class AuthService {
   public badResetPassowrdEmail: string = null;
 
   public sendResetPasswordEmail: string = null;
-
   public unreadNotification: number;
 
-  private urlWebSocket = environment.webSocketUrl;
 
-  private stompClient = null;
-
-  constructor(private authSerivce: AuthService, private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
+  constructor(private webSocketService:WebSocketService ,private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
   }
 
   url: string = environment.url;
@@ -56,9 +51,9 @@ export class AuthService {
       password
     };
     this.http.post(this.url + "/login", creditians).subscribe((x: Credentials) => {
-      this.connect();
-      this.notificationService.getUnreadNotificationPost(email).subscribe((x: number) => {
-        this.unreadNotification = x;
+      this.webSocketService.connect();
+      this.notificationService.getUnreadNotificationPost(email).subscribe((x:number) => {
+        this.unreadNotification=x;
       });
 
       localStorage.setItem("tokenID", x.token)
@@ -107,7 +102,7 @@ export class AuthService {
     this.casualUser = null;
     this.admin = null;
     this.http.get(this.url + "/logout").subscribe(x => {
-      this.disconnect();
+      this.webSocketService.disconnect();
       this.user = null;
       this.islogin = false;
       localStorage.removeItem("tokenID");
@@ -144,41 +139,5 @@ export class AuthService {
     })
 
   }
-
-  private connected = false;
-
-  connect() {
-
-    const socket = new SockJS(this.urlWebSocket + 'websockets');
-
-    this.stompClient = Stomp.over(socket);
-
-    const _this = this;
-    this.stompClient.connect({}, function (frame) {
-      _this.connected = true;
-      console.log('Connected: ' + frame);
-      _this.stompClient.subscribe('/app/notification', function (hello) {
-        console.log("connector");
-      });
-    });
-
-    console.log(this.connected);
-  }
-
-  disconnect() {
-    if (this.stompClient != null) {
-      this.stompClient.disconnect();
-    }
-    console.log('Disconnected!');
-  }
-
-  sendNotification() {
-    this.stompClient.send(
-      '/notification',
-      {},
-      JSON.stringify({'name': "test"})
-    );
-  }
-
 
 }

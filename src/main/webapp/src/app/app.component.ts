@@ -7,6 +7,7 @@ import {HttpClient} from "@angular/common/http";
 import {UserService} from "./service/user.service";
 import {environment} from "../environments/environment.prod";
 import {NotificationsService} from "./service/notifications.service";
+import {WebSocketService} from "./service/web-socket.service";
 
 
 @Component({
