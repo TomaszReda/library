@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,8 @@ export class NotificationsService {
   public readAllNotification(){
     return this.http.get(this.url+"/read/all/notification");
   }
+
+
 
 
 

@@ -48,6 +48,9 @@ export class ReturnBookListComponent implements OnInit {
 
   returns(bookId) {
     this.bookService.bookReturn(bookId).subscribe(x => {
+      if(this.authService.connected == true){
+        this.authService.sendNotification();
+      }
       this.notificationService.getUnreadNotificationGet().subscribe(
         (x: number) => {
           this.authService.unreadNotification = x;
