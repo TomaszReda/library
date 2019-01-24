@@ -19,7 +19,6 @@ import {interval, Subscription} from "rxjs";
 export class AuthService implements OnDestroy {
 
 
-
   public islogin: boolean = false;
 
   public isLibraryOwner: boolean = false;
@@ -51,31 +50,28 @@ export class AuthService implements OnDestroy {
   public connected: boolean = false;
 
 
-  constructor( private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
+  constructor(private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
   }
 
   url: string = environment.url;
 
-  readUnreadNotification(email){
-    this.notificationService.getUnreadNotificationPost(email).subscribe((x:number) => {
-      this.unreadNotification=x;
+  readUnreadNotification(email) {
+    this.notificationService.getUnreadNotificationPost(email).subscribe((x: number) => {
+      this.unreadNotification = x;
     });
   }
 
   login(email: string, password: string, modalLogin: ModalComponent) {
-    console.log("aaa2")
 
     const creditians = {
       email,
       password
     };
     this.http.post(this.url + "/login", creditians).subscribe((x: Credentials) => {
-      this.notificationService.getUnreadNotificationPost(email).subscribe((x:number) => {
-        this.unreadNotification=x;
+      this.notificationService.getUnreadNotificationPost(email).subscribe((x: number) => {
+        this.unreadNotification = x;
       });
-      console.log("aaa4")
       this.connect(email);
-      console.log("aaa6")
 
       localStorage.setItem("tokenID", x.token)
       modalLogin.close();
@@ -115,9 +111,8 @@ export class AuthService implements OnDestroy {
   }
 
 
-
   logout() {
-    if ( this.subscription != null) {
+    if (this.subscription != null) {
       this.subscription.unsubscribe();
     }
     console.log("aaa3")
@@ -168,27 +163,51 @@ export class AuthService implements OnDestroy {
   subscription: Subscription = null;
 
   connect(email) {
-    console.log("aaa");
-    this.connected = false;
-    const socket = new SockJS(this.urlWebSocket + 'websockets');
-    this.stompClient = Stomp.over(socket);
-    this.stompClient.connect({}, function (frame) {
-      console.log('WebSocket: ');
-      this.stompClient.subscribe('/app/notification', function (hello) {
-        console.log("connector");
-        this.readUnreadNotification(email);
-        console.log("connector");
 
+    console.error("Connect");
+    const socket = new SockJS(this.urlWebSocket + 'websockets');
+
+    this.stompClient = Stomp.over(socket);
+
+    const _this = this;
+    this.stompClient.connect({}, function (frame) {
+      console.log('Connected: ' + frame);
+      _this.stompClient.subscribe('/app/notification', function (hello) {
+        console.log("connector");
+        _this.readUnreadNotification(email);
+        console.log("connector");
       });
     });
-    if (this.stompClient.connected == false) {
-      console.log("filter")
-      const source = interval(environment.timeToNotification);
-      this.subscription = source.subscribe(val => this.readUnreadNotification(email));
+    if (_this.stompClient.connected == false) {
+      _this.connected = false;
     } else {
-      this.connected = true;
-
+      _this.connected = true
     }
+
+    console.log(_this.connected);
+    console.log(_this.stompClient);
+
+
+    // this.connected = false;
+    // const socket = new SockJS(this.urlWebSocket + 'websockets');
+    // this.stompClient = Stomp.over(socket);
+    // this.stompClient.connect({}, function (frame) {
+    //   console.log('WebSocket: ');
+    //   this.stompClient.subscribe('/app/notification', function (hello) {
+    //     console.log("connector");
+    //     this.readUnreadNotification(email);
+    //     console.log("connector");
+    //
+    //   });
+    // });
+    // if (this.stompClient.connected == false) {
+    //   console.log("filter")
+    //   const source = interval(environment.timeToNotification);
+    //   this.subscription = source.subscribe(val => this.readUnreadNotification(email));
+    // } else {
+    //   this.connected = true;
+    //
+    // }
 
   }
 
@@ -211,7 +230,7 @@ export class AuthService implements OnDestroy {
 
   ngOnDestroy(): void {
 
-    if ( this.subscription != null) {
+    if (this.subscription != null) {
       this.subscription.unsubscribe();
     }
   }
