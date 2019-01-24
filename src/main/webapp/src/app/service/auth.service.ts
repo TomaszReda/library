@@ -47,7 +47,7 @@ export class AuthService implements OnDestroy {
 
   private stompClient = null;
 
-  public connected: boolean = false;
+
 
 
   constructor(private http: HttpClient, private router: Router, private userService: UserService, private notificationService: NotificationsService) {
@@ -115,7 +115,6 @@ export class AuthService implements OnDestroy {
     if (this.subscription != null) {
       this.subscription.unsubscribe();
     }
-    console.log("aaa3")
     this.router.navigate(["/home"]);
     this.user = null;
     this.pharmacyOwner = null;
@@ -162,54 +161,43 @@ export class AuthService implements OnDestroy {
 
   subscription: Subscription = null;
 
+  public connected: boolean = false;
+
   connect(email) {
 
-    console.error("Connect");
     const socket = new SockJS(this.urlWebSocket + 'websockets');
-
     this.stompClient = Stomp.over(socket);
 
     const _this = this;
     this.stompClient.connect({}, function (frame) {
-      console.log('Connected: ' + frame);
-      _this.stompClient.subscribe('/app/notification', function (hello) {
-        console.log("connector");
-        _this.readUnreadNotification(email);
-        console.log("connector");
+      _this.setConnected(true);
+      _this.stompClient.subscribe("/errors", function (message) {
+        alert("Errorrrsss " + message.body);
       });
+
+      _this.stompClient.subscribe('/app/notification', function (hello) {
+        _this.readUnreadNotification(email);
+      });
+
     });
-    if (_this.stompClient.connected == false) {
-      _this.connected = false;
-    } else {
-      _this.connected = true
-    }
 
-    console.log(_this.connected);
-    console.log(_this.stompClient);
+    _this.filter(email);
 
-
-    // this.connected = false;
-    // const socket = new SockJS(this.urlWebSocket + 'websockets');
-    // this.stompClient = Stomp.over(socket);
-    // this.stompClient.connect({}, function (frame) {
-    //   console.log('WebSocket: ');
-    //   this.stompClient.subscribe('/app/notification', function (hello) {
-    //     console.log("connector");
-    //     this.readUnreadNotification(email);
-    //     console.log("connector");
-    //
-    //   });
-    // });
-    // if (this.stompClient.connected == false) {
-    //   console.log("filter")
-    //   const source = interval(environment.timeToNotification);
-    //   this.subscription = source.subscribe(val => this.readUnreadNotification(email));
-    // } else {
-    //   this.connected = true;
-    //
-    // }
 
   }
+
+  filter(email) {
+    const source = interval(environment.timeToNotification);
+    this.subscription = source.subscribe(val => this.readUnreadNotification(email));
+
+  }
+
+  setConnected(connected: boolean) {
+    this.connected = connected;
+
+
+  }
+
 
   disconnect() {
     this.connected = false;
@@ -217,6 +205,12 @@ export class AuthService implements OnDestroy {
     if (this.stompClient != null) {
       this.stompClient.disconnect();
     }
+    if (this.subscription != null) {
+      this.subscription.unsubscribe();
+    }
+
+    this.setConnected(false);
+
   }
 
   sendNotification() {
@@ -229,7 +223,6 @@ export class AuthService implements OnDestroy {
 
 
   ngOnDestroy(): void {
-
     if (this.subscription != null) {
       this.subscription.unsubscribe();
     }
