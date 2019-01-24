@@ -1,11 +1,11 @@
 package pl.tomekreda.library.websocket.model;
-public class Hello {
+public class Response {
     private String greeting;
 
-    public Hello() {
+    public Response() {
     }
 
-    public Hello(String greeting) {
+    public Response(String greeting) {
         this.greeting = greeting;
     }
 

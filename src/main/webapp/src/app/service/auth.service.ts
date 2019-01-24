@@ -216,8 +216,7 @@ export class AuthService implements OnDestroy {
   sendNotification() {
     this.stompClient.send(
       '/notification',
-      {},
-      JSON.stringify({'name': "test"})
+      {}
     );
   }
 
