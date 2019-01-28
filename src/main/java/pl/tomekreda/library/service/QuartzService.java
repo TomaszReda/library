@@ -45,7 +45,6 @@ public class QuartzService {
     public void quartzJobReceiveTheBookForUser(UUID bookId, UUID taskForUserId) {
         Book reservBook = bookRepository.findById(bookId).orElse(null);
         TaskForUser taskForUser = taskForUserRepository.findById(taskForUserId).orElse(null);
-        System.err.println(reservBook.getUserCasual());
         User user = userRepository.findByUserCasual(reservBook.getUserCasual());
         String contentForCasualUser = " Nie odebrałeś w ciągu 3 dni zarezerwowanej książki " + reservBook.getAuthor() + " - " + reservBook.getTitle() + " z biblioteki" + reservBook.getLibrary().getName()+" w ilości " + reservBook.getQuant()+".";
         String contentForLibraryOwner = "Użytkownik " + user.getEmail() + " nie odebrał ksiazki w ciagu 3 dni zarezerwowanej ksiazki  " + reservBook.getAuthor() + "-  " + reservBook.getTitle() + " z biblioteki " + reservBook.getLibrary().getName()+" w ilości " + reservBook.getQuant()+".";
