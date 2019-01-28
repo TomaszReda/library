@@ -98,7 +98,6 @@ public class User {
                 ", userCasual=" + userCasual +
                 ", userRoles=" + userRoles +
                 ", resetPasswordToken=" + resetPasswordToken +
-                ", taskList=" + taskList.size() +
                 '}';
     }
 }
