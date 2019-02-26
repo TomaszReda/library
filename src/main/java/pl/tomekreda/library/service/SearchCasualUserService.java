@@ -72,7 +72,7 @@ public class SearchCasualUserService {
         try {
             User user = userService.findLoggedUser();
             List<Book> bookList = new ArrayList<>();
-            if (word.length() < 3 || word.equals(null)) {
+            if (word.length() < 3 || word == null) {
                 bookList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.BOOKED);
             } else {
                 bookList = bookRepository.findAllByUserCasualAndBookStateAndBookSearchContains(user.getUserCasual(), BookState.BOOKED, word);

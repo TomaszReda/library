@@ -70,10 +70,10 @@ public class AuthService {
     public ResponseEntity registerCasualUser(AddUserCasualRequest user) {
         try {
 
-            if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail() == ""
-                    || user.getFirstname() == null || user.getFirstname() == ""
-                    || user.getPassword() == null || user.getPassword() == ""
-                    || user.getLastname() == null || user.getLastname() == "") {
+            if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail().equals("")
+                    || user.getFirstname() == null || user.getFirstname().equals("")
+                    || user.getPassword() == null || user.getPassword().equals("")
+                    || user.getLastname() == null || user.getLastname().equals("")) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Uzupełnij wszystkie pola!");
             }
             if (!user.getEmail().contains("@")) {
@@ -124,10 +124,10 @@ public class AuthService {
 
     public ResponseEntity registerOwnerUser(AddUserLibraryOwnerRequest user) {
         try {
-            if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail() == ""
-                    || user.getFirstname() == null || user.getFirstname() == ""
-                    || user.getPassword() == null || user.getPassword() == ""
-                    || user.getLastname() == null || user.getLastname() == "") {
+            if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail().equals("")
+                    || user.getFirstname() == null || user.getFirstname().equals("")
+                    || user.getPassword() == null || user.getPassword().equals("")
+                    || user.getLastname() == null || user.getLastname().equals("")) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Uzupełnij wszystkie pola!");
             }
 

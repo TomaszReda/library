@@ -60,6 +60,9 @@ public class MessageToCasualUserService {
     public ResponseEntity readNotification(UUID messageId) {
         try {
             Message message = messageRepository.findById(messageId).orElse(null);
+            if (message == null) {
+                return ResponseEntity.badRequest().build();
+            }
             message.setDateRead(LocalDateTime.now());
             messageRepository.save(message);
             return ResponseEntity.ok().build();

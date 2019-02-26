@@ -47,6 +47,9 @@ public class UserService {
 
     private final ActivationUserTokenRepository activationUserTokenRepository;
 
+    private Random random=new Random();
+
+
     public ResponseEntity info() {
         try {
             String loggedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -68,10 +71,10 @@ public class UserService {
         log.info("[Change setings before]=" + user);
 
         User logged = this.findLoggedUser();
-        if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail() == ""
-                || user.getFirstname() == null || user.getFirstname() == ""
-                || user.getPassword() == null || user.getPassword() == ""
-                || user.getLastname() == null || user.getLastname() == "") {
+        if (user.getPhoneNumber() == 0 || user.getEmail() == null || user.getEmail().equals("")
+                || user.getFirstname() == null || user.getFirstname().equals("")
+                || user.getPassword() == null || user.getPassword().equals("")
+                || user.getLastname() == null || user.getLastname().equals("")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Uzupełnij wszystkie pola!");
         }
         if (!user.getEmail().contains("@")) {
@@ -108,9 +111,9 @@ public class UserService {
         User loged = this.findLoggedUser();
         log.info("[Change password before]=" + loged);
 
-        if (changePasswordRequest.getNewpassword() == null || changePasswordRequest.getNewpassword() == "" ||
-                changePasswordRequest.getNewpasswordrepeat() == null || changePasswordRequest.getNewpasswordrepeat() == "" ||
-                changePasswordRequest.getOldpassword() == null || changePasswordRequest.getOldpassword() == "") {
+        if (changePasswordRequest.getNewpassword() == null || changePasswordRequest.getNewpassword().equals("") ||
+                changePasswordRequest.getNewpasswordrepeat() == null || changePasswordRequest.getNewpasswordrepeat().equals("") ||
+                changePasswordRequest.getOldpassword() == null || changePasswordRequest.getOldpassword().equals("")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Uzupełnij wszystkie pola!");
         }
         if (!changePasswordRequest.getNewpassword().equals(changePasswordRequest.getNewpasswordrepeat())) {
@@ -228,7 +231,6 @@ public class UserService {
         int leftLimit = 47; // letter '0'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 14;
-        Random random = new Random();
         StringBuilder buffer = new StringBuilder(targetStringLength);
         for (int i = 0; i < targetStringLength; i++) {
             int randomLimitedInt = leftLimit + (int)

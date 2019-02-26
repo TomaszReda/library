@@ -20,7 +20,7 @@ public class SearchCasualUserController {
 
     @GetMapping("/search/book")
     public ResponseEntity search(@RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
-        if (word.length() < 3 || word.equals(null))
+        if (word.length() < 3 || word == null)
             return searchCasualUserService.searchAll(page, size);
         else
             return searchCasualUserService.search(word, page, size);

@@ -1,5 +1,6 @@
 package pl.tomekreda.library.quartz.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ReceiveTheBookForUserService {
 
     @Autowired
@@ -40,7 +42,7 @@ public class ReceiveTheBookForUserService {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
             scheduler.scheduleJob(jobDetailFactoryBean.getObject(), simpleTriggerFactoryBean.getObject());
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("[Quartz]=receiveTheBook");
         }
 
     }
@@ -52,7 +54,8 @@ public class ReceiveTheBookForUserService {
             JobKey jobKey = new JobKey("receive_the_book_for_user " + taskForUserId, "receive_the_book_for_user");
             scheduler.deleteJob(jobKey);
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("[Quartz]=deleteJob");
+
         }
     }
 

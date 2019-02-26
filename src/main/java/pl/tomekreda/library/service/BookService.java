@@ -111,9 +111,13 @@ public class BookService {
     public ResponseEntity deleteBook(UUID bookId, int quant) {
         try {
             Book book = bookRepository.findById(bookId).orElse(null);
+            if (book == null) {
+                return ResponseEntity.badRequest().build();
+            }
             if (!userService.findLoggedUser().getUserMenager().equals(book.getLibrary().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
+
             if (book.getBookState().equals(BookState.CONFIRMED) || book.getBookState().equals(BookState.BOOKED)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Ksiązka jest juz przez kogoś zarezerwowana lub jest wyporzyczona");
             }
@@ -216,6 +220,9 @@ public class BookService {
         try {
             log.info("Create quartz task" + LocalTime.now().toString());
             Book book = bookRepository.findById(bookId).orElse(null);
+            if (book == null) {
+                return ResponseEntity.badRequest().build();
+            }
             if (!book.getBookState().equals(BookState.NOTRESERVED)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Ksiązka jest juz przez kogoś zarezerwowana lub jest wyporzyczona");
             }
@@ -282,7 +289,11 @@ public class BookService {
 
     public ResponseEntity deleteReservBook(UUID bookId) {
         try {
+
             Book reservBook = bookRepository.findById(bookId).orElse(null);
+            if (reservBook == null) {
+                return ResponseEntity.badRequest().build();
+            }
             TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(reservBook, TaskStatus.TO_DO);
             receiveTheBookForUserService.deleteJob(taskForUser.getUuid());
             taskForUser.setDateDone(LocalDateTime.now());
@@ -305,7 +316,7 @@ public class BookService {
                 reservBook.setUserCasual(null);
                 bookRepository.save(reservBook);
             }
-            log.info("[Delete reserv book CasualUser]= "+reservBook);
+            log.info("[Delete reserv book CasualUser]= " + reservBook);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
@@ -317,6 +328,9 @@ public class BookService {
         try {
 
             Book book = bookRepository.findById(bookId).orElse(null);
+            if (book == null) {
+                return ResponseEntity.badRequest().build();
+            }
             TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(book, TaskStatus.TO_DO);
             User user = userRepository.findByUserCasual(book.getUserCasual());
             receiveTheBookForUserService.deleteJob(taskForUser.getUuid());
@@ -324,7 +338,7 @@ public class BookService {
             taskForUser.setDateDone(LocalDateTime.now());
             taskForUser = taskForUserRepository.save(taskForUser);
             String content = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + " w ilości " + book.getQuant() + ".";
-            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null,MessageDisplay.ALERT);
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null, MessageDisplay.ALERT);
             messageToCasualUserRepository.save(messageToCasualUser);
 
             if (!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
@@ -347,7 +361,7 @@ public class BookService {
                 reminderOfGivingABookForUserService.reminderOfGivingABookForUser(DataUtils.convertToDateViaInstant(LocalDateTime.now().plusSeconds(this.deploy)), tmp.getBook().getID(), tmp.getUuid());
 
             }
-            log.info("[Akcept reserv book]= "+book);
+            log.info("[Akcept reserv book]= " + book);
 
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
@@ -357,7 +371,11 @@ public class BookService {
 
     public ResponseEntity deleteReserv(UUID bookId) {
         try {
+
             Book book = bookRepository.findById(bookId).orElse(null);
+            if (book == null) {
+                return ResponseEntity.badRequest().build();
+            }
             User user = userRepository.findByUserCasual(book.getUserCasual());
             if (!book.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
@@ -383,9 +401,9 @@ public class BookService {
             }
 
             String content = "Biblioteka " + book.getLibrary().getName() + " odrzuciła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + " w ilości " + book.getQuant() + ".";
-            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null,MessageDisplay.DANGER);
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null, MessageDisplay.DANGER);
             messageToCasualUserRepository.save(messageToCasualUser);
-            log.info("[Delete reserv book LibraryOwner]= "+book);
+            log.info("[Delete reserv book LibraryOwner]= " + book);
 
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
@@ -396,9 +414,13 @@ public class BookService {
 
     public ResponseEntity returnBook(UUID bookId) {
         try {
+
             UUID taskForUserId;
             UUID taskForLibraryId;
             Book reservBook = bookRepository.findById(bookId).orElse(null);
+            if (reservBook == null) {
+                return ResponseEntity.badRequest().build();
+            }
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
             TaskForLibrary taskForLibrary = taskForLibraryRepository.findByBookAndTaskStatus(reservBook, TaskStatus.TO_DO);
             taskForLibraryId = taskForLibrary.getUuid();
@@ -415,11 +437,11 @@ public class BookService {
             User user = userRepository.findByUserCasual(reservBook.getUserCasual());
             String contentMessageToLibraryOwner = "Użytkownik " + user.getEmail() + " oddał książke " + reservBook.getTitle() + " - " + reservBook.getAuthor() + " w ilości " + reservBook.getQuant() + " do biblioteki " + reservBook.getLibrary().getName() + ".";
             String contentMessageToCasualUser = "Oddałeś książkę " + reservBook.getTitle() + " - " + reservBook.getAuthor() + " w ilości " + reservBook.getQuant() + " do bibliotek i" + reservBook.getLibrary().getName() + ".";
-            MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(contentMessageToLibraryOwner, MessageUtils.RETURN_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary(), null,MessageDisplay.ALERT);
-            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(contentMessageToCasualUser, MessageUtils.RETURN_BOOK_TO_CASUAL_USER_TITLE, user, null,MessageDisplay.ALERT);
+            MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(contentMessageToLibraryOwner, MessageUtils.RETURN_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary(), null, MessageDisplay.ALERT);
+            MessageToCasualUser messageToCasualUser = new MessageToCasualUser(contentMessageToCasualUser, MessageUtils.RETURN_BOOK_TO_CASUAL_USER_TITLE, user, null, MessageDisplay.ALERT);
             messageToCasualUserRepository.save(messageToCasualUser);
             messageToLibraryOwnerRepository.save(messageToLibraryOwner);
-            log.info("[Return book ]= "+reservBook);
+            log.info("[Return book ]= " + reservBook);
 
             if (!reservBook.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();

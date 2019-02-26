@@ -40,6 +40,9 @@ public class SearchLibraryOwnerService {
     public ResponseEntity search(UUID libraryId, String word, int page, int size) {
         try {
             Library library = libraryRepository.findById(libraryId).orElse(null);
+            if (library == null) {
+                return ResponseEntity.badRequest().build();
+            }
             if (!userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
@@ -68,6 +71,9 @@ public class SearchLibraryOwnerService {
         try {
 
             Library library = libraryRepository.findById(libraryId).orElse(null);
+            if (library == null) {
+                return ResponseEntity.badRequest().build();
+            }
             if (!userService.findLoggedUser().getUserMenager().equals(library.getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
@@ -93,6 +99,9 @@ public class SearchLibraryOwnerService {
     public ResponseEntity searchReservBook(UUID userId, int size, int page) {
         try {
             User user = userRepository.findById(userId).orElse(null);
+            if (user == null) {
+                return ResponseEntity.badRequest().build();
+            }
             List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookStateAndUserMenager(user.getUserCasual(), BookState.BOOKED, userService.findLoggedUser().getUserMenager());
             Utils utils = new Utils();
             List<Map<String, Object>> bookList = utils.createBookListForUserOwner(booktmpList);
@@ -112,6 +121,9 @@ public class SearchLibraryOwnerService {
     public ResponseEntity searchBookedBook(UUID userId, int size, int page) {
         try {
             User user = userRepository.findById(userId).orElse(null);
+            if (user == null) {
+                return ResponseEntity.badRequest().build();
+            }
             List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookStateAndUserMenager(user.getUserCasual(), BookState.CONFIRMED, userService.findLoggedUser().getUserMenager());
             Utils utils = new Utils();
             List<Map<String, Object>> bookList = utils.createBookListForUserOwner(booktmpList);

@@ -57,6 +57,9 @@ public class TestingDevData implements CommandLineRunner {
     private final MessageToLibraryOwnerRepository messageToLibraryOwnerRepository;
 
     private final MessageToCasualUserRepository messageToCasualUserRepository;
+
+    private Random rn = new Random();
+
     @Override
     public void run(String... args) throws Exception {
         this.createBookCategory();
@@ -251,7 +254,7 @@ public class TestingDevData implements CommandLineRunner {
         contentForLibraryOwner = " Użytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " - " + book.getAuthor() + " w bibliotecę " + book.getLibrary().getName() + ".";
 
         messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(), MessageDisplay.ALERT);
-        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
+        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser, MessageDisplay.ALERT);
         messageToCasualUserRepository.save(messageToCasualUser);
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
 
@@ -264,8 +267,8 @@ public class TestingDevData implements CommandLineRunner {
         taskForUserRepository.save(taskForUser);
         contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " - " + book.getAuthor() + " w ilosci " + book.getQuant() + " w bibliotece " + book.getLibrary().getName() + "." + " Masz 3 dni na jej odebranie( Termin mija " + formatDate + " ).";
         contentForLibraryOwner = " Użytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " - " + book.getAuthor() + " w bibliotecę " + book.getLibrary().getName() + ".";
-        messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(),MessageDisplay.ALERT);
-        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser,MessageDisplay.ALERT);
+        messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, book.getLibrary(), MessageDisplay.ALERT);
+        messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.MESSAGE_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, taskForUser, MessageDisplay.ALERT);
         messageToCasualUserRepository.save(messageToCasualUser);
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
 
@@ -306,7 +309,6 @@ public class TestingDevData implements CommandLineRunner {
 
 
     private void addLibrary(User owner) {
-        Random rn = new Random();
 
         Library library = new Library("Chrustne", "tomekreda@op.pl", "51.61308", null, "21.97838", "Marzenie" + rn.nextInt(10) + 1, "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());

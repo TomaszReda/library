@@ -1,5 +1,6 @@
 package pl.tomekreda.library.quartz.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -15,6 +16,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ReminderOfGivingABookForLibraryService {
 
     @Autowired
@@ -48,7 +50,8 @@ public class ReminderOfGivingABookForLibraryService {
             scheduler.deleteJob(jobKey);
 
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("[Quartz]=deleteJob");
+
         }
     }
 }
