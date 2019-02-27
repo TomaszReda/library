@@ -23,14 +23,14 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @RequestMapping(value = "/resource", method = RequestMethod.GET)
+    @GetMapping(value = "/resource")
     public Map<String, String> getResource() {
-        Map<String, String> resource = new HashMap<String, String>();
+        Map<String, String> resource = new HashMap<>();
         resource.put("resource", "here is some resource");
         return resource;
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @GetMapping(value = "/logout")
     public ResponseEntity logout(HttpSession session) {
 
         session.invalidate();

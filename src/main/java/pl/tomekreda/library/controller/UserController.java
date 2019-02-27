@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.ActivationUserRequest;
 import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.request.ResetPasswordRequest;
+import pl.tomekreda.library.request.UserRequest;
 import pl.tomekreda.library.service.UserService;
 
 import java.util.UUID;
@@ -31,7 +31,7 @@ public class UserController {
 
 
     @PutMapping("/user/change/settings")
-    public ResponseEntity changeSettings(@RequestBody User user) {
+    public ResponseEntity changeSettings(@RequestBody UserRequest user) {
         return userService.changeSettings(user);
     }
 

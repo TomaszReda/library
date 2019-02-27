@@ -2,6 +2,7 @@ package pl.tomekreda.library.model.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import pl.tomekreda.library.model.task.TaskForUser;
 import pl.tomekreda.library.model.user.User;
 
@@ -12,6 +13,7 @@ import javax.persistence.OneToOne;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class MessageToCasualUser extends Message {
 
     @ManyToOne(cascade = CascadeType.ALL)

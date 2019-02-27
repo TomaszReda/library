@@ -104,7 +104,7 @@ public class LibraryService {
         List<Map<String, Object>> listLibrary = new ArrayList<>();
         for (Library library : libraryList) {
             Map<String, Object> map = new HashMap<>();
-            map.put("libraryId", library.getID());
+            map.put("libraryId", library.getId());
             map.put("libraryName", library.getName());
             listLibrary.add(map);
         }
@@ -153,7 +153,7 @@ public class LibraryService {
         library.put(Library.class.getDeclaredField("number").getName(), tmp.getNumber());
         library.put(Library.class.getDeclaredField("postalCode").getName(), tmp.getPostalCode());
         library.put(Library.class.getDeclaredField("street").getName(), tmp.getStreet());
-        library.put(Library.class.getDeclaredField("ID").getName(), tmp.getID());
+        library.put(Library.class.getDeclaredField("id").getName(), tmp.getId());
 
         User user = userRepository.findAllByUserMenager(tmp.getUserMenager());
         Map<String, Object> owner = new HashMap<>();

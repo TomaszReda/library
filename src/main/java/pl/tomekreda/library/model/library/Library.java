@@ -1,14 +1,11 @@
 package pl.tomekreda.library.model.library;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.message.MessageToLibraryOwner;
 import pl.tomekreda.library.model.task.Task;
-import pl.tomekreda.library.model.task.TaskForLibrary;
-import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.model.user.UserMenager;
 
 import javax.persistence.*;
@@ -28,7 +25,7 @@ public class Library {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
-    private UUID ID;
+    private UUID id;
 
     private String city;
     private String email;

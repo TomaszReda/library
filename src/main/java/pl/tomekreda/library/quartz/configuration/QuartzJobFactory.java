@@ -12,7 +12,7 @@ public class QuartzJobFactory extends SpringBeanJobFactory implements Applicatio
     private transient AutowireCapableBeanFactory beanFactory;
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(ApplicationContext applicationContext)   {
 
         beanFactory = applicationContext.getAutowireCapableBeanFactory();
     }

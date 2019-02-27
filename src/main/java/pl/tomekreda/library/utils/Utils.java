@@ -33,10 +33,10 @@ public class Utils {
             map.put("author", b.getAuthor());
             map.put("title", b.getTitle());
             map.put("publisher", b.getPublisher());
-            map.put("libraryId", b.getLibrary().getID());
+            map.put("libraryId", b.getLibrary().getId());
             map.put("bookState", utils.convert(b.getBookState()));
             map.put("quant", b.getQuant());
-            map.put("bookId", b.getID());
+            map.put("bookId", b.getId());
             listLibrary.add(map);
         }
         return listLibrary;
@@ -52,8 +52,8 @@ public class Utils {
             tmp.put(Book.class.getDeclaredField("publisher").getName(), b.getPublisher());
             tmp.put(Book.class.getDeclaredField("date").getName(), b.getDate());
             tmp.put(Book.class.getDeclaredField("quant").getName(), b.getQuant());
-            tmp.put(Book.class.getDeclaredField("ISBN").getName(), b.getISBN());
-            tmp.put("bookId", b.getID());
+            tmp.put(Book.class.getDeclaredField("ISBN").getName(), b.getIsbn());
+            tmp.put("bookId", b.getId());
             tmp.put("libraryName", b.getLibrary().getName());
             mapArrayList.add(tmp);
         }

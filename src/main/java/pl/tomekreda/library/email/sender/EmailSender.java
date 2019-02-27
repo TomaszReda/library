@@ -1,5 +1,6 @@
 package pl.tomekreda.library.email.sender;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.concurrent.Executors;
-
+@Slf4j
 @Service
 public class EmailSender {
 
@@ -30,7 +31,7 @@ public class EmailSender {
             helper.setSubject(title);
             helper.setText(content,true);
         } catch (MessagingException e) {
-            //TODO What to do if there was an error in creating email
+            log.error("Error send email");
         }
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override

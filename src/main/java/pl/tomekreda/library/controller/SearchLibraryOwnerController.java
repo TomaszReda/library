@@ -23,7 +23,7 @@ public class SearchLibraryOwnerController {
 
     @GetMapping("/search/library/{libraryId}/book")
     public ResponseEntity search(@PathVariable UUID libraryId, @RequestParam(defaultValue = "") String word, @RequestParam int page, @RequestParam int size) {
-        if (word.length() < 3 || word == null)
+        if (word.length() < 3 )
             return searchService.searchAll(libraryId, page, size);
         else
             return searchService.search(libraryId, word, page, size);

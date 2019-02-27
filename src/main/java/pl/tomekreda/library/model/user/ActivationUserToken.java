@@ -2,7 +2,6 @@ package pl.tomekreda.library.model.user;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -16,7 +15,7 @@ public class ActivationUserToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @OneToOne(mappedBy = "activationUserToken", cascade = CascadeType.ALL)
     private User user;
@@ -35,7 +34,7 @@ public class ActivationUserToken {
     @Override
     public String toString() {
         return "ActivationUserToken{" +
-                "Id=" + Id +
+                "id=" + id +
                 ", activeToken=" + activeToken +
                 ", expireTime=" + expireTime +
                 '}';

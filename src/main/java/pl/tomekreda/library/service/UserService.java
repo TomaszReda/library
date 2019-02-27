@@ -23,6 +23,7 @@ import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.request.ActivationUserRequest;
 import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.request.ResetPasswordRequest;
+import pl.tomekreda.library.request.UserRequest;
 import pl.tomekreda.library.validators.PasswordValidators;
 
 import javax.transaction.Transactional;
@@ -67,7 +68,7 @@ public class UserService {
         return user;
     }
 
-    public ResponseEntity changeSettings(User user) {
+    public ResponseEntity changeSettings(UserRequest user) {
         log.info("[Change setings before]=" + user);
 
         User logged = this.findLoggedUser();

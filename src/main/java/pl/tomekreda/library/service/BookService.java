@@ -101,7 +101,7 @@ public class BookService {
         book.setBookState(BookState.NOTRESERVED);
         book.setDate(addBookRequest.getDate());
         book.setDescription(addBookRequest.getDescription());
-        book.setISBN(addBookRequest.getIsbn());
+        book.setIsbn(addBookRequest.getIsbn());
         book.setQuant(addBookRequest.getQuant());
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         return book;
@@ -153,7 +153,7 @@ public class BookService {
         tmp.setQuant(book.getQuant());
         tmp.setBookState(book.getBookState());
         tmp.setLibrary(book.getLibrary());
-        tmp.setISBN(book.getISBN());
+        tmp.setIsbn(book.getIsbn());
         tmp.setPublisher(book.getPublisher());
         tmp.setTitle(book.getTitle());
         tmp.setAuthor(book.getAuthor());
@@ -196,9 +196,9 @@ public class BookService {
         tmp.put(Book.class.getDeclaredField("title").getName(), book.getTitle());
         tmp.put(Book.class.getDeclaredField("publisher").getName(), book.getPublisher());
         tmp.put(Book.class.getDeclaredField("date").getName(), book.getDate());
-        tmp.put(Book.class.getDeclaredField("ISBN").getName(), book.getISBN());
+        tmp.put(Book.class.getDeclaredField("ISBN").getName(), book.getIsbn());
         tmp.put(Book.class.getDeclaredField("quant").getName(), book.getQuant());
-        tmp.put("bookId", book.getID());
+        tmp.put("bookId", book.getId());
         tmp.put(Book.class.getDeclaredField("description").getName(), book.getDescription());
         tmp.put(BookCategory.class.getDeclaredField("categoryType").getName(), book.getBookCategory().getCategoryType());
         tmp.put(Book.class.getDeclaredField("bookState").getName(), utils.convert(book.getBookState()));
@@ -278,7 +278,7 @@ public class BookService {
             } else {
                 date = DataUtils.convertToDateViaInstant(LocalDateTime.now().plusSeconds(this.deploy));
             }
-            receiveTheBookForUserService.receiveTheBook(date, taskForUser.getBook().getID(), taskForUser.getUuid());
+            receiveTheBookForUserService.receiveTheBook(date, taskForUser.getBook().getId(), taskForUser.getUuid());
 
             return ResponseEntity.ok().build();
         } catch (Exception e) {
@@ -354,11 +354,11 @@ public class BookService {
 
 
             if (this.deploy == -1) {
-                reminderOfGivingABookForLibraryService.reminderOfGivingABookForLibrary(DataUtils.convertToDateViaInstant(taskForLibrary.getDateExpiration()), taskForLibrary.getBook().getID(), taskForLibrary.getUuid());
-                reminderOfGivingABookForUserService.reminderOfGivingABookForUser(DataUtils.convertToDateViaInstant(tmp.getDateExpiration()), tmp.getBook().getID(), tmp.getUuid());
+                reminderOfGivingABookForLibraryService.reminderOfGivingABookForLibrary(DataUtils.convertToDateViaInstant(taskForLibrary.getDateExpiration()), taskForLibrary.getBook().getId(), taskForLibrary.getUuid());
+                reminderOfGivingABookForUserService.reminderOfGivingABookForUser(DataUtils.convertToDateViaInstant(tmp.getDateExpiration()), tmp.getBook().getId(), tmp.getUuid());
             } else {
-                reminderOfGivingABookForLibraryService.reminderOfGivingABookForLibrary(DataUtils.convertToDateViaInstant(LocalDateTime.now().plusSeconds(this.deploy)), taskForLibrary.getBook().getID(), taskForLibrary.getUuid());
-                reminderOfGivingABookForUserService.reminderOfGivingABookForUser(DataUtils.convertToDateViaInstant(LocalDateTime.now().plusSeconds(this.deploy)), tmp.getBook().getID(), tmp.getUuid());
+                reminderOfGivingABookForLibraryService.reminderOfGivingABookForLibrary(DataUtils.convertToDateViaInstant(LocalDateTime.now().plusSeconds(this.deploy)), taskForLibrary.getBook().getId(), taskForLibrary.getUuid());
+                reminderOfGivingABookForUserService.reminderOfGivingABookForUser(DataUtils.convertToDateViaInstant(LocalDateTime.now().plusSeconds(this.deploy)), tmp.getBook().getId(), tmp.getUuid());
 
             }
             log.info("[Akcept reserv book]= " + book);

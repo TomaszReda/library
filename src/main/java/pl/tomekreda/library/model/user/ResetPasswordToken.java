@@ -4,7 +4,6 @@ import lombok.*;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,7 +17,7 @@ public class ResetPasswordToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ID;
+    private Long id;
 
     @Type(type="org.hibernate.type.UUIDCharType")
     private UUID resetToken;
@@ -36,7 +35,7 @@ public class ResetPasswordToken {
     @Override
     public String toString() {
         return "ResetPasswordToken{" +
-                "ID=" + ID +
+                "id=" + id +
                 ", activationToken=" + resetToken +
                 ", expireTime=" + expireTime +
                 '}';

@@ -20,7 +20,7 @@ public abstract class Message {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
-    private UUID ID;
+    private UUID id;
 
     @Column(length = 400)
     private String content;
@@ -49,7 +49,7 @@ public abstract class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "ID=" + ID +
+                "id=" + id +
                 ", content='" + content + '\'' +
                 ", title='" + title + '\'' +
                 ", dataCreate=" + dataCreate +

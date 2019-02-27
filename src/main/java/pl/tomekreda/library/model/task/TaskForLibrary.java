@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper=false)
 @Getter
 @Setter
 public class TaskForLibrary extends Task {
@@ -32,11 +32,6 @@ public class TaskForLibrary extends Task {
 
     public TaskForLibrary(User toUser, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForLibraryType taskForLibraryType) {
         super(toUser, dateCreate, dateExpiration, taskStatus, book, library);
-        this.taskForLibraryType = taskForLibraryType;
-    }
-
-    public TaskForLibrary(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForLibraryType taskForLibraryType, LocalDateTime dateDone) {
-        super(user, dateCreate, dateExpiration, taskStatus, book, library, dateDone);
         this.taskForLibraryType = taskForLibraryType;
     }
 

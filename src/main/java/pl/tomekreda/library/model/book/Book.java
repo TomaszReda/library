@@ -27,13 +27,13 @@ public class Book {
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
-    private UUID ID;
+    private UUID id;
 
     private String author;
     private String title;
     private String publisher;
     private LocalDate date;
-    private String ISBN;
+    private String isbn;
     private int quant;
 
     private String bookSearch;
@@ -64,21 +64,21 @@ public class Book {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private BookCategory bookCategory;
 
-    public Book(String author, String title, String publisher, LocalDate date, String ISBN, int quant) {
+    public Book(String author, String title, String publisher, LocalDate date, String isbn, int quant) {
         this.author = author;
         this.title = title;
         this.publisher = publisher;
         this.date = date;
-        this.ISBN = ISBN;
+        this.isbn = isbn;
         this.quant = quant;
     }
 
-    public Book(String author, String title, String publisher, LocalDate date, String ISBN, int quant, String description, Library library, BookState bookState, UserCasual userCasual, BookCategory bookCategory) {
+    public Book(String author, String title, String publisher, LocalDate date, String isbn, int quant, String description, Library library, BookState bookState, UserCasual userCasual, BookCategory bookCategory) {
         this.author = author;
         this.title = title;
         this.publisher = publisher;
         this.date = date;
-        this.ISBN = ISBN;
+        this.isbn = isbn;
         this.quant = quant;
         this.description = description;
         this.library = library;
@@ -93,12 +93,12 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "ID=" + ID +
+                "id=" + id +
                 ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
                 ", publisher='" + publisher + '\'' +
                 ", date=" + date +
-                ", ISBN='" + ISBN + '\'' +
+                ", isbn='" + isbn + '\'' +
                 ", quant=" + quant +
                 ", description='" + description + '\'' +
                 ", bookState=" + bookState +
