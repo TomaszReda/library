@@ -53,9 +53,8 @@ public class SearchLibraryOwnerService {
             array[0] = BookState.BOOKED;
             array[2] = BookState.CONFIRMED;
             List<Book> tmpBookList = bookRepository.findAllByLibraryAndTitleIsContainingAndBookStateIsIn(library, word, array);
-            Utils utils = new Utils();
-            List<Map<String, Object>> bookLists = utils.createBookList(tmpBookList);
-            Pageable pageable = new PageRequest(page, size);
+            List<Map<String, Object>> bookLists = Utils.createBookList(tmpBookList);
+            Pageable pageable = PageRequest.of(page, size);
             int max = (size * (page + 1) > bookLists.size()) ? bookLists.size() : size * (page + 1);
             Page<List<Map<String, Object>>> bookListPageResult = new PageImpl(bookLists.subList(size * page, max), pageable, bookLists.size());
             log.info("[Get Book listt]=" + bookLists);
@@ -81,10 +80,9 @@ public class SearchLibraryOwnerService {
             arr[1] = BookState.NOTRESERVED;
             arr[2] = BookState.CONFIRMED;
             List<Book> tmpbookList = bookRepository.findAllByLibraryAndBookStateIsIn(library, arr);
-            Utils utils = new Utils();
-            List<Map<String, Object>> bookList = utils.createBookList(tmpbookList);
+            List<Map<String, Object>> bookList = Utils.createBookList(tmpbookList);
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
-            Pageable pageable = new PageRequest(page, size);
+            Pageable pageable = PageRequest.of(page, size);
 
             log.info("[Get Book list]=" + bookList);
             Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
@@ -102,11 +100,10 @@ public class SearchLibraryOwnerService {
                 return ResponseEntity.badRequest().build();
             }
             List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookStateAndUserMenager(user.getUserCasual(), BookState.BOOKED, userService.findLoggedUser().getUserMenager());
-            Utils utils = new Utils();
-            List<Map<String, Object>> bookList = utils.createBookListForUserOwner(booktmpList);
+            List<Map<String, Object>> bookList = Utils.createBookListForUserOwner(booktmpList);
 
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
-            Pageable pageable = new PageRequest(page, size);
+            Pageable pageable = PageRequest.of(page, size);
 
             log.info("[Get Book listtt]=" + bookList);
             Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
@@ -124,11 +121,10 @@ public class SearchLibraryOwnerService {
                 return ResponseEntity.badRequest().build();
             }
             List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookStateAndUserMenager(user.getUserCasual(), BookState.CONFIRMED, userService.findLoggedUser().getUserMenager());
-            Utils utils = new Utils();
-            List<Map<String, Object>> bookList = utils.createBookListForUserOwner(booktmpList);
+            List<Map<String, Object>> bookList = Utils.createBookListForUserOwner(booktmpList);
 
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
-            Pageable pageable = new PageRequest(page, size);
+            Pageable pageable = PageRequest.of(page, size);
 
             log.info("[Get Book listttt]=" + bookList);
             Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());

@@ -1,6 +1,5 @@
 package pl.tomekreda.library.utils;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.thymeleaf.util.DateUtils;
 
@@ -9,10 +8,11 @@ import java.time.ZoneId;
 import java.util.Date;
 
 @Slf4j
-@Data
-public class DataUtils {
+public final class DataUtils {
 
-
+    private DataUtils() {
+        //not called
+    }
 
     public static Date convertToDateViaInstant(LocalDateTime dateToConvert) {
         return java.util.Date

@@ -31,7 +31,7 @@ public class SearchAdminService {
 
     public ResponseEntity searchAllUser(int page, int size) {
         try {
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
 
             Page<User> userPage = userRepository.findAll(pageableRequest);
             log.info("[Search admin]=" + userPage);
@@ -43,7 +43,7 @@ public class SearchAdminService {
 
     public ResponseEntity searchUser(String word, int page, int size) {
         try {
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
             Page<User> user = userRepository.findAllByEmailContains(word, pageableRequest);
             return ResponseEntity.ok(user);
         } catch (Exception ex) {
@@ -53,7 +53,7 @@ public class SearchAdminService {
 
     public ResponseEntity searchAllLibrary(int page, int size) {
         try {
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
 
             Page<Library> userPage = libraryRepository.findAll(pageableRequest);
             log.info("[Search admin]=" + userPage);
@@ -65,7 +65,7 @@ public class SearchAdminService {
 
     public ResponseEntity searchLibrary(String word, int page, int size) {
         try {
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
             Page<Library> user = libraryRepository.findAllByNameContains(word, pageableRequest);
 
             return ResponseEntity.ok(user);

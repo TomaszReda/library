@@ -1,13 +1,12 @@
 package pl.tomekreda.library.utils;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@Data
-public class MessageUtils {
+public final class MessageUtils {
 
-
+    private MessageUtils() {
+    //not caled
+    }
 
     public static final String MESSAGE_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE = "Rezerwacja książki przez użytkownika!";
 
@@ -31,6 +30,6 @@ public class MessageUtils {
 
     public static final String REMINDER_OF_GIVING_A_BOOK_FOR_LIBRARY_OWNER = "Przypomnienie o rezerwacji!";
 
-    public static final String RESET_DATA_TOKEN="Token do resetu hasła wygasł!";
+    public static final String RESET_DATA_TOKEN = "Token do resetu hasła wygasł!";
 
 }

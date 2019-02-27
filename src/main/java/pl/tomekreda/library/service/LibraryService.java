@@ -87,7 +87,7 @@ public class LibraryService {
         try {
             List<Library> libraryList = userService.findLoggedUser().getUserMenager().getLibraryList();
             List<Map<String, Object>> libraryMap = createLibraryMap(libraryList);
-            Pageable pageable = new PageRequest(page, size);
+            Pageable pageable = PageRequest.of(page, size);
             int max = (size * (page + 1) > libraryMap.size()) ? libraryMap.size() : size * (page + 1);
             log.info("[Get library list]=" + libraryMap);
 
@@ -204,7 +204,7 @@ public class LibraryService {
 
     public ResponseEntity getAllLibrary(int page, int size) {
         try {
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
             Page<Library> libraryList = libraryRepository.findAll(pageableRequest);
             return ResponseEntity.ok(libraryList);
         } catch (Exception ex) {

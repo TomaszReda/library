@@ -1,12 +1,11 @@
 package pl.tomekreda.library.utils;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
-@Data
-public class EmailUtils {
+public final class EmailUtils {
 
+    private EmailUtils(){
+        //not called
+    }
 
     public static final String RESET_DATA_MESSAGE_TITTLE = "Reset hasła";
     public static final String RESET_DATA_NEW_DATA = "Nowe hasło";

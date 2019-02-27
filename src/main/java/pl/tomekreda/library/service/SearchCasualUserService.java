@@ -17,7 +17,6 @@ import pl.tomekreda.library.repository.BookRepository;
 import pl.tomekreda.library.repository.UserRepository;
 import pl.tomekreda.library.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,19 +30,17 @@ public class SearchCasualUserService {
 
     private final UserService userService;
 
-    private final BookService bookService;
 
     private final UserRepository userRepository;
 
-    private Utils utils = new Utils();
 
     public ResponseEntity searchAll(int page, int size) {
         try {
             List<Book> bookList = bookRepository.findAllByBookStateIs(BookState.NOTRESERVED);
 
-            List<Map<String, Object>> bookListss = utils.createBookList(bookList);
+            List<Map<String, Object>> bookListss = Utils.createBookList(bookList);
             int max = (size * (page + 1) > bookListss.size()) ? bookListss.size() : size * (page + 1);
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
             Page<List<Map<String, Object>>> bookSearchList = new PageImpl(bookListss.subList(size * page, max), pageableRequest, bookListss.size());
             log.info("[Search resultt]=" + bookSearchList);
 
@@ -56,9 +53,9 @@ public class SearchCasualUserService {
     public ResponseEntity search(String word, int page, int size) {
         try {
             List<Book> bookList = bookRepository.findAllByBookSearchContainsAndBookState(word, BookState.NOTRESERVED);
-            List<Map<String, Object>> bookLists = utils.createBookList(bookList);
+            List<Map<String, Object>> bookLists = Utils.createBookList(bookList);
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
             Page<List<Map<String, Object>>> bookSearchList = new PageImpl(bookLists.subList(size * page, max), pageableRequest, bookLists.size());
             log.info("[Search resulttt]=" + bookSearchList);
             return ResponseEntity.ok(bookSearchList);
@@ -78,9 +75,9 @@ public class SearchCasualUserService {
                 bookList = bookRepository.findAllByUserCasualAndBookStateAndBookSearchContains(user.getUserCasual(), BookState.BOOKED, word);
 
             }
-            List<Map<String, Object>> bookLists = utils.createBookList(bookList);
+            List<Map<String, Object>> bookLists = Utils.createBookList(bookList);
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
             Page<List<Map<String, Object>>> bookSearchList = new PageImpl(bookLists.subList(size * page, max), pageableRequest, bookLists.size());
             log.info("[Search resultttt]=" + bookSearchList);
             return ResponseEntity.ok(bookSearchList);
@@ -114,11 +111,10 @@ public class SearchCasualUserService {
         try {
             User user = userService.findLoggedUser();
             List<Book> booktmpList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.CONFIRMED);
-            Utils utils = new Utils();
-            List<Map<String, Object>> bookList = utils.createBookListForUserOwner(booktmpList);
+            List<Map<String, Object>> bookList = Utils.createBookListForUserOwner(booktmpList);
 
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
-            Pageable pageable = new PageRequest(page, size);
+            Pageable pageable = PageRequest.of(page, size);
 
             log.info("[Get Book list]=" + bookList);
             Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());

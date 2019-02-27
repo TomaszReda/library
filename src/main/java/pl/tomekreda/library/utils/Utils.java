@@ -1,6 +1,5 @@
 package pl.tomekreda.library.utils;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookState;
@@ -11,9 +10,14 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Data
-public class Utils {
-    public String convert(BookState bookState) {
+public  final class Utils {
+
+    private Utils() {
+        //not caled
+    }
+
+
+    public  static String convert(BookState bookState) {
         String state = "";
         if (bookState.equals(BookState.BOOKED)) {
             state = "Zarezerwowana";
@@ -27,7 +31,7 @@ public class Utils {
         return state;
     }
 
-    public List<Map<String, Object>> createBookList(List<Book> bookList) {
+    public static List<Map<String, Object>> createBookList(List<Book> bookList) {
         List<Map<String, Object>> listLibrary = new ArrayList<>();
         Utils utils = new Utils();
         for (Book b : bookList) {
@@ -45,7 +49,7 @@ public class Utils {
     }
 
 
-    public List<Map<String, Object>> createBookListForUserOwner(List<Book> bookList) throws NoSuchFieldException {
+    public static List<Map<String, Object>> createBookListForUserOwner(List<Book> bookList) throws NoSuchFieldException {
         List<Map<String, Object>> mapArrayList = new ArrayList<>();
         for (Book b : bookList) {
             Map<String, Object> tmp = new HashMap<>();

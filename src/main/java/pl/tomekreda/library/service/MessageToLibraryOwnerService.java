@@ -37,7 +37,7 @@ public class MessageToLibraryOwnerService {
                 List<MessageToLibraryOwner> tmp = messageToLibraryOwnerRepository.findAllByLibraryAndDateReadIsNullOrderByDataCreateDesc(library);
                 messageToLibraryOwners.addAll(tmp);
             }
-            Pageable pageable = new PageRequest(page, size);
+            Pageable pageable = PageRequest.of(page, size);
             int max = (size * (page + 1) > messageToLibraryOwners.size()) ? messageToLibraryOwners.size() : size * (page + 1);
             Page<Map<String, Object>> pageResult = new PageImpl(messageToLibraryOwners.subList(size * page, max), pageable, messageToLibraryOwners.size());
 

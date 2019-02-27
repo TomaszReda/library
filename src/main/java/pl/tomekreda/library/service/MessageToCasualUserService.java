@@ -44,7 +44,7 @@ public class MessageToCasualUserService {
 
     public ResponseEntity getAllUnreadNotificationForCasualUser(int page, int size) {
         try {
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
             User user = userService.findLoggedUser();
             List<MessageToCasualUser> messageToCasualUsers = messageToCasualUserRepository.findAllByUserAndDateReadIsNullOrderByDataCreateDesc(user);
             int max = (size * (page + 1) > messageToCasualUsers.size()) ? messageToCasualUsers.size() : size * (page + 1);

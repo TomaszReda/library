@@ -189,7 +189,6 @@ public class BookService {
     }
 
     private Map<String, Object> createBookMap(Book book, boolean isLibraryOwner) throws NoSuchFieldException {
-        Utils utils = new Utils();
 
         Map<String, Object> tmp = new HashMap<>();
         tmp.put(Book.class.getDeclaredField("author").getName(), book.getAuthor());
@@ -201,7 +200,7 @@ public class BookService {
         tmp.put("bookId", book.getId());
         tmp.put(Book.class.getDeclaredField("description").getName(), book.getDescription());
         tmp.put(BookCategory.class.getDeclaredField("categoryType").getName(), book.getBookCategory().getCategoryType());
-        tmp.put(Book.class.getDeclaredField("bookState").getName(), utils.convert(book.getBookState()));
+        tmp.put(Book.class.getDeclaredField("bookState").getName(), Utils.convert(book.getBookState()));
         if (isLibraryOwner == false) {
             tmp.put(Library.class.getDeclaredField("city").getName(), book.getLibrary().getCity());
             tmp.put(Library.class.getDeclaredField("latitude").getName(), book.getLibrary().getLatitude());
@@ -468,7 +467,7 @@ public class BookService {
 
     public ResponseEntity getAllBooks(int page, int size) {
         try {
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
             Page<Book> bookList = bookRepository.findAll(pageableRequest);
             return ResponseEntity.ok(bookList);
         } catch (Exception ex) {

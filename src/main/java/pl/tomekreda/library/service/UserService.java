@@ -162,7 +162,7 @@ public class UserService {
 
     public ResponseEntity getAllUser(int page, int size) {
         try {
-            Pageable pageableRequest = new PageRequest(page, size);
+            Pageable pageableRequest = PageRequest.of(page, size);
             Page<User> userList = userRepository.findAll(pageableRequest);
 
             return ResponseEntity.ok(userList);
@@ -239,7 +239,7 @@ public class UserService {
         int targetStringLength = 14;
         StringBuilder buffer = new StringBuilder(targetStringLength);
         for (int i = 0; i < targetStringLength; i++) {
-            int randomLimitedInt = leftLimit + (int)
+            int randomLimitedInt = leftLimit +
                     (random.nextInt() * (rightLimit - leftLimit + 1));
             buffer.append((char) randomLimitedInt);
         }
