@@ -33,7 +33,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication)  {
 
         //Get User to take roles
         if (authentication.getPrincipal() == null) {

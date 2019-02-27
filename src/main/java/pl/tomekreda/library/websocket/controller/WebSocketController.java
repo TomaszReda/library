@@ -11,7 +11,7 @@ public class WebSocketController {
 
     @MessageMapping("/notification")
     @SendTo("/app/notification")
-    public Response greeting() throws Exception {
+    public Response greeting()   {
         return new Response("New notification!");
     }
 }

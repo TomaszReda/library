@@ -19,7 +19,7 @@ public class UserLoginService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username)   {
         User user = userRepository.findUserByEmail(username);
         if (user == null)
             throw new UsernameNotFoundException("User not found");
@@ -35,12 +35,5 @@ public class UserLoginService implements UserDetailsService {
         return userDetails;
     }
 
-//    private Set<GrantedAuthority> convertAuthorities(Set<UserRole> userRoles) {
-//        Set<GrantedAuthority> authorities = new HashSet<>();
-//        for(UserRole ur: userRoles) {
-//            authorities.add(new SimpleGrantedAuthority(ur.getRole()));
-//        }
-//        return authorities;
-//    }
 
 }

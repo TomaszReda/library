@@ -45,7 +45,7 @@ public class SearchCasualUserService {
             int max = (size * (page + 1) > bookListss.size()) ? bookListss.size() : size * (page + 1);
             Pageable pageableRequest = new PageRequest(page, size);
             Page<List<Map<String, Object>>> bookSearchList = new PageImpl(bookListss.subList(size * page, max), pageableRequest, bookListss.size());
-            log.info("[Search result]=" + bookSearchList);
+            log.info("[Search resultt]=" + bookSearchList);
 
             return ResponseEntity.ok(bookSearchList);
         } catch (Exception ex) {
@@ -60,7 +60,7 @@ public class SearchCasualUserService {
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
             Pageable pageableRequest = new PageRequest(page, size);
             Page<List<Map<String, Object>>> bookSearchList = new PageImpl(bookLists.subList(size * page, max), pageableRequest, bookLists.size());
-            log.info("[Search result]=" + bookSearchList);
+            log.info("[Search resulttt]=" + bookSearchList);
             return ResponseEntity.ok(bookSearchList);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
@@ -71,8 +71,8 @@ public class SearchCasualUserService {
     public ResponseEntity getReservBook(String word, int page, int size) {
         try {
             User user = userService.findLoggedUser();
-            List<Book> bookList = new ArrayList<>();
-            if (word.length() < 3 || word == null) {
+            List<Book> bookList ;
+            if (word.length() < 3 ) {
                 bookList = bookRepository.findAllByUserCasualAndBookState(user.getUserCasual(), BookState.BOOKED);
             } else {
                 bookList = bookRepository.findAllByUserCasualAndBookStateAndBookSearchContains(user.getUserCasual(), BookState.BOOKED, word);
@@ -82,7 +82,7 @@ public class SearchCasualUserService {
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
             Pageable pageableRequest = new PageRequest(page, size);
             Page<List<Map<String, Object>>> bookSearchList = new PageImpl(bookLists.subList(size * page, max), pageableRequest, bookLists.size());
-            log.info("[Search result]=" + bookSearchList);
+            log.info("[Search resultttt]=" + bookSearchList);
             return ResponseEntity.ok(bookSearchList);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();

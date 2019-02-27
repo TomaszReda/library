@@ -1,5 +1,7 @@
 package pl.tomekreda.library.utils;
 
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookState;
 
@@ -8,9 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
+@Data
 public class Utils {
-
-
     public String convert(BookState bookState) {
         String state = "";
         if (bookState.equals(BookState.BOOKED)) {

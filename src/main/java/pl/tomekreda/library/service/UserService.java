@@ -24,6 +24,7 @@ import pl.tomekreda.library.request.ActivationUserRequest;
 import pl.tomekreda.library.request.ChangePasswordRequest;
 import pl.tomekreda.library.request.ResetPasswordRequest;
 import pl.tomekreda.library.request.UserRequest;
+import pl.tomekreda.library.utils.MessageUtils;
 import pl.tomekreda.library.validators.PasswordValidators;
 
 import javax.transaction.Transactional;
@@ -48,7 +49,7 @@ public class UserService {
 
     private final ActivationUserTokenRepository activationUserTokenRepository;
 
-    private Random random=new Random();
+    private Random random = new Random();
 
 
     public ResponseEntity info() {
@@ -64,8 +65,7 @@ public class UserService {
 
     public User findLoggedUser() {
         String loggedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findUserByEmail(loggedUserEmail);
-        return user;
+        return userRepository.findUserByEmail(loggedUserEmail);
     }
 
     public ResponseEntity changeSettings(UserRequest user) {
@@ -82,6 +82,7 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Podaj poprawny email!");
         }
         if (logged.getEmail().equals(user.getEmail())) {
+            log.info("Mozna zmienic dane");
         } else {
             for (User users : userRepository.findAll()) {
                 if (users.getEmail().equals(user.getEmail())) {
@@ -102,7 +103,7 @@ public class UserService {
         logged.setLastname(user.getLastname());
         logged.setFirstname(user.getFirstname());
         logged.setPhoneNumber(user.getPhoneNumber());
-        logged = userRepository.save(logged);
+        userRepository.save(logged);
 
         log.info("[Change setings after]=" + user);
         return ResponseEntity.ok(user);
@@ -149,7 +150,11 @@ public class UserService {
         try {
             User user = userRepository.findById(uuid).orElse(null);
             log.info("[User info]=" + user);
-            return ResponseEntity.ok(user);
+            if (user != null)
+                return ResponseEntity.ok(user);
+            else
+                return ResponseEntity.badRequest().build();
+
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
@@ -200,16 +205,16 @@ public class UserService {
     public ResponseEntity resetPassword(ResetPasswordRequest resetPasswordRequest) {
         try {
             if (resetPasswordRequest == null) {
-                return ResponseEntity.badRequest().body("Token do resetu hasła wygasł!");
+                return ResponseEntity.badRequest().body(MessageUtils.RESET_DATA_TOKEN);
             }
 
             ResetPasswordToken resetPasswordToken = resetPasswordTokenRepository.findByResetToken(resetPasswordRequest.getResetToken());
 
             if (resetPasswordToken == null) {
-                return ResponseEntity.badRequest().body("Token do resetu hasła wygasł!");
+                return ResponseEntity.badRequest().body(MessageUtils.RESET_DATA_TOKEN);
             }
             if (!LocalDateTime.now().isBefore(resetPasswordToken.getExpireTime())) {
-                return ResponseEntity.badRequest().body("Token do resetu hasła wygasł!");
+                return ResponseEntity.badRequest().body(MessageUtils.RESET_DATA_TOKEN);
 
             } else {
                 String newpassword = generatePassword();
@@ -229,17 +234,16 @@ public class UserService {
     }
 
     private String generatePassword() {
-        int leftLimit = 47; // letter '0'
-        int rightLimit = 122; // letter 'z'
+        int leftLimit = 47;
+        int rightLimit = 122;
         int targetStringLength = 14;
         StringBuilder buffer = new StringBuilder(targetStringLength);
         for (int i = 0; i < targetStringLength; i++) {
             int randomLimitedInt = leftLimit + (int)
-                    (random.nextFloat() * (rightLimit - leftLimit + 1));
+                    (random.nextInt() * (rightLimit - leftLimit + 1));
             buffer.append((char) randomLimitedInt);
         }
-        String generatedString = buffer.toString();
-        return generatedString;
+        return buffer.toString();
     }
 
 

@@ -14,8 +14,7 @@ import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.user.User;
 import pl.tomekreda.library.repository.LibraryRepository;
 import pl.tomekreda.library.repository.UserRepository;
-import pl.tomekreda.library.request.AddLibraryRequest;
-import pl.tomekreda.library.request.UpdateLibraryRequest;
+import pl.tomekreda.library.request.AddUpdateLibraryRequest;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -33,7 +32,7 @@ public class LibraryService {
     private final UserService userService;
 
 
-    public ResponseEntity updateLibrary(UpdateLibraryRequest updateLibraryRequest) {
+    public ResponseEntity updateLibrary(AddUpdateLibraryRequest updateLibraryRequest) {
         try {
             if (updateLibraryRequest.getLongitude().equals("21.0158") && updateLibraryRequest.getLatitude().equals("52.2051")) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Najpierw zaznacz na mapie lokalizacje ");
@@ -64,7 +63,7 @@ public class LibraryService {
     }
 
 
-    public ResponseEntity addLibrary(AddLibraryRequest addLibraryRequest) {
+    public ResponseEntity addLibrary(AddUpdateLibraryRequest addLibraryRequest) {
         try {
 
             if (addLibraryRequest.getLongitude().equals("21.0158") && addLibraryRequest.getLatitude().equals("52.2051")) {
@@ -167,7 +166,7 @@ public class LibraryService {
     }
 
 
-    private Library CreateLibrary(AddLibraryRequest addLibraryRequest, User user) {
+    private Library CreateLibrary(AddUpdateLibraryRequest addLibraryRequest, User user) {
         Library tmp = new Library();
         tmp.setCity(addLibraryRequest.getCity());
         tmp.setEmail(addLibraryRequest.getEmail());
@@ -186,7 +185,7 @@ public class LibraryService {
     }
 
 
-    private Library CreateLibrary(UpdateLibraryRequest updateLibraryRequest, Library library, User user) {
+    private Library CreateLibrary(AddUpdateLibraryRequest updateLibraryRequest, Library library, User user) {
         library.setCity(updateLibraryRequest.getCity());
         library.setLatitude(updateLibraryRequest.getLatitude());
         library.setEmail(updateLibraryRequest.getEmail());

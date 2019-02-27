@@ -46,7 +46,6 @@ public class AuthService {
     boolean requiredActivation;
 
     public AuthenticationResponse login(@RequestBody Credentials credentials, HttpServletRequest request) {
-        User user = userRepository.findUserByEmail(credentials.getEmail());
 
 
         final UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(credentials.getEmail(), credentials.getPassword());

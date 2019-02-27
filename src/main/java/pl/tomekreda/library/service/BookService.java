@@ -252,7 +252,7 @@ public class BookService {
                 messageToCasualUserRepository.save(messageToCasualUser);
                 messageToLibraryOwnerRepository.save(messageToLibraryOwner);
                 tmp.setQuant(tmp.getQuant() - quant);
-                book = bookRepository.save(tmp);
+                bookRepository.save(tmp);
                 log.info("[Reserv book]=" + tmp);
 
             } else {
@@ -298,7 +298,7 @@ public class BookService {
             receiveTheBookForUserService.deleteJob(taskForUser.getUuid());
             taskForUser.setDateDone(LocalDateTime.now());
             taskForUser.setTaskStatus(TaskStatus.REMOVED);
-            taskForUser = taskForUserRepository.save(taskForUser);
+             taskForUserRepository.save(taskForUser);
             String content = "Użytkownik " + userService.findLoggedUser().getEmail() + " zrezygnował z rezerwacji książki " + reservBook.getTitle() + " - " + reservBook.getAuthor() + " w bibliotecę " + reservBook.getLibrary().getName() + ".";
             MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(content, MessageUtils.MESSAGE_RESIGNATION_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary(), MessageDisplay.DANGER);
             messageToLibraryOwnerRepository.save(messageToLibraryOwner);
@@ -336,7 +336,7 @@ public class BookService {
             receiveTheBookForUserService.deleteJob(taskForUser.getUuid());
             taskForUser.setTaskStatus(TaskStatus.DONE);
             taskForUser.setDateDone(LocalDateTime.now());
-            taskForUser = taskForUserRepository.save(taskForUser);
+             taskForUserRepository.save(taskForUser);
             String content = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + " w ilości " + book.getQuant() + ".";
             MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null, MessageDisplay.ALERT);
             messageToCasualUserRepository.save(messageToCasualUser);
@@ -415,17 +415,14 @@ public class BookService {
     public ResponseEntity returnBook(UUID bookId) {
         try {
 
-            UUID taskForUserId;
-            UUID taskForLibraryId;
+
             Book reservBook = bookRepository.findById(bookId).orElse(null);
             if (reservBook == null) {
                 return ResponseEntity.badRequest().build();
             }
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
             TaskForLibrary taskForLibrary = taskForLibraryRepository.findByBookAndTaskStatus(reservBook, TaskStatus.TO_DO);
-            taskForLibraryId = taskForLibrary.getUuid();
             TaskForUser taskForUser = taskForUserRepository.findByBookAndTaskStatus(reservBook, TaskStatus.TO_DO);
-            taskForUserId = taskForUser.getUuid();
             taskForLibrary.setTaskStatus(TaskStatus.DONE);
             taskForUser.setTaskStatus(TaskStatus.DONE);
             taskForLibrary.setDateDone(LocalDateTime.now());

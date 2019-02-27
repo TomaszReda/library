@@ -132,38 +132,36 @@ public class MessageToCasualUserService {
 
     public ResponseEntity readAllNotification() {
         try {
+            User user = userService.findLoggedUser();
 
-            {
-                User user = userService.findLoggedUser();
+            for (int i = 0; i < user.getUserRoles().size(); i++) {
 
-                for (int i = 0; i < user.getUserRoles().size(); i++) {
-
-                    if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.CASUAL_USER) {
-                        List<MessageToCasualUser> messageToCasualUsers = messageToCasualUserRepository.findAllByUserAndDateReadIsNullOrderByDataCreateDesc(user);
-                        for (MessageToCasualUser message : messageToCasualUsers) {
-                            message.setDateRead(LocalDateTime.now());
-                            messageToCasualUserRepository.save(message);
-                        }
-                        log.info("[Read all notification for Casual User]");
-
+                if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.CASUAL_USER) {
+                    List<MessageToCasualUser> messageToCasualUsers = messageToCasualUserRepository.findAllByUserAndDateReadIsNullOrderByDataCreateDesc(user);
+                    for (MessageToCasualUser message : messageToCasualUsers) {
+                        message.setDateRead(LocalDateTime.now());
+                        messageToCasualUserRepository.save(message);
                     }
-                    if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.LIBRARY_OWNER) {
-                        List<Library> libraryList = libraryRepository.findAllByUserMenager(user.getUserMenager());
-                        List<MessageToLibraryOwner> messageToLibraryOwners = new ArrayList<>();
-                        for (Library library : libraryList) {
-                            List<MessageToLibraryOwner> tmp = messageToLibraryOwnerRepository.findAllByLibraryAndDateReadIsNullOrderByDataCreateDesc(library);
-                            messageToLibraryOwners.addAll(tmp);
-                        }
-                        for (MessageToLibraryOwner message : messageToLibraryOwners) {
-                            message.setDateRead(LocalDateTime.now());
-                            messageToLibraryOwnerRepository.save(message);
-                        }
-                        log.info("[Read all notification for Library Owner]");
+                    log.info("[Read all notification for Casual User]");
 
-                    }
                 }
-                return ResponseEntity.ok().build();
+                if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.LIBRARY_OWNER) {
+                    List<Library> libraryList = libraryRepository.findAllByUserMenager(user.getUserMenager());
+                    List<MessageToLibraryOwner> messageToLibraryOwners = new ArrayList<>();
+                    for (Library library : libraryList) {
+                        List<MessageToLibraryOwner> tmp = messageToLibraryOwnerRepository.findAllByLibraryAndDateReadIsNullOrderByDataCreateDesc(library);
+                        messageToLibraryOwners.addAll(tmp);
+                    }
+                    for (MessageToLibraryOwner message : messageToLibraryOwners) {
+                        message.setDateRead(LocalDateTime.now());
+                        messageToLibraryOwnerRepository.save(message);
+                    }
+                    log.info("[Read all notification for Library Owner]");
+
+                }
             }
+            return ResponseEntity.ok().build();
+
 
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();

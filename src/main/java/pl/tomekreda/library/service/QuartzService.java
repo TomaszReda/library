@@ -3,7 +3,6 @@ package pl.tomekreda.library.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookState;
@@ -113,6 +112,8 @@ public class QuartzService {
         MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.REMINDER_OF_GIVING_A_BOOK_FOR_CASUAL_USER, user, taskForUser, MessageDisplay.WARNING);
         messageToCasualUserRepository.save(messageToCasualUser);
     }
+
+
 
 
 }

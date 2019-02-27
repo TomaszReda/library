@@ -5,8 +5,9 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class AddLibraryRequest {
+public class AddUpdateLibraryRequest {
 
+    private UUID libraryID;
     private String city;
     private String email;
     private String latitude;

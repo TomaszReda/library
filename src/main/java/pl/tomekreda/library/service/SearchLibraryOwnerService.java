@@ -58,9 +58,8 @@ public class SearchLibraryOwnerService {
             Pageable pageable = new PageRequest(page, size);
             int max = (size * (page + 1) > bookLists.size()) ? bookLists.size() : size * (page + 1);
             Page<List<Map<String, Object>>> bookListPageResult = new PageImpl(bookLists.subList(size * page, max), pageable, bookLists.size());
-            log.info("[Get Book list]=" + bookLists);
+            log.info("[Get Book listt]=" + bookLists);
 
-//            log.info("[Search response]=");
             return ResponseEntity.ok(bookListPageResult);
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
@@ -109,7 +108,7 @@ public class SearchLibraryOwnerService {
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
             Pageable pageable = new PageRequest(page, size);
 
-            log.info("[Get Book list]=" + bookList);
+            log.info("[Get Book listtt]=" + bookList);
             Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
             return ResponseEntity.ok(pageResult);
         } catch (Exception ex) {
@@ -131,7 +130,7 @@ public class SearchLibraryOwnerService {
             int max = (size * (page + 1) > bookList.size()) ? bookList.size() : size * (page + 1);
             Pageable pageable = new PageRequest(page, size);
 
-            log.info("[Get Book list]=" + bookList);
+            log.info("[Get Book listttt]=" + bookList);
             Page<List<Map<String, Object>>> pageResult = new PageImpl(bookList.subList(size * page, max), pageable, bookList.size());
             return ResponseEntity.ok(pageResult);
         } catch (Exception ex) {

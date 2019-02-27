@@ -40,6 +40,7 @@ public class ReminderOfGivingABookForUserService {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
             scheduler.scheduleJob(jobDetailFactoryBean.getObject(), simpleTriggerFactoryBean.getObject());
         } catch (SchedulerException e) {
+            log.error("[Quartz]=reminderOfGivingABookForUser");
         }
     }
 
