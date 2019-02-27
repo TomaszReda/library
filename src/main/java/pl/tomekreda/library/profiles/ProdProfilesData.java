@@ -80,15 +80,10 @@ public class ProdProfilesData implements CommandLineRunner {
 
 
     private void createTemplate() {
-//        EmailTemplate emailTemplate = new EmailTemplate();
-//        emailTemplate.setContent();
-//        emailTemplate.setDescription("Wysyłanie zapytania o zmiane hasła");
-//        emailTemplate.setEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE);
-//        emailTemplateRepository.save(emailTemplate);
 
         int lenght;
         try {
-            byte bytes[];
+            byte[] bytes;
             InputStream template;
 
             if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE) == null) {

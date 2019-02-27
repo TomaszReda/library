@@ -33,11 +33,6 @@ public class EmailSender {
         } catch (MessagingException e) {
             log.error("Error send email");
         }
-        Executors.newSingleThreadExecutor().execute(new Runnable() {
-            @Override
-            public void run() {
-                javaMailSender.send(mail);
-            }
-        });
+        Executors.newSingleThreadExecutor().execute(() -> javaMailSender.send(mail));
     }
 }

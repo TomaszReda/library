@@ -52,7 +52,7 @@ public class LibraryService {
             if (!user.getUserMenager().equals(library.getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
-            library = CreateLibrary(updateLibraryRequest, library, user);
+            library = createLibrary(updateLibraryRequest, library, user);
 
             log.info("[Updated library]=" + library);
             return ResponseEntity.ok().build();
@@ -73,7 +73,7 @@ public class LibraryService {
             log.info("[Add library request]=" + addLibraryRequest);
             User user = userService.findLoggedUser();
 
-            Library tmp = CreateLibrary(addLibraryRequest, user);
+            Library tmp = createLibrary(addLibraryRequest, user);
 
             log.info("[Added library]=" + tmp);
             return ResponseEntity.ok().build();
@@ -166,7 +166,7 @@ public class LibraryService {
     }
 
 
-    private Library CreateLibrary(AddUpdateLibraryRequest addLibraryRequest, User user) {
+    private Library createLibrary(AddUpdateLibraryRequest addLibraryRequest, User user) {
         Library tmp = new Library();
         tmp.setCity(addLibraryRequest.getCity());
         tmp.setEmail(addLibraryRequest.getEmail());
@@ -185,7 +185,7 @@ public class LibraryService {
     }
 
 
-    private Library CreateLibrary(AddUpdateLibraryRequest updateLibraryRequest, Library library, User user) {
+    private Library createLibrary(AddUpdateLibraryRequest updateLibraryRequest, Library library, User user) {
         library.setCity(updateLibraryRequest.getCity());
         library.setLatitude(updateLibraryRequest.getLatitude());
         library.setEmail(updateLibraryRequest.getEmail());

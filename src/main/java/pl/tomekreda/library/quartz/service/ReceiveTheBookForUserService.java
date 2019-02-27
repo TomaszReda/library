@@ -10,7 +10,6 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.quartz.configuration.ConfigureQuartz;
-import pl.tomekreda.library.quartz.configuration.QuartzJobFactory;
 import pl.tomekreda.library.quartz.job.JobReceiveTheBookForUser;
 import pl.tomekreda.library.quartz.utils.QuartzUtils;
 

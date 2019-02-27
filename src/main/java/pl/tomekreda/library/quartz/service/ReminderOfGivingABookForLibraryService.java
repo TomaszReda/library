@@ -41,6 +41,7 @@ public class ReminderOfGivingABookForLibraryService {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
             scheduler.scheduleJob(jobDetailFactoryBean.getObject(), simpleTriggerFactoryBean.getObject());
         } catch (SchedulerException e) {
+            //not caled
         }
     }
 

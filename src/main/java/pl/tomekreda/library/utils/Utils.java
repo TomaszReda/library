@@ -33,14 +33,13 @@ public  final class Utils {
 
     public static List<Map<String, Object>> createBookList(List<Book> bookList) {
         List<Map<String, Object>> listLibrary = new ArrayList<>();
-        Utils utils = new Utils();
         for (Book b : bookList) {
             Map<String, Object> map = new HashMap<>();
             map.put("author", b.getAuthor());
             map.put("title", b.getTitle());
             map.put("publisher", b.getPublisher());
             map.put("libraryId", b.getLibrary().getId());
-            map.put("bookState", utils.convert(b.getBookState()));
+            map.put("bookState", Utils.convert(b.getBookState()));
             map.put("quant", b.getQuant());
             map.put("bookId", b.getId());
             listLibrary.add(map);

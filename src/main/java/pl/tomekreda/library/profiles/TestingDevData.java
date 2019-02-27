@@ -15,7 +15,6 @@ import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.message.MessageDisplay;
 import pl.tomekreda.library.model.message.MessageToCasualUser;
 import pl.tomekreda.library.model.message.MessageToLibraryOwner;
-import pl.tomekreda.library.model.task.TaskForLibrary;
 import pl.tomekreda.library.model.task.TaskForUser;
 import pl.tomekreda.library.model.task.TaskForUserType;
 import pl.tomekreda.library.model.task.TaskStatus;
@@ -65,7 +64,7 @@ public class TestingDevData implements CommandLineRunner {
     public void run(String... args) throws Exception {
         this.createBookCategory();
 
-        User casual = new User("Kasiaa", "Reda", TestingProfilesUtils.EMAIL_TOMEK, 123456789, passwordEncoder.encode(TestingProfilesUtils.HASŁO), UserState.ACTIVE);
+        User casual = new User("Kasiaa", "Reda", TestingProfilesUtils.EMAIL_TOMEK, 123456789, passwordEncoder.encode(TestingProfilesUtils.DATAP), UserState.ACTIVE);
         UserRoles userCasualRole = new UserRoles();
         userCasualRole.setUserRole(UserRoleEnum.CASUAL_USER);
         UserCasual userCasual = new UserCasual();
@@ -73,7 +72,7 @@ public class TestingDevData implements CommandLineRunner {
         casual.getUserRoles().add(userCasualRole);
         userRepository.save(casual);
 
-        User owner = new User("Tomekk", "Redaa", "owner@local", 123456789, passwordEncoder.encode(TestingProfilesUtils.HASŁO), UserState.ACTIVE);
+        User owner = new User("Tomekk", "Redaa", "owner@local", 123456789, passwordEncoder.encode(TestingProfilesUtils.DATAP), UserState.ACTIVE);
         UserRoles userOwnerRole = new UserRoles();
         userOwnerRole.setUserRole(UserRoleEnum.LIBRARY_OWNER);
         owner.getUserRoles().add(userOwnerRole);
@@ -83,7 +82,7 @@ public class TestingDevData implements CommandLineRunner {
 
         addLibrary(owner);
 
-        User owner2 = new User("Tomekkkk", "Reada", "owner2@local", 123456789, passwordEncoder.encode(TestingProfilesUtils.HASŁO), UserState.ACTIVE);
+        User owner2 = new User("Tomekkkk", "Reada", "owner2@local", 123456789, passwordEncoder.encode(TestingProfilesUtils.DATAP), UserState.ACTIVE);
         UserRoles userOwner2Role = new UserRoles();
         userOwner2Role.setUserRole(UserRoleEnum.LIBRARY_OWNER);
         UserMenager userMenager2 = new UserMenager();
@@ -93,13 +92,13 @@ public class TestingDevData implements CommandLineRunner {
 
         addLibrary(owner2);
 
-        User admin = new User("Tomekkk", "Redaa", "admin@local", 123456789, passwordEncoder.encode(TestingProfilesUtils.HASŁO), UserState.ACTIVE);
+        User admin = new User("Tomekkk", "Redaa", "admin@local", 123456789, passwordEncoder.encode(TestingProfilesUtils.DATAP), UserState.ACTIVE);
         UserRoles userAdminRole = new UserRoles();
         userAdminRole.setUserRole(UserRoleEnum.ADMIN);
         admin.getUserRoles().add(userAdminRole);
         userRepository.save(admin);
 
-        this.CreateTemplate();
+        this.createTemplate();
 
     }
 
@@ -213,17 +212,17 @@ public class TestingDevData implements CommandLineRunner {
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Anna Todddddd ", "After. Płomień podd moją skórą", "PWD", LocalDate.of(1995, 8, 2), "1234432532", 12, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
+        book = new Book("Anna Toddddddddd ", "After. Płomień podd moją skórą", "PWD", LocalDate.of(1995, 8, 2), "1234432532", 12, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Anna Todddddd ", "After. Płomień pod mojąa skórą", "PWD", LocalDate.of(1996, 10, 3), "1234221532", 11, "Opis", library, BookState.DELETE, null, bookCategory);
+        book = new Book("Annaa Todddddd ", "After. Płomień pod mojąa skórą", "PWD", LocalDate.of(1996, 10, 3), "1234221532", 11, "Opis", library, BookState.DELETE, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Anna Todddddd ", "Afterr. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "1234321332", 12, "Opis", library, BookState.DELETE, null, bookCategory);
+        book = new Book("AAnna Todddddd ", "Afterr. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "1234321332", 12, "Opis", library, BookState.DELETE, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
@@ -369,12 +368,10 @@ public class TestingDevData implements CommandLineRunner {
     }
 
 
-    private void CreateTemplate() {
-
-
+    private void createTemplate() {
         int lenght;
         try {
-            byte bytes[];
+            byte[] bytes;
             InputStream template;
 
             if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE) == null) {

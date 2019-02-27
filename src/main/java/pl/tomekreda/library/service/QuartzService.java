@@ -49,31 +49,31 @@ public class QuartzService {
         }
         TaskForUser taskForUser = taskForUserRepository.findById(taskForUserId).orElse(null);
         User user = userRepository.findByUserCasual(reservBook.getUserCasual());
-        String contentForCasualUser = " Nie odebrałeś w ciągu 3 dni zarezerwowanej książki " + reservBook.getAuthor() + " - " + reservBook.getTitle() + " z biblioteki" + reservBook.getLibrary().getName() + " w ilości " + reservBook.getQuant() + ".";
-        String contentForLibraryOwner = "Użytkownik " + user.getEmail() + " nie odebrał ksiazki w ciagu 3 dni zarezerwowanej ksiazki  " + reservBook.getAuthor() + "-  " + reservBook.getTitle() + " z biblioteki " + reservBook.getLibrary().getName() + " w ilości " + reservBook.getQuant() + ".";
+        String contentForCasualUser = " Nie odebrałeś w ciągu 3 dni zarezerwowanej książki " + reservBook.getAuthor() + " - " + reservBook.getTitle() + " z biblioteki" + reservBook.getLibrary().getName() + MessageUtils.IN_COUNT + +reservBook.getQuant() + ".";
+        String contentForLibraryOwner = "Użytkownik " + user.getEmail() + " nie odebrał ksiazki w ciagu 3 dni zarezerwowanej ksiazki  " + reservBook.getAuthor() + "-  " + reservBook.getTitle() + " z biblioteki " + reservBook.getLibrary().getName() + MessageUtils.IN_COUNT + +reservBook.getQuant() + ".";
         MessageToCasualUser messageToCasualUser = new MessageToCasualUser(contentForCasualUser, MessageUtils.RESERV_NOT_RECEIVED_FOR_CASUAL_USER, user, null, MessageDisplay.DANGER);
         MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(contentForLibraryOwner, MessageUtils.RESERV_NOT_RECEIVED_FOR_LIBRARY_OWNER, reservBook.getLibrary(), MessageDisplay.DANGER);
         messageToCasualUserRepository.save(messageToCasualUser);
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
-        if (taskForUser != null) {
-            if (taskForUser.getTaskStatus().equals(TaskStatus.TO_DO)) {
-                taskForUser.setTaskStatus(TaskStatus.REMOVED);
-                taskForUser.setDateDone(LocalDateTime.now());
-                taskForUserRepository.save(taskForUser);
-                Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
-                if (notReservBook != null) {
-                    reservBook.setUserCasual(null);
-                    reservBook.setBookState(BookState.DELETE);
-                    bookRepository.save(reservBook);
-                    notReservBook.setQuant(reservBook.getQuant() + notReservBook.getQuant());
-                    bookRepository.save(notReservBook);
+        if (taskForUser != null && taskForUser.getTaskStatus().equals(TaskStatus.TO_DO)) {
 
-                } else {
-                    reservBook.setBookState(BookState.NOTRESERVED);
-                    reservBook.setUserCasual(null);
-                    bookRepository.save(reservBook);
-                }
+            taskForUser.setTaskStatus(TaskStatus.REMOVED);
+            taskForUser.setDateDone(LocalDateTime.now());
+            taskForUserRepository.save(taskForUser);
+            Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
+            if (notReservBook != null) {
+                reservBook.setUserCasual(null);
+                reservBook.setBookState(BookState.DELETE);
+                bookRepository.save(reservBook);
+                notReservBook.setQuant(reservBook.getQuant() + notReservBook.getQuant());
+                bookRepository.save(notReservBook);
+
+            } else {
+                reservBook.setBookState(BookState.NOTRESERVED);
+                reservBook.setUserCasual(null);
+                bookRepository.save(reservBook);
             }
+
         }
     }
 
@@ -90,7 +90,7 @@ public class QuartzService {
         User user = userRepository.findByUserCasual(reservBook.getUserCasual());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formatDate = taskForLibrary.getDateExpiration().format(formatter);
-        String content = "Termin oddania książki( " + formatDate + " ) " + reservBook.getTitle() + " - " + reservBook.getAuthor() + " w ilości " + reservBook.getQuant() + " użytkownika " + user.getEmail() + " w bibliotece " + reservBook.getLibrary().getName() + " minął.";
+        String content = "Termin oddania książki( " + formatDate + " ) " + reservBook.getTitle() + " - " + reservBook.getAuthor() + MessageUtils.IN_COUNT + +reservBook.getQuant() + " użytkownika " + user.getEmail() + " w bibliotece " + reservBook.getLibrary().getName() + " minął.";
         MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(content, MessageUtils.REMINDER_OF_GIVING_A_BOOK_FOR_LIBRARY_OWNER, reservBook.getLibrary(), taskForLibrary, MessageDisplay.WARNING);
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
     }
@@ -108,12 +108,10 @@ public class QuartzService {
         User user = userRepository.findByUserCasual(reservBook.getUserCasual());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formatDate = taskForUser.getDateExpiration().format(formatter);
-        String content = "Termin oddania książki( " + formatDate + " ) " + reservBook.getTitle() + " - " + reservBook.getAuthor() + " w ilości " + reservBook.getQuant() + " w bibliotece " + reservBook.getLibrary().getName() + " minął.";
+        String content = "Termin oddania książki( " + formatDate + " ) " + reservBook.getTitle() + " - " + reservBook.getAuthor() + MessageUtils.IN_COUNT + +reservBook.getQuant() + " w bibliotece " + reservBook.getLibrary().getName() + " minął.";
         MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.REMINDER_OF_GIVING_A_BOOK_FOR_CASUAL_USER, user, taskForUser, MessageDisplay.WARNING);
         messageToCasualUserRepository.save(messageToCasualUser);
     }
-
-
 
 
 }

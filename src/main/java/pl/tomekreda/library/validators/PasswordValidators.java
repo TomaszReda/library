@@ -1,7 +1,10 @@
 package pl.tomekreda.library.validators;
 
-public class PasswordValidators {
+public final class PasswordValidators {
 
+    private PasswordValidators() {
+        // not called
+    }
 
     public static boolean valid(String password) {
 
