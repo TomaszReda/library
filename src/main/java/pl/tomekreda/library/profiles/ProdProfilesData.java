@@ -29,7 +29,7 @@ public class ProdProfilesData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         this.createBookCategory();
-        this.CreateTemplate();
+        this.createTemplate();
 
     }
 
@@ -79,7 +79,7 @@ public class ProdProfilesData implements CommandLineRunner {
     }
 
 
-    private void CreateTemplate() {
+    private void createTemplate() {
 //        EmailTemplate emailTemplate = new EmailTemplate();
 //        emailTemplate.setContent();
 //        emailTemplate.setDescription("Wysyłanie zapytania o zmiane hasła");
@@ -90,7 +90,6 @@ public class ProdProfilesData implements CommandLineRunner {
         try {
             byte bytes[];
             InputStream template;
-            String toSave;
 
             if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE) == null) {
                 bytes = new byte[100000];
