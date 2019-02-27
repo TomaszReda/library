@@ -10,7 +10,9 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.quartz.configuration.ConfigureQuartz;
+import pl.tomekreda.library.quartz.configuration.QuartzJobFactory;
 import pl.tomekreda.library.quartz.job.JobReceiveTheBookForUser;
+import pl.tomekreda.library.quartz.utils.QuartzUtils;
 
 import java.util.Date;
 import java.util.UUID;
@@ -27,15 +29,15 @@ public class ReceiveTheBookForUserService {
 
         JobDetailFactoryBean jobDetailFactoryBean = ConfigureQuartz.createJobDetail(JobReceiveTheBookForUser.class);
 
-        jobDetailFactoryBean.setGroup("receive_the_book_for_user");
+        jobDetailFactoryBean.setGroup(QuartzUtils.QUARTZ_GROPUP);
         jobDetailFactoryBean.getJobDataMap().put("bookId", bookId);
         jobDetailFactoryBean.getJobDataMap().put("taskForUserId", taskForUserId);
-        jobDetailFactoryBean.setBeanName("receive_the_book_for_user " + taskForUserId);
+        jobDetailFactoryBean.setBeanName(QuartzUtils.QUARTZ_GROPUP+ taskForUserId);
         jobDetailFactoryBean.afterPropertiesSet();
 
         SimpleTriggerFactoryBean simpleTriggerFactoryBean = ConfigureQuartz.createTrigger(jobDetailFactoryBean.getObject(), date);
-        simpleTriggerFactoryBean.setGroup("receive_the_book_for_user");
-        simpleTriggerFactoryBean.setBeanName("receive_the_book_for_user " + taskForUserId);
+        simpleTriggerFactoryBean.setGroup(QuartzUtils.QUARTZ_GROPUP);
+        simpleTriggerFactoryBean.setBeanName(QuartzUtils.QUARTZ_GROPUP  + taskForUserId);
         simpleTriggerFactoryBean.afterPropertiesSet();
 
         try {
@@ -51,7 +53,7 @@ public class ReceiveTheBookForUserService {
     public void deleteJob(UUID taskForUserId) {
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
-            JobKey jobKey = new JobKey("receive_the_book_for_user " + taskForUserId, "receive_the_book_for_user");
+            JobKey jobKey = new JobKey(QuartzUtils.QUARTZ_GROPUP + taskForUserId, QuartzUtils.QUARTZ_GROPUP);
             scheduler.deleteJob(jobKey);
         } catch (SchedulerException e) {
             log.error("[Quartz]=deleteJob");

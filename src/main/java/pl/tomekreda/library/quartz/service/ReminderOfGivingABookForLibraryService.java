@@ -11,6 +11,7 @@ import org.springframework.scheduling.quartz.SimpleTriggerFactoryBean;
 import org.springframework.stereotype.Service;
 import pl.tomekreda.library.quartz.configuration.ConfigureQuartz;
 import pl.tomekreda.library.quartz.job.JobReminderOfGivingABookForLibrary;
+import pl.tomekreda.library.quartz.utils.QuartzUtils;
 
 import java.util.Date;
 import java.util.UUID;
@@ -27,13 +28,13 @@ public class ReminderOfGivingABookForLibraryService {
         jobDetailFactoryBean.getJobDataMap().put("bookId", bookId);
         jobDetailFactoryBean.getJobDataMap().put("taskForLibraryId", taskForLibraryId);
 
-        jobDetailFactoryBean.setGroup("reminder_of_giving_a_book_for_library");
-        jobDetailFactoryBean.setBeanName("reminder_of_giving_a_book_for_library" + taskForLibraryId);
+        jobDetailFactoryBean.setGroup(QuartzUtils.QUARTZ_GROUP_REMINER);
+        jobDetailFactoryBean.setBeanName(QuartzUtils.QUARTZ_GROUP_REMINER + taskForLibraryId);
         jobDetailFactoryBean.afterPropertiesSet();
 
         SimpleTriggerFactoryBean simpleTriggerFactoryBean = ConfigureQuartz.createTrigger(jobDetailFactoryBean.getObject(), date);
-        simpleTriggerFactoryBean.setGroup("reminder_of_giving_a_book_for_library");
-        simpleTriggerFactoryBean.setBeanName("reminder_of_giving_a_book_for_library" + taskForLibraryId);
+        simpleTriggerFactoryBean.setGroup(QuartzUtils.QUARTZ_GROUP_REMINER);
+        simpleTriggerFactoryBean.setBeanName(QuartzUtils.QUARTZ_GROUP_REMINER + taskForLibraryId);
         simpleTriggerFactoryBean.afterPropertiesSet();
 
         try {
@@ -46,7 +47,7 @@ public class ReminderOfGivingABookForLibraryService {
     public void deleteJob(UUID taskForLibraryId) {
         try {
             Scheduler scheduler = schedulerFactoryBean.getScheduler();
-            JobKey jobKey = new JobKey("reminder_of_giving_a_book_for_library" + taskForLibraryId, "reminder_of_giving_a_book_for_library");
+            JobKey jobKey = new JobKey(QuartzUtils.QUARTZ_GROUP_REMINER + taskForLibraryId, QuartzUtils.QUARTZ_GROUP_REMINER);
             scheduler.deleteJob(jobKey);
 
         } catch (SchedulerException e) {
