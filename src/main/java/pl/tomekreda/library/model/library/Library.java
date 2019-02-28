@@ -54,17 +54,7 @@ public class Library {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<MessageToLibraryOwner> messageToLibraryOwners = new ArrayList<>();
 
-    public Library(String city, String email, String latitude, String local, String longitude, String name, String number, String postalCode, String street) {
-        this.city = city;
-        this.email = email;
-        this.latitude = latitude;
-        this.local = local;
-        this.longitude = longitude;
-        this.name = name;
-        this.number = number;
-        this.postalCode = postalCode;
-        this.street = street;
-    }
+
 
     public Library() {
     }

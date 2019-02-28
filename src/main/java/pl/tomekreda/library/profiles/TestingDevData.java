@@ -101,10 +101,7 @@ public class TestingDevData implements CommandLineRunner {
 
     private void createBook(Library library, User owner) {
         BookCategory bookCategory = bookCategoryRepository.findFirstByCategoryType("Przygodowa");
-        Book book = new Book("Henryk Sienkiewicz", "W pustyni i w puszczy", "PWD", LocalDate.of(1992, 12, 11), "12213342", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        book.setUserMenager(owner.getUserMenager());
+        Book book = new Book(null, "Henryk Sienkiewicz", "W pustyni i w puszczy", "PWD", LocalDate.of(1992, 12, 11), "12213342", 1, "Henryk Sienkiewicz W pustyni i w puszczy", null, "Opis", library, BookState.NOTRESERVED, null, owner.getUserMenager(), bookCategory);
         bookRepository.save(book);
 
         createBook("Henryk Sienkiewiczz", " sad asd ad adsa dasd ada", "PWD", LocalDate.of(1992, 12, 11), "12332142", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
@@ -149,14 +146,10 @@ public class TestingDevData implements CommandLineRunner {
         createBook("Anna Toddddddddd ", "After. Płomień podd moją skórą", "PWD", LocalDate.of(1995, 8, 2), "1234432532", 12, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
 
 
-        book = new Book("Annaa Todddddd ", "After. Płomień pod mojąa skórą", "PWD", LocalDate.of(1996, 10, 3), "1234221532", 11, "Opis", library, BookState.DELETE, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
+        book = new Book(null, "Annaa Todddddd ", "After. Płomień pod mojąa skórą", "PWD", LocalDate.of(1996, 10, 3), "1234221532", 11, "Annaa Todddddd After. Płomień pod mojąa skórą Annaa Toddddddd", null, "Opis", library, BookState.DELETE, null, owner.getUserMenager(), bookCategory);
         bookRepository.save(book);
 
-        book = new Book("AAnna Todddddd ", "Afterr. Płomień pod moją skórą", "PWD", LocalDate.of(1995, 8, 2), "1234321332", 12, "Opis", library, BookState.DELETE, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
+        book = new Book(null, "Annaa Toddddddd ", "After. Płomień pod mojąa skórąą", "PWD", LocalDate.of(1996, 10, 3), "1234221532", 11, "Annaa Todddddd After. Płomień pod mojąa skórą Annaa Todddddd", null, "Opiss", library, BookState.DELETE, null, owner.getUserMenager(), bookCategory);
         bookRepository.save(book);
 
         User user = userRepository.findUserByEmail(TestingProfilesUtils.EMAIL_TOMEK);
@@ -171,10 +164,7 @@ public class TestingDevData implements CommandLineRunner {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Opis", library, BookState.BOOKED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserCasual(user.getUserCasual());
-        book.setUserMenager(owner.getUserMenager());
+        book = new Book(null, "Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Anna Todd After. Płomień pod moją skórą Anna Todd ", null, "Opis", library, BookState.BOOKED, user.getUserCasual(), owner.getUserMenager(), bookCategory);
         book = bookRepository.save(book);
         taskForUser = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
@@ -187,10 +177,7 @@ public class TestingDevData implements CommandLineRunner {
         messageToCasualUserRepository.save(messageToCasualUser);
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
 
-        book = new Book("Anna Todd2 ", "After. Płomień pod moją skórą2", "PWD2", LocalDate.of(1995, 8, 2), "123432", 12, "Opis", library, BookState.BOOKED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserCasual(user.getUserCasual());
-        book.setUserMenager(owner.getUserMenager());
+        book = new Book(null, "Anna Todd2 ", "After. Płomień pod moją skórą2", "PWD2", LocalDate.of(1995, 8, 2), "123432", 12, "Anna Todd2 After. Płomień pod moją skórą2 Anna Todd2", null, "Opis", library, BookState.BOOKED, user.getUserCasual(), owner.getUserMenager(), bookCategory);
         book = bookRepository.save(book);
         taskForUser = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
@@ -206,7 +193,7 @@ public class TestingDevData implements CommandLineRunner {
 
 
     private void createBook(String autor, String titile, String publisher, LocalDate localDate, String isbn, int quant, String description, Library library, BookState bookState, UserCasual userCasual, BookCategory bookCategory, User owner) {
-        Book book = new Book(autor, titile, publisher, localDate, isbn, quant, description, library, bookState, userCasual, bookCategory);
+        Book book = new Book(null, autor, titile, publisher, localDate, isbn, quant, autor + " " + titile + " " + autor, null, description, library, bookState, userCasual, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
@@ -214,9 +201,7 @@ public class TestingDevData implements CommandLineRunner {
 
     private void addLibrary(User owner) {
 
-
-        Library library = new Library("Chrustne", TestingProfilesUtils.EMAIL_TOMEK, "51.61308", null, "21.97838", "Marzenie" + rn.nextInt(10) + 1, "34", "08-500 Ryki", null);
-        library.setUserMenager(owner.getUserMenager());
+        Library library = new Library(null, "Chrustne", TestingProfilesUtils.EMAIL_TOMEK, "51.61308", null, "21.97838", "Marzenie" + rn.nextInt(10) + 1, "34", "08-500 Ryki", null, null, null, owner.getUserMenager(), null);
         library = libraryRepository.save(library);
         this.createBook(library, owner);
 
@@ -238,8 +223,7 @@ public class TestingDevData implements CommandLineRunner {
 
         addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1930164", null, "21.0123836", "Tarabuk", "52", "02-001 Warszawaa", "Antoniego Malczewskiego\t", owner);
 
-        library = new Library("Chrustne", TestingProfilesUtils.EMAIL_TOMEK, "51.61308", null, "21.97838", "Marzenieee", "34", "08-500 Ryki", null);
-        library.setUserMenager(owner.getUserMenager());
+        library = new Library(null, "Chrustne", TestingProfilesUtils.EMAIL_TOMEK, "51.61308", null, "21.97838", "Marzenieee", "34", "08-500 Ryki", null, null, null, owner.getUserMenager(), null);
         libraryRepository.save(library);
 
         addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2631523", "101", "21.0288848266558", "Ksiazeczkaaa", "11", "05-077 Warszawa", "Józefa Szanajcy", owner);
@@ -263,8 +247,7 @@ public class TestingDevData implements CommandLineRunner {
     }
 
     private void addOneLibrary(String city, String email, String latitude, String local, String longitude, String name, String number, String postalCode, String street, User owner) {
-        Library library = new Library(city, email, latitude, local, longitude, name, number, postalCode, street);
-        library.setUserMenager(owner.getUserMenager());
+        Library library = new Library(null,city, email, latitude, local, longitude, name, number, postalCode, street,null, null, owner.getUserMenager(), null);
         libraryRepository.save(library);
     }
 

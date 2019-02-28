@@ -1,10 +1,7 @@
 package pl.tomekreda.library.model.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.task.Task;
@@ -73,19 +70,7 @@ public class Book {
         this.quant = quant;
     }
 
-    public Book(String author, String title, String publisher, LocalDate date, String isbn, int quant, String description, Library library, BookState bookState, UserCasual userCasual, BookCategory bookCategory) {
-        this.author = author;
-        this.title = title;
-        this.publisher = publisher;
-        this.date = date;
-        this.isbn = isbn;
-        this.quant = quant;
-        this.description = description;
-        this.library = library;
-        this.bookState = bookState;
-        this.userCasual = userCasual;
-        this.bookCategory = bookCategory;
-    }
+
 
     public Book() {
     }
