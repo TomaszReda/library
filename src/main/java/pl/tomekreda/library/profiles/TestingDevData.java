@@ -104,80 +104,50 @@ public class TestingDevData implements CommandLineRunner {
         Book book = new Book("Henryk Sienkiewicz", "W pustyni i w puszczy", "PWD", LocalDate.of(1992, 12, 11), "12213342", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
         book.setUserMenager(owner.getUserMenager());
-
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-        book = new Book("Henryk Sienkiewiczz", " sad asd ad adsa dasd ada", "PWD", LocalDate.of(1992, 12, 11), "12332142", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-        book = new Book("Jakub Żulczykk", "test Ślepnąc od świateł", "ZNAK", LocalDate.of(1996, 10, 11), "13232322", 6, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-
         book.setUserMenager(owner.getUserMenager());
         bookRepository.save(book);
 
-        book = new Book("Jakub Żulczyk", "Ślepnąc od światełł", "PWD", LocalDate.of(1998, 10, 11), "12453263", 3, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Rafał Wicijowski ", "Oczami Mężczyzny", "PZWL", LocalDate.of(1999, 2, 3), "532123", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Rafał Wicijowskii ", "Oczami Mężczyznyy", "jaguar", LocalDate.of(2006, 3, 7), "32212312", 9, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123413223", 7, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Blanka Lipińskaa ", "Ten dzieńń", "Znak", LocalDate.of(2008, 9, 1), "1234323122", 3, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Colleen Hoover ", "Wszystkie nasze obietnicee", "ZNAK", LocalDate.of(1992, 9, 6), "12343232145", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Colleen Hooverr ", "Wszystkie nasze obietniceee", "PWD", LocalDate.of(1998, 10, 3), "123242212", 2, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Colleen Hooverrr ", "Wszystkie nasze obietniceeee", "PZWL", LocalDate.of(1995, 12, 2), "123343212", 3, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Anna Todd ", "After. Płomień pod moją skórąaa", "PWD", LocalDate.of(1996, 10, 3), "123423242", 11, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
-
-        book = new Book("Anna Toddd ", "After. Płomień pod moją skórąa", "PWD", LocalDate.of(1995, 8, 2), "123433212", 12, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
+        createBook("Henryk Sienkiewiczz", " sad asd ad adsa dasd ada", "PWD", LocalDate.of(1992, 12, 11), "12332142", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
 
 
-        book = new Book("Anna Todddd ", "After. Płomień pod moją skórąaaa", "PWD", LocalDate.of(1996, 10, 3), "1234232142", 11, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
+        createBook("Jakub Żulczykk", "test Ślepnąc od świateł", "ZNAK", LocalDate.of(1996, 10, 11), "13232322", 6, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
 
-        book = new Book("Anna Toddddddddd ", "After. Płomień podd moją skórą", "PWD", LocalDate.of(1995, 8, 2), "1234432532", 12, "Opis", library, BookState.NOTRESERVED, null, bookCategory);
-        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
-        book.setUserMenager(owner.getUserMenager());
-        bookRepository.save(book);
+
+        createBook("Jakub Żulczyk", "Ślepnąc od światełł", "PWD", LocalDate.of(1998, 10, 11), "12453263", 3, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Rafał Wicijowski ", "Oczami Mężczyzny", "PZWL", LocalDate.of(1999, 2, 3), "532123", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Rafał Wicijowskii ", "Oczami Mężczyznyy", "jaguar", LocalDate.of(2006, 3, 7), "32212312", 9, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Blanka Lipińska ", "Ten dzień", "PWD", LocalDate.of(2005, 3, 5), "123413223", 7, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Blanka Lipińskaa ", "Ten dzieńń", "Znak", LocalDate.of(2008, 9, 1), "1234323122", 3, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Colleen Hoover ", "Wszystkie nasze obietnicee", "ZNAK", LocalDate.of(1992, 9, 6), "12343232145", 1, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Colleen Hooverr ", "Wszystkie nasze obietniceee", "PWD", LocalDate.of(1998, 10, 3), "123242212", 2, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Colleen Hooverrr ", "Wszystkie nasze obietniceeee", "PZWL", LocalDate.of(1995, 12, 2), "123343212", 3, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Anna Todd ", "After. Płomień pod moją skórąaa", "PWD", LocalDate.of(1996, 10, 3), "123423242", 11, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Anna Toddd ", "After. Płomień pod moją skórąa", "PWD", LocalDate.of(1995, 8, 2), "123433212", 12, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Anna Todddd ", "After. Płomień pod moją skórąaaa", "PWD", LocalDate.of(1996, 10, 3), "1234232142", 11, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
+
+        createBook("Anna Toddddddddd ", "After. Płomień podd moją skórą", "PWD", LocalDate.of(1995, 8, 2), "1234432532", 12, "Opis", library, BookState.NOTRESERVED, null, bookCategory, owner);
+
 
         book = new Book("Annaa Todddddd ", "After. Płomień pod mojąa skórą", "PWD", LocalDate.of(1996, 10, 3), "1234221532", 11, "Opis", library, BookState.DELETE, null, bookCategory);
         book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
@@ -235,94 +205,67 @@ public class TestingDevData implements CommandLineRunner {
     }
 
 
+    private void createBook(String autor, String titile, String publisher, LocalDate localDate, String isbn, int quant, String description, Library library, BookState bookState, UserCasual userCasual, BookCategory bookCategory, User owner) {
+        Book book = new Book(autor, titile, publisher, localDate, isbn, quant, description, library, bookState, userCasual, bookCategory);
+        book.setBookSearch(book.getAuthor() + " " + book.getTitle() + " " + book.getAuthor());
+        book.setUserMenager(owner.getUserMenager());
+        bookRepository.save(book);
+    }
+
     private void addLibrary(User owner) {
+
 
         Library library = new Library("Chrustne", TestingProfilesUtils.EMAIL_TOMEK, "51.61308", null, "21.97838", "Marzenie" + rn.nextInt(10) + 1, "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
         library = libraryRepository.save(library);
         this.createBook(library, owner);
 
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2631523", "101", "21.0288848266558", "Ksiazeczka", "11", "05-077 Warszawa", "Józefa Szanajcy", owner);
 
-        Library library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2631523", "101", "21.0288848266558", "Ksiazeczka", "11", "05-077 Warszawa", "Józefa Szanajcy");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2319237", null, "21.0067265", "Czytanko", "26", "02-512 Warszawa", "Puławska", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2319237", null, "21.0067265", "Czytanko", "26", "02-512 Warszawa", "Puławska");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.165191", null, "21.0702468", "Ksiegarnius", "18", "02-972 Warszawa", "Aleja Rzeczypospolitej", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.165191", null, "21.0702468", "Ksiegarnius", "18", "02-972 Warszawa", "Aleja Rzeczypospolitej");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1634313", null, "21.0408349358631", "Ksiegarnia PSW", "161", "02-097 Warszawa", "Nowoursynowska", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1634313", null, "21.0408349358631", "Ksiegarnia PSW", "161", "02-097 Warszawa", "Nowoursynowska");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2448274", null, "21.0147069", "Księgarnia PWNN", "62", "00-322 Warszawa", "Krakowskie Przedmieście", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2448274", null, "21.0147069", "Księgarnia PWNN", "62", "00-322 Warszawa", "Krakowskie Przedmieście");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.205177", null, "20.9390127330357", "Ksiegarnia medyczna", "2", "02-460 Warszawa", "Daimlera", owner);
 
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.19902895", null, "20.9983573717488", "Ksiegarnia prawnicza", "137", "02-507 Warszawa", "Wołoska", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.205177", null, "20.9390127330357", "Ksiegarnia medyczna", "2", "02-460 Warszawa", "Daimlera");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1929968", null, "21.0134542", "Klub książki", "47", "02-001 Warszawa", "Antoniego Malczewskiego ", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.19902895", null, "20.9983573717488", "Ksiegarnia prawnicza", "137", "02-507 Warszawa", "Wołoska");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
-
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1929968", null, "21.0134542", "Klub książki", "47", "02-001 Warszawa", "Antoniego Malczewskiego ");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
-
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1930164", null, "21.0123836", "Tarabuk", "52", "02-001 Warszawaa", "Antoniego Malczewskiego\t");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
-
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1930164", null, "21.0123836", "Tarabuk", "52", "02-001 Warszawaa", "Antoniego Malczewskiego\t", owner);
 
         library = new Library("Chrustne", TestingProfilesUtils.EMAIL_TOMEK, "51.61308", null, "21.97838", "Marzenieee", "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
         libraryRepository.save(library);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2631523", "101", "21.0288848266558", "Ksiazeczkaaa", "11", "05-077 Warszawa", "Józefa Szanajcy");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2631523", "101", "21.0288848266558", "Ksiazeczkaaa", "11", "05-077 Warszawa", "Józefa Szanajcy", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2319237", null, "21.0067265", "Czytankooo", "26", "02-512 Warszawa", "Puławska");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2319237", null, "21.0067265", "Czytankooo", "26", "02-512 Warszawa", "Puławska", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.165191", null, "21.0702468", "Ksiegarniusss", "18", "02-972 Warszawa", "Aleja Rzeczypospolitej");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.165191", null, "21.0702468", "Ksiegarniusss", "18", "02-972 Warszawa", "Aleja Rzeczypospolitej", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1634313", null, "21.0408349358631", "Ksiegarnia PSWWW", "161", "02-097 Warszawa", "Nowoursynowska");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1634313", null, "21.0408349358631", "Ksiegarnia PSWWW", "161", "02-097 Warszawa", "Nowoursynowska", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2448274", null, "21.0147069", "Klub książki", "62", "00-322 Warszawa", "Krakowskie Przedmieście");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.2448274", null, "21.0147069", "Klub książki", "62", "00-322 Warszawa", "Krakowskie Przedmieście", owner);
 
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.205177", null, "20.9390127330357", "Ksiegarnia prawnicza", "2", "02-460 Warszawa", "Daimlera", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.205177", null, "20.9390127330357", "Ksiegarnia prawnicza", "2", "02-460 Warszawa", "Daimlera");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.19902895", null, "20.9983573717488", "Ksiegarnia medycznaAAA", "137", "02-507 Warszawa", "Wołoska", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.19902895", null, "20.9983573717488", "Ksiegarnia medycznaAAA", "137", "02-507 Warszawa", "Wołoska");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1929968", null, "21.0134542", "Księgarnia PWNNNN", "47", "02-001 Warszawaaa", "Antoniego Malczewskiego ", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1929968", null, "21.0134542", "Księgarnia PWNNNN", "47", "02-001 Warszawaaa", "Antoniego Malczewskiego ");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+        addOneLibrary(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1930164", null, "21.0123836", "Tarabuk", "52", "02-001 Warszawaaaaa", "Antoniego Malczewskiego\t", owner);
 
-        library2 = new Library(TestingProfilesUtils.CITY, TestingProfilesUtils.EMAIL_TOMEK, "52.1930164", null, "21.0123836", "Tarabuk", "52", "02-001 Warszawaaaaa", "Antoniego Malczewskiego\t");
-        library2.setUserMenager(owner.getUserMenager());
-        libraryRepository.save(library2);
+    }
 
-
+    private void addOneLibrary(String city, String email, String latitude, String local, String longitude, String name, String number, String postalCode, String street, User owner) {
+        Library library = new Library(city, email, latitude, local, longitude, name, number, postalCode, street);
+        library.setUserMenager(owner.getUserMenager());
+        libraryRepository.save(library);
     }
 
 
