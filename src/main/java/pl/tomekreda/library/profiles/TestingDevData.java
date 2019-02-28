@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
 import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.book.BookCategory;
 import pl.tomekreda.library.model.book.BookState;
-import pl.tomekreda.library.model.email.EmailTemplate;
-import pl.tomekreda.library.model.email.EmailTemplateType;
 import pl.tomekreda.library.model.library.Library;
 import pl.tomekreda.library.model.message.MessageDisplay;
 import pl.tomekreda.library.model.message.MessageToCasualUser;
@@ -19,12 +17,12 @@ import pl.tomekreda.library.model.task.TaskForUser;
 import pl.tomekreda.library.model.task.TaskForUserType;
 import pl.tomekreda.library.model.task.TaskStatus;
 import pl.tomekreda.library.model.user.*;
+import pl.tomekreda.library.profiles.util.TestingData;
 import pl.tomekreda.library.profiles.util.TestingProfilesUtils;
 import pl.tomekreda.library.repository.*;
 import pl.tomekreda.library.utils.MessageUtils;
 
 import javax.transaction.Transactional;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,10 +46,6 @@ public class TestingDevData implements CommandLineRunner {
 
     private final BookCategoryRepository bookCategoryRepository;
 
-    private final EmailTemplateRepository emailTemplateRepository;
-
-    private final TaskForLibraryRepository taskForLibraryRepository;
-
     private final TaskForUserRepository taskForUserRepository;
 
     private final MessageToLibraryOwnerRepository messageToLibraryOwnerRepository;
@@ -60,9 +54,11 @@ public class TestingDevData implements CommandLineRunner {
 
     private Random rn = new Random();
 
+    private final TestingData testingData;
+
     @Override
     public void run(String... args) throws Exception {
-        this.createBookCategory();
+        testingData.createBookCategory();
 
         User casual = new User("Kasiaa", "Reda", TestingProfilesUtils.EMAIL_TOMEK, 123456789, passwordEncoder.encode(TestingProfilesUtils.DATAP), UserState.ACTIVE);
         UserRoles userCasualRole = new UserRoles();
@@ -98,44 +94,10 @@ public class TestingDevData implements CommandLineRunner {
         admin.getUserRoles().add(userAdminRole);
         userRepository.save(admin);
 
-        this.createTemplate();
+        testingData.createTemplate();
 
     }
 
-
-    private void createBookCategory() {
-
-        BookCategory bookCategory = new BookCategory("Fantasy");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Biografie/Autobiografie");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Młodzieżowa");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Naukowa");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Sportowa");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Bajka");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Historyczna");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Horror");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Przygodowa");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Inna");
-        bookCategoryRepository.save(bookCategory);
-
-    }
 
     private void createBook(Library library, User owner) {
         BookCategory bookCategory = bookCategoryRepository.findFirstByCategoryType("Przygodowa");
@@ -270,7 +232,6 @@ public class TestingDevData implements CommandLineRunner {
         messageToLibraryOwnerRepository.save(messageToLibraryOwner);
 
 
-
     }
 
 
@@ -320,9 +281,6 @@ public class TestingDevData implements CommandLineRunner {
         libraryRepository.save(library2);
 
 
-        // add duplicat library
-        //
-        //
         library = new Library("Chrustne", TestingProfilesUtils.EMAIL_TOMEK, "51.61308", null, "21.97838", "Marzenieee", "34", "08-500 Ryki", null);
         library.setUserMenager(owner.getUserMenager());
         libraryRepository.save(library);
@@ -368,59 +326,6 @@ public class TestingDevData implements CommandLineRunner {
     }
 
 
-    private void createTemplate() {
-        int lenght;
-        try {
-            byte[] bytes;
-            InputStream template;
-
-            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_MESSAGE) == null) {
-                bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/resetPasswordMessage.html");
-                lenght = template.read(bytes);
-                String headerString = new String(bytes).substring(0, lenght).trim();
-                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.RESET_PASSWORD_MESSAGE));
-            }
-            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.RESET_PASSWORD_NEW_PASSWORD) == null) {
-                bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/resetPasswordNewPassword.html");
-                lenght = template.read(bytes);
-                String headerString = new String(bytes).substring(0, lenght).trim();
-                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.RESET_PASSWORD_NEW_PASSWORD));
-            }
-            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.REGISTER_CASUAL_USER) == null) {
-                bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/registrationCasualUser.html");
-                lenght = template.read(bytes);
-                String headerString = new String(bytes).substring(0, lenght).trim();
-                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.REGISTER_CASUAL_USER));
-            }
-            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.REGISTER_LIBRARY_OWNER) == null) {
-                bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/registrationLibraryOwnerUser.html");
-                lenght = template.read(bytes);
-                String headerString = new String(bytes).substring(0, lenght).trim();
-                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.REGISTER_LIBRARY_OWNER));
-            }
-            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.HEADER) == null) {
-                bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/header.html");
-                lenght = template.read(bytes);
-                String headerString = new String(bytes).substring(0, lenght).trim();
-                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.HEADER));
-            }
-            if (emailTemplateRepository.findFirstByEmailTemplateType(EmailTemplateType.FOOTER) == null) {
-                bytes = new byte[100000];
-                template = this.getClass().getClassLoader().getResourceAsStream("templates/mail/footer.html");
-                lenght = template.read(bytes);
-                String headerString = new String(bytes).substring(0, lenght).trim();
-                emailTemplateRepository.save(new EmailTemplate(headerString, "Opis", EmailTemplateType.FOOTER));
-            }
-        } catch (Exception e) {
-            log.error("Exception in loading emails to database");
-            log.error(e.getMessage());
-        }
-    }
 }
 
 

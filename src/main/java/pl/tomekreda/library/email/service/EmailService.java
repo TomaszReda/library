@@ -36,17 +36,10 @@ public class EmailService {
 
     public void sendEmailaResetPassword(String to, UUID token) {
         try {
-            String head = null;
-            String footer = null;
+            String head = getHeader();
+            String footer = getFooter();
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.RESET_PASSWORD_MESSAGE).orElse(null);
-            EmailTemplate headerTemplate = emailTemplateRepository.findById(EmailTemplateType.HEADER).orElse(null);
-            EmailTemplate footerTemplate = emailTemplateRepository.findById(EmailTemplateType.FOOTER).orElse(null);
 
-            if (headerTemplate != null)
-                head = headerTemplate.getContent();
-            if (footerTemplate != null) {
-                footer = footerTemplate.getContent();
-            }
 
             Context context = new Context();
             String url = applicationUrl + "/reset/password/" + token;
@@ -60,22 +53,11 @@ public class EmailService {
         }
     }
 
-
     public void sendEmailNewPassword(String to, String newPassword) {
         try {
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.RESET_PASSWORD_NEW_PASSWORD).orElse(null);
-            EmailTemplate headerTemplate = emailTemplateRepository.findById(EmailTemplateType.HEADER).orElse(null);
-            EmailTemplate footerTemplate = emailTemplateRepository.findById(EmailTemplateType.FOOTER).orElse(null);
-            String footer = null;
-            String head = null;
-
-            if (footerTemplate != null) {
-                footer = footerTemplate.getContent();
-            }
-            if (headerTemplate != null)
-                head = headerTemplate.getContent();
-
-
+            String head = getHeader();
+            String footer = getFooter();
             Context context = new Context();
             context.setVariable("newPassword", newPassword);
             if (emailTemplate != null) {
@@ -92,17 +74,9 @@ public class EmailService {
         try {
 
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.REGISTER_CASUAL_USER).orElse(null);
-            EmailTemplate headerTemplate = emailTemplateRepository.findById(EmailTemplateType.HEADER).orElse(null);
-            EmailTemplate footerTemplate = emailTemplateRepository.findById(EmailTemplateType.FOOTER).orElse(null);
-            String footer = null;
-            String head = null;
 
-            if (footerTemplate != null) {
-                footer = footerTemplate.getContent();
-            }
-            if (headerTemplate != null)
-                head = headerTemplate.getContent();
-
+            String footer = getFooter();
+            String head = getHeader();
             Context context = new Context();
             context.setVariable("activationUrl", applicationUrl + "/user/activation/" + token);
             if (emailTemplate != null) {
@@ -120,16 +94,9 @@ public class EmailService {
         try {
 
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.REGISTER_LIBRARY_OWNER).orElse(null);
-            EmailTemplate headerTemplate = emailTemplateRepository.findById(EmailTemplateType.HEADER).orElse(null);
-            EmailTemplate footerTemplate = emailTemplateRepository.findById(EmailTemplateType.FOOTER).orElse(null);
-            String footer = null;
-            String head = null;
+            String footer = getFooter();
+            String head = getHeader();
 
-            if (footerTemplate != null) {
-                footer = footerTemplate.getContent();
-            }
-            if (headerTemplate != null)
-                head = headerTemplate.getContent();
             Context context = new Context();
             context.setVariable("activationUrl", applicationUrl + "/user/activation/" + token);
             if (emailTemplate != null) {
@@ -140,6 +107,22 @@ public class EmailService {
         } catch (Exception ex) {
             log.error("[Email Service]=Error sendRegisterEmailToCasualUser");
         }
+    }
+
+    private String getHeader() {
+        EmailTemplate headerTemplate = emailTemplateRepository.findById(EmailTemplateType.HEADER).orElse(null);
+        if (headerTemplate != null)
+            return headerTemplate.getContent();
+        else
+            return null;
+    }
+
+    private String getFooter() {
+        EmailTemplate footerTemplate = emailTemplateRepository.findById(EmailTemplateType.FOOTER).orElse(null);
+        if (footerTemplate != null)
+            return footerTemplate.getContent();
+        else
+            return null;
     }
 }
 

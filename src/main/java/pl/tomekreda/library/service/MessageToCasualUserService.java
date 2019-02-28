@@ -74,27 +74,7 @@ public class MessageToCasualUserService {
     public ResponseEntity getUnreadNotification(String email) {
         try {
             User user = userRepository.findUserByEmail(email);
-            int size = 0;
-
-            for (int i = 0; i < user.getUserRoles().size(); i++) {
-
-                if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.CASUAL_USER) {
-                    size = messageToCasualUserRepository.findAllByUserAndDateReadIsNullOrderByDataCreateDesc(user).size();
-
-                }
-                if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.LIBRARY_OWNER) {
-                    List<Library> libraryList = libraryRepository.findAllByUserMenager(user.getUserMenager());
-                    List<MessageToLibraryOwner> messageToLibraryOwners = new ArrayList<>();
-                    for (Library library : libraryList) {
-                        List<MessageToLibraryOwner> tmp = messageToLibraryOwnerRepository.findAllByLibraryAndDateReadIsNullOrderByDataCreateDesc(library);
-                        messageToLibraryOwners.addAll(tmp);
-                    }
-
-                    size = messageToLibraryOwners.size();
-                }
-            }
-
-            return ResponseEntity.ok(size);
+            return getUnreadNotification(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
@@ -104,30 +84,35 @@ public class MessageToCasualUserService {
     public ResponseEntity getUnreadNotification() {
         try {
             User user = userService.findLoggedUser();
-            int size = 0;
-
-            for (int i = 0; i < user.getUserRoles().size(); i++) {
-
-                if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.CASUAL_USER) {
-                    size = messageToCasualUserRepository.findAllByUserAndDateReadIsNullOrderByDataCreateDesc(user).size();
-
-                }
-                if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.LIBRARY_OWNER) {
-                    List<Library> libraryList = libraryRepository.findAllByUserMenager(user.getUserMenager());
-                    List<MessageToLibraryOwner> messageToLibraryOwners = new ArrayList<>();
-                    for (Library library : libraryList) {
-                        List<MessageToLibraryOwner> tmp = messageToLibraryOwnerRepository.findAllByLibraryAndDateReadIsNullOrderByDataCreateDesc(library);
-                        messageToLibraryOwners.addAll(tmp);
-                    }
-
-                    size = messageToLibraryOwners.size();
-                }
-            }
-
-            return ResponseEntity.ok(size);
+            return getUnreadNotification(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    public ResponseEntity getUnreadNotification(User user) {
+        int size = 0;
+
+        for (int i = 0; i < user.getUserRoles().size(); i++) {
+
+            if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.CASUAL_USER) {
+                size = messageToCasualUserRepository.findAllByUserAndDateReadIsNullOrderByDataCreateDesc(user).size();
+
+            }
+            if (user.getUserRoles().get(i).getUserRole() == UserRoleEnum.LIBRARY_OWNER) {
+                List<MessageToLibraryOwner> messageToLibraryOwners = new ArrayList<>();
+                List<Library> libraryLists = libraryRepository.findAllByUserMenager(user.getUserMenager());
+                for (Library library : libraryLists) {
+                    List<MessageToLibraryOwner> tmp = messageToLibraryOwnerRepository.findAllByLibraryAndDateReadIsNullOrderByDataCreateDesc(library);
+                    messageToLibraryOwners.addAll(tmp);
+                }
+
+                size = messageToLibraryOwners.size();
+            }
+        }
+
+        return ResponseEntity.ok(size);
+
     }
 
     public ResponseEntity readAllNotification() {

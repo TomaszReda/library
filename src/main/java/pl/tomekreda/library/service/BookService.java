@@ -302,19 +302,7 @@ public class BookService {
             MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(content, MessageUtils.MESSAGE_RESIGNATION_RESERV_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary(), MessageDisplay.DANGER);
             messageToLibraryOwnerRepository.save(messageToLibraryOwner);
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(reservBook.getAuthor(), reservBook.getTitle(), reservBook.getPublisher(), reservBook.getDate(), reservBook.getLibrary(), BookState.NOTRESERVED);
-            if (notReservBook != null) {
-
-                reservBook.setBookState(BookState.DELETE);
-                reservBook.setUserCasual(null);
-                bookRepository.save(reservBook);
-                notReservBook.setQuant(reservBook.getQuant() + notReservBook.getQuant());
-                bookRepository.save(notReservBook);
-
-            } else {
-                reservBook.setBookState(BookState.NOTRESERVED);
-                reservBook.setUserCasual(null);
-                bookRepository.save(reservBook);
-            }
+            deleteReserv(notReservBook, reservBook);
             log.info("[Delete reserv book CasualUser]= " + reservBook);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
@@ -336,7 +324,7 @@ public class BookService {
             taskForUser.setTaskStatus(TaskStatus.DONE);
             taskForUser.setDateDone(LocalDateTime.now());
             taskForUserRepository.save(taskForUser);
-            String content = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + MessageUtils.IN_COUNT+ book.getQuant() + ".";
+            String content = "Biblioteka " + book.getLibrary().getName() + " potwierdziła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + MessageUtils.IN_COUNT + book.getQuant() + ".";
             MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_ACCEPT_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null, MessageDisplay.ALERT);
             messageToCasualUserRepository.save(messageToCasualUser);
 
@@ -386,20 +374,9 @@ public class BookService {
             taskForUserRepository.save(taskForUser);
 
             Book notReservBook = bookRepository.findFirstByAuthorAndTitleAndPublisherAndDateAndLibraryAndBookState(book.getAuthor(), book.getTitle(), book.getPublisher(), book.getDate(), book.getLibrary(), BookState.NOTRESERVED);
+            deleteReserv(notReservBook, book);
 
-            if (notReservBook != null) {
-                book.setBookState(BookState.DELETE);
-                book.setUserCasual(null);
-                bookRepository.save(book);
-                notReservBook.setQuant(book.getQuant() + notReservBook.getQuant());
-                bookRepository.save(notReservBook);
-            } else {
-                book.setBookState(BookState.NOTRESERVED);
-                book.setUserCasual(null);
-                bookRepository.save(book);
-            }
-
-            String content = "Biblioteka " + book.getLibrary().getName() + " odrzuciła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + MessageUtils.IN_COUNT+ + book.getQuant() + ".";
+            String content = "Biblioteka " + book.getLibrary().getName() + " odrzuciła twoją rezerwacje książki " + book.getTitle() + " - " + book.getAuthor() + MessageUtils.IN_COUNT + +book.getQuant() + ".";
             MessageToCasualUser messageToCasualUser = new MessageToCasualUser(content, MessageUtils.MESSAGE_REJECTED_RESERV_BOOK_TO_CASUAL_USER_TITLE, user, null, MessageDisplay.DANGER);
             messageToCasualUserRepository.save(messageToCasualUser);
             log.info("[Delete reserv book LibraryOwner]= " + book);
@@ -411,10 +388,23 @@ public class BookService {
     }
 
 
+    private void deleteReserv(Book notReservBook, Book reservBook) {
+        if (notReservBook != null) {
+            reservBook.setBookState(BookState.DELETE);
+            reservBook.setUserCasual(null);
+            bookRepository.save(reservBook);
+            notReservBook.setQuant(reservBook.getQuant() + notReservBook.getQuant());
+            bookRepository.save(notReservBook);
+
+        } else {
+            reservBook.setBookState(BookState.NOTRESERVED);
+            reservBook.setUserCasual(null);
+            bookRepository.save(reservBook);
+        }
+    }
+
     public ResponseEntity returnBook(UUID bookId) {
         try {
-
-
             Book reservBook = bookRepository.findById(bookId).orElse(null);
             if (reservBook == null) {
                 return ResponseEntity.badRequest().build();
@@ -431,8 +421,8 @@ public class BookService {
             taskForLibraryRepository.save(taskForLibrary);
             taskForUserRepository.save(taskForUser);
             User user = userRepository.findByUserCasual(reservBook.getUserCasual());
-            String contentMessageToLibraryOwner = "Użytkownik " + user.getEmail() + " oddał książke " + reservBook.getTitle() + " - " + reservBook.getAuthor() + MessageUtils.IN_COUNT+ + reservBook.getQuant() + " do biblioteki " + reservBook.getLibrary().getName() + ".";
-            String contentMessageToCasualUser = "Oddałeś książkę " + reservBook.getTitle() + " - " + reservBook.getAuthor() + MessageUtils.IN_COUNT+ + reservBook.getQuant() + " do bibliotek i" + reservBook.getLibrary().getName() + ".";
+            String contentMessageToLibraryOwner = "Użytkownik " + user.getEmail() + " oddał książke " + reservBook.getTitle() + " - " + reservBook.getAuthor() + MessageUtils.IN_COUNT + +reservBook.getQuant() + " do biblioteki " + reservBook.getLibrary().getName() + ".";
+            String contentMessageToCasualUser = "Oddałeś książkę " + reservBook.getTitle() + " - " + reservBook.getAuthor() + MessageUtils.IN_COUNT + +reservBook.getQuant() + " do bibliotek i" + reservBook.getLibrary().getName() + ".";
             MessageToLibraryOwner messageToLibraryOwner = new MessageToLibraryOwner(contentMessageToLibraryOwner, MessageUtils.RETURN_BOOK_TO_LIBRARY_OWNER_TITLE, reservBook.getLibrary(), null, MessageDisplay.ALERT);
             MessageToCasualUser messageToCasualUser = new MessageToCasualUser(contentMessageToCasualUser, MessageUtils.RETURN_BOOK_TO_CASUAL_USER_TITLE, user, null, MessageDisplay.ALERT);
             messageToCasualUserRepository.save(messageToCasualUser);
@@ -442,22 +432,7 @@ public class BookService {
             if (!reservBook.getUserMenager().equals(userService.findLoggedUser().getUserMenager())) {
                 return ResponseEntity.badRequest().build();
             }
-
-            if (notReservBook != null) {
-
-                reservBook.setBookState(BookState.DELETE);
-                reservBook.setUserCasual(null);
-                bookRepository.save(reservBook);
-                notReservBook.setQuant(reservBook.getQuant() + notReservBook.getQuant());
-                bookRepository.save(notReservBook);
-
-            } else {
-                reservBook.setBookState(BookState.NOTRESERVED);
-                reservBook.setUserCasual(null);
-                bookRepository.save(reservBook);
-            }
-
-
+            deleteReserv(notReservBook, reservBook);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
