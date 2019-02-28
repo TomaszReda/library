@@ -17,6 +17,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "library")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Library {
@@ -56,8 +57,7 @@ public class Library {
 
 
 
-    public Library() {
-    }
+
 
     @Override
     public String toString() {

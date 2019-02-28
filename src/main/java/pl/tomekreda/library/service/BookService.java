@@ -239,7 +239,7 @@ public class BookService {
                 book.setUserCasual(userService.findLoggedUser().getUserCasual());
                 book.setBookState(BookState.BOOKED);
                 book = bookRepository.save(book);
-                taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
+                taskForUser = new TaskForUser(userService.findLoggedUser(),  LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUser = taskForUserRepository.save(taskForUser);
 
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -259,7 +259,7 @@ public class BookService {
                 book.setBookState(BookState.BOOKED);
                 book.setUserCasual(userService.findLoggedUser().getUserCasual());
                 book = bookRepository.save(book);
-                taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
+                taskForUser = new TaskForUser(userService.findLoggedUser(), LocalDateTime.now().plusDays(3), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GET_THE_BOOK);
                 taskForUserRepository.save(taskForUser);
                 contentForLibraryOwner = " Uzytkownik " + userService.findLoggedUser().getEmail() + " zarezerwował twoja książke " + book.getTitle() + " " + book.getAuthor() + " w bibliotece " + book.getLibrary().getName();
                 contentForCasualUser = " Zarezerwowałeś książke " + book.getTitle() + " " + book.getAuthor() + ". Masz 3 dni na jego odebranie( Termin mija )" + taskForUser.getDateExpiration();
@@ -333,7 +333,7 @@ public class BookService {
             }
             book.setBookState(BookState.CONFIRMED);
             book = bookRepository.save(book);
-            TaskForUser tmp = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GIVE_BOOK);
+            TaskForUser tmp = new TaskForUser(user,  LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, book.getLibrary(), TaskForUserType.GIVE_BOOK);
             tmp = taskForUserRepository.save(tmp);
 
             TaskForLibrary taskForLibrary = new TaskForLibrary(userService.findLoggedUser(), LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, book.getLibrary(), TaskForLibraryType.REMIND_TO_GIVE_BACK_THE_BOOK);

@@ -26,16 +26,13 @@ public class TaskForUser extends Task {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private MessageToCasualUser messageToCasualUser;
 
-    public TaskForUser(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForUserType taskForUserType) {
-        super(user, dateCreate, dateExpiration, taskStatus, book, library);
+    public TaskForUser(User user,  LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForUserType taskForUserType) {
+        super(user, dateExpiration, taskStatus, book, library);
         this.taskForUserType = taskForUserType;
     }
 
 
-    public TaskForUser(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, TaskForUserType taskForUserType, LocalDateTime dateDone) {
-        super(user, dateCreate, dateExpiration, taskStatus, book, library, dateDone);
-        this.taskForUserType = taskForUserType;
-    }
+
 
     @Override
     public String toString() {

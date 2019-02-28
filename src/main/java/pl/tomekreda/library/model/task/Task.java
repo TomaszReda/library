@@ -62,11 +62,10 @@ public class Task {
         this.library = library;
     }
 
-    public Task(User user, LocalDateTime dateCreate, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library, LocalDateTime dateDone) {
+    public Task(User user, LocalDateTime dateExpiration, TaskStatus taskStatus, Book book, Library library) {
         this.user = user;
-        this.dateCreate = dateCreate;
+        this.dateCreate = LocalDateTime.now();
         this.dateExpiration = dateExpiration;
-        this.dateDone = dateDone;
         this.taskStatus = taskStatus;
         this.book = book;
         this.library = library;

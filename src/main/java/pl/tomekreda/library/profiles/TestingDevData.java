@@ -166,7 +166,7 @@ public class TestingDevData implements CommandLineRunner {
 
         book = new Book(null, "Anna Todd ", "After. Płomień pod moją skórą", "PWD", LocalDate.of(1996, 10, 3), "123422", 11, "Anna Todd After. Płomień pod moją skórą Anna Todd ", null, "Opis", library, BookState.BOOKED, user.getUserCasual(), owner.getUserMenager(), bookCategory);
         book = bookRepository.save(book);
-        taskForUser = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
+        taskForUser = new TaskForUser(user,  LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
         String formatDate = taskForUser.getDateExpiration().format(formatter);
         contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " - " + book.getAuthor() + " w ilosci " + book.getQuant() + " w bibliotece " + book.getLibrary().getName() + "." + " Masz 3 dni na jej odebranie( Termin mija " + formatDate + " ).";
@@ -179,7 +179,7 @@ public class TestingDevData implements CommandLineRunner {
 
         book = new Book(null, "Anna Todd2 ", "After. Płomień pod moją skórą2", "PWD2", LocalDate.of(1995, 8, 2), "123432", 12, "Anna Todd2 After. Płomień pod moją skórą2 Anna Todd2", null, "Opis", library, BookState.BOOKED, user.getUserCasual(), owner.getUserMenager(), bookCategory);
         book = bookRepository.save(book);
-        taskForUser = new TaskForUser(user, LocalDateTime.now(), LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
+        taskForUser = new TaskForUser(user,  LocalDateTime.now().plusDays(14), TaskStatus.TO_DO, book, library, TaskForUserType.GET_THE_BOOK);
         taskForUserRepository.save(taskForUser);
         contentForCasualUser = "Zarezerwowałeś książke " + book.getTitle() + " - " + book.getAuthor() + " w ilosci " + book.getQuant() + " w bibliotece " + book.getLibrary().getName() + "." + " Masz 3 dni na jej odebranie( Termin mija " + formatDate + " ).";
         contentForLibraryOwner = " Użytkownik " + user.getEmail() + " zarezerwował twoja książke " + book.getTitle() + " - " + book.getAuthor() + " w bibliotecę " + book.getLibrary().getName() + ".";
