@@ -2,7 +2,7 @@ import {Library} from "../library/library.model";
 
 export class Book {
   title?: string;
-  ISBN?: string;
+  isbn?: string;
   author?: string;
   publisher?: string;
   date?: Date;
