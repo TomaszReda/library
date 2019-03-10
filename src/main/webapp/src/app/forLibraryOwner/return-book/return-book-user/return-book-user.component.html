@@ -1,0 +1,38 @@
+<div class="container">
+  <div id="page-wrap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- The form -->
+    <form (ngSubmit)="onSubmit()" class="example" #reserv="ngForm">
+      <input type="text" placeholder="Email użytkownika!" id="word" name="word" [(ngModel)]="email" #word="ngModel" email>
+      <button type="submit" ><i class="fa fa-search"></i></button>
+    </form>
+    <br/>
+    <p class="alert alert-danger" *ngIf=" submit && reserv.invalid">Podaj poprawny email!</p>
+    <p class="alert alert-danger" *ngIf="errors">{{errors}}</p>
+
+    <table *ngIf="user" class="table table-bordered ">
+      <thead>
+      <tr>
+        <th scope="col">Imie</th>
+        <th scope="col">Nazwisko</th>
+        <th scope="col">Email</th>
+        <th scope="col">Szczegóły</th>
+        <th scope="col">Książki do oddania</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr >
+        <td>{{user.firstname}}</td>
+        <td>{{user.lastname}}</td>
+        <td>{{user.email}}</td>
+        <td><button type="button" (click)="details()">Szczegóły</button></td>
+        <td><button type="button" (click)="reservDetails()">Książki do oddania</button></td>
+      </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+</div>

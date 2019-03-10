@@ -1,0 +1,34 @@
+<div class="container">
+
+  <div id="page-wrap">
+
+    <table *ngIf="user" class="table table-bordered ">
+      <thead>
+      <tr>
+        <th scope="col">Imie</th>
+        <td>{{user.firstname}}</td>
+
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr >
+        <th scope="col">Nazwisko</th>
+        <td>{{user.lastname}}</td>
+      </tr>
+      <tr>
+        <th scope="col">Email</th>
+        <td>{{user.email}}</td>
+
+      </tr>
+      <th scope="col">Numer telefonu</th>
+      <td>{{user.phoneNumber}}</td>
+
+     
+
+      </tbody>
+    </table>
+
+
+  </div>
+</div>

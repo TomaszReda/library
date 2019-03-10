@@ -2,10 +2,11 @@ package pl.tomekreda.library.model.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.model.library.Library;
 
 import javax.persistence.*;
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,24 +15,27 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserMenager implements Serializable {
+@NoArgsConstructor
+public class UserMenager {
 
     @Id
     @GeneratedValue
-    private Long ID;
+    private Long id;
 
-    @OneToMany(mappedBy = "userMenager", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userMenager", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Library> libraryList = new ArrayList<>();
 
-    public UserMenager() {
+    @OneToMany(mappedBy = "userMenager", cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Book> bookList = new ArrayList<>();
 
-    }
+
 
     @Override
     public String toString() {
         return "UserMenager{" +
-                "ID=" + ID +
+                "id=" + id +
                 '}';
     }
 }

@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
 
 @Injectable({
@@ -36,6 +35,19 @@ export class BookService {
 
   public deleteReservBook(bookId) {
     return this.http.post(this.url + "/book/" + bookId + "/delete/reserv",null);
+  }
+
+  public deleteReserv(bookId){
+    return this.http.get(this.url+"/book/"+bookId+"/reserv/delete");
+  }
+
+  public confirmReserv(bookId){
+    return this.http.get(this.url+"/book/"+bookId+"/reserv/accept");
+  }
+
+  public bookReturn(bookId){
+    return this.http.get(this.url+"/book/"+bookId+"/book/return");
+
   }
 
 }

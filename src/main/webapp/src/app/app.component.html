@@ -9,16 +9,29 @@
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
       <li class="nav-item">
-        <a class="nav-link" *ngIf="!authService.pharmacyOwner" routerLink="search/book">Wyszukaj</a>
+        <a class="nav-link" *ngIf="!authService.pharmacyOwner && !authService.admin" routerLink="search/book">Wyszukaj</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" *ngIf="!authService.pharmacyOwner && authService.user" routerLink="myReserv">Moje zarezerwowane</a>
+        <a class="nav-link" *ngIf="authService.casualUser" routerLink="myReserv">Moje zarezerwowane</a>
       </li>
       <li class="nav-item">
         <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="addLibrary">Dodaj bibliotekę</a>
       </li>
       <li class="nav-item">
         <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="myLibrary">Moje biblioteki</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="reserv">Rezerwacje książek</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " *ngIf="authService.casualUser"  routerLink="booked/book">Wyporzyczone</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " *ngIf="authService.pharmacyOwner" routerLink="return/book">Oddanie książek</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " *ngIf="authService.admin" routerLink="admin/panel">Panel Administracyjny</a>
       </li>
 
       <!--<li class="nav-item">-->
@@ -29,8 +42,11 @@
       <!--</li>-->
 
     </ul>
+    <a>{{unreadNotification2}}</a>
+    <a class="nav-link disabled" *ngIf="authService.casualUser || authService.pharmacyOwner" routerLink="/notifications">Powiadomienia [{{authService.unreadNotification}}]</a>
+
     <a class="nav-link disabled" *ngIf="authService.islogin" routerLink="/accountSettings">Moje konto</a>
-    <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="login.open()" routerLink="/home">Zaloguj się</a>
+    <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="loginModelOpen()" routerLink="/home">Zaloguj się</a>
     <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="register.open()" routerLink="/home">Zarejestruj
       się</a>
     <a class="nav-link disabled" *ngIf="authService.islogin" (click)="logout()" routerLink="/home">Wyloguj</a>
@@ -46,7 +62,7 @@
   <div>
     <ng-template #modalHeader><h2 align="center" class="text-center">Zaloguj się</h2></ng-template>
     <ng-template #modalBody>
-      <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm">
+      <form (ngSubmit)="onLogin(loginForm)" #loginForm="ngForm" >
         <div class="form-group text-center ">
           <input ngModel type="email" class="form-control" name="email" id="email" placeholder="e-mail" required>
         </div>
@@ -55,13 +71,31 @@
                  placeholder="hasło" required
                  minlength="8">
         </div>
-        <div *ngIf="password.invalid && password.dirty" class="alert alert-danger" >
-          <div *ngIf="password.errors.minlength">Hasło musi mieć conajmniej 8 znaków</div>
-        </div>
+
         <div *ngIf="authService.badLogin" class="alert alert-danger">{{authService.badLogin}}</div>
 
         <button class="btn btn-primary text-center button1" [disabled]="loginForm.errors ">Zaloguj</button>
       </form>
+      <a (click)="forgettingPassword.open();login.close()" routerLink="/home">Zapomniałem hasła!</a>
+    </ng-template>
+  </div>
+</modal>
+
+
+<modal #forgettingPassword>
+  <div>
+    <ng-template #modalHeader><h2 align="center" class="text-center">Odzyskiwanie hasła</h2></ng-template>
+    <ng-template #modalBody>
+      <form (ngSubmit)="resetPasswordEmail(forgettingPasswordForm)" #forgettingPasswordForm="ngForm" *ngIf="!authService.sendResetPasswordEmail">
+        <div class="form-group text-center ">
+          <input ngModel type="email" class="form-control" name="email" id="email" placeholder="e-mail" required>
+        </div>
+        <div *ngIf="authService.badResetPassowrdEmail" class="alert alert-danger">{{authService.badResetPassowrdEmail}}</div>
+
+        <button class="btn btn-primary text-center button1" [disabled]="loginForm.errors ">Odzyskaj hasło</button>
+      </form>
+      <div *ngIf="authService.sendResetPasswordEmail" class="alert alert-success">{{authService.sendResetPasswordEmail}}</div>
+
     </ng-template>
   </div>
 </modal>

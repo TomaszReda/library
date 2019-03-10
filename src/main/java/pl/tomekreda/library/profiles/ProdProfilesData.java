@@ -1,58 +1,32 @@
 package pl.tomekreda.library.profiles;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import pl.tomekreda.library.model.book.BookCategory;
-import pl.tomekreda.library.repository.BookCategoryRepository;
+import pl.tomekreda.library.profiles.util.TestingData;
 
 import javax.transaction.Transactional;
 
 @Component
 @Transactional
 @ProdProfile
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ProdProfilesData implements CommandLineRunner {
 
-    @Autowired
-    private BookCategoryRepository bookCategoryRepository;
+
+
+    private final TestingData testingData;
 
     @Override
     public void run(String... args) throws Exception {
-        this.createBookCategory();
+        testingData.createBookCategory();
+        testingData.createTemplate();
 
     }
 
-    private void createBookCategory() {
 
-        BookCategory bookCategory = new BookCategory("Fantasy");
-        bookCategoryRepository.save(bookCategory);
 
-        bookCategory = new BookCategory("Biografie/Autobiografie");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Młodzieżowa");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Naukowa");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Sportowa");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Bajka");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Historyczna");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Horror");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Przygodowa");
-        bookCategoryRepository.save(bookCategory);
-
-        bookCategory = new BookCategory("Inna");
-        bookCategoryRepository.save(bookCategory);
-
-    }
 }

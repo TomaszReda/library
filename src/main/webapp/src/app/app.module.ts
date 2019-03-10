@@ -11,6 +11,7 @@ import {TokenGuardInterceptor} from "./guard/token-guard.interceptor";
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,

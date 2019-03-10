@@ -5,7 +5,6 @@ import lombok.*;
 import pl.tomekreda.library.model.book.Book;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +14,11 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserCasual implements Serializable {
+public class UserCasual  {
 
     @Id
     @GeneratedValue
-    private Long ID;
+    private Long id;
 
     @OneToMany(mappedBy = "userCasual",cascade = CascadeType.ALL)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

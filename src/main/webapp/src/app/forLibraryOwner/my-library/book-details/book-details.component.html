@@ -1,0 +1,68 @@
+
+<div class="container">
+<div id="page-wrap">
+
+
+  <table class="table table-bordered ">
+
+    <tbody>
+    <tr>
+      <td>Tytuł</td>
+      <td>{{book.title}}</td>
+    </tr>
+    <tr>
+      <td>Autor</td>
+      <td>{{book.author}}</td>
+    </tr>
+    <tr>
+      <td>Wydawnictwo</td>
+      <td>{{book.publisher}}</td>
+    </tr>
+    <tr>
+      <td>Data wydania</td>
+      <td>{{book.date}}</td>
+    </tr>
+    <tr>
+      <td>Kategoria</td>
+      <td>{{book.categoryType}}</td>
+    </tr>
+    <tr>
+      <td>Opis</td>
+      <td>{{book.description}}</td>
+    </tr>
+    <tr>
+      <td>ISBN</td>
+      <td>{{book.isbn}}</td>
+    </tr>
+    <tr>
+      <td>Ilosc</td>
+      <td>{{book.quant}}</td>
+    </tr>
+    <tr>
+      <td>Status</td>
+      <td>{{book.bookState}}</td>
+    </tr>
+    <tr [hidden]="isDelete">
+      <td>Usun</td>
+      <td >
+      <form  (ngSubmit)="deleteBook(book.bookId)" #quantForm="ngForm">
+
+            <label >Ilość książek do usuniecia: </label>
+            <input  type="number"  [(ngModel)]="quantForm.quant" name="quant" value="1" [value]="1" style="width: 50px;" min="1" [min]="1" max="book.quant" [max]="book.quant"   />
+
+
+        <button type="submit" >Usun</button>
+
+      </form>
+
+      </td>
+    </tr>
+
+
+
+    </tbody>
+  </table>
+  <p class="alert alert-danger" *ngIf="badQuantNumberToDelete">{{badQuantNumberToDelete}}</p>
+
+</div>
+</div>

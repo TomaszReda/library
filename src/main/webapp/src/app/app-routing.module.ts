@@ -1,9 +1,10 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {HomeModule} from './home/home.module';
+import {RouterModule, Routes} from '@angular/router';
 import {AuthGuardsService} from "./guard/auth-guards.service";
-import {PharmacyOwnerGuardService} from "./guard/pharmacy-owner-guard.service";
-import {NoPharmacyOwnerGuardServiceService} from "./guard/no-pharmacy-owner-guard-service.service";
+import {LibraryOwnerGuardService} from "./guard/library-owner-guard.service";
+import {CasualUserGuardService} from "./guard/casual-user-guard.service";
+import {AdminGuardService} from "./guard/admin-guard.service";
+import {LibraryOwnerAndAdminGuardService} from "./guard/library-owner-and-admin-guard.service";
 
 const routes: Routes = [
   {
@@ -13,38 +14,82 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: './home/home.module#HomeModule'
+    loadChildren: './forAll/home/home.module#HomeModule'
   },
   {
     path: 'terms',
-    loadChildren: './terms/terms.module#TermsModule'
+    loadChildren: './forAll//terms/terms.module#TermsModule'
   },
   {
     path: 'accountSettings',
-    loadChildren: './account-settings/account-settings.module#AccountSettingsModule',
+    loadChildren: './forLoggedUser/account-settings/account-settings.module#AccountSettingsModule',
     canActivate: [AuthGuardsService],
   },
   {
     path: 'search/book',
-    loadChildren: './search-book/search.module#SearchModule',
-    canActivate: [NoPharmacyOwnerGuardServiceService]
+    loadChildren: './forAll/search-book/search.module#SearchModule',
   },
   {
     path: 'addLibrary',
-    loadChildren: './add-library/add-library.module#AddLibraryModule',
-    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+    loadChildren: './forLibraryOwner/add-library/add-library.module#AddLibraryModule',
+    canActivate: [ AuthGuardsService,LibraryOwnerGuardService],
+
   },
   {
     path: 'myLibrary',
-    loadChildren: './my-library/my-library.module#MyLibraryModule',
-    canActivate: [PharmacyOwnerGuardService,AuthGuardsService]
+    loadChildren: './forLibraryOwner/my-library/my-library.module#MyLibraryModule',
+    canActivate: [AuthGuardsService,LibraryOwnerGuardService],
   },
   {
     path: 'myReserv',
-    loadChildren: './my-reserv-book/my-reserv-book.module#MyReservBookModule',
-    canActivate: [NoPharmacyOwnerGuardServiceService,AuthGuardsService]
-  }
+    loadChildren: './forCasualUser/my-reserv-book/my-reserv-book.module#MyReservBookModule',
+    canActivate: [AuthGuardsService,CasualUserGuardService],
+  },
+  {
+    path: 'reserv',
+    loadChildren: './forLibraryOwner/reserv/reserv.module#ReservModule',
+    canActivate: [AuthGuardsService,LibraryOwnerGuardService],
 
+  },
+  {
+    path: 'user/:id',
+    loadChildren: './forLibraryOwnerAndAdmin/user-details/user-details.module#UserDetailsModule',
+    canActivate: [AuthGuardsService,LibraryOwnerAndAdminGuardService],
+  },
+  {
+    path: "booked/book",
+    loadChildren: './forCasualUser/booked-book/booked-book.module#BookedBookModule',
+    canActivate: [AuthGuardsService,CasualUserGuardService],
+
+  },
+  {
+    path: "return/book",
+    loadChildren: "./forLibraryOwner/return-book/return-book.module#ReturnBookModule",
+    canActivate: [AuthGuardsService,LibraryOwnerGuardService],
+  },
+  {
+    path: "admin/panel",
+    loadChildren: "./forAdmin/admin-panel/admin-panel.module#AdminPanelModule",
+    canActivate: [AuthGuardsService,AdminGuardService],
+  },
+  {
+    path: "library/:libraryId",
+    loadChildren: "./forAdmin/library-details/library-details.module#LibraryDetailsModule",
+    canActivate: [AuthGuardsService,AdminGuardService],
+  },
+  {
+    path: "reset/password/:resetPasswordToken",
+    loadChildren: "./forAll/reset-password/reset-password.module#ResetPasswordModule"
+  },
+  {
+    path: "user/activation/:activationToken",
+    loadChildren: "./forAll/activation-user/activation-user.module#ActivationUserModule"
+  },
+  {
+    path: "notifications",
+    loadChildren: "./forLoggedUser/notifications/notifications.module#NotificationsModule",
+    canActivate: [AuthGuardsService]
+  }
 ];
 
 @NgModule({

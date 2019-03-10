@@ -1,0 +1,65 @@
+<div class="container">
+
+  <div id="page-wrap">
+    <form class="text-center" [formGroup]="formAddBook" (ngSubmit)="addBooks()">
+      <div class="form-group">
+        <label for="author">Autor:</label>
+        <input type="text" class="form-control" id="author" width="100px" formControlName="author"   />
+      </div>
+
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('author').errors && formAddBook.get('author').errors.required">Autor jest wymagany!</p>
+      <div class="form-group">
+        <label for="title">Tytuł:</label>
+        <input type="text" class="form-control" id="title" width="100px" formControlName="title"/>
+      </div>
+      <label class="mr-sm-2" for="bookCategory" >Typ książki:</label>
+      <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="bookCategory" formControlName="bookCategory">
+        <option *ngFor="let t of bookCategory" >{{t}}</option>
+
+      </select>
+
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('title').errors && formAddBook.get('title').errors.required">Tytuł jest wymagany!</p>
+
+      <div class="form-group">
+        <label for="publisher">Wydawca:</label>
+        <input type="text" class="form-control" id="publisher" width="100px" formControlName="publisher"/>
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('publisher').errors && formAddBook.get('publisher').errors.required">Wydawca jest wymagany!</p>
+
+      <div class="form-group">
+        <label for="description">Opis:</label>
+        <textarea type="text" class="form-control" id="description" width="100px" maxlength="4999" rows="6" formControlName="description"> </textarea>
+
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('description').errors && formAddBook.get('description').errors.required">Opis jest wymagany!</p>
+
+      <div class="form-group">
+        <label for="date">Opublikowana:</label>
+        <input type="date" class="form-control" id="date" width="100px" formControlName="date" />
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('date').errors && formAddBook.get('date').errors.required">Data wydania jest wymagana!</p>
+
+      <div class="form-group">
+        <label for="isbn">ISBN:</label>
+        <input type="text" class="form-control" id="isbn" width="100px" formControlName="isbn"/>
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('isbn').errors && formAddBook.get('isbn').errors.required">ISBN jest wymagany!</p>
+
+      <div class="form-group">
+        <label for="quant">Ilosc:</label>
+        <input type="number" class="form-control" id="quant" width="100px" value="1" formControlName="quant"/>
+      </div>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('quant').errors && formAddBook.get('quant').errors.required">Ilość jest wymagana!</p>
+      <p class="alert alert-danger" *ngIf="submit && formAddBook.get('quant').errors && formAddBook.get('quant').errors.min">Musisz dodać minimum 1 książke!</p>
+
+      <button type="submit" class="btn btn-primary button2" class="signupbtn">Dodaj</button>
+      <button type="button" class="btn btn-primary button2" class="cancelbtn" (click)="reset()" >Zresetuj</button>
+      <br/> <br/>
+      <p class="alert-danger" *ngIf="badAdd">{{badAdd}}</p>
+      <p class="alert-success" *ngIf="succesAdd">{{succesAdd}}</p>
+
+    </form>
+  </div>
+</div>
+
+<!--Autor,title,wydawca,y,isbn,ilosc-->

@@ -11,13 +11,16 @@ spring:
       settings:
         trace: false
         web-allow-others: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
   datasource:
-    url: jdbc:h2:file:~/test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:file:~/testing;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
     password:
     driver-class-name: org.h2.Driver
     platform: h2
-
   session:
     store-type: jdbc
     jdbc:
@@ -26,30 +29,47 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: false
         use_sql_comments: true
         format_sql: true
-        enable_lazy_load_no_trans: true
-
-
+        enable_lazy_load_no_trans: true=username=password
+  mail:
+    username: ksiazeczkaonline@gmail.com
+    password: GHJbnm123/']
+    host: smtp.gmail.com
+    port: 587
+    tls: true
+    test-connection: true
+  application:
+    url: http://localhost:4200
+    required:
+      activation: false
+ksiazeczka:
+  quartz:
+    deploy: 120
+    #      If we set -1 to quartz it will start the task according to the date
+    #      if we set a different number then quarz will run the task after this time in second
 ---
 spring:
   profiles: test
   application:
+    url: http://localhost:4200
     name: ksiazeczka
+    required:
+      activation: false
   output:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/library
-    username: postgres
+    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: ksiazeczka
     password: GHJbnm123
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     properties:
       hibernate:
         show_sql: false
@@ -66,6 +86,18 @@ spring:
     store-type: jdbc
     jdbc:
       initialize-schema: always
+  mail:
+    username: ksiazeczkaonline@gmail.com
+    password: GHJbnm123/']
+    host: smtp.gmail.com
+    port: 587
+    tls: true
+    test-connection: true
+  quartz:
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always
+      schema: classpath:org/quartz/impl/jdbcjobstore/tables_mysql_library.sql
 logging:
   level:
     pl.tomekreda: DEBUG
@@ -74,3 +106,63 @@ server:
   servlet:
     session:
       timeout: 30m
+ksiazeczka:
+  quartz:
+    deploy: 20
+
+---
+spring:
+  profiles: prod
+  application:
+    url: http://ksiazeczkaonline.pl
+    name: ksiazeczka
+    required:
+      activation: true
+  output:
+    ansi:
+      enabled: always
+  datasource:
+    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    username: ksiazeczka
+    password: GHJbnm123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: true
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: update
+  mvc:
+    throw-exception-if-no-handler-found: true
+  session:
+    store-type: jdbc
+    jdbc:
+      initialize-schema: never
+  mail:
+    username: ksiazeczkaonline@gmail.com
+    password: GHJbnm123/']
+    host: smtp.gmail.com
+    port: 587
+    tls: true
+  quartz:
+    jdbc:
+      initialize-schema: never
+    job-store-type: jdbc
+logging:
+  level:
+    pl.tomekreda: DEBUG
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 30m
+ksiazeczka:
+  quartz:
+    deploy: -1
+

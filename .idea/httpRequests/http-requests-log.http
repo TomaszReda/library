@@ -1,0 +1,349 @@
+GET http://localhost:8080/api/notification/for/library/owner?page=0&size=2
+Content-Type: application/json
+x-auth-token: 00cb5df8-3dca-492e-bd26-44e2c7537d8c
+
+{     "email":"owner@local",     "password":"password" }
+
+<> 2019-01-15T085716.200.json
+
+###
+
+POST http://localhost:8080/api/notification/for/library/owner?page=0&size=2
+Content-Type: application/json
+x-auth-token: 00cb5df8-3dca-492e-bd26-44e2c7537d8c
+
+{     "email":"owner@local",     "password":"password" }
+
+<> 2019-01-15T085709.405.json
+
+###
+
+POST http://localhost:8080/api/login?page=0&size=2
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"owner@local",     "password":"password" }
+
+<> 2019-01-15T085651.200.json
+
+###
+
+GET http://localhost:8080/api/notification/for/casual/user?page=0&size=2
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T082049.200.json
+
+###
+
+GET http://localhost:8080/api/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T082025.200.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T082000.404.json
+
+###
+
+POST http://localhost:8080/api/login?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081935.200.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081923.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081806-3.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081806-2.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081806-1.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081806.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081805-1.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081805.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081804-2.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081804-1.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081804.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081803-2.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081803-1.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081803.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081802-1.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081802.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081801-1.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081801.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081754.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081753.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081752.404.json
+
+###
+
+GET http://localhost:8080/notification/for/casual/user?page=0&size=100
+Content-Type: application/json
+x-auth-token: 4d78e2a9-839e-4f7c-9574-6ebd5d29feab
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081728.404.json
+
+###
+
+POST http://localhost:8080/api/login?page=0&size=100
+Content-Type: application/json
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081657.200.json
+
+###
+
+POST http://localhost:8080/api/login?page=0&size=100
+Accept: application/json
+Cache-Control: no-cache
+
+{     "email":"tomekreda@op.pl",     "password":"password" }
+
+<> 2019-01-15T081628.415.json
+
+###
+
+POST http://localhost:8080/api/login?page=0&size=100
+Accept: application/json
+Cache-Control: no-cache
+x-auth-token:
+
+<> 2019-01-15T081557.400.json
+
+###
+
+POST http://localhost:8080/api/login?page=0&size=100
+Accept: application/json
+Cache-Control: no-cache
+x-auth-token:
+
+<> 2019-01-15T081351.400.json
+
+###
+
+GET http://localhost:8080/api/notification/for/casual/user?page=0&size=100
+Accept: application/json
+Cache-Control: no-cache
+
+<> 2019-01-15T081149.200.json
+
+###
+
+GET http://localhost:8080/api/notification/for/casual/user?page=0&size=100
+Accept: application/json
+Cache-Control: no-cache
+
+<> 2019-01-15T081014.500.json
+
+###
+
+GET http://localhost:8080/api/notification/for/casual/user?page=0&size=100&page=0&size=100
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-01-15T080931.500.json
+
+###
+
+GET http://localhost:8080/api/notification/for/casual/user?page=0&size=100
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-01-15T080911.500.json
+
+###
+

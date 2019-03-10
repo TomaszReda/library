@@ -25,8 +25,8 @@ public class BookController {
 
     @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
     @PostMapping("/book/{bookId}/delete/")
-    public ResponseEntity deleteBook(@RequestBody int quant,@PathVariable UUID bookId) {
-        return bookService.deleteBook(bookId,quant);
+    public ResponseEntity deleteBook(@RequestBody int quant, @PathVariable UUID bookId) {
+        return bookService.deleteBook(bookId, quant);
     }
 
     //Details for library owner
@@ -44,8 +44,8 @@ public class BookController {
 
     @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
     @PostMapping("/book/{bookId}/reserv")
-    public ResponseEntity reservBook(@RequestBody int quant,@PathVariable UUID bookId) {
-        return bookService.reservBook(bookId,quant);
+    public ResponseEntity reservBook(@RequestBody int quant, @PathVariable UUID bookId) {
+        return bookService.reservBook(bookId, quant);
     }
 
     @PreAuthorize("hasAuthority('ROLE_CASUAL_USER')")
@@ -54,4 +54,27 @@ public class BookController {
         return bookService.deleteReservBook(bookId);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @GetMapping("/book/{bookId}/reserv/accept")
+    public ResponseEntity acceptReserv(@PathVariable UUID bookId) {
+        return bookService.acceptReserv(bookId);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @GetMapping("/book/{bookId}/reserv/delete")
+    public ResponseEntity deleteReserv(@PathVariable UUID bookId) {
+        return bookService.deleteReserv(bookId);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_LIBRARY_OWNER')")
+    @GetMapping("/book/{bookId}/book/return")
+    public ResponseEntity returnBook(@PathVariable UUID bookId) {
+        return bookService.returnBook(bookId);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping("/book/get/all")
+    public ResponseEntity getAllBook(@RequestParam int page, @RequestParam int size) {
+        return bookService.getAllBooks(page, size);
+    }
 }

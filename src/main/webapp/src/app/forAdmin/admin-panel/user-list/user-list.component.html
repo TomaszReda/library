@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- The form -->
+<form  (ngSubmit)="onSubmit()" class="example" >
+  <input type="text" placeholder="Wyszukaj email użytkownika" id="word" name="word" name="word" [(ngModel)]="seachForm.word" #word="ngModel" (keyup)="keyDown()"  minlength="3">
+  <button type="submit" ><i class="fa fa-search"></i></button>
+</form>
+<p class="alert alert-danger" *ngIf="word.dirty && word.errors && word.errors.minlength">Podaj przynajmniej 3 znaki!</p>
+
+<table  class="table table-bordered ">
+  <thead>
+  <tr>
+    <th scope="col">Imie</th>
+    <th scope="col">Nazwisko</th>
+    <th scope="col">Email</th>
+    <th scope="col">Typ</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let u of userList" routerLink="/user/{{u.id}}">
+    <td>{{u.firstname}}</td>
+    <td>{{u.lastname}}</td>
+    <td>{{u.email}}</td>
+    <td>
+      <div *ngIf="u.userRoles[0]">{{u.userRoles[0].userRole}}</div>
+      <div *ngIf="u.userRoles[1]">{{u.userRoles[1].userRole}}</div>
+      <div *ngIf="u.userRoles[2]">{{u.userRoles[2].userRole}}</div>
+      <div *ngIf="u.userRoles[3]">{{u.userRoles[3].userRole}}</div>
+    </td>
+  </tr>
+
+  </tbody>
+</table>
+<div style="display: flex; justify-content: center;">
+
+  <nav *ngIf="pageNumber.length>1" aria-label="Page navigation example" style="position:center">
+    <ul class="pagination justify-content-end">
+      <li class="page-item disabled" *ngIf="currentyPage===0">
+        <a class="page-link" tabindex="-1">Previous</a>
+      </li>
+      <li class="page-item " *ngIf="currentyPage!=0">
+        <a class="page-link" (click)="previous()" tabindex="-1">Previous</a>
+      </li>
+
+      <div *ngFor="let i of pageNumber">
+        <li *ngIf="currentyPage+1!=i" class="page-item"><a class="page-link" (click)="changePage(i)">{{i}}</a>
+        </li>
+        <li *ngIf="currentyPage+1===i" class="page-item active"><a class="page-link"
+                                                                   (click)="changePage(i)">{{i}}</a></li>
+
+      </div>
+      <li class="page-item">
+        <a class="page-link"  (click)="next()"
+           *ngIf="currentyPage<pageNumber[pageNumber.length-1]-1" tabindex="-1">Next</a>
+      </li>
+      <li class="page-item disabled" *ngIf="currentyPage>=pageNumber[pageNumber.length-1]-1">
+        <a class="page-link">Next</a>
+      </li>
+    </ul>
+  </nav>
+</div>

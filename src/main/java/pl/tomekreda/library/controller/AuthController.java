@@ -1,14 +1,9 @@
 package pl.tomekreda.library.controller;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 import pl.tomekreda.library.model.user.AuthenticationResponse;
 import pl.tomekreda.library.model.user.Credentials;
@@ -23,19 +18,19 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
-    @RequestMapping(value = "/resource", method = RequestMethod.GET)
+    @GetMapping(value = "/resource")
     public Map<String, String> getResource() {
-        Map<String, String> resource = new HashMap<String, String>();
+        Map<String, String> resource = new HashMap<>();
         resource.put("resource", "here is some resource");
         return resource;
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @GetMapping(value = "/logout")
     public ResponseEntity logout(HttpSession session) {
 
         session.invalidate();

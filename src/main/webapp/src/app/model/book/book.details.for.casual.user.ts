@@ -1,7 +1,7 @@
 
 export class BookDetailsForCasualUser {
   title?: string;
-  ISBN?: string;
+  isbn?: string;
   author?: string;
   publisher?: string;
   date?: Date;
@@ -21,4 +21,5 @@ export class BookDetailsForCasualUser {
   local?:string;
   deitalsGeneralSearch?:string;
   detailsReservSearch?: string;
+  detailsForCasualBookedUser?: string;
 }

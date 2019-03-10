@@ -1,0 +1,42 @@
+{
+  "content": [
+    {
+      "content": " Uzytkownik tomekreda@op.pl zarezerwował twoja książke After. Płomień pod moją skórą Anna Todd  w bibliotece tomekreda@op.pl",
+      "title": "Rezerwacja ksiazki przez użytkownika",
+      "dataCreate": "2019-01-15 08:50:23",
+      "dateRead": null,
+      "taskForLibrary": null,
+      "id": "7aa6ca11-fcbc-4d4d-b386-91533a681702"
+    },
+    {
+      "content": " Uzytkownik tomekreda@op.pl zarezerwował twoja książke After. Płomień pod moją skórą2 Anna Todd2  w bibliotece tomekreda@op.pl",
+      "title": "Rezerwacja ksiazki przez użytkownika",
+      "dataCreate": "2019-01-15 08:50:23",
+      "dateRead": null,
+      "taskForLibrary": null,
+      "id": "6ca03a82-7d81-4564-8b79-55d19b2f3961"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "sorted": false,
+      "unsorted": true
+    },
+    "pageSize": 2,
+    "pageNumber": 0,
+    "offset": 0,
+    "paged": true,
+    "unpaged": false
+  },
+  "last": true,
+  "totalPages": 1,
+  "totalElements": 2,
+  "first": true,
+  "sort": {
+    "sorted": false,
+    "unsorted": true
+  },
+  "numberOfElements": 2,
+  "size": 2,
+  "number": 0
+}

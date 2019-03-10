@@ -1,4 +1,3 @@
-import {LibraryPageRequest} from "../page/library.page.request";
 import {Book} from "./book.model";
 
 export class BookRequestSearch {

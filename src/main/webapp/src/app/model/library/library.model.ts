@@ -1,7 +1,8 @@
 import {UserMenager} from "../user/userMenager.model";
+import {User} from "../user/user.model";
 
 export class Library {
-  ID?: string
+  id?: string
   city?: string
   email?: string
   latitude?: string
@@ -13,4 +14,5 @@ export class Library {
   street?: string
   isbn?: string
   userMenager?: UserMenager;
+  owner?: User;
 }

@@ -1,10 +1,11 @@
 package pl.tomekreda.library.model.library;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import pl.tomekreda.library.model.book.Book;
-import pl.tomekreda.library.model.user.User;
+import pl.tomekreda.library.model.message.MessageToLibraryOwner;
+import pl.tomekreda.library.model.task.Task;
 import pl.tomekreda.library.model.user.UserMenager;
 
 import javax.persistence.*;
@@ -16,13 +17,16 @@ import java.util.UUID;
 @Entity
 @Table(name = "library")
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class Library {
 
     @Id
-    @GeneratedValue
-    private UUID ID;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     private String city;
     private String email;
@@ -38,25 +42,22 @@ public class Library {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Book> bookList=new ArrayList<>();
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "library")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Task> taskForLibrary;
+
 
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private UserMenager userMenager;
 
-    public Library(String city, String email, String latitude, String local, String longitude, String name, String number, String postalCode, String street) {
-        this.city = city;
-        this.email = email;
-        this.latitude = latitude;
-        this.local = local;
-        this.longitude = longitude;
-        this.name = name;
-        this.number = number;
-        this.postalCode = postalCode;
-        this.street = street;
-    }
+    @OneToMany(mappedBy = "library",cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<MessageToLibraryOwner> messageToLibraryOwners = new ArrayList<>();
 
-    public Library() {
-    }
+
+
+
 
     @Override
     public String toString() {

@@ -1,0 +1,70 @@
+<div class="container">
+  <div id="page-wrap">
+    <!-- Load icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- The form -->
+    <form (ngSubmit)="onSubmit()" class="example" #search="ngForm">
+      <input type="text" placeholder="Wyszukaj po tytule" id="word" name="word" [(ngModel)]="search.word" #word="ngModel" (keyup)="keyDown()" minlength="3">
+      <button type="submit" ><i class="fa fa-search"></i></button>
+    </form>
+    <p class="alert alert-danger" *ngIf="word.dirty && word.errors && word.errors.minlength">Podaj przynajmniej 3 znaki!</p>
+
+    <br>
+
+
+
+    <table class="table table-bordered ">
+      <thead>
+      <tr>
+        <th scope="col">Tytuł</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Wydawnictwo</th>
+        <th scope="col">Status</th>
+        <th scope="col">Ilosc</th>
+        <th scope="col">Szczegóły</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let b of bookPageList" (click)="details(b.bookId)" >
+        <td >{{b.title}}</td>
+        <td>{{b.author}}</td>
+        <td>{{b.publisher}}</td>
+        <td>{{b.bookState}}</td>
+        <td>{{b.quant}}</td>
+        <td><button routerLink="library/book/{{b.bookIdve}}/details" (click)="details(b.bookId)">Szczegóły</button></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div style="display: flex; justify-content: center;">
+
+      <nav *ngIf="pageNumber.length>1" aria-label="Page navigation example" style="position:center">
+        <ul class="pagination justify-content-end">
+          <li class="page-item disabled" *ngIf="currentyPage===0">
+            <a class="page-link" tabindex="-1">Previous</a>
+          </li>
+          <li class="page-item " *ngIf="currentyPage!=0">
+            <a class="page-link" (click)="previous()" tabindex="-1">Previous</a>
+          </li>
+
+          <div *ngFor="let i of pageNumber">
+            <li *ngIf="currentyPage+1!=i" class="page-item"><a class="page-link" (click)="changePage(i)">{{i}}</a>
+            </li>
+            <li *ngIf="currentyPage+1===i" class="page-item active"><a class="page-link"
+                                                                       (click)="changePage(i)">{{i}}</a></li>
+
+          </div>
+          <li class="page-item">
+            <a class="page-link"  (click)="next()"
+               *ngIf="currentyPage<pageNumber[pageNumber.length-1]-1" tabindex="-1">Next</a>
+          </li>
+          <li class="page-item disabled" *ngIf="currentyPage>=pageNumber[pageNumber.length-1]-1">
+            <a class="page-link">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+
+  </div>
+</div>
