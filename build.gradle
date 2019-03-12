@@ -29,9 +29,7 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'war'
 apply plugin: "org.sonarqube"
 apply plugin: 'jacoco'
-
-
-
+apply plugin: "io.franzbecker.gradle-lombok"
 
 
 
@@ -77,6 +75,7 @@ dependencies {
     runtimeOnly('com.h2database:h2')
     compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.6'
     compileOnly 'org.projectlombok:lombok:1.18.4'
+    annotationProcessor 'org.projectlombok:lombok:1.18.4'
     annotationProcessor 'org.projectlombok:lombok:1.18.4'
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('io.projectreactor:reactor-test')
