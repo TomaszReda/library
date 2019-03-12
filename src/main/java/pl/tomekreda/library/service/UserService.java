@@ -239,8 +239,7 @@ public class UserService {
         int targetStringLength = 14;
         StringBuilder buffer = new StringBuilder(targetStringLength);
         for (int i = 0; i < targetStringLength; i++) {
-            int randomLimitedInt = leftLimit +
-                    (random.nextInt() * (rightLimit - leftLimit + 1));
+            int randomLimitedInt = random.nextInt(rightLimit - leftLimit) + leftLimit;
             buffer.append((char) randomLimitedInt);
         }
         return buffer.toString();
