@@ -6,3 +6,7 @@ deploy:
   api-key:
     secure: $HEROKU_API_KEY
   app: tescikkkkk
+before_script:
+  - chmod a+x gradlew
+
+sccript: ./gradlew build
