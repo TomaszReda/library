@@ -11,4 +11,7 @@ script:
   - npm run lint:ci
   - npm run build:prod
 
-
+  - language: node_js
+      node_js: stable
+      install:
+        - npm install
