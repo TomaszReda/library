@@ -1,0 +1,17 @@
+language: java
+jdk:
+  - oraclejdk8
+deploy:
+cache:
+  directories:
+    - node_modules
+before_install:
+  - npm i -g npm@latest
+script:
+  - npm run lint:ci
+  - npm run build:prod
+
+  - language: node_js
+      node_js: stable
+      install:
+        - npm install
