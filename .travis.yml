@@ -2,13 +2,11 @@ language: java
 jdk:
   - oraclejdk8
 deploy:
-cache:
-  directories:
-    - node_modules
-before_install:
-  - npm i -g npm@latest
-script:
-  - npm run lint:ci
-  - npm run build:prod
+  provider: heroku
+  api-key:
+    secure: $HEROKU_API_KEY
+  app: tescikkkkk
+before_script:
+  - chmod a+x gradlew
 
-
+sccript: ./gradlew build
