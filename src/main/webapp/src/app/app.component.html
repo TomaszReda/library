@@ -46,7 +46,7 @@
     <a class="nav-link disabled" *ngIf="authService.casualUser || authService.pharmacyOwner" routerLink="/notifications">Powiadomienia [{{authService.unreadNotification}}]</a>
 
     <a class="nav-link disabled" *ngIf="authService.islogin" routerLink="/accountSettings">Moje konto</a>
-    <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="loginModelOpen()" routerLink="/home">Logowanie</a>
+    <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="loginModelOpen()" routerLink="/home">Logowaniee</a>
     <a class="nav-link disabled" *ngIf="!authService.islogin" (click)="register.open()" routerLink="/home">Rejestracja
       się</a>
     <a class="nav-link disabled" *ngIf="authService.islogin" (click)="logout()" routerLink="/home">Wyloguj</a>
