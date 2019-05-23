@@ -40,7 +40,7 @@ public class EmailService {
     private void sendToQueue(String title,String to,String body){
         Map<String,String> emailMap=new HashMap<>();
         emailMap.put("to",to);
-        emailMap.put("title",EmailUtils.RESET_DATA_MESSAGE_TITTLE);
+        emailMap.put("title",title);
         emailMap.put("body",body);
         rabbitTemplate.convertAndSend(LibraryApplication.SFG_MESSAGE_QUEUE, emailMap);
     }
