@@ -18,6 +18,7 @@ buildscript {
 plugins {
     id 'io.franzbecker.gradle-lombok' version '1.8'
     id 'java'
+    id("org.asciidoctor.convert") version "1.5.9.2"
 }
 
 
@@ -70,7 +71,8 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
-
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.springframework.restdocs:spring-restdocs-mockmvc")
     implementation('org.springframework.boot:spring-boot-starter-websocket')
     implementation('org.springframework.boot:spring-boot-starter-webflux')
     implementation('org.springframework.boot:spring-boot-starter-security')
@@ -84,6 +86,8 @@ dependencies {
     testImplementation('io.projectreactor:reactor-test')
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.0.0.RELEASE'
+
 }
 
 def webappDir = "$projectDir/src/main/webapp"
@@ -95,6 +99,7 @@ bootWar {
 
 bootJar {
     dependsOn "buildAngular"
+//    dependsOn "asciidoctor"
 }
 
 task buildAngular(type: Exec) {
@@ -134,3 +139,11 @@ task cleanTempDir(type: Delete) {
     project.file(execTempDir).mkdirs()
 }
 
+
+
+asciidoctor {
+    dependsOn "test"
+    sourceDir 'src/main/asciidoc'
+    attributes \
+      'snippets': file('build/snippets')
+}

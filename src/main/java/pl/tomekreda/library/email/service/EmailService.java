@@ -12,6 +12,7 @@ import org.thymeleaf.context.Context;
 import pl.tomekreda.library.LibraryApplication;
 import pl.tomekreda.library.model.email.EmailTemplate;
 import pl.tomekreda.library.model.email.EmailTemplateType;
+import pl.tomekreda.library.rabbitmq.RabbitMqConfiguration;
 import pl.tomekreda.library.repository.EmailTemplateRepository;
 import pl.tomekreda.library.utils.EmailUtils;
 
@@ -42,7 +43,7 @@ public class EmailService {
         emailMap.put("to",to);
         emailMap.put("title",EmailUtils.RESET_DATA_MESSAGE_TITTLE);
         emailMap.put("body",body);
-        rabbitTemplate.convertAndSend(LibraryApplication.SFG_MESSAGE_QUEUE, emailMap);
+        rabbitTemplate.convertAndSend(RabbitMqConfiguration.SFG_MESSAGE_QUEUE, emailMap);
     }
     public void sendEmailaResetPassword(String to, UUID token) {
         try {
