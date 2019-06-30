@@ -4,7 +4,11 @@ spring:
 ---
 spring:
   profiles: development
-  
+  rabbitmq:
+    port: 5672
+    username: guest
+    password: guest
+    host: localhost
   h2:
     console:
       enabled: true
