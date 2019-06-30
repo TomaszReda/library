@@ -4,11 +4,7 @@ spring:
 ---
 spring:
   profiles: development
-  rabbitmq:
-    port: 5672
-    username: guest
-    password: guest
-    host: localhost
+  
   h2:
     console:
       enabled: true
@@ -44,7 +40,7 @@ spring:
   application:
     url: http://localhost:4200
     required:
-      activation: true
+      activation: false
 ksiazeczka:
   quartz:
     deploy: 120
