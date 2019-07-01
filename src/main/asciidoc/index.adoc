@@ -72,4 +72,6 @@ include::{snippets}/getAllBookByAdmin/response-body.adoc[]
 .request-parameters
 include::{snippets}/getAllBookByAdmin/request-parameters.adoc[]
 
+.request-headers.adoc
+include::{snippets}/getAllBookByAdmin/request-headers.adoc[]
 

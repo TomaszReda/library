@@ -106,7 +106,6 @@ public class EmailService {
 
     public void sendRegisterEmailToLibraryOwner(String to, UUID token) {
         try {
-            System.err.println("aaaaaaaaaaaaaaaaa");
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.REGISTER_LIBRARY_OWNER).orElse(null);
             String footer = getFooter();
             String head = getHeader();

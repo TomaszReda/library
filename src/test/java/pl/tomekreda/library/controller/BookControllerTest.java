@@ -45,6 +45,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 
 @RunWith(SpringRunner.class)
 public class BookControllerTest {
@@ -122,12 +123,18 @@ public class BookControllerTest {
     public void getAllBook() throws Exception {
         Page<Book> books = new PageImpl<>(CreateBook.createManyBook(), PageRequest.of(0, 4), CreateBook.createManyBook().size());
         Mockito.when(bookRepository.findAll(PageRequest.of(0, 4))).thenReturn(books);
-        this.mockMvc.perform(get("/api/book/get/all?page=0&size=4"))
+        this.mockMvc.perform(get("/api/book/get/all?page=0&size=4").header("x-auth-token", "7b704aa5-6f76-40d6-a937-56d43d36ae48"))
                 .andDo(print())
                 .andDo(document("getAllBookByAdmin", requestParameters(
                         parameterWithName("page").description("Strona"),
-                        parameterWithName("size").description("Rozmiar"))))
+                        parameterWithName("size").description("Rozmiar")),
+                        requestHeaders(
+                                headerWithName("x-auth-token").description(
+                                        "Auth credentials"))
+                        ))
                 .andExpect(status().isOk());
     }
+
+
 }
 
