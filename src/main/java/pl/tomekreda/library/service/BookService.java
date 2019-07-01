@@ -167,6 +167,7 @@ public class BookService {
 
     public ResponseEntity detailsBook(UUID bookId) {
         try {
+            System.err.println(bookId);
             Book book = bookRepository.findById(bookId).orElse(null);
             Map<String, Object> bookDetails = createBookMap(book, true);
             log.info("[Book details]=" + bookDetails);

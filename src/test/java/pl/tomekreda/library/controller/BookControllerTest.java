@@ -26,6 +26,7 @@ import pl.tomekreda.library.repository.*;
 import pl.tomekreda.library.request.AddBookRequest;
 import pl.tomekreda.library.service.BookService;
 import pl.tomekreda.library.service.UserService;
+import pl.tomekreda.library.test.helpers.book.CreateBook;
 import pl.tomekreda.library.test.helpers.bookCategory.CreateBookCategory;
 import pl.tomekreda.library.test.helpers.library.CreateLibrary;
 import pl.tomekreda.library.test.helpers.user.CreateUser;
@@ -34,6 +35,7 @@ import pl.tomekreda.library.test.helpers.user.CreateUser;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -90,5 +92,24 @@ public class BookControllerTest {
     }
 
 
+    @Test
+    public void detailsBook() throws Exception {
+        UUID UUID = java.util.UUID.randomUUID();
+        Mockito.when(bookRepository.findById(UUID)).thenReturn(Optional.of(CreateBook.createBook()));
+        this.mockMvc.perform(get("/api/book/" + UUID + "/details"))
+                .andDo(print())
+                .andDo(document("detailsForLibraryOwner", responseFields(
+                        fieldWithPath("date").description("Data wydania ksiazki"),
+                        fieldWithPath("publisher").description("Osoba publikująa"),
+                        fieldWithPath("description").description("Opis"),
+                        fieldWithPath("title").description("Tytul"),
+                        fieldWithPath("quant").description("Ilosc"),
+                        fieldWithPath("categoryType").description("Typ ksiazki"),
+                        fieldWithPath("author").description("Autor ksiazki"),
+                        fieldWithPath("isbn").description("ISBN"),
+                        fieldWithPath("bookId").description("Id ksiazki"),
+                        fieldWithPath("bookState").description("Status"))))
+                .andExpect(status().isOk());
+    }
 }
 

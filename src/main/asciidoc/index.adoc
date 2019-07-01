@@ -19,3 +19,28 @@ include::{snippets}/addBookByLibraryOwner/request-body.adoc[]
 include::{snippets}/addBookByLibraryOwner/response-body.adoc[]
 
 
+
+
+= Pobranie szczegółów o ksiązce przez właściciela księgarni
+.curl-request
+include::{snippets}/detailsForLibraryOwner/curl-request.adoc[]
+
+.http-request
+include::{snippets}/detailsForLibraryOwner/http-request.adoc[]
+
+.http-response
+include::{snippets}/detailsForLibraryOwner/http-response.adoc[]
+
+.httpie-request
+include::{snippets}/detailsForLibraryOwner/httpie-request.adoc[]
+
+.request-body
+include::{snippets}/detailsForLibraryOwner/request-body.adoc[]
+
+.response-body
+include::{snippets}/detailsForLibraryOwner/response-body.adoc[]
+
+.response-fields
+include::{snippets}/detailsForLibraryOwner/response-fields.adoc[]
+
+
