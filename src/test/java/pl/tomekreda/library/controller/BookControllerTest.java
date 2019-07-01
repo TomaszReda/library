@@ -17,11 +17,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import pl.tomekreda.library.model.book.Book;
 import pl.tomekreda.library.repository.*;
 import pl.tomekreda.library.request.AddBookRequest;
 import pl.tomekreda.library.service.BookService;
@@ -36,6 +41,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -109,6 +115,18 @@ public class BookControllerTest {
                         fieldWithPath("isbn").description("ISBN"),
                         fieldWithPath("bookId").description("Id ksiazki"),
                         fieldWithPath("bookState").description("Status"))))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getAllBook() throws Exception {
+        Page<Book> books = new PageImpl<>(CreateBook.createManyBook(), PageRequest.of(0, 4), CreateBook.createManyBook().size());
+        Mockito.when(bookRepository.findAll(PageRequest.of(0, 4))).thenReturn(books);
+        this.mockMvc.perform(get("/api/book/get/all?page=0&size=4"))
+                .andDo(print())
+                .andDo(document("getAllBookByAdmin", requestParameters(
+                        parameterWithName("page").description("Strona"),
+                        parameterWithName("size").description("Rozmiar"))))
                 .andExpect(status().isOk());
     }
 }

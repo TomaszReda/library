@@ -44,3 +44,32 @@ include::{snippets}/detailsForLibraryOwner/response-body.adoc[]
 include::{snippets}/detailsForLibraryOwner/response-fields.adoc[]
 
 
+
+
+
+= Pobranie wszystkich ksiazek
+.curl-request
+include::{snippets}/getAllBookByAdmin/curl-request.adoc[]
+
+.http-request
+include::{snippets}/getAllBookByAdmin/http-request.adoc[]
+
+.http-response
+include::{snippets}/getAllBookByAdmin/http-response.adoc[]
+
+.httpie-request
+include::{snippets}/getAllBookByAdmin/httpie-request.adoc[]
+
+.path-parameters
+include::{snippets}/getAllBookByAdmin/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/getAllBookByAdmin/request-body.adoc[]
+
+.response-body
+include::{snippets}/getAllBookByAdmin/response-body.adoc[]
+
+.request-parameters
+include::{snippets}/getAllBookByAdmin/request-parameters.adoc[]
+
+
