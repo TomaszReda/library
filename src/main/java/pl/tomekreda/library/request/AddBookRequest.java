@@ -1,5 +1,6 @@
 package pl.tomekreda.library.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ public class AddBookRequest {
     private String author;
     private String title;
     private String publisher;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     private String isbn;
     private int quant;

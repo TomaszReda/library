@@ -1,12 +1,21 @@
-= Getting Started With Spring REST Docs
 
-This is an example output for a service running at http://localhost:8080:
+= Dodanie ksiazki przez własciciela księgarni
+.curl-request
+include::{snippets}/addBookByLibraryOwner/curl-request.adoc[]
 
-.request
-include::{snippets}/home/http-request.adoc[]
+.http-request
+include::{snippets}/addBookByLibraryOwner/http-request.adoc[]
 
-.response
-include::{snippets}/home/http-response.adoc[]
+.http-response
+include::{snippets}/addBookByLibraryOwner/http-response.adoc[]
 
+.httpie-request
+include::{snippets}/addBookByLibraryOwner/httpie-request.adoc[]
+
+.request-body
+include::{snippets}/addBookByLibraryOwner/request-body.adoc[]
+
+.response-body
+include::{snippets}/addBookByLibraryOwner/response-body.adoc[]
 
 

@@ -99,7 +99,7 @@ bootWar {
 
 bootJar {
     dependsOn "buildAngular"
-//    dependsOn "asciidoctor"
+    dependsOn "asciidoctor"
 }
 
 task buildAngular(type: Exec) {
