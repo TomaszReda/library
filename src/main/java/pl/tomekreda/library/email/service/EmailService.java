@@ -2,19 +2,22 @@ package pl.tomekreda.library.email.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import pl.tomekreda.library.email.sender.EmailSender;
+import pl.tomekreda.library.LibraryApplication;
 import pl.tomekreda.library.model.email.EmailTemplate;
 import pl.tomekreda.library.model.email.EmailTemplateType;
 import pl.tomekreda.library.repository.EmailTemplateRepository;
 import pl.tomekreda.library.utils.EmailUtils;
 
 import javax.transaction.Transactional;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -28,12 +31,19 @@ public class EmailService {
 
     private final EmailTemplateRepository emailTemplateRepository;
 
-    private final EmailSender emailSender;
+    private final RabbitTemplate rabbitTemplate;
 
     @Qualifier("emailTemplateEngine")
     @Autowired
     private TemplateEngine stringTemplateEngine;
 
+    private void sendToQueue(String title,String to,String body){
+        Map<String,String> emailMap=new HashMap<>();
+        emailMap.put("to",to);
+        emailMap.put("title",EmailUtils.RESET_DATA_MESSAGE_TITTLE);
+        emailMap.put("body",body);
+        rabbitTemplate.convertAndSend(LibraryApplication.SFG_MESSAGE_QUEUE, emailMap);
+    }
     public void sendEmailaResetPassword(String to, UUID token) {
         try {
             String head = getHeader();
@@ -46,7 +56,8 @@ public class EmailService {
             context.setVariable("passwordResetUrl", url);
             if (emailTemplate != null) {
                 String body = stringTemplateEngine.process(head + emailTemplate.getContent() + footer, context);
-                emailSender.sendEmail(to, EmailUtils.RESET_DATA_MESSAGE_TITTLE, body);
+                Map<String,String> emailMap=new HashMap<>();
+                sendToQueue(EmailUtils.RESET_DATA_MESSAGE_TITTLE,to,body);
             }
         } catch (Exception ex) {
             log.error("[Email Service]=Error sendEmailaResetPassword");
@@ -62,7 +73,8 @@ public class EmailService {
             context.setVariable("newPassword", newPassword);
             if (emailTemplate != null) {
                 String body = stringTemplateEngine.process(head + emailTemplate.getContent() + footer, context);
-                emailSender.sendEmail(to, EmailUtils.RESET_DATA_NEW_DATA, body);
+                sendToQueue(EmailUtils.RESET_DATA_NEW_DATA,to,body);
+
             }
         } catch (Exception ex) {
             log.error("[Email Service]=Error sendEmailNewPassword");
@@ -82,7 +94,8 @@ public class EmailService {
             if (emailTemplate != null) {
 
                 String body = stringTemplateEngine.process(head + emailTemplate.getContent() + footer, context);
-                emailSender.sendEmail(to, EmailUtils.REGISTER_CASUAL_USER, body);
+                sendToQueue(EmailUtils.REGISTER_CASUAL_USER,to,body);
+
             }
         } catch (Exception ex) {
             log.error("[Email Service]=Error sendRegisterEmailToCasualUser");
@@ -92,7 +105,7 @@ public class EmailService {
 
     public void sendRegisterEmailToLibraryOwner(String to, UUID token) {
         try {
-
+            System.err.println("aaaaaaaaaaaaaaaaa");
             EmailTemplate emailTemplate = emailTemplateRepository.findById(EmailTemplateType.REGISTER_LIBRARY_OWNER).orElse(null);
             String footer = getFooter();
             String head = getHeader();
@@ -102,7 +115,8 @@ public class EmailService {
             if (emailTemplate != null) {
 
                 String body = stringTemplateEngine.process(head + emailTemplate.getContent() + footer, context);
-                emailSender.sendEmail(to, EmailUtils.REGISTER_LIBRARY_OWNER, body);
+                sendToQueue(EmailUtils.REGISTER_LIBRARY_OWNER,to,body);
+
             }
         } catch (Exception ex) {
             log.error("[Email Service]=Error sendRegisterEmailToCasualUser");

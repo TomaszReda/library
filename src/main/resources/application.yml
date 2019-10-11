@@ -4,6 +4,11 @@ spring:
 ---
 spring:
   profiles: development
+  rabbitmq:
+    port: 5672
+    username: guest
+    password: guest
+    host: localhost
   h2:
     console:
       enabled: true
@@ -36,13 +41,6 @@ spring:
         use_sql_comments: true
         format_sql: true
         enable_lazy_load_no_trans: true=username=password
-  mail:
-    username: ksiazeczkaonline@gmail.com
-    password: GHJbnm123/']
-    host: smtp.gmail.com
-    port: 587
-    tls: true
-    test-connection: true
   application:
     url: http://localhost:4200
     required:
@@ -55,6 +53,11 @@ ksiazeczka:
 ---
 spring:
   profiles: test
+  rabbitmq:
+    port: 5672
+    username: guest
+    password: guest
+    host: localhost
   application:
     url: http://localhost:4200
     name: ksiazeczka
@@ -64,7 +67,7 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: ksiazeczka
     password: GHJbnm123
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -86,13 +89,6 @@ spring:
     store-type: jdbc
     jdbc:
       initialize-schema: always
-  mail:
-    username: ksiazeczkaonline@gmail.com
-    password: GHJbnm123/']
-    host: smtp.gmail.com
-    port: 587
-    tls: true
-    test-connection: true
   quartz:
     job-store-type: jdbc
     jdbc:
@@ -113,6 +109,11 @@ ksiazeczka:
 ---
 spring:
   profiles: prod
+  rabbitmq:
+    port: 5672
+    username: guest
+    password: guest
+    host: localhost
   application:
     url: http://ksiazeczkaonline.pl
     name: ksiazeczka
@@ -122,7 +123,7 @@ spring:
     ansi:
       enabled: always
   datasource:
-    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/library?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: ksiazeczka
     password: GHJbnm123
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -144,12 +145,6 @@ spring:
     store-type: jdbc
     jdbc:
       initialize-schema: never
-  mail:
-    username: ksiazeczkaonline@gmail.com
-    password: GHJbnm123/']
-    host: smtp.gmail.com
-    port: 587
-    tls: true
   quartz:
     jdbc:
       initialize-schema: never
