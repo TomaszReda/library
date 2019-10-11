@@ -16,6 +16,9 @@ public class AngularController {
 
 
 
+
+
+
     public static final String HOME_PAGE = "forward:/index.html";
 
     @Autowired
