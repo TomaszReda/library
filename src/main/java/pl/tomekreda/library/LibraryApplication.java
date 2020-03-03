@@ -13,7 +13,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 
 @SpringBootApplication
 public class LibraryApplication {
-
+/test
 
     public final static String SFG_MESSAGE_QUEUE = "sfg-message-queue";
 
